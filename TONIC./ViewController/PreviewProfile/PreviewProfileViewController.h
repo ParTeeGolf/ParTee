@@ -13,10 +13,7 @@
 @interface PreviewProfileViewController : UIViewController <UIActionSheetDelegate> {
     NSArray *arrConnections;
 
-    IBOutlet UILabel *lblName;
-    IBOutlet UILabel *lblLoc;
-    IBOutlet UILabel *lblHandicap;
-    IBOutlet UILabel *lblHomecourse;
+    IBOutlet UIButton *lblHomecourse;
 
     QBCOCustomObject *dictUserData;
 
@@ -24,8 +21,6 @@
     IBOutlet UIImageView *imgBadge;
 
     IBOutlet UIScrollView *scrollViewContainer;
-   
-    IBOutlet UIButton *btnBack;
     
     IBOutlet UIButton *btnOptions;
     IBOutlet UIButton *btnOptionsBig;
@@ -40,7 +35,6 @@
     IBOutlet UITextView *offering;
     IBOutlet UITextView *bio;
     IBOutlet UISegmentedControl *proView;
-    IBOutlet UILabel *proType;
 
 }
 @property (nonatomic,strong) QBChatDialog *sharedChatDialog;
@@ -51,6 +45,7 @@
 @property (strong,nonatomic) NSString *strCameFrom;
 @property (strong,nonatomic) NSString *strEmailOfUser;
 @property (strong,nonatomic) NSString *userID;
+@property (strong,nonatomic) NSString *courseName;
 
 @property (strong, nonatomic) MBProgressHUD *HUD;
 

@@ -28,7 +28,11 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gotLocationLogin) name:@"gotLocationLogin" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(manualAdd) name:@"manualAdd" object:nil];
 
-
+    btnLogin.layer.cornerRadius = 20; // this value vary as per your desire
+    btnLogin.clipsToBounds = YES;
+    
+    btnCreateAccount.layer.cornerRadius = 20; // this value vary as per your desire
+    btnCreateAccount.clipsToBounds = YES;
     
     NSArray *fields = @[ txtEmail,txtPwd];
     

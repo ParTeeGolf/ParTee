@@ -37,17 +37,11 @@
     [super viewDidLoad];
     
     UIImage *thumb = [UIImage imageNamed:@"filledcircle"];
-    [myObSliderOutlet setThumbImage:thumb forState:UIControlStateNormal];
-    [myObSliderOutlet setThumbImage:thumb forState:UIControlStateHighlighted];
+    btnNA.layer.cornerRadius = 10;
+    
+    arrTypeList = [[NSMutableArray alloc] init];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshContent" object:nil];
-
-    if([[AppDelegate sharedinstance].strisDevelopment isEqualToString:@"1"]) {
-        [btnDevOn setHidden:NO];
-    }
-    else {
-        [btnDevOn setHidden:YES];
-    }
 
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 
@@ -63,7 +57,6 @@
     arrStateList = [[NSMutableArray alloc] init];
     arrHomeCourseList = [[NSMutableArray alloc] init];
 
-    arrTypeList=[NSArray arrayWithObjects:@"Free",@"Premium",@"All",nil];
     
     arrCityStateList=[[NSMutableArray alloc] init];
     
@@ -86,8 +79,8 @@
     [minMaxView setHidden:YES];
     [minMax setHidden:YES];
 
-    [btnMale setImage:[UIImage imageNamed:@"guestmale"] forState:UIControlStateNormal];
-    [btnFemale setImage:[UIImage imageNamed:@"guestfemale"] forState:UIControlStateNormal];
+    [btnMale setImage:[UIImage imageNamed:@"guestmalefilled"] forState:UIControlStateNormal];
+    [btnFemale setImage:[UIImage imageNamed:@"guestfemalefilled"] forState:UIControlStateNormal];
 
        tempArraySelcted=[[NSMutableArray alloc]init];
 
@@ -97,7 +90,6 @@
     }
     
     [tblMembers reloadData];
-    myObSliderOutlet.value =0;
     
    [self bindData];
 }
@@ -141,21 +133,26 @@
             lblTitle.text = ![self IsPro] ? @"Search Golfers" : @"Search Pros";
             
             [HandicapView setHidden:[self IsPro]];
+            [TypeView setHidden:![self IsPro]];
             
             
-            [self bindSearchData:object searchType:@"User"];
-            [self bindSearchData:object searchType:@"Pro"];
+            if ([self IsPro])
+            {
+                [self bindSearchData:object searchType:@"Pro"];
+            }
+            else
+            {
+                [self bindSearchData:object searchType:@"User"];
+            }
             
 
             
         }
         else {
-            [btnMale setImage:[UIImage imageNamed:@"guestmale"] forState:UIControlStateNormal];
-            [btnFemale setImage:[UIImage imageNamed:@"guestfemale"] forState:UIControlStateNormal];
+            [btnMale setImage:[UIImage imageNamed:@"guestmalefilled"] forState:UIControlStateNormal];
+            [btnFemale setImage:[UIImage imageNamed:@"guestfemalefilled"] forState:UIControlStateNormal];
             
             strPush=@"1";
-            
-            [btnPush  setImage:[UIImage imageNamed:@"toggleOn"] forState:UIControlStateNormal];
 
         }
         
@@ -174,8 +171,6 @@
 
 -(void) bindSearchData:(QBCOCustomObject *) userObject searchType:(NSString*) searchType
 {
-
-    
     NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
     [getRequest setObject: userObject.ID forKey:@"_parent_id"];
     [getRequest setObject: searchType forKey:@"SearchType"];
@@ -185,13 +180,13 @@
          if([objects count] == 0)
          {
              NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
-             [getRequest setObject: @"User" forKey:@"Default"];
+             [getRequest setObject: @"Default" forKey:@"SearchType"];
              
              [QBRequest objectsWithClassName:@"UserSearch" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page)
               {
                   QBCOCustomObject *defaultObject = objects[0];
                   defaultObject.parentID = userObject.ID;
-                  [defaultObject.fields setObject:@"User" forKey:@"SearchType"];
+                  [defaultObject.fields setObject:searchType forKey:@"SearchType"];
                   
                   [QBRequest createObject:defaultObject successBlock:^(QBResponse *response, QBCOCustomObject *newObject)
                    {
@@ -217,16 +212,7 @@
          object = objects[0];
          NSString *strLocation = [[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"Location"]];
          
-         if([strLocation length]==0 || myObSliderOutlet.value>149) {
-             
-             [lblDistanceValue setText:@"∞"];
-             myObSliderOutlet.value = 150;
-         }
-         else {
-             myObSliderOutlet.value = [strLocation integerValue];
-             
-             [lblDistanceValue setText:[NSString stringWithFormat:@"%d mi.",(int)myObSliderOutlet.value]];
-         }
+
          
          Gender = [[[[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"Gender"]] componentsSeparatedByString:@","] mutableCopy];
          
@@ -240,9 +226,9 @@
              [Gender addObject:@"female"];
          }
          
-         maleImage = [Gender containsObject:@"male"] ? @"guestmale" : @"guestmalefilled";
+         maleImage = [Gender containsObject:@"male"] ? @"guestmalefilled" : @"guestmale";
          
-         femaleImage = [Gender containsObject:@"female"] ? @"guestfemale" : @"guestfemalefilled";
+         femaleImage = [Gender containsObject:@"female"] ? @"guestfemalefilled" : @"guestfemale";
          
          [btnMale setImage:[UIImage imageNamed:maleImage] forState:UIControlStateNormal];
          [btnFemale setImage:[UIImage imageNamed:femaleImage] forState:UIControlStateNormal];
@@ -295,13 +281,20 @@
          if([strHandicap length]==0)
          {
              strHandicap = @"-40 - 5";
-             [btnNA setSelectedSegmentIndex:0];
+             [btnNA setTitle:@"NA: YES" forState:UIControlStateNormal];
          }
          else
          {
              NSArray* splitHandicap = [strHandicap componentsSeparatedByString: @":"];
-             strHandicap = [splitHandicap objectAtIndex: 0];
-             btnNA.selectedSegmentIndex = [[splitHandicap objectAtIndex: 1] intValue];
+             strHandicap = splitHandicap[0];
+             if([splitHandicap[1] isEqualToString:@"1"])
+             {
+                 [btnNA setTitle:@"NA: NO" forState:UIControlStateNormal];
+             }
+             else
+             {
+                 [btnNA setTitle:@"NA: YES" forState:UIControlStateNormal];
+             }
          }
          
          [txtHandicap setText:strHandicap];
@@ -314,8 +307,14 @@
                          }];
 }
 
--(void) getLocationDataFromServer {
-    [QBRequest objectsWithClassName:@"UserInfo" extendedRequest:nil successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
+-(void) getLocationDataFromServer
+{
+    NSString *role = [self IsPro] ? @"1" : @"0";
+    
+    NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
+    [getRequest setObject:role forKey:@"UserRole"];
+    
+    [QBRequest objectsWithClassName:@"UserInfo" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
         
         NSLog(@"Entries %lu",(unsigned long)page.totalEntries);
         arrData=[objects mutableCopy];
@@ -363,7 +362,7 @@
         [Gender addObject:@"male"];
     }
     
-    NSString *icon = [Gender containsObject:@"male"] ? @"guestmale" : @"guestmalefilled";
+    NSString *icon = [Gender containsObject:@"male"] ? @"guestmalefilled" : @"guestmale";
 
     [btnMale setImage:[UIImage imageNamed:icon] forState:UIControlStateNormal];
     [btnMale setImage:[UIImage imageNamed:icon] forState:UIControlStateSelected];
@@ -381,7 +380,7 @@
         [Gender addObject:@"female"];
     }
     
-    NSString *icon = [Gender containsObject:@"female"] ? @"guestfemale" : @"guestfemalefilled";
+    NSString *icon = [Gender containsObject:@"female"] ? @"guestfemalefilled" : @"guestfemale";
 
     [btnFemale setImage:[UIImage imageNamed:icon] forState:UIControlStateNormal];
     [btnFemale setImage:[UIImage imageNamed:icon] forState:UIControlStateSelected];
@@ -392,14 +391,12 @@
     
     if([strPush isEqualToString:@"1"]) {
         strPush=@"0";
-        [btnPush  setBackgroundImage:[UIImage imageNamed:@"toggleOff"] forState:UIControlStateNormal];
         [[UIApplication sharedApplication] unregisterForRemoteNotifications];
         
         
     }
     else {
         strPush=@"1";
-        [btnPush  setBackgroundImage:[UIImage imageNamed:@"toggleOn"] forState:UIControlStateNormal];
         [[AppDelegate sharedinstance] registerForNotifications];
     }
 }
@@ -655,6 +652,18 @@
     return UIStatusBarStyleLightContent;
 }
 
+-(IBAction)btnNATapped:(id)sender
+{
+    if([btnNA.titleLabel.text isEqualToString:@"NA: YES"])
+    {
+        [btnNA setTitle:@"NA: NO" forState:UIControlStateNormal];
+    }
+    else
+    {
+        [btnNA setTitle:@"NA: YES" forState:UIControlStateNormal];
+    }
+}
+
 -(void) savesettings
 {
     [object.fields setObject:[Gender componentsJoinedByString:@","]  forKey:@"Gender"];
@@ -663,11 +672,12 @@
     [object.fields setObject:txtAge.text  forKey:@"Age"];
     [object.fields setObject:txtType.text  forKey:@"Type"];
     
-    NSString *strIntHandicap = [txtHandicap.text stringByAppendingString:[NSString stringWithFormat:@":%ld",(long)btnNA.selectedSegmentIndex]];
+    long isNA = [btnNA.titleLabel.text isEqualToString:@"NA: YES"] ? 0 : 1;
+    
+    NSString *strIntHandicap = [txtHandicap.text stringByAppendingString:[NSString stringWithFormat:@":%ld",isNA]];
     
     [object.fields setObject:strIntHandicap forKey:@"Handicap"];
     [object.fields setObject:[txtCity.text componentsSeparatedByString: @","] forKey:@"City"];
-    [object.fields setObject:[NSString stringWithFormat:@"%d",(int)myObSliderOutlet.value] forKey:@"Location"];
 
     [object.fields setObject:@"Course" forKey:@"Location"];
     
@@ -691,8 +701,6 @@
         [dictUserData setObject:txtAge.text forKey:@"Age"];
         [dictUserData setObject:txtType.text forKey:@"Type"];
         [dictUserData setObject: strIntHandicap forKey:@"Handicap"];
-    
-        [dictUserData setObject:[NSString stringWithFormat:@"%d",(int)myObSliderOutlet.value] forKey:@"Location"];
 
         [[NSUserDefaults standardUserDefaults] setObject:dictUserData forKey:searchType];
         [[NSUserDefaults standardUserDefaults] synchronize];
@@ -797,31 +805,22 @@
                              }];
         
     }
-    else if(buttonTapped == kButtonType) {
+    else if(buttonTapped == kButtonType)
+    {
+        [arrTypeList removeAllObjects];
+        NSMutableDictionary *proType = [[AppDelegate sharedinstance] getAllProIcons];
         
-        arrTypeList = [NSArray arrayWithObjects:@"Free",@"Premium",@"All",nil];
-        tblMembers.allowsMultipleSelection = NO;
+        for(NSString *type in proType.allKeys)
+        {
+            [arrTypeList addObject:[[type capitalizedString] stringByReplacingOccurrencesOfString:@"Pga" withString:@"PGA"]];
+        }
+        
+        [arrTypeList insertObject:@"All" atIndex:0];
+        tblMembers.allowsMultipleSelection = YES;
 
     }
     
     [tblMembers reloadData];
-    
-}
-
--(IBAction)devModeChanged:(id)sender {
-  
-    if([isDev isEqualToString:@"1"]) {
-        // move to production
-        isDev=@"";
-        
-        [btnDevOn setTitle:@"Dev-ON" forState:UIControlStateNormal];
-    }
-    else {
-        isDev=@"1";
-        // move to dev
-        [btnDevOn setTitle:@"Dev-OFF" forState:UIControlStateNormal];
-
-    }
     
 }
 
@@ -840,24 +839,9 @@
     [txtCity setText:@"All"];
     [txtState setText:@"All"];
     [txtCourse setText:@"All"];
-    [lblDistanceValue setText:@"∞"];
-    myObSliderOutlet.value=150;
     
     [txtHandicap setText:@"-40 - 5"];
-    btnNA.selectedSegmentIndex = 0;
-    
-}
-
-//-----------------------------------------------------------------------
-
--(IBAction)sliderValueChanged:(id)sender {
-    
-    if(myObSliderOutlet.value == myObSliderOutlet.maximumValue) {
-        [lblDistanceValue setText:@"∞"];
-    }
-    else {
-        lblDistanceValue.text = [NSString stringWithFormat:@"%d mi.",(int)myObSliderOutlet.value];
-    }
+    [btnNA setTitle:@"NA: YES" forState:UIControlStateNormal];
     
 }
 

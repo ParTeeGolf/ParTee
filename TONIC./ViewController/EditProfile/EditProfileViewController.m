@@ -52,9 +52,11 @@ NSDateFormatter *dateFormat;
     [txtCity setTag:103];
     [txtHomeCourse setTag:104];
 
-    [txtZipCode setTag:105];
     [txtHandicap setTag:106];
     [tvInfo setTag:107];
+    
+    saveButton.layer.cornerRadius = 20; // this value vary as per your desire
+    saveButton.clipsToBounds = YES;
 
     txtCity.inputView=pickerView;
     txtState.inputView=pickerView;
@@ -67,7 +69,7 @@ NSDateFormatter *dateFormat;
     
     txtBday.inputView = datePicker;
     
-    NSArray *fields = @[ txtName,txtState,txtCity,txtHomeCourse,txtZipCode,txtHandicap,tvInfo, txtBday];
+    NSArray *fields = @[ txtName,txtState,txtCity,txtHomeCourse,txtHandicap,tvInfo, txtBday];
     
     [self setKeyboardControls:[[BSKeyboardControls alloc] initWithFields:fields]];
     [self.keyboardControls setDelegate:self];
@@ -137,7 +139,6 @@ NSDateFormatter *dateFormat;
              txtHomeCourse.text = @"N/A";
         }
         
-        txtZipCode.text = [[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"userZipcode"]];
         txtHandicap.text = [[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"userHandicap"]];
         tvInfo.text = [[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"userInfo"]];
 
@@ -236,12 +237,6 @@ NSDateFormatter *dateFormat;
         [[AppDelegate sharedinstance] displayMessage:@"Please fill all the details"];
         return NO;
     }
-
-    
-    if([[[AppDelegate sharedinstance] nullcheck:txtZipCode.text] length]==0) {
-        [[AppDelegate sharedinstance] displayMessage:@"Please fill all the details"];
-        return NO;
-    }
     
     if([[[AppDelegate sharedinstance] nullcheck:txtHandicap.text] length]==0) {
         [[AppDelegate sharedinstance] displayMessage:@"Please fill all the details"];
@@ -282,7 +277,6 @@ NSDateFormatter *dateFormat;
         [object.fields setObject:txtName.text forKey:@"userDisplayName"];
         [object.fields setObject:txtCity.text forKey:@"userCity"];
         [object.fields setObject:txtState.text forKey:@"userState"];
-        [object.fields setObject:txtZipCode.text forKey:@"userZipcode"];
         [object.fields setObject:txtHandicap.text forKey:@"userHandicap"];
         [object.fields setObject:txtBday.text forKey:@"userBday"];
         NSString *age = [NSString stringWithFormat:@"%ld", [[AppDelegate sharedinstance] getAge:txtBday.text]];
@@ -888,7 +882,6 @@ NSDateFormatter *dateFormat;
     [dictUserDetails setObject:txtName.text forKey:@"userDisplayName"];
     [dictUserDetails setObject:txtCity.text forKey:@"userCity"];
     [dictUserDetails setObject:txtState.text forKey:@"userState"];
-    [dictUserDetails setObject:txtZipCode.text forKey:@"userZipcode"];
     [dictUserDetails setObject:txtBday.text forKey:@"userBday"];
     [dictUserDetails setObject:age forKey:@"userAge"];
     [dictUserDetails setObject:txtHandicap.text forKey:@"userHandicap"];
@@ -897,8 +890,8 @@ NSDateFormatter *dateFormat;
     [dictUserDetails setObject:[object.fields  objectForKey:@"userFullMode"] forKey:@"userFullMode"];
     
     
-    [dictUserDetails setObject:[object.fields objectForKey:@"userPurchasedConnects"]forKey:@"userPurchasedConnects"];
-    [dictUserDetails setObject:[object.fields objectForKey:@"userFreeConnects"]forKey:@"userFreeConnects"];
+    [dictUserDetails setObject:[[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"userPurchasedConnects"]]  forKey:@"userPurchasedConnects"];
+    [dictUserDetails setObject:[[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"userFreeConnects"]] forKey:@"userFreeConnects"];
 
     [dictUserDetails setObject:[object.fields objectForKey:@"userPush"] forKey:@"userPush"];
     [dictUserDetails setObject:[object.fields objectForKey:@"userFullMode"] forKey:@"userFullMode"];

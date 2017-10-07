@@ -29,12 +29,12 @@
     IBOutlet UILabel *lblName;
     IBOutlet UILabel *lblPoints;
     IBOutlet UIScrollView *scrollViewContainer;
+    IBOutlet UIView *sideView;
 
     
     int numOfRows;
     
 }
-@property ACAccount* facebookAccount;
 
 -(void)Action_BecomeActivate;
 

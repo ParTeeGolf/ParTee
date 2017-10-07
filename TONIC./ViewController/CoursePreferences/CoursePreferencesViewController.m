@@ -36,8 +36,6 @@
     [super viewDidLoad];
     
     UIImage *thumb = [UIImage imageNamed:@"filledcircle"];
-    [myObSliderOutlet setThumbImage:thumb forState:UIControlStateNormal];
-    [myObSliderOutlet setThumbImage:thumb forState:UIControlStateHighlighted];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshContent" object:nil];
 
@@ -75,7 +73,6 @@
     }
     
     [tblMembers reloadData];
-    myObSliderOutlet.value =0;
 
     [self bindData];
 }
@@ -162,16 +159,6 @@
             
             NSString *strLocation = [[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"cf_distance"]];
             
-            if([strLocation length]==0 || myObSliderOutlet.value>99 || [strLocation isEqualToString:@"150"]) {
-                
-                [lblDistanceValue setText:@"∞"];
-                myObSliderOutlet.value = 150;
-            }
-            else {
-                myObSliderOutlet.value = [strLocation integerValue];
-
-                [lblDistanceValue setText:[NSString stringWithFormat:@"%d mi.",(int)myObSliderOutlet.value]];
-            }
         
             strPush = [[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"cf_isFav"]];
             
@@ -444,8 +431,7 @@
     [object.fields setObject:txtType.text forKey:@"cf_type"];
 
     // convert miles to metres
-    
-    [object.fields setObject:[NSString stringWithFormat:@"%d",(int)myObSliderOutlet.value] forKey:@"cf_distance"];
+
 
     [[AppDelegate sharedinstance] showLoader];
     
@@ -467,7 +453,6 @@
         [dictcoursePreferencesData setObject:txtType.text forKey:@"cf_type"];
         [dictcoursePreferencesData setObject:txtAmenities.text forKey:@"cf_amenities"];
         [dictcoursePreferencesData setObject:strPush  forKey:@"cf_isFav"];
-        [dictcoursePreferencesData setObject:[NSString stringWithFormat:@"%d",(int)myObSliderOutlet.value] forKey:@"cf_distance"];
         [dictcoursePreferencesData setObject:@"3" forKey:@"cf_courseOption"];
 
         [[NSUserDefaults standardUserDefaults] setObject:dictcoursePreferencesData forKey:kcoursePreferencesData];
@@ -557,26 +542,11 @@
     [txtState setText:@"All"];
     [txtCourseZipcode setText:@"All"];
     [txtAmenities setText:@"Any"];
-    [lblDistanceValue setText:@"∞"];
-    myObSliderOutlet.value=150;
     
     strPush=@"0";
     [btnPush  setBackgroundImage:[UIImage imageNamed:@"toggleOff"] forState:UIControlStateNormal];
 
     //[self savesettings];
-}
-
-//-----------------------------------------------------------------------
-
--(IBAction)sliderValueChanged:(id)sender {
-    
-    if(myObSliderOutlet.value == myObSliderOutlet.maximumValue) {
-        [lblDistanceValue setText:@"∞"];
-    }
-    else {
-        lblDistanceValue.text = [NSString stringWithFormat:@"%d mi.",(int)myObSliderOutlet.value];
-    }
-    
 }
 
 
@@ -690,7 +660,16 @@
     
     if(buttonTapped == kButtonCity) {
         str = [arrCityList objectAtIndex:indexPath.row];
-
+        
+        if([str isEqualToString:@"All"])
+        {
+            [tempArraySelcted removeAllObjects];
+        }
+        else
+        {
+            [tempArraySelcted removeObject:@"All"];
+        }
+        
         if ([tempArraySelcted containsObject:str]) {
             [ObjCirCell.selectbtnimg setImage:[UIImage imageNamed:@"unchecked_circle.png"] forState:UIControlStateNormal];
             
@@ -706,6 +685,15 @@
     else  if(buttonTapped == kButtonamenities){
         
         str = [arramenitiesList objectAtIndex:indexPath.row];
+        
+        if([str isEqualToString:@"Any"])
+        {
+            [tempArraySelcted removeAllObjects];
+        }
+        else
+        {
+            [tempArraySelcted removeObject:@"Any"];
+        }
         
         if ([tempArraySelcted containsObject:str]) {
             [ObjCirCell.selectbtnimg setImage:[UIImage imageNamed:@"unchecked_circle.png"] forState:UIControlStateNormal];
@@ -730,23 +718,7 @@
             [tempArraySelcted addObject:str];
         }
     }
-    else  if(buttonTapped == kButtonState) {
-        [tempArraySelcted removeAllObjects];
         
-        str = [arrStateList objectAtIndex:indexPath.row];
-        
-        if ([tempArraySelcted containsObject:str]) {
-            [ObjCirCell.selectbtnimg setImage:[UIImage imageNamed:@"unchecked_circle.png"] forState:UIControlStateNormal];
-            
-            [tempArraySelcted removeObject:str];
-        }
-        else {
-            [ObjCirCell.selectbtnimg setImage:[UIImage imageNamed:@"blue_chk.png"] forState:UIControlStateNormal];
-            
-            [tempArraySelcted addObject:str];
-        }
-    }
-    
     
    [tblMembers reloadData];
 }
@@ -756,65 +728,17 @@
     self.menuContainerViewController.panMode = YES;
 }
 
--(void) setUpAmenitiesList {
-    arramenitiesList = [[NSMutableArray alloc] init];
+-(void) setUpAmenitiesList
+{
+    [arramenitiesList removeAllObjects];
+     NSMutableDictionary *amenities = [[AppDelegate sharedinstance] getAllAmenitiesIcons];
     
-    [arramenitiesList addObject:@"18 holes"];
-    [arramenitiesList addObject:@"27 holes"];
-    [arramenitiesList addObject:@"36 holes"];
-    [arramenitiesList addObject:@"ATM"];
-    [arramenitiesList addObject:@"Bar"];
+    for(NSString *amenity in amenities.allKeys)
+    {
+        [arramenitiesList addObject:amenity];
+    }
     
-    [arramenitiesList addObject:@"Beverage Service"];
-    [arramenitiesList addObject:@"Billiards"];
-    [arramenitiesList addObject:@"Business Lounge"];
-    [arramenitiesList addObject:@"Caddy Hire"];
-    [arramenitiesList addObject:@"Club Fittings"];
-    [arramenitiesList addObject:@"Club Rental"];
-    
-    [arramenitiesList addObject:@"Club Repair"];
-    [arramenitiesList addObject:@"Cold Towel"];
-    [arramenitiesList addObject:@"Desert"];
-    [arramenitiesList addObject:@"Dining"];
-
-    
-    [arramenitiesList addObject:@"Drink Cart"];
-    [arramenitiesList addObject:@"Driving Range"];
-    [arramenitiesList addObject:@"Executive Par 3"];
-    [arramenitiesList addObject:@"Game Room"];
-    [arramenitiesList addObject:@"Golf Pro"];
-    [arramenitiesList addObject:@"Gym"];
-
-    [arramenitiesList addObject:@"Handicap Cart"];
-    [arramenitiesList addObject:@"Locker Room"];
-    [arramenitiesList addObject:@"Lodging On Site"];
-    
-    [arramenitiesList addObject:@"Lounge"];
-    [arramenitiesList addObject:@"Online Tee Times"];
-    [arramenitiesList addObject:@"Parkland"];
-    [arramenitiesList addObject:@"Ping Pong"];
-    [arramenitiesList addObject:@"Pool"];
-    [arramenitiesList addObject:@"Pro Shop"];
-    [arramenitiesList addObject:@"Pub"];
-    [arramenitiesList addObject:@"Putting Green"];
-    
-    [arramenitiesList addObject:@"Reception Hall"];
-    [arramenitiesList addObject:@"Resort"];
-    [arramenitiesList addObject:@"Riding Carts"];
-    [arramenitiesList addObject:@"Seaside"];
-    [arramenitiesList addObject:@"Showers"];
-    [arramenitiesList addObject:@"Snack Bar"];
-    [arramenitiesList addObject:@"Spa"];
-    
-    [arramenitiesList addObject:@"Television"];
-    [arramenitiesList addObject:@"Twilight"];
-    [arramenitiesList addObject:@"Umbrella"];
-    [arramenitiesList addObject:@"Valet Parking"];
-    [arramenitiesList addObject:@"Vending Machine"];
-    
-    [arramenitiesList addObject:@"Webcam"];
-    [arramenitiesList addObject:@"WiFi"];
-    [arramenitiesList addObject:@"Any"];
+    [arramenitiesList insertObject:@"Any" atIndex:0];
 
 }
 

@@ -167,8 +167,9 @@
     
     self.collectionView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"listBackground"]];
 
+    long screenWidth = [UIScreen mainScreen].bounds.size.width;
     
-    UINavigationBar *navbar = [[UINavigationBar alloc]initWithFrame:CGRectMake(0, 0, 320, 60)];
+    UINavigationBar *navbar = [[UINavigationBar alloc]initWithFrame:CGRectMake(0, 0, screenWidth, 60)];
     // [navbar setTranslucent:YES];
     
     //do something like background color, title, etc you self
@@ -189,7 +190,7 @@
     [customButton1 addTarget:self action:@selector(closePressed:) forControlEvents:UIControlEventTouchUpInside];
     [navbar addSubview:customButton1];
     
-    UILabel *lbl = [[UILabel alloc] initWithFrame:CGRectMake(0, 20, 320, 40)];
+    UILabel *lbl = [[UILabel alloc] initWithFrame:CGRectMake(screenWidth/4, 20, screenWidth/2, 40)];
     [lbl setFont:font1];
     [lbl setTextAlignment:NSTextAlignmentCenter];
     [lbl setBackgroundColor:[UIColor clearColor]];
@@ -528,7 +529,7 @@
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"save_to_history"] = @YES;
-    params[@"senderNick"] = self.title;
+    params[@"senderNick"] = [[AppDelegate sharedinstance] getCurrentName];
 
     [qmessage setCustomParameters:params];
     

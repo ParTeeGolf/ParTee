@@ -38,6 +38,7 @@
 @synthesize sharedChatDialog;
 @synthesize otherUserObject;
 @synthesize userID;
+@synthesize courseName;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -58,7 +59,6 @@
     
     [self bindData];
     
-//    [scrollViewContainer setContentSize:CGSizeMake(320, 568)];
 }
 
 -(void) viewWillAppear:(BOOL)animated {
@@ -72,7 +72,6 @@
 - (void) bindData {
 
     NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
-    //[getRequest setObject:[[AppDelegate sharedinstance] getCurrentUserEmail] forKey:@"userEmail"];
     
     if([strCameFrom isEqualToString:kScreenViewMatch]) {
         [getRequest setObject:strEmailOfUser forKey:@"userEmail"];
@@ -123,8 +122,10 @@
         [btnOptions setHidden:YES];
         [btnOptionsBig setHidden:YES];
         
-        [btnAdd setHidden:YES];
-        [btnAddBg setHidden:YES];
+        NSString *currentUserGuid = [[AppDelegate sharedinstance] getCurrentUserGuid];
+        
+        [btnAdd setHidden: [currentUserGuid isEqualToString:userID]];
+        [btnAddBg setHidden:[currentUserGuid isEqualToString:userID]];
         
         [getRequest setObject:userID forKey:@"_id"];
         
@@ -197,25 +198,12 @@
 
         NSString *strName = [NSString stringWithFormat:@"%@",[dictUserData.fields objectForKey:@"userDisplayName"]];
         NSString *strUserName = [NSString stringWithFormat:@"%@",[dictUserData.fields objectForKey:@"userDisplayName"]];
-
-        NSMutableAttributedString *yourAttributedString = [[NSMutableAttributedString alloc] initWithString:strUserName];
-        UIFont *font1 = [UIFont fontWithName:@"Montserrat-Regular" size:23.0f];
-        NSRange boldRange = [strName rangeOfString:strUserName];
-        [yourAttributedString addAttribute: NSFontAttributeName value:font1 range:boldRange];
-        [yourAttributedString addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, [yourAttributedString length])];
-        [lblName setAttributedText:yourAttributedString ];
         
-        NSString *strState = [[AppDelegate sharedinstance] nullcheck:[dictUserData.fields objectForKey:@"userState"]];
-        NSString *strCity = [[AppDelegate sharedinstance] nullcheck:[dictUserData.fields objectForKey:@"userCity"]];
-        NSString *strZipCode = [[AppDelegate sharedinstance] nullcheck:[dictUserData.fields objectForKey:@"userZipcode"]];
-
-        strCity = [NSString stringWithFormat:@"%@, %@ - %@",strCity,strState,strZipCode];
-        lblLoc.text = strCity;
         
         NSString *strGender = [[AppDelegate sharedinstance] nullcheck:[dictUserData.fields objectForKey:@"userGender"]];
         
         NSString *strHandicap = [[AppDelegate sharedinstance] nullcheck:[dictUserData.fields objectForKey:@"userHandicap"]];
-        lblHandicap.text = [NSString stringWithFormat:@"%@ / %@ / Handicap: %@",strAge, strGender, strHandicap];
+        NSString *ageGenderHandicap = [NSString stringWithFormat:@"%@ / %@ / Handicap: %@",strAge, strGender, strHandicap];
 
         NSString *str_home_coursename = [[AppDelegate sharedinstance] nullcheck:[dictUserData.fields objectForKey:@"home_coursename"]];
         
@@ -228,37 +216,49 @@
             str_home_coursename = @"Highland View Golf Course";
         }
         
-        lblHomecourse.text = str_home_coursename;
+        [lblHomecourse setTitle:[NSString stringWithFormat:@"Course: %@",str_home_coursename] forState:UIControlStateNormal];
+        
+        courseName = str_home_coursename;
 
         NSString *strInfo = [[AppDelegate sharedinstance] nullcheck:[dictUserData.fields objectForKey:@"userInfo"]];
-        bio.text = strInfo;
+        
+        NSString *proType = [[AppDelegate sharedinstance] nullcheck:[dictUserData.fields objectForKey:@"ProType"]];
+        
+        NSString *about = [NSString stringWithFormat:@"%@\n%@\n%@\n\n%@", strUserName, proType, ageGenderHandicap, strInfo];
+        
+        bio.text = about;
         
         NSString *strEmail = [[AppDelegate sharedinstance] nullcheck:[dictUserData.fields objectForKey:@"userEmail"]];
         NSString *strPhone = [[AppDelegate sharedinstance] nullcheck:[dictUserData.fields objectForKey:@"Phone"]];
         NSString *strWebsite = [[AppDelegate sharedinstance] nullcheck:[dictUserData.fields objectForKey:@"Website"]];
 
-        email.text = [NSString stringWithFormat:@"Email: %@ \nPhone: %@\nWebsite: %@", strEmail, strPhone, strWebsite];
+        email.text = [NSString stringWithFormat:@"Email: %@ \n\nPhone: %@\n\nWebsite: %@", strEmail, strPhone, strWebsite];
         email.editable = NO;
         email.dataDetectorTypes = UIDataDetectorTypeAll;
         
         achievments.text = [[AppDelegate sharedinstance] nullcheck:[dictUserData.fields objectForKey:@"Achievements"]];
         
         offering.text = [[AppDelegate sharedinstance] nullcheck:[dictUserData.fields objectForKey:@"Offerings"]];
-        proType.text = [[AppDelegate sharedinstance] nullcheck:[dictUserData.fields objectForKey:@"ProType"]];
         
-        [imgBadge setImage:[UIImage imageWithData:[[AppDelegate sharedinstance] getProIcons:proType.text]]];
-        [imgBadge setContentMode:UIViewContentModeScaleAspectFill];
-        [imgBadge setShowActivityIndicatorView:NO];
+        
+        [imgBadge sd_setImageWithURL:[NSURL URLWithString:[[AppDelegate sharedinstance] getProIcons:proType]] placeholderImage:[UIImage imageNamed:@"user"] options:SDWebImageHighPriority completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+            [imgBadge setImage:image];
+            [imgBadge setContentMode:UIViewContentModeScaleAspectFill];
+            [imgBadge setShowActivityIndicatorView:NO];
+            
+        }];
         
         long role = [[[AppDelegate sharedinstance] nullcheck:[dictUserData.fields objectForKey:@"UserRole"]] longLongValue];
         
         if(role != 1)
         {
             [proView setHidden:YES];
+            lblScreenName.text = @"Golfer";
         }
         else
         {
             [imgBadge setHidden:NO];
+            lblScreenName.text = @"Pro";
         }
         
     } errorBlock:^(QBResponse *response) {
@@ -286,7 +286,7 @@
         UIAlertController * alert = [UIAlertController
                                      alertControllerWithTitle:@"Choose an option"
                                      message:@""
-                                     preferredStyle:UIAlertControllerStyleActionSheet];
+                                     preferredStyle:UIAlertControllerStyleAlert];
         
         
         
@@ -584,9 +584,7 @@
         return;
     }
     
-    [[AppDelegate sharedinstance] showLoader];
-    
-    int otherUserId = self.otherUserObject.userID;
+    long otherUserId = self.otherUserObject.userID;
 
     QBChatDialog *chatDialog = [[QBChatDialog alloc] initWithDialogID:@"null" type:QBChatDialogTypePrivate];
     chatDialog.occupantIDs = @[@(otherUserId)];
@@ -649,20 +647,10 @@
 {
     NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
     
-    [getRequest setObject:userID forKey:@"UserID"];
+    [getRequest setObject:courseName forKey:@"Name"];
     
-    [QBRequest objectsWithClassName:@"CourseUser" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page)
+    [QBRequest objectsWithClassName:@"GolfCourses" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page)
     {
-        
-        QBCOCustomObject *obj = [objects objectAtIndex:0];
-        
-        NSString *str1 = obj.parentID;
-       
-        [getRequest setObject:str1 forKey:@"_id"];
-        
-        [QBRequest objectsWithClassName:@"GolfCourses" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page)
-         {
-             
              QBCOCustomObject *obj = [objects objectAtIndex:0];
              
              PurchaseSpecialsViewController *viewController    = [[PurchaseSpecialsViewController alloc] initWithNibName:@"PurchaseSpecialsViewController" bundle:nil];
@@ -673,13 +661,7 @@
              
              [self.navigationController pushViewController:viewController animated:YES];
              
-         } errorBlock:^(QBResponse *response) {
-             // error handling
-             [[AppDelegate sharedinstance] hideLoader];
-             
-             NSLog(@"Response error: %@", [response.error description]);
-         }];
-        
+
     } errorBlock:^(QBResponse *response) {
         // error handling
         [[AppDelegate sharedinstance] hideLoader];

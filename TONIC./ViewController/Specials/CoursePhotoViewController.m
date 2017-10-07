@@ -26,12 +26,8 @@
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshContent" object:nil];
 
-    
-
-    if(isiPhone4) {
-        
-        [tblList1 setFrame:CGRectMake(tblList1.frame.origin.x, tblList1.frame.origin.y, tblList1.frame.size.width, tblList1.frame.size.height-88)];
-    }
+    tblList1.tableFooterView = [UIView new];
+    tblList1.separatorInset = UIEdgeInsetsZero;
     
 }
 

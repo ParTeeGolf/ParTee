@@ -68,6 +68,7 @@
 @property (strong, nonatomic) OneSignal *oneSignal;
 @property (strong, nonatomic) FBSDKLoginManager *login;
 @property (strong, nonatomic) NSMutableDictionary *ProIcons;
+@property (strong, nonatomic) NSMutableDictionary *AmenitiesIcons;
 
 @property (nonatomic,assign) BOOL isUpdate;
 @property (nonatomic,assign) BOOL isBlocked;
@@ -120,7 +121,13 @@
 -(NSString*)getDirectory:(NSString*) strDirectoryName;
 -(BOOL) isUserLogIn;
 -(void) setProIcons:(NSMutableDictionary*)proIcons;
--(NSData *) getProIcons:(NSString *)key;
+-(NSString *) getProIcons:(NSString *)key;
+-(void) setAmenitiesIcons:(NSMutableDictionary*)amenitesIcons;
+-(NSString *) getAmenitiesIcons:(NSString *)key;
+-(NSMutableDictionary *) getAllAmenitiesIcons;
+-(NSMutableDictionary *) getAllProIcons;
+
+-(NSString *) getCurrentUserGuid;
 
 -(NSInteger) getAge : (NSString*) strBday;
 -(void) registerForNotifications;

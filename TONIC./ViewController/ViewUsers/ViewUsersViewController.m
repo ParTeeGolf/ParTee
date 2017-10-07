@@ -42,24 +42,19 @@
     
     arrData = [[NSMutableArray alloc] init];
     arrDialogData = [[NSMutableArray alloc] init];
-    arrFinalData = [[NSMutableArray alloc] init];
-    arrFinalUserData = [[NSMutableArray alloc] init];
-    arrFinalDialogData = [[NSMutableArray alloc] init];
 
     self.navigationController.navigationBarHidden=YES;
     //http://stackoverflow.com/questions/20491084/quickblox-how-to-make-paged-request-of-custom-objects?rq=1
     _currentPage = 0;
-    tblList.tableFooterView = [UIView new];
+
     tblList.separatorColor = [UIColor clearColor];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshContent" object:nil];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshdialogs) name:@"refreshdialogs" object:nil];
     
+    btnSettingsBig.layer.cornerRadius = btnSettingsBig.bounds.size.width / 2;
+    btnSettingsBig.imageEdgeInsets = UIEdgeInsetsMake(10, 10, 10, 10);
     
-    if(isiPhone4) {
-        
-        [tblList setFrame:CGRectMake(tblList.frame.origin.x, tblList.frame.origin.y, tblList.frame.size.width, tblList.frame.size.height-88)];
-    }
 }
 
 -(void) viewWillDisappear:(BOOL)animated
@@ -71,72 +66,90 @@
     return NO;
 }
 
--(void) viewWillAppear:(BOOL)animated {
+-(void) viewWillAppear:(BOOL)animated
+{
     _currentPage=0;
     
     arrData = [[NSMutableArray alloc] init];
-    arrDialogData = [[NSMutableArray alloc] init];
-    arrFinalData = [[NSMutableArray alloc] init];
-    arrFinalUserData = [[NSMutableArray alloc] init];
-    arrFinalDialogData = [[NSMutableArray alloc] init];
-    arrConnections = [[NSMutableArray alloc] init];
-
-   
     [AppDelegate sharedinstance].strIsChatConnected = @"0";
-    if([strIsMyMatches isEqualToString:@"1"]) {
+    
+    [btnSettingsBig setHidden:YES];
+    
+    if([strIsMyMatches isEqualToString:@"1"])
+    {
+        [proSegments setHidden:YES];
+        [golferSegments setHidden:YES];
+        
         [AppDelegate sharedinstance].currentScreen = kScreenusers;
 
         [AppDelegate sharedinstance].strIsMyMatches = @"1";
+        
+        segmentMode = [myMatchesSegments selectedSegmentIndex];
 
-         lblTitle.text = @"My Friends";
+        lblTitle.text = @"My Friends";
         [btnSettingsBig setHidden:YES];
-        [btnSettingsSmall setHidden:YES];
         
         QBUUser *currentUser = [QBSession currentSession].currentUser;
         currentUser.password = [[AppDelegate sharedinstance] getStringObjfromKey:kuserPassword];
         
-        if([[[AppDelegate sharedinstance] sharedChatInstance] isConnected]) {
+        if([[[AppDelegate sharedinstance] sharedChatInstance] isConnected])
+        {
             arrDialogData = [[NSMutableArray alloc] init];
 
             [self getContact];
         }
-        else {
+        else
+        {
             // if chat is not connecting, other features should work
            
             [self performSelector:@selector(letotherfeatureswork) withObject:nil afterDelay:10.f];
+            
+            
 
             [[AppDelegate sharedinstance] showLoader];
             
             // connect to Chat
             [[AppDelegate sharedinstance].sharedChatInstance connectWithUser:currentUser completion:^(NSError * _Nullable error) {
                 
-                if(!error) {
+                if(!error)
+                {
                     [AppDelegate sharedinstance].strIsChatConnected = @"1";
                     
                     arrDialogData = [[NSMutableArray alloc] init];
                     [self getContact];
                 }
-           
-
             }];
         }
-
-         //[self getMyContacts];
     }
-    else {
+    else
+    {
         [AppDelegate sharedinstance].currentScreen = kScreenOther;
 
         [AppDelegate sharedinstance].strIsMyMatches = @"0";
+        
+        if([self IsPro])
+        {
+            segmentMode = [proSegments selectedSegmentIndex];
 
-        [btnSettingsBig setHidden:NO];
-        [btnSettingsSmall setHidden:NO];
+            [btnSettingsBig setHidden:segmentMode != 2 && segmentMode != 1];
+        }
+        else
+        {
+            [btnSettingsBig setHidden:NO];
+        }
+        
+        
         lblTitle.text = [self IsPro] ? @"Pros" : @"Golfers";
+        [myMatchesSegments setHidden:YES];
+        [proSegments setHidden:![self IsPro]];
+        [golferSegments setHidden:[self IsPro]];
+        
         [self getAllUsers];
     }
 }
 
--(void) refreshdialogs {
-    
+-(void) refreshdialogs
+{
     if([strIsMyMatches isEqualToString:@"1"])
     {
         arrDialogData = [[NSMutableArray alloc] init];
@@ -145,12 +158,14 @@
     }
 }
 
-- (void) getContact {
+- (void) getContact
+{
     [AppDelegate sharedinstance].arrContactListIDs = [[NSMutableArray alloc] init];
     
     NSArray *arrContactList =  [[AppDelegate sharedinstance]sharedChatInstance].contactList.contacts;
     
-    for(QBContactListItem *contact in arrContactList) {
+    for(QBContactListItem *contact in arrContactList)
+    {
         
         BOOL isOnline = contact.isOnline;
         NSInteger userIdValue = contact.userID;
@@ -160,13 +175,15 @@
         if(isOnline)
         {
             NSLog(@"User %ld is online",(long)userIdValue);
-            if(![[AppDelegate sharedinstance].arrSharedOnlineUsers containsObject:[NSNumber numberWithInteger:contact.userID]]) {
+            if(![[AppDelegate sharedinstance].arrSharedOnlineUsers containsObject:[NSNumber numberWithInteger:contact.userID]])
+            {
                 [[AppDelegate sharedinstance].arrSharedOnlineUsers addObject:[NSNumber numberWithInteger:contact.userID]];
                 
             }
         }
         else {
-            if([[AppDelegate sharedinstance].arrSharedOnlineUsers containsObject:[NSNumber numberWithInteger:contact.userID]]) {
+            if([[AppDelegate sharedinstance].arrSharedOnlineUsers containsObject:[NSNumber numberWithInteger:contact.userID]])
+            {
                 [[AppDelegate sharedinstance].arrSharedOnlineUsers removeObject:[NSNumber numberWithInteger:contact.userID]];
 
             }
@@ -186,9 +203,6 @@
     _currentDialog=0;
     
     arrData = [[NSMutableArray alloc] init];
-    arrFinalData = [[NSMutableArray alloc] init];
-    arrFinalUserData = [[NSMutableArray alloc] init];
-    arrFinalDialogData = [[NSMutableArray alloc] init];
     
     [[AppDelegate sharedinstance] showLoader];
     
@@ -197,13 +211,15 @@
 
     QBResponsePage *page = [QBResponsePage responsePageWithLimit:kdialogLimit skip:_currentDialog];
     
-    [QBRequest dialogsForPage:page extendedRequest:extendedRequest successBlock:^(QBResponse *response, NSArray *dialogObjects, NSSet *dialogsUsersIDs, QBResponsePage *page) {
+    [QBRequest dialogsForPage:page extendedRequest:extendedRequest successBlock:^(QBResponse *response, NSArray *dialogObjects, NSSet *dialogsUsersIDs, QBResponsePage *page)
+    {
         
         _currentDialog += dialogObjects.count;
         
         [arrDialogData addObjectsFromArray:dialogObjects];
         
-        if (page.totalEntries > _currentDialog) {
+        if (page.totalEntries > _currentDialog)
+        {
             
             [self getDialogs];
             return;
@@ -215,7 +231,8 @@
         
         NSNumber *num = [NSNumber numberWithInt:[strCurrentId intValue]];
         
-        for(QBChatDialog *obj  in arrDialogData) {
+        for(QBChatDialog *obj  in arrDialogData)
+        {
             //now go through array and get user id of opponents
             
             if(![[AppDelegate sharedinstance] checkSubstring:@"unfriended" containedIn:obj.lastMessageText ])
@@ -231,14 +248,15 @@
         [self getUserFromDialogs:0 withArray:arrOccupants];
 
         
-     } errorBlock:^(QBResponse *response) {
+     }
+    errorBlock:^(QBResponse *response)
+    {
          [[AppDelegate sharedinstance] hideLoader];
-
-     }];
+    }];
 }
 
--(void) getUserFromDialogs:(int) dialogUserPageNum withArray:(NSMutableArray *)arrOccupants{
-    
+-(void) getUserFromDialogs:(int) dialogUserPageNum withArray:(NSMutableArray *)arrOccupants
+{
     __block int currentPageNum = dialogUserPageNum;
     
     NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
@@ -247,71 +265,75 @@
     NSString *strPage = [NSString stringWithFormat:@"%d",[kLimit intValue] * currentPageNum];
     
     [getRequest setObject:strPage forKey:@"skip"];
-    //        [getRequest setObject:@"ID" forKey:@"sort_desc"];
+    
+    if(segmentMode == 1)
+    {
+        
+        NSString *strlat1 = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlat];
+        strlat1 = [[AppDelegate sharedinstance] nullcheck:strlat1];
+        
+        NSString *strlong1 = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlong];
+        strlong1 = [[AppDelegate sharedinstance] nullcheck:strlong1];
+        
+        strlat = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlat];
+        strlat = [[AppDelegate sharedinstance] nullcheck:strlat];
+        
+        strlong = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlong];
+        strlong = [[AppDelegate sharedinstance] nullcheck:strlong];
+        NSString *strFilterDistance = [NSString stringWithFormat:@"%f,%f;%f",[strlong floatValue],[strlat floatValue],160934.0f];
+        [getRequest setObject:strFilterDistance forKey:@"current_location[near]"];
+    }
+
     
     [getRequest setObject:[[arrOccupants valueForKey:@"description"] componentsJoinedByString:@","] forKey:@"user_id[in]"];
-[[AppDelegate sharedinstance] showLoader];
+    [[AppDelegate sharedinstance] showLoader];
     
-    [QBRequest objectsWithClassName:@"UserInfo" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {            // do something with retrieved object
+    [QBRequest objectsWithClassName:@"UserInfo" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page)
+    {
         
-        for(QBCOCustomObject *userobj in objects) {
-            
+        for(QBCOCustomObject *userobj in objects)
+        {
             NSInteger userId = userobj.userID;
             
             NSInteger idxOfuser =  [arrOccupants indexOfObject:[NSNumber numberWithInteger:userId]];
             
             QBChatDialog *dictDialog = [arrDialogData objectAtIndex:idxOfuser];
             
-            [arrFinalUserData addObject:userobj];
-            [arrFinalDialogData addObject:dictDialog];
+            [arrData addObject:userobj];
+            [arrDialogData addObject:dictDialog];
         }
         
-        if(!arrData) {
-            arrData = [[NSMutableArray alloc] init];
-        }
         
         if(objects.count >= [kLimit integerValue]) {
             
             [self getUserFromDialogs:++currentPageNum withArray:arrOccupants];
             return;
         }
-
         
-        arrData = [arrFinalUserData mutableCopy];
-        
-        if([arrData count]==0) {
-            [lblNotAvailable setHidden:NO];
-        }
-        else {
-            [lblNotAvailable setHidden:YES];
-        }
-        
-        if([strIsMyMatches isEqualToString:@"1"]) {
-            
-            if([arrFinalUserData count]>0) {
-                [tblList reloadData];
-                
-            }
-        }
+        [lblNotAvailable setHidden:[arrData count]!=0];
         
         [[AppDelegate sharedinstance] hideLoader];
         
         [self performSelector:@selector(resettimer) withObject:nil afterDelay:2];
         
+        [tblList reloadData];
         
-    } errorBlock:^(QBResponse *response) {
+        
+    } errorBlock:^(QBResponse *response)
+    {
         // Handle error here
         [[AppDelegate sharedinstance] hideLoader];
         
     }];
 }
 
--(void) resettimer {
+-(void) resettimer
+{
     [AppDelegate sharedinstance].strcustomnotificationtimer = @"1";
 }
 
--(void) getAllUsers {
-
+-(void) getAllUsers
+{
     // getting connections so can filter out connecton status
     
     NSString *strUserEmail = [[AppDelegate sharedinstance] getCurrentUserEmail];
@@ -327,24 +349,19 @@
     
     [[AppDelegate sharedinstance] showLoader];
     
-    [QBRequest objectsWithClassName:@"UserConnections" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
+    [QBRequest objectsWithClassName:@"UserConnections" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page)
+    {
         // response processing
         
-        if(!arrConnections) {
-            arrConnections = [[NSMutableArray alloc] init];
-        }
+
+        arrConnections = [[NSMutableArray alloc] init];
         
         [arrConnections addObjectsFromArray:[objects mutableCopy]];
         
-        if([objects count]>=[kLimit integerValue]) {
-            shouldLoadNext=YES;
-        }
-        else {
-            shouldLoadNext=NO;
-        }
-
-        if(shouldLoadNext) {
-            
+        shouldLoadNext=[objects count]>=[kLimit integerValue];
+       
+        if(shouldLoadNext)
+        {
             ++_currentPage;
             [self getAllUsers];
             return;
@@ -352,15 +369,18 @@
         
         NSMutableArray *arrTemp = [[NSMutableArray alloc] init];
         
-        for (QBCOCustomObject *obj in arrConnections) {
+        for (QBCOCustomObject *obj in arrConnections)
+        {
             
             NSString *strSenderId = [obj.fields objectForKey:@"connSenderID"];
             NSString *strRecId = [obj.fields objectForKey:@"connReceiverID"];
 
-            if([strSenderId isEqualToString:[[AppDelegate sharedinstance] getCurrentUserEmail]]) {
+            if([strSenderId isEqualToString:[[AppDelegate sharedinstance] getCurrentUserEmail]])
+            {
                 [arrTemp addObject:strRecId];
             }
-            else if([strRecId isEqualToString:[[AppDelegate sharedinstance] getCurrentUserEmail]]) {
+            else if([strRecId isEqualToString:[[AppDelegate sharedinstance] getCurrentUserEmail]])
+            {
                 [arrTemp addObject:strSenderId];
             }
         }
@@ -380,7 +400,8 @@
     
 }
 
--(void) getPagedUsers:(int) currentNum {
+-(void) getPagedUsers:(int) currentNum
+{
     __block int currentPageNum = currentNum;
     
     NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
@@ -392,11 +413,45 @@
     
     [getRequest setObject:@"created_at" forKey:@"sort_desc"];
     
+    if(![self IsPro])
+    {
+        [getRequest setObject:[[arrConnections valueForKey:@"description"] componentsJoinedByString:@","] forKey:@"userEmail[nin]"];
+    }
+    
     NSString *searchType = [self IsPro] ? kuserSearchPro : kuserSearchUser;
     
     NSMutableDictionary *dictUserSearchData = [[[NSUserDefaults standardUserDefaults] objectForKey:searchType] mutableCopy];
     
+    if(segmentMode == 1)
+    {
+        NSString *strlat1 = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlat];
+        strlat1 = [[AppDelegate sharedinstance] nullcheck:strlat1];
+        
+        NSString *strlong1 = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlong];
+        strlong1 = [[AppDelegate sharedinstance] nullcheck:strlong1];
+        
+        strlat = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlat];
+        strlat = [[AppDelegate sharedinstance] nullcheck:strlat];
+        
+        strlong = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlong];
+        strlong = [[AppDelegate sharedinstance] nullcheck:strlong];
+        NSString *strFilterDistance = [NSString stringWithFormat:@"%f,%f;%f",[strlong floatValue],[strlat floatValue],160934.0f];
+        [getRequest setObject:strFilterDistance forKey:@"current_location[near]"];
+        
+        NSString *role = [self IsPro] ? @"1" : @"0";
+        
+        [getRequest setObject:role forKey:@"UserRole"];
+    }
+    else if([self IsPro] && segmentMode == 0)
+    {
+        [getRequest setObject: @"True" forKey:@"Featured"];
+        [getRequest setObject:@"1" forKey:@"UserRole"];
+    }
+    else
+    {
+        
     
+        
     // Age condition
     NSString *strAge = [dictUserSearchData objectForKey:@"Age"];
     
@@ -404,15 +459,12 @@
     
     if([strAge length] != 0)
     {
-       
-        
-        
         NSArray* splitAge = [strAge componentsSeparatedByString: @"-"];
         lowerlimit = [[splitAge objectAtIndex: 0] intValue] - 1;
         upperlimit = [[splitAge objectAtIndex: 1] intValue] + 1;
         
-        
-        if(lowerlimit>0) {
+        if(lowerlimit>0)
+        {
             [getRequest setObject:[NSNumber numberWithInteger:upperlimit] forKey:@"userAge[lt]"];
             [getRequest setObject:[NSNumber numberWithInteger:lowerlimit] forKey:@"userAge[gt]"];
         }
@@ -447,62 +499,42 @@
         
     }
     
-    
     NSString *strType = [dictUserSearchData  objectForKey:@"Type"] ;
     
-    if([strType length] != 0 && ![strType isEqualToString:@"All"]) {
-        [getRequest setObject: strType forKey:@"userFullMode"];
-        
+    if([strType length] != 0 && ![strType isEqualToString:@"All"] && [self IsPro])
+    {
+        [getRequest setObject: strType forKey:@"ProType[in]"];
     }
     
     NSString *strState =[[AppDelegate sharedinstance] nullcheck:[dictUserSearchData objectForKey:@"State"]];
     
     if(![strState isEqualToString:@"All"] && [strState length] != 0)
+    {
         [getRequest setObject:strState forKey:@"userState[in]"];
+    }
     
     NSArray *arrCity = [dictUserSearchData objectForKey:@"City"];
     
     if(![arrCity containsObject:@"All"] && [arrCity count] != 0)
+    {
         [getRequest setObject:arrCity forKey:@"userCity[in]"];
+    }
+    
     
    NSString *strinterested_in_home_course = [[AppDelegate sharedinstance] nullcheck:[dictUserSearchData objectForKey:@"Name"]];
     
-    if([strinterested_in_home_course length]>0) {
+    if([strinterested_in_home_course length]>0)
+    {
         if(![strinterested_in_home_course isEqualToString:@"All"])
+        {
             [getRequest setObject:strinterested_in_home_course forKey:@"home_coursename[in]"];
+        }
+        
     }
     
     NSString *role = [self IsPro] ? @"1" : @"0";
     
     [getRequest setObject:role forKey:@"UserRole"];
-    
-    NSString *strinterested_in_location =[[AppDelegate sharedinstance] nullcheck:[dictUserSearchData objectForKey:@"Location"]];
-    
-    if([strinterested_in_location length]>0) {
-        
-        if(![strinterested_in_location isEqualToString:@"150"]) {
-            
-            float val = [strinterested_in_location floatValue];
-            float metres = val* 1609.34f;
-            
-            NSString *strlatitude = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlat];
-            strlatitude = [[AppDelegate sharedinstance] nullcheck:strlatitude];
-            
-            NSString *strlongitude = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlong];
-            strlongitude = [[AppDelegate sharedinstance] nullcheck:strlongitude];
-            
-            // if no location access
-            if([strlatitude length]==0) {
-                strlatitude = @"45.62076121";
-                strlongitude = @"-111.12052917";
-            }
-            
-            NSString *strFilterDistance = [NSString stringWithFormat:@"%f,%f;%f",[strlongitude floatValue],[strlatitude floatValue],metres];
-            [getRequest setObject:strFilterDistance forKey:@"current_location[near]"];
-            
-        }
-        
-    }
 
     NSString *strGender = [[AppDelegate sharedinstance] nullcheck:[[dictUserSearchData  objectForKey:@"Gender"] lowercaseString]];
     
@@ -512,18 +544,9 @@
     }
     
     
-    if(![self IsPro])
-    {
-        [getRequest setObject:[[arrConnections valueForKey:@"description"] componentsJoinedByString:@","] forKey:@"userEmail[nin]"];
-    }
+    
     
     NSMutableDictionary *dictUserData = [[[NSUserDefaults standardUserDefaults] objectForKey:kuserData] mutableCopy];
-    
-    NSString *strisDevelopment = [[AppDelegate sharedinstance] nullcheck:[dictUserData  objectForKey:@"isDevelopment"]] ;
-    
-    if([strisDevelopment isEqualToString:@"1"]) {
-        [getRequest setObject:@"1" forKey:@"isDevelopment"];
-    }
     
     [getRequest setObject:@16 forKey:@"advertisingBlockCount[lt]"];
     
@@ -544,96 +567,48 @@
     }
     
     
+    
+    }
+    
     [[AppDelegate sharedinstance] showLoader];
     
-    [QBRequest objectsWithClassName:@"UserInfo" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
-        // response processing
-        
-        if(!arrData) {
-            arrData = [[NSMutableArray alloc] init];
-        }
-        
+    [QBRequest objectsWithClassName:@"UserInfo" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page)
+    {
         [arrData addObjectsFromArray:[objects mutableCopy]];
         
-        if(objects.count >= [kLimit integerValue]) {
-            
+        if(objects.count >= [kLimit integerValue])
+        {
             [self getPagedUsers:++currentPageNum];
             return;
         }
         
-        if([arrData count]==0) {
-            [lblNotAvailable setHidden:NO];
-        }
-        else {
-            [lblNotAvailable setHidden:YES];
-        }
-        
+        [lblNotAvailable setHidden:[arrData count]!=0];
+
         isPageRefreshing=NO;
         
         [[AppDelegate sharedinstance] hideLoader];
         
         [tblList reloadData];
         
-    } errorBlock:^(QBResponse *response) {
-        // error handling
+    }
+    errorBlock:^(QBResponse *response)
+    {
         [[AppDelegate sharedinstance] hideLoader];
         
         NSLog(@"Response error: %@", [response.error description]);
     }];
-    
-    
 }
 
-
--(void) getRecords {
-    _currentPage++;
-    
-    [[AppDelegate sharedinstance] showLoader];
-    
-    NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
-    [getRequest setObject:kLimit forKey:@"limit"];
-    
-    NSString *strPage = [NSString stringWithFormat:@"%d",[kLimit intValue] * _currentPage];
-    [getRequest setObject:strPage forKey:@"skip"];
-    
-    [getRequest setObject:[[arrConnections valueForKey:@"description"] componentsJoinedByString:@","] forKey:@"userEmail[nin]"];
-    [getRequest setObject:@"created_at" forKey:@"sort_desc"];
-
-    [QBRequest objectsWithClassName:@"UserInfo" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
-        isPageRefreshing=NO;
-
-        // response processing
-        [arrData addObjectsFromArray:[objects mutableCopy]];
-
-        [[AppDelegate sharedinstance] hideLoader];
-        [tblList reloadData];
-        
-    } errorBlock:^(QBResponse *response) {
-        // error handling
-        NSLog(@"Response error: %@", [response.error description]);
-    }];
-}
 
 - (UIStatusBarStyle) preferredStatusBarStyle {
     return UIStatusBarStyleLightContent;
 }
 
--(IBAction)notNowPressed:(id)sender {
-    [btnMore setHidden:NO];
-    
-    //viewProfile
-    [UIView animateWithDuration:0.3 animations:^{
-        viewMoreMatches.alpha = 0;
-    } completion: ^(BOOL finished) {//creates a variable (BOOL) called "finished" that is set to *YES* when animation IS completed.
-        viewMoreMatches.hidden = finished;//if animation is finished ("finished" == *YES*), then hidden = "finished" ... (aka hidden = *YES*)
-    }];
-
-}
-
 
 //-----------------------------------------------------------------------
 
-- (IBAction) action_Menu:(id)sender{
+- (IBAction) action_Menu:(id)sender
+{
     
     [self.menuContainerViewController toggleLeftSideMenuCompletion:^{
         
@@ -641,18 +616,30 @@
     
 }
 
--(IBAction)settingsTapped:(id)sender {
-    
+-(IBAction)settingsTapped:(id)sender
+{
     SettingsViewController *obj = [[SettingsViewController alloc] initWithNibName:@"SettingsViewController" bundle:nil];
     obj.cameFromScreen=@"1";
     obj.IsPro = [self IsPro];
+    
+    if([self IsPro])
+    {
+         [proSegments setSelectedSegmentIndex:2];
+        segmentMode = 2;
+    }
+    else
+    {
+        [golferSegments setSelectedSegmentIndex:0];
+        segmentMode = 0;
+    }
     
     [self.navigationController pushViewController:obj animated:YES];
 }
 
 //-----------------------------------------------------------------------
 
--(IBAction) sendRequest:(UIButton*)sender {
+-(IBAction) sendRequest:(UIButton*)sender
+{
     CGPoint center=sender.center;
     
     CGPoint rootViewPoint = [sender.superview convertPoint:center toView:tblList];
@@ -702,6 +689,7 @@
         UINavigationController *navigationController =
         [[UINavigationController alloc] initWithRootViewController:vc];
         navigationController.navigationBar.barStyle = self.navigationController.navigationBar.barStyle;
+        
         
         //now present this navigation controller modally
         [self presentViewController:navigationController
@@ -968,43 +956,21 @@
     }];
 }
 
-
-- (void) commonCode {
-    
-    
-}
-
--(void) letotherfeatureswork {
+-(void) letotherfeatureswork
+{
     
     if([[AppDelegate sharedinstance].strIsChatConnected isEqualToString:@"0"]){
         [self getDialogs];
     }
 }
 
--(void) reloadusers {
+-(void) reloadusers
+{
     
     if([strIsMyMatches isEqualToString:@"1"]) {
         [tblList reloadData];
     }
 }
-
-#pragma mark - Table view Delegate
-
-//- (void) scrollViewDidScroll:(UIScrollView *)scrollView
-//{
-//    
-//    if(tblList.contentOffset.y >= (tblList.contentSize.height - tblList.bounds.size.height + 20))
-//    {
-//        if(isPageRefreshing==NO){
-//            isPageRefreshing=YES;
-//            
-//            [self getRecords];
-//            
-//            [tblList reloadData];
-//            NSLog(@"called %d",_currentPage);
-//        }
-//    }
-//}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -1018,17 +984,12 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if([strIsMyMatches isEqualToString:@"0"]) {
-        return arrData.count;
-    }
-    
-    return arrFinalUserData.count;
+    return arrData.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    
+
     if([self IsPro])
     {
         cell_ViewPro *cell = [tableView dequeueReusableCellWithIdentifier:@"cell_ViewPro"];
@@ -1064,210 +1025,255 @@
             
         }];
         
-        [cell.proIcon setImage:[UIImage imageWithData:[[AppDelegate sharedinstance] getProIcons:cell.proType.text]]];
-        [cell.proIcon setContentMode:UIViewContentModeScaleAspectFill];
-        [cell.proIcon setShowActivityIndicatorView:NO];
+        [cell.proIcon sd_setImageWithURL:[NSURL URLWithString:[[AppDelegate sharedinstance] getProIcons:[obj.fields objectForKey:@"ProType"]]] placeholderImage:[UIImage imageNamed:@"user"] options:SDWebImageHighPriority completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+            [cell.proIcon setImage:image];
+            [cell.proIcon setContentMode:UIViewContentModeScaleAspectFill];
+            [cell.proIcon setShowActivityIndicatorView:NO];
+            
+        }];
         
         
         return cell;
     }
     else
     {
-    cell_ViewUsers *cell = [tableView dequeueReusableCellWithIdentifier:@"cell_ViewUsers"];
-    NSArray *topLevelObjects;
-    
-     topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"cell_ViewUsers" owner:self options:nil];
+        cell_ViewUsers *cell = [tableView dequeueReusableCellWithIdentifier:@"cell_ViewUsers"];
+        NSArray *topLevelObjects;
+        
+        topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"cell_ViewUsers" owner:self options:nil];
         // Grab a pointer to the first object (presumably the custom cell, as that's all the XIB should contain).
-    
-    cell = [topLevelObjects objectAtIndex:0];
-    
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
-    cell.backgroundColor=[UIColor clearColor];
-    cell.contentView.backgroundColor=[UIColor clearColor];
-    
-    if([strIsMyMatches isEqualToString:@"0"]) {
         
-        QBCOCustomObject *obj = [arrData objectAtIndex:indexPath.row];
+        cell = [topLevelObjects objectAtIndex:0];
         
-        NSString *userFullMode= [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"userFullMode"]];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
-        if([userFullMode isEqualToString:@"1"]) {
+        
+        
+        if([strIsMyMatches isEqualToString:@"0"])
+        {
+            [cell.acceptButton setHidden:YES];
+            [cell.denyButton setHidden:YES];
             
-            [cell.viewBG setHidden:NO];
-            [cell.imageViewBadge setHidden:NO];
-
-            [cell.imageViewBadge setFrame:CGRectMake(216, 17, 20, 26)];
-        }
-        else {
-            [cell.imageViewBadge setHidden:YES];
-            [cell.viewBG setHidden:YES];
-        }
-        
-        NSString *str1 = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"userDisplayName"]];
-        NSString *str2 = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"userHandicap"]];
-        str2 = [NSString stringWithFormat:@"Handicap : %@",str2];
-        
-        [cell.lblUserName setText:str1];
-        [cell.lblhandicap setText:str2];
-        
-        [cell.imageViewUsers setShowActivityIndicatorView:YES];
-        [cell.imageViewUsers setIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        [cell.imageViewUsers sd_setImageWithURL:[NSURL URLWithString:[obj.fields objectForKey:@"userPicBase"]] placeholderImage:[UIImage imageNamed:@"missing-profile-photo"]];
-
-        [cell.btnMessageBadge setHidden:YES];
-        [cell.btnAdd setFrame:CGRectMake(251, 12, 35, 35)];
-        [cell.btnAdd setImage:[UIImage imageNamed:@"Plusadd"] forState:UIControlStateNormal];
- 
-        str1 = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"userDisplayName"]];
-       str2 = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"userHandicap"]];
-        
-        NSInteger spamBlockCount = [[obj.fields objectForKey:@"spamBlockCount"] integerValue];
-        NSInteger contentBlockCount = [[obj.fields objectForKey:@"contentBlockCount"] integerValue];
-        NSInteger stolenBlockCount = [[obj.fields objectForKey:@"stolenBlockCount"] integerValue];
-        NSInteger abusiveBlockCount = [[obj.fields objectForKey:@"abusiveBlockCount"] integerValue];
-        NSInteger otherBlockCount = [[obj.fields objectForKey:@"otherBlockCount"] integerValue];
-        NSInteger advertisingBlockCount = [[obj.fields objectForKey:@"advertisingBlockCount"] integerValue];
-        
-        NSInteger totalBlockCount = spamBlockCount + contentBlockCount + stolenBlockCount + abusiveBlockCount + otherBlockCount + advertisingBlockCount;
-        
-        if(totalBlockCount>4) {
-            UIFont *font = [UIFont fontWithName:@"Montserrat-Light" size:12];
-
-            [cell.lblhandicap setTextColor:[UIColor colorWithRed:1.000 green:0.894 blue:0.000 alpha:1.00]];
-            [cell.lblhandicap setFont:font];
+            QBCOCustomObject *obj = [arrData objectAtIndex:indexPath.row];
             
-            [cell.lblhandicap setText:[NSString stringWithFormat:@"%ld times reported",(long)totalBlockCount]];
-
-        }
-        else {
-            [cell.lblhandicap setTextColor:[UIColor whiteColor]];
-        }
-
-        [cell.lblOnlineStatus setHidden:YES];
-        
-        NSArray *arrCoord = [obj.fields objectForKey:@"current_location"];
-
-        strlat = [arrCoord objectAtIndex:1];
-        strlat = [[AppDelegate sharedinstance] nullcheck:strlat];
-        
-        strlong = [arrCoord objectAtIndex:0];
-        strlong = [[AppDelegate sharedinstance] nullcheck:strlong];
-        
-        
-        //Create a special variable to hold this coordinate info.
-        CLLocationCoordinate2D placeCoord;
-        
-        //Set the lat and long.
-        placeCoord.latitude=[strlat doubleValue];
-        placeCoord.longitude=[strlong doubleValue];
-        desplaceCoord = placeCoord;
-        
-        strlat = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlat];
-        strlat = [[AppDelegate sharedinstance] nullcheck:strlat];
-        
-        strlong = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlong];
-        strlong = [[AppDelegate sharedinstance] nullcheck:strlong];
-        
-        //Set the lat and long.
-        placeCoord.latitude=[strlat doubleValue];
-        placeCoord.longitude=[strlong doubleValue];
-        
-        CLLocationCoordinate2D myposition = {  placeCoord.latitude, placeCoord.longitude };
-        scrplaceCoord = myposition;
-
-        CLLocation *loc2;
-        CLLocation *loc1;
-        
-        loc1 = [[CLLocation alloc] initWithLatitude:scrplaceCoord.latitude longitude:scrplaceCoord.longitude];
-        loc2 = [[CLLocation alloc] initWithLatitude:desplaceCoord.latitude longitude:desplaceCoord.longitude];
-        
-        CLLocationDistance distanceInMeters = [loc1 distanceFromLocation:loc2];
-        
-        NSLog(@" distance in metres %f",distanceInMeters);
-        NSLog(@" distance in km %f",(distanceInMeters/1000.f));
-        
-        double distanceinKm =(distanceInMeters/1000.f);
-        distanceinKm = roundf(distanceinKm * 10.0f)/10.0f;
-        
-        NSString *strDistance = [NSString stringWithFormat:@"%.1f km",distanceinKm];
-        NSLog(@" distance in km %@",strDistance);
-
-    }
-    else {
-        [cell.lblhandicap setTextColor:[UIColor whiteColor]];
-
-        QBCOCustomObject *obj = [arrFinalUserData objectAtIndex:indexPath.row];
-        
-        NSString *userFullMode= [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"userFullMode"]];
-        
-        if([userFullMode isEqualToString:@"1"]) {
-            [cell.imageViewBadge setHidden:NO];
+            NSString *userFullMode= [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"userFullMode"]];
             
-            [cell.viewBG setHidden:NO];
-            [cell.imageViewBadge setFrame:CGRectMake(216, 17, 20, 26)];
-
-        }
-        else {
-            [cell.imageViewBadge setHidden:YES];
-            [cell.viewBG setHidden:YES];
-        }
-        
-        NSString *str1 = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"userDisplayName"]];
-        NSString *str2 = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"userHandicap"]];
-        str2 = [NSString stringWithFormat:@"Handicap : %@",str2];
-        
-        [cell.lblUserName setText:str1];
-        [cell.lblhandicap setText:str2];
-        [cell.imageViewUsers setShowActivityIndicatorView:YES];
-        [cell.imageViewUsers setIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        [cell.imageViewUsers sd_setImageWithURL:[NSURL URLWithString:[obj.fields objectForKey:@"userPicBase"]] placeholderImage:[UIImage imageNamed:@"missing-profile-photo"]];
-        
-        [cell.btnMessageBadge setHidden:YES];
-        [cell.btnAdd setFrame:CGRectMake(251, 12, 35, 35)];
-        
-        [cell.btnMessageBadge setHidden:NO];
-        [cell.btnAdd setImage:[UIImage imageNamed:@"speech-bubble"] forState:UIControlStateNormal];
-        [cell.btnAdd setFrame:CGRectMake(256, 17, 25, 25)];
-        
-        QBChatDialog *dialogObj = [arrFinalDialogData objectAtIndex:indexPath.row];
-        
-        if(dialogObj.unreadMessagesCount==0) {
+            if([userFullMode isEqualToString:@"1"]) {
+                
+                [cell.viewBG setHidden:NO];
+                [cell.imageViewBadge setHidden:NO];
+                
+                [cell.imageViewBadge setFrame:CGRectMake(216, 17, 20, 26)];
+            }
+            else {
+                [cell.imageViewBadge setHidden:YES];
+                [cell.viewBG setHidden:YES];
+            }
+            
+            NSString *str1 = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"userDisplayName"]];
+            NSString *str2 = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"userHandicap"]];
+            str2 = [NSString stringWithFormat:@"Handicap : %@",str2];
+            
+            [cell.lblUserName setText:str1];
+            [cell.lblhandicap setText:str2];
+            
+            NSString *homeCourse = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"home_coursename"]];
+            [cell.lblHomeCourse setText:homeCourse];
+            
+            [cell.imageViewUsers setShowActivityIndicatorView:YES];
+            [cell.imageViewUsers setIndicatorStyle:UIActivityIndicatorViewStyleGray];
+            [cell.imageViewUsers sd_setImageWithURL:[NSURL URLWithString:[obj.fields objectForKey:@"userPicBase"]] placeholderImage:[UIImage imageNamed:@"missing-profile-photo"]];
+            
             [cell.btnMessageBadge setHidden:YES];
+            [cell.btnAdd setFrame:CGRectMake(251, 12, 35, 35)];
+            [cell.btnAdd setImage:[UIImage imageNamed:@"Plusadd"] forState:UIControlStateNormal];
+            
+            str1 = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"userDisplayName"]];
+            str2 = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"userHandicap"]];
+            
+            NSInteger spamBlockCount = [[obj.fields objectForKey:@"spamBlockCount"] integerValue];
+            NSInteger contentBlockCount = [[obj.fields objectForKey:@"contentBlockCount"] integerValue];
+            NSInteger stolenBlockCount = [[obj.fields objectForKey:@"stolenBlockCount"] integerValue];
+            NSInteger abusiveBlockCount = [[obj.fields objectForKey:@"abusiveBlockCount"] integerValue];
+            NSInteger otherBlockCount = [[obj.fields objectForKey:@"otherBlockCount"] integerValue];
+            NSInteger advertisingBlockCount = [[obj.fields objectForKey:@"advertisingBlockCount"] integerValue];
+            
+            NSInteger totalBlockCount = spamBlockCount + contentBlockCount + stolenBlockCount + abusiveBlockCount + otherBlockCount + advertisingBlockCount;
+            
+            if(totalBlockCount>4)
+            {
+                UIFont *font = [UIFont fontWithName:@"Montserrat-Light" size:12];
+                
+                [cell.lblhandicap setTextColor:[UIColor colorWithRed:1.000 green:0.894 blue:0.000 alpha:1.00]];
+                [cell.lblhandicap setFont:font];
+                
+                [cell.lblhandicap setText:[NSString stringWithFormat:@"%ld times reported",(long)totalBlockCount]];
+                
+            }
+            else
+            {
+                [cell.lblhandicap setTextColor:[UIColor whiteColor]];
+            }
+            
+            [cell.lblOnlineStatus setHidden:YES];
+            
+            NSArray *arrCoord = [obj.fields objectForKey:@"current_location"];
+            
+            strlat = [arrCoord objectAtIndex:1];
+            strlat = [[AppDelegate sharedinstance] nullcheck:strlat];
+            
+            strlong = [arrCoord objectAtIndex:0];
+            strlong = [[AppDelegate sharedinstance] nullcheck:strlong];
+            
+            
+            //Create a special variable to hold this coordinate info.
+            CLLocationCoordinate2D placeCoord;
+            
+            //Set the lat and long.
+            placeCoord.latitude=[strlat doubleValue];
+            placeCoord.longitude=[strlong doubleValue];
+            desplaceCoord = placeCoord;
+            
+            strlat = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlat];
+            strlat = [[AppDelegate sharedinstance] nullcheck:strlat];
+            
+            strlong = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlong];
+            strlong = [[AppDelegate sharedinstance] nullcheck:strlong];
+            
+            //Set the lat and long.
+            placeCoord.latitude=[strlat doubleValue];
+            placeCoord.longitude=[strlong doubleValue];
+            
+            CLLocationCoordinate2D myposition = {  placeCoord.latitude, placeCoord.longitude };
+            scrplaceCoord = myposition;
+            
+            CLLocation *loc2;
+            CLLocation *loc1;
+            
+            loc1 = [[CLLocation alloc] initWithLatitude:scrplaceCoord.latitude longitude:scrplaceCoord.longitude];
+            loc2 = [[CLLocation alloc] initWithLatitude:desplaceCoord.latitude longitude:desplaceCoord.longitude];
+            
+            CLLocationDistance distanceInMeters = [loc1 distanceFromLocation:loc2];
+            
+            NSLog(@" distance in metres %f",distanceInMeters);
+            NSLog(@" distance in km %f",(distanceInMeters/1000.f));
+            
+            double distanceinKm =(distanceInMeters/1000.f);
+            distanceinKm = roundf(distanceinKm * 10.0f)/10.0f;
+            
+            NSString *strDistance = [NSString stringWithFormat:@"%.1f km",distanceinKm];
+            NSLog(@" distance in km %@",strDistance);
+            
         }
-        else {
+        else
+        {
+           
+            
+            [cell.lblhandicap setTextColor:[UIColor whiteColor]];
+            
+            QBCOCustomObject *obj = [arrData objectAtIndex:indexPath.row];
+            
+            NSString *userFullMode= [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"userFullMode"]];
+            
+            if([userFullMode isEqualToString:@"1"]) {
+                [cell.imageViewBadge setHidden:NO];
+                
+                [cell.viewBG setHidden:NO];
+                [cell.imageViewBadge setFrame:CGRectMake(216, 17, 20, 26)];
+                
+            }
+            else {
+                [cell.imageViewBadge setHidden:YES];
+                [cell.viewBG setHidden:YES];
+            }
+            
+            NSString *str1 = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"userDisplayName"]];
+            NSString *str2 = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"userHandicap"]];
+            str2 = [NSString stringWithFormat:@"Handicap : %@",str2];
+            
+            NSString *homeCourse = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"home_coursename"]];
+            [cell.lblHomeCourse setText:homeCourse];
+            
+            [cell.lblUserName setText:str1];
+            [cell.lblhandicap setText:str2];
+            [cell.imageViewUsers setShowActivityIndicatorView:YES];
+            [cell.imageViewUsers setIndicatorStyle:UIActivityIndicatorViewStyleGray];
+            [cell.imageViewUsers sd_setImageWithURL:[NSURL URLWithString:[obj.fields objectForKey:@"userPicBase"]] placeholderImage:[UIImage imageNamed:@"missing-profile-photo"]];
+            
+            [cell.btnMessageBadge setHidden:YES];
+            [cell.btnAdd setFrame:CGRectMake(251, 12, 35, 35)];
+            
             [cell.btnMessageBadge setHidden:NO];
-            [cell.btnMessageBadge setTitle:[NSString stringWithFormat:@"%lu",(unsigned long)dialogObj.unreadMessagesCount] forState:UIControlStateNormal];
+            [cell.btnAdd setImage:[UIImage imageNamed:@"speech-bubble"] forState:UIControlStateNormal];
+            [cell.btnAdd setFrame:CGRectMake(256, 17, 25, 25)];
+            
+            if([arrDialogData count] != 0)
+            {
+                QBChatDialog *dialogObj;
+                
+                for(QBChatDialog *dialog in arrDialogData)
+                {
+                    if(dialog.userID == obj.userID)
+                    {
+                        dialogObj = dialog;
+                        break;
+                    }
+                }
+
+                if(dialogObj.unreadMessagesCount==0)
+                {
+                    [cell.btnMessageBadge setHidden:YES];
+                }
+                else
+                {
+                    [cell.btnMessageBadge setHidden:NO];
+                    [cell.btnMessageBadge setTitle:[NSString stringWithFormat:@"%lu",(unsigned long)dialogObj.unreadMessagesCount] forState:UIControlStateNormal];
+                }
+                
+                NSString *strCurrentId = [[AppDelegate sharedinstance] getStringObjfromKey:kuserDBID];
+                
+                NSNumber *num = [NSNumber numberWithInt:[strCurrentId intValue]];
+                
+                NSMutableArray *arrTemp = [dialogObj.occupantIDs mutableCopy];
+                [arrTemp removeObject:num];
+                
+                cell.lblOnlineStatus.layer.cornerRadius=5.f;
+                cell.lblOnlineStatus.clipsToBounds = YES;
+                cell.lblOnlineStatus.layer.borderColor=[UIColor whiteColor].CGColor;
+                cell.lblOnlineStatus.layer.borderWidth = 1.5f;
+                
+                if([[AppDelegate sharedinstance].arrSharedOnlineUsers containsObject:[arrTemp objectAtIndex:0]] )
+                {
+                    [cell.lblOnlineStatus setBackgroundColor:[UIColor colorWithRed:0.000 green:0.655 blue:0.247 alpha:1.00]];
+                }
+                else
+                {
+                    [cell.lblOnlineStatus setBackgroundColor:[UIColor redColor]];
+                }
+                
+                [cell.lblOnlineStatus setHidden:NO];
+            }
+            
         }
-        
-        NSString *strCurrentId = [[AppDelegate sharedinstance] getStringObjfromKey:kuserDBID];
-        
-        NSNumber *num = [NSNumber numberWithInt:[strCurrentId intValue]];
-        
-        NSMutableArray *arrTemp = [dialogObj.occupantIDs mutableCopy];
-        [arrTemp removeObject:num];
-        
-        cell.lblOnlineStatus.layer.cornerRadius=5.f;
-        cell.lblOnlineStatus.clipsToBounds = YES;
-        cell.lblOnlineStatus.layer.borderColor=[UIColor whiteColor].CGColor;
-        cell.lblOnlineStatus.layer.borderWidth = 1.5f;
-        
-        if([[AppDelegate sharedinstance].arrSharedOnlineUsers containsObject:[arrTemp objectAtIndex:0]] ) {
-            [cell.lblOnlineStatus setBackgroundColor:[UIColor colorWithRed:0.000 green:0.655 blue:0.247 alpha:1.00]];
+    
+        switch(segmentMode)
+        {
+            case 0:
+                [cell.acceptButton setHidden:YES];
+                [cell.denyButton setHidden:YES];
+                break;
+            default:
+                [cell.btnAdd setHidden:YES];
+                [cell.btnMessageBadge setHidden:YES];
+                [cell.imageViewBadge setHidden:YES];
+                break;
         }
-        else {
-            [cell.lblOnlineStatus setBackgroundColor:[UIColor redColor]];
-        }
-        
-        [cell.lblOnlineStatus setHidden:NO];
+        cell.imageViewUsers.layer.cornerRadius =  cell.imageViewUsers.frame.size.width/2;
+        [cell.imageViewUsers.layer setMasksToBounds:YES];
+        [cell.imageViewUsers.layer setBorderColor:[UIColor clearColor].CGColor];
+    
+        return cell;
     }
-    
-      cell.imageViewUsers.layer.cornerRadius =  cell.imageViewUsers.frame.size.width/2;
-    [cell.imageViewUsers.layer setMasksToBounds:YES];
-    [cell.imageViewUsers.layer setBorderColor:[UIColor clearColor].CGColor];
-    
-    return cell;
-         }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -1283,11 +1289,12 @@
     PreviewProfileViewController *viewController;
     viewController    = [[PreviewProfileViewController alloc] initWithNibName:@"PreviewProfileViewController" bundle:nil];
     
-    if([[AppDelegate sharedinstance].strIsMyMatches isEqualToString:@"1"]) {
+    if([[AppDelegate sharedinstance].strIsMyMatches isEqualToString:@"1"])
+    {
         viewController.strCameFrom=@"3";
         viewController.arrConnections=[arrConnectionsTemp copy];
         
-        QBChatDialog *dialogObj = [arrFinalDialogData objectAtIndex:indexPath.row];
+        QBChatDialog *dialogObj = [arrDialogData objectAtIndex:indexPath.row];
         [AppDelegate sharedinstance].sharedchatDialog = dialogObj;
         
         QBCOCustomObject *obj = [arrData objectAtIndex:indexPath.row];
@@ -1319,99 +1326,16 @@
         viewController.arrConnections=[arrConnectionsTemp copy];
         
     }
-    else {
+    else
+    {
         viewController.strCameFrom=@"1";
         viewController.arrConnections=[arrConnections copy];
-        
     }
         
     viewController.strEmailOfUser = userEmail;
     [self.navigationController pushViewController:viewController animated:YES];
     
 }
-
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    if([strIsMyMatches isEqualToString:@"1"])
-        return YES;
-    
-    return NO;
-}
-
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    
-    
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        
-        // Delete the row from the data source
-        
-        QBChatDialog *dialogObj = [arrFinalDialogData objectAtIndex:indexPath.row];
-        [AppDelegate sharedinstance].sharedchatDialog = dialogObj;
-        
-        QBCOCustomObject *obj = [arrData objectAtIndex:indexPath.row];
-        
-        NSNumber *opponentnum = [NSNumber numberWithInteger:obj.userID];
-        
-        NSMutableArray *arrOccupants  = [[NSMutableArray alloc] init];
-        
-        NSString *strCurrentId = [[AppDelegate sharedinstance] getStringObjfromKey:kuserDBID];
-        
-        NSNumber *num = [NSNumber numberWithInt:[strCurrentId intValue]];
-        for(QBChatDialog *obj  in arrDialogData) {
-            //now go through array and get user id of opponents
-            
-            NSMutableArray *arrTemp = [obj.occupantIDs mutableCopy];
-            
-            [arrTemp removeObject:num];
-            [arrOccupants addObject:[arrTemp objectAtIndex:0]];
-        }
-        
-        NSInteger idx =  [arrOccupants indexOfObject:opponentnum];
-     
-        if(![[AppDelegate sharedinstance] connected]) {
-            [[AppDelegate sharedinstance] displayServerFailureMessage];
-            return;
-        }
-        
-        QBChatDialog *dialog = [arrDialogData objectAtIndex:idx];
-        
-        [[AppDelegate sharedinstance] showLoader];
-        
-        QBChatDialog *chatDialog = [[QBChatDialog alloc] initWithDialogID:@"null" type:QBChatDialogTypePrivate];
-        chatDialog.occupantIDs = @[@(obj.userID)];
-        
-        QBChatMessage *qmessage = [QBChatMessage message];
-        NSString *strname = [[AppDelegate sharedinstance] getCurrentName];
-        
-        [qmessage setText:[NSString stringWithFormat:@"unfriended"]];
-        
-        NSMutableDictionary *params = [NSMutableDictionary dictionary];
-        params[@"save_to_history"] = @YES;
-        params[@"senderNick"] =strname;
-        [qmessage setCustomParameters:params];
-        
-        [dialog sendMessage:qmessage completionBlock:^(NSError * _Nullable error) {
-            
-            [[[AppDelegate sharedinstance] sharedChatInstance] removeUserFromContactList:obj.userID completion:^(NSError * _Nullable error) {
-                
-                [[AppDelegate sharedinstance] hideLoader];
-                [arrFinalUserData removeObject:[arrData objectAtIndex:indexPath.row]];
-
-               [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-                
-            }];
-        }];
-        
-    }
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }
-}
-
 
 -(IBAction) viewProfile: (button_ViewPro*)sender
 {
@@ -1423,4 +1347,453 @@
     
     [self.navigationController pushViewController:viewController animated:YES];
 }
+
+-(void) getInviteUsers
+{    
+    // getting connections so can filter out connecton status
+    
+    NSString *strUserEmail = [[AppDelegate sharedinstance] getCurrentUserEmail];
+    
+    NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
+    
+    [getRequest setObject:@"100" forKey:@"limit"];
+    [getRequest setObject:strUserEmail forKey:@"connReceiverID"];
+    [getRequest setObject:@"1" forKey:@"connStatus"];
+    [getRequest setObject:@"created_at" forKey:@"sort_desc"];
+    
+    [[AppDelegate sharedinstance] showLoader];
+    
+    [QBRequest objectsWithClassName:@"UserConnections" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
+        
+        // response processing
+        arrConnections=[objects mutableCopy];
+        arrConnectionsTemp = objects;
+        
+        NSMutableArray *arrTemp = [[NSMutableArray alloc] init];
+        
+        for (QBCOCustomObject *obj in arrConnections)
+        {
+            NSString *strSenderId = [obj.fields objectForKey:@"connSenderID"];
+            [arrTemp addObject:strSenderId];
+        }
+        
+        arrConnections = [arrTemp copy];
+        
+        NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
+        [getRequest setObject:@"100" forKey:@"limit"];
+        
+        [getRequest setObject:[[arrConnections valueForKey:@"description"] componentsJoinedByString:@","] forKey:@"userEmail[in]"];
+        
+        [[AppDelegate sharedinstance] showLoader];
+        
+        [QBRequest objectsWithClassName:@"UserInfo" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
+            // response processing
+            
+            [arrData addObjectsFromArray:[objects mutableCopy]];
+            
+            [lblNotAvailable setHidden:[arrData count]!=0];
+            
+            isPageRefreshing=NO;
+            
+            [[AppDelegate sharedinstance] hideLoader];
+            [tblList reloadData];
+            
+        }
+        errorBlock:^(QBResponse *response)
+        {
+            // error handling
+            [[AppDelegate sharedinstance] hideLoader];
+            
+            NSLog(@"Response error: %@", [response.error description]);
+        }];
+        
+    }
+    errorBlock:^(QBResponse *response)
+    {
+        // error handling
+        [[AppDelegate sharedinstance] hideLoader];
+        
+        NSLog(@"Response error: %@", [response.error description]);
+    }];
+    
+}
+
+-(IBAction) acceptRequest:(UIButton*)sender
+{
+    
+    CGPoint center = sender.center;
+    
+    CGPoint rootViewPoint = [sender.superview convertPoint:center toView:tblList];
+    NSIndexPath *indexPath = [tblList indexPathForRowAtPoint:rootViewPoint];
+    NSLog(@"%ld",(long)indexPath.row);
+    
+    QBCOCustomObject *obj = [arrData objectAtIndex:indexPath.row];
+    
+    
+    NSString *strCurrentUserId = [[AppDelegate sharedinstance] getStringObjfromKey:kuserEmail];
+    
+    
+    
+    // Show pop up to buy more or upgrade
+    
+    NSMutableDictionary *dictUserData = [[[NSUserDefaults standardUserDefaults] objectForKey:kuserData] mutableCopy];
+    
+    if(![[dictUserData objectForKey:@"userFullMode"] isEqualToString:@"1"]){
+        
+        NSString *struserWeeklyConnects =  [dictUserData objectForKey:@"userFreeConnects"];
+        NSString *struserPurchasedConnects =  [dictUserData objectForKey:@"userPurchasedConnects"];
+        
+        long weeklyConnects = [struserWeeklyConnects integerValue];
+        long userPurchasedConnects = [struserPurchasedConnects integerValue];
+        
+        long totalAvailableConnects = weeklyConnects + userPurchasedConnects;
+        
+        if(totalAvailableConnects<1) {
+            
+            // Show pop up to buy more or upgrade
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"PURCHASE CONNECTS" message:@"Sorry, you have no CONNECTS available to accept request.\nDo you want to buy them?" delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
+            alert.tag=121;
+            [alert show];
+            return;
+        }
+    }
+    
+    // When a match is done,  decrease 1 connect
+    
+    // Connnections
+    NSString *strOtherUserId = [obj.fields objectForKey:@"userEmail"];
+    
+    NSArray *arrVal = [NSArray arrayWithObjects:strCurrentUserId,strOtherUserId, nil];
+    
+    NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
+    [getRequest setObject:@"100" forKey:@"limit"];
+    [getRequest setObject:[[arrVal valueForKey:@"description"] componentsJoinedByString:@","] forKey:@"userEmail[in]"];
+    [[AppDelegate sharedinstance] showLoader];
+    
+    [QBRequest objectsWithClassName:@"UserInfo" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page)
+    {            // do something with retrieved object
+        QBCOCustomObject *currentUserObj =[objects objectAtIndex:0];
+        
+        QBCOCustomObject *otherUserObj =[objects objectAtIndex:1];
+        
+        QBCOCustomObject *objTemp = [objects objectAtIndex:0];
+        
+        NSString *strCurrentUserEmail = [[AppDelegate sharedinstance] getCurrentUserEmail];
+        
+        if([[objTemp.fields objectForKey:@"userEmail"] isEqualToString:strCurrentUserEmail])
+        {
+            currentUserObj = [objects objectAtIndex:0];
+            otherUserObj = [objects objectAtIndex:1];
+            
+        }
+        else
+        {
+            currentUserObj = [objects objectAtIndex:1];
+            otherUserObj = [objects objectAtIndex:0];
+        }
+        
+        long userWeeklyConnects = [[currentUserObj.fields objectForKey:@"userFreeConnects"] integerValue];
+        long userPurchasedConnects = [[currentUserObj.fields objectForKey:@"userPurchasedConnects"] integerValue];
+        
+        if(userWeeklyConnects>0)
+        {
+            userWeeklyConnects = userWeeklyConnects - 1;
+            [currentUserObj.fields setObject:[NSString stringWithFormat:@"%ld",userWeeklyConnects]  forKey:@"userFreeConnects"];
+        }
+        else
+        {
+            if(userPurchasedConnects>0)
+            {
+                userPurchasedConnects = userPurchasedConnects - 1;
+            }
+            
+            [currentUserObj.fields setObject:[NSString stringWithFormat:@"%ld",userPurchasedConnects]  forKey:@"userPurchasedConnects"];
+        }
+        
+        QBCOCustomObject *objToUpdate;
+        
+        NSString *strSelectedEmail = [obj.fields objectForKey:@"userEmail"];
+        
+        for(QBCOCustomObject *connObj in arrConnectionsTemp)
+        {
+            
+            NSString *strEmail = [connObj.fields objectForKey:@"connReceiverID"];
+            
+            if([[[AppDelegate sharedinstance] getCurrentUserEmail] isEqualToString:strEmail])
+            {
+                strEmail= [connObj.fields objectForKey:@"connSenderID"];
+            }
+            
+            if([strSelectedEmail isEqualToString:strEmail])
+            {
+                objToUpdate = connObj;
+                break;
+            }
+        }
+        
+        [objToUpdate.fields setObject:@"2" forKey:@"connStatus"];
+        
+        [[AppDelegate sharedinstance] showLoader];
+        
+        [QBRequest updateObject:objToUpdate successBlock:^(QBResponse *response, QBCOCustomObject *object)
+        {
+            
+            [dictUserData setObject:[NSString stringWithFormat:@"%ld",userWeeklyConnects]  forKey:@"userFreeConnects"];
+            [dictUserData setObject:[NSString stringWithFormat:@"%ld",userPurchasedConnects]  forKey:@"userPurchasedConnects"];
+            
+            [[NSUserDefaults standardUserDefaults] setObject:dictUserData forKey:kuserData];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            
+            NSString *strPush = [obj.fields objectForKey:@"userPush"];
+            
+            
+            [QBRequest updateObjects:@[currentUserObj,otherUserObj] className:@"UserInfo" successBlock:^(QBResponse *response, NSArray *objects, NSArray *notFoundObjectsIds)
+            {
+                // response processing
+                
+                [arrData removeObject:obj];
+                
+                if([arrData count]==0) {
+                    [lblNotAvailable setHidden:NO];
+                }
+                else {
+                    [lblNotAvailable setHidden:YES];
+                }
+                
+                [tblList reloadData];
+                
+                NSMutableDictionary *dictUserData = [[[NSUserDefaults standardUserDefaults] objectForKey:kuserData] mutableCopy];
+                [[NSUserDefaults standardUserDefaults] setObject:dictUserData forKey:kuserData];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshContent" object:nil];
+                
+                QBChatDialog *chatDialog = [[QBChatDialog alloc] initWithDialogID:@"null" type:QBChatDialogTypePrivate];
+                chatDialog.occupantIDs = @[@(otherUserObj.userID)];
+                
+                [QBRequest createDialog:chatDialog successBlock:^(QBResponse *response, QBChatDialog *createdDialog) {
+                    
+                    [[QBChat instance] confirmAddContactRequest:otherUserObj.userID completion:^(NSError * _Nullable error) {
+                        
+                        if([strPush isEqualToString:@"1"]) {
+                            
+                            NSMutableDictionary *dictUserData = [[[NSUserDefaults standardUserDefaults] objectForKey:kuserData] mutableCopy];
+                            
+                            NSString *strName = [NSString stringWithFormat:@"%@",[dictUserData objectForKey:@"userDisplayName"]];
+                            
+                            NSString *message = [NSString stringWithFormat:@"%@ has accepted your connection request",strName];
+                            
+                            NSMutableDictionary *payload = [NSMutableDictionary dictionary];
+                            NSMutableDictionary *aps = [NSMutableDictionary dictionary];
+                            [aps setObject:@"default" forKey:QBMPushMessageSoundKey];
+                            [aps setObject:message forKey:QBMPushMessageAlertKey];
+                            [payload setObject:aps forKey:QBMPushMessageApsKey];
+                            [aps setObject:@"1" forKey:@"ios_badge"];
+                            [aps setObject:@"1" forKey:QBMPushMessageBadgeKey];
+                            
+                            QBMPushMessage *pushMessage = [[QBMPushMessage alloc] initWithPayload:payload];
+                            
+                            NSString *strUserId = [NSString stringWithFormat:@"%ld",obj.userID];
+                            
+                            [QBRequest sendPush:pushMessage toUsers:strUserId successBlock:^(QBResponse *response, QBMEvent *event) {
+                                
+                                [[AppDelegate sharedinstance] hideLoader];
+                                [[AppDelegate sharedinstance] displayMessage:@"Request has been accepted successfully"];
+                                
+                                
+                            } errorBlock:^(QBError *error) {
+                                [[AppDelegate sharedinstance] hideLoader];
+                                [[AppDelegate sharedinstance] displayMessage:@"Request has been accepted successfully"];
+                                
+                            }];
+                        }
+                        else {
+                            [[AppDelegate sharedinstance] hideLoader];
+                        }
+                    }];
+                }
+                errorBlock:^(QBResponse *response)
+                {
+                    [[AppDelegate sharedinstance] hideLoader];
+                }];
+                
+            } errorBlock:^(QBResponse *error)
+            {
+                // error handling
+                [[AppDelegate sharedinstance] hideLoader];
+                
+                NSLog(@"Response error: %@", [response.error description]);
+            }];
+            
+        }
+        errorBlock:^(QBResponse *response)
+        {
+            // error handling
+            [[AppDelegate sharedinstance] hideLoader];
+            
+            NSLog(@"Response error: %@", [response.error description]);
+            [[AppDelegate sharedinstance] hideLoader];
+        }];
+        
+    }
+    errorBlock:^(QBResponse *error)
+    {
+         // error handling
+         [[AppDelegate sharedinstance] hideLoader];
+         
+     }];
+}
+
+-(IBAction) denyRequest:(UIButton*)sender
+{
+    CGPoint center=sender.center;
+    
+    CGPoint rootViewPoint = [sender.superview convertPoint:center toView:tblList];
+    NSIndexPath *indexPath = [tblList indexPathForRowAtPoint:rootViewPoint];
+    NSLog(@"%ld",(long)indexPath.row);
+    
+    QBCOCustomObject *obj = [arrData objectAtIndex:indexPath.row];
+    QBCOCustomObject *objToUpdate=obj;
+    
+    
+    NSString *strSelectedEmail = [obj.fields objectForKey:@"userEmail"];
+    
+    for(QBCOCustomObject *connObj in arrConnectionsTemp)
+    {
+        
+        NSString *strEmail = [connObj.fields objectForKey:@"connReceiverID"];
+        
+        if([[[AppDelegate sharedinstance] getCurrentUserEmail] isEqualToString:strEmail])
+        {
+            strEmail= [connObj.fields objectForKey:@"connSenderID"];
+        }
+        
+        if([strSelectedEmail isEqualToString:strEmail])
+        {
+            objToUpdate = connObj;
+            break;
+        }
+    }
+    
+    [objToUpdate.fields setObject:@"3" forKey:@"connStatus"];
+    
+    [[AppDelegate sharedinstance] showLoader];
+    
+    [QBRequest updateObject:objToUpdate successBlock:^(QBResponse *response, QBCOCustomObject *object)
+    {
+        
+        [[QBChat instance] rejectAddContactRequest:obj.userID completion:^(NSError * _Nullable error)
+        {
+            NSString *strPush = [obj.fields objectForKey:@"userPush"];
+            
+            if([strPush isEqualToString:@"1"]) {
+                NSMutableDictionary *dictUserData = [[[NSUserDefaults standardUserDefaults] objectForKey:kuserData] mutableCopy];
+                
+                NSString *strName = [NSString stringWithFormat:@"%@",[dictUserData objectForKey:@"userDisplayName"]];
+                
+                NSString *message = [NSString stringWithFormat:@"%@ has denied your connection request",strName];
+                
+                NSMutableDictionary *payload = [NSMutableDictionary dictionary];
+                NSMutableDictionary *aps = [NSMutableDictionary dictionary];
+                [aps setObject:@"default" forKey:QBMPushMessageSoundKey];
+                [aps setObject:message forKey:QBMPushMessageAlertKey];
+                [payload setObject:aps forKey:QBMPushMessageApsKey];
+                [aps setObject:@"1" forKey:@"ios_badge"];
+                [aps setObject:@"1" forKey:QBMPushMessageBadgeKey];
+                [aps setObject:@"1" forKey:QBMPushMessageBadgeKey];
+                
+                QBMPushMessage *pushMessage = [[QBMPushMessage alloc] initWithPayload:payload];
+                
+                NSString *strUserId = [NSString stringWithFormat:@"%ld",(long)obj.userID];
+                
+                [QBRequest sendPush:pushMessage toUsers:strUserId successBlock:^(QBResponse *response, QBMEvent *event) {
+                    
+                    [arrData removeObject:obj];
+                    
+                    [lblNotAvailable setHidden:[arrData count]!=0];
+                    
+                    [tblList reloadData];
+                    
+                    [[AppDelegate sharedinstance] hideLoader];
+                    [[AppDelegate sharedinstance] displayMessage:@"Request has been denied successfully"];
+                    
+                }
+                errorBlock:^(QBError *error)
+                {
+                    [arrData removeObject:obj];
+                    
+                    [lblNotAvailable setHidden:[arrData count]!=0];
+                    
+                    [tblList reloadData];
+                    
+                    [[AppDelegate sharedinstance] hideLoader];
+                    [[AppDelegate sharedinstance] displayMessage:@"Request has been denied successfully"];
+                    // Handle error
+                }];
+            }
+            else
+            {
+                [arrData removeObject:obj];
+                [tblList reloadData];
+                [[AppDelegate sharedinstance] hideLoader];
+                [[AppDelegate sharedinstance] displayMessage:@"Request has been denied successfully"];
+            }
+        }];
+        
+        
+        
+    }
+    errorBlock:^(QBResponse *response)
+    {
+        // error handling
+        NSLog(@"Response error: %@", [response.error description]);
+        [[AppDelegate sharedinstance] hideLoader];
+    }];
+    
+    
+}
+
+-(IBAction) segmentChanged :(UISegmentedControl*) sender {
+    
+    arrData = [[NSMutableArray alloc] init];
+    
+    switch(sender.selectedSegmentIndex)
+    {
+        case 0:
+            segmentMode=0;
+            [self getContact];
+            break;
+        case 1:
+            segmentMode=1;
+            [self getContact];
+            break;
+        case 2:
+            segmentMode=2;
+            [self getInviteUsers];
+            break;
+    }
+    
+}
+
+
+-(IBAction) viewUserSegmentChanged :(UISegmentedControl*) sender
+{
+    
+    arrData = [[NSMutableArray alloc] init];
+    
+    segmentMode = sender.selectedSegmentIndex;
+    
+    [btnSettingsBig setHidden:YES];
+    
+    NSArray *segmentAllowSearch = @[@"All", @"Near Me"];
+    
+    if([segmentAllowSearch containsObject:[sender titleForSegmentAtIndex:segmentMode]])
+    {
+        [btnSettingsBig setHidden:NO];
+    }
+    
+    [self getAllUsers];
+    
+}
+
 @end

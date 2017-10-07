@@ -13,8 +13,7 @@
 
 @interface SettingsMainVC : UIViewController <EAIntroDelegate,MFMailComposeViewControllerDelegate,UITextFieldDelegate,SKProductsRequestDelegate, SKPaymentTransactionObserver> {
 
-    IBOutlet UIButton *btnMale;
-    IBOutlet UIButton *btnFemale;
+
 
     IBOutlet UIButton *btnPush;
     QBCOCustomObject *object;
@@ -28,22 +27,15 @@
     NSMutableArray *arrCityList;
 
     NSMutableArray *tempArraySelcted,*userIdArray,*arrNetworkSelected;
-    IBOutlet UITableView *tblNetwork,*tblMembers;
 
     NSArray *arrStateList;
     IBOutlet UIScrollView *scrollViewContainer;
-
-    IBOutlet UITextField *txtCity;
-    IBOutlet UITextField *txtAge;
-    IBOutlet UITextField *txtType;
 
     NSString *strUserMale;
     NSString *strUserFeMale;
 
     NSString *strPush;
-    IBOutlet UIView *viewToolbar,*viewTable;
 
-    IBOutlet UIButton *btnAge,*btnType,*btnCity;
     
     int buttonTapped;
     NSString *strFromScreen;
@@ -53,7 +45,7 @@
     NSString *isDev;
     
 }
-@property(nonatomic,weak) IBOutlet EAIntroView *introView;
+
 @property (nonatomic,strong) NSString *cameFromScreen;
 
 -(IBAction)maleTapped:(id)sender;

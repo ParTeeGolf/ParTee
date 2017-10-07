@@ -54,6 +54,8 @@
     IBOutlet UIButton *btnCreateAccount;
     IBOutlet UIButton *btnBack;
     NSString *strImgURLBase;
+    
+    IBOutlet UIButton *doneButton;
 
     int pickerOption;
     

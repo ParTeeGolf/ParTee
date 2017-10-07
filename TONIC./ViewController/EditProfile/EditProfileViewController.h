@@ -18,7 +18,6 @@
     IBOutlet UITextField *txtBday;
     IBOutlet UITextField *txtState;
     IBOutlet UITextField *txtCity;
-    IBOutlet UITextField *txtZipCode;
     IBOutlet UITextField *txtHandicap;
     IBOutlet SZTextView *tvInfo;
     IBOutlet UIView *viewSave;
@@ -52,6 +51,7 @@
     IBOutlet UIButton *btnBack;
     NSString *strImgURLBase;
 
+    IBOutlet UIButton *saveButton;
     int pickerOption;
 }
 @property (strong, nonatomic) MBProgressHUD *HUD;

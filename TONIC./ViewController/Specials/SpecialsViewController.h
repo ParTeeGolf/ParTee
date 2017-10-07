@@ -12,9 +12,6 @@
 
 @interface SpecialsViewController : UIViewController <UITextFieldDelegate,RNGridMenuDelegate> {
 
-    IBOutlet UIImageView *imgViewBg;
-    IBOutlet UIImageView *imgViewUser1;
-    IBOutlet UIImageView *imgViewUser2;
     IBOutlet UITableView *tblList;
     NSMutableArray *arrData;
     NSMutableArray *arrCoursesData;
@@ -25,20 +22,12 @@
     int fromSegment;
     NSArray *arrBgImages,*arrFav;
 
-    IBOutlet UILabel *lblMessage;
-    
-    IBOutlet UIImageView *imgView1;
-    IBOutlet UIImageView *imgView2;
-    IBOutlet UIImageView *imgView3;
-
-    IBOutlet UIButton *btnMenu;
-    IBOutlet UIButton *btnBack;
     IBOutlet UILabel *lblNotAvailable;
     IBOutlet UISegmentedControl *segmentSpecials;
     int segmentMode;
     int _currentPage;
 
-    IBOutlet UILabel *lblPoints;
+
     NSArray *arrConnectionsTemp;
     NSString *strIsMyCourses;
     IBOutlet UILabel *lblScreenTitle;
@@ -57,7 +46,7 @@
     
     BOOL showOnyFav;
     
-    IBOutlet UIButton *btnSearchSmall;
+
     IBOutlet UIButton *btnSearchBig;
 
 }

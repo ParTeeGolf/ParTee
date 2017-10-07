@@ -37,10 +37,6 @@
 
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 
-    [viewTable setHidden:YES];
-    [viewToolbar setHidden:YES];
-    
-    [tblMembers setSeparatorColor:[UIColor clearColor]];
 
     self.navigationController.navigationBarHidden=YES;
     
@@ -51,8 +47,6 @@
     else {
         [scrollViewContainer setContentSize:CGSizeMake(320, 784)];
     }
-    
-    [tblMembers reloadData];
     
    [self bindData];
 }
@@ -307,40 +301,6 @@
 
 //-----------------------------------------------------------------------
 
--(IBAction) selectiondoneTapped:(id)sender {
-    
-    [viewTable setHidden:YES];
-    [viewToolbar setHidden:YES];
-    
-    if(buttonTapped == kButtonCity) {
-        if([tempArraySelcted count]>0)
-        {
-            if([tempArraySelcted containsObject:@"All"] && [tempArraySelcted count]>1)
-            {
-                txtCity.text = @"All";
-            }
-            else
-            {
-                txtCity.text =  [[tempArraySelcted valueForKey:@"description"] componentsJoinedByString:@","];
-            }
-        }
-    }
-    else if(buttonTapped == kButtonAge) {
-     
-        if([tempArraySelcted count]>0)
-            txtAge.text =  [[tempArraySelcted valueForKey:@"description"] componentsJoinedByString:@","];
-
-    }
-    else if(buttonTapped == kButtonType) {
-        
-        if([tempArraySelcted count]>0)
-            txtType.text =  [[tempArraySelcted valueForKey:@"description"] componentsJoinedByString:@","];
-
-    }
-}
-
-//-----------------------------------------------------------------------
-
 - (UIStatusBarStyle) preferredStatusBarStyle {
     return UIStatusBarStyleLightContent;
 }
@@ -459,14 +419,16 @@
     NSURL *url;
     UIImage *image = [UIImage imageNamed:@"appicon.png"];
     
-    image = [UIImage imageNamed:@"unspecified.png"];
+    image = [UIImage imageNamed:@"bigone.png"];
     
-    url= [NSURL URLWithString:@"https://itunes.apple.com/us/app/partee-golf-connect-with-other-golfers/id1244801350?ls=1&mt=8"];
+    url= [NSURL URLWithString:@"https://itunes.apple.com/us/app/partee-find-a-golf-partner/id1244801350?mt=8"];
     
     UIActivityViewController *controller =
     [[UIActivityViewController alloc]
      initWithActivityItems:@[text, url,image]
      applicationActivities:nil];
+    
+     controller.popoverPresentationController.sourceView = sender;
     
     [self presentViewController:controller animated:YES completion:nil];
 }
@@ -700,10 +662,6 @@
         
         
     }
-
-    
-    
-   [tblMembers reloadData];
 }
 
 //-----------------------------------------------------------------------

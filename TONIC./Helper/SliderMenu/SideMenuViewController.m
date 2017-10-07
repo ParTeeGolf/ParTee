@@ -20,7 +20,6 @@
 #import "ConnectssViewController.h"
 #import "EditProfileViewController.h"
 
-#import "InviteViewController.h"
 #import "ViewUsersViewController.h"
 
 #define kIndexHome 0
@@ -48,6 +47,15 @@ long currentTag = 1;
         [scrollViewContainer setContentSize:CGSizeMake(320, 750)];
     }
     
+    CGSize sizeOfScreen = [[UIScreen mainScreen] bounds].size;
+    
+    CGRect newFrame = sideView.frame;
+    
+    newFrame.size.height = sizeOfScreen.height;
+    
+    [sideView setFrame:newFrame];
+    
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshContent) name:@"refreshContent" object:nil];
 
     imgViewPic.image = [UIImage imageNamed:@"missing-profile-photo.png"];
@@ -64,6 +72,9 @@ long currentTag = 1;
 
 -(void) viewWillAppear:(BOOL)animated {
     [[UIApplication sharedApplication]setStatusBarHidden:NO];
+    
+    
+
 }
 
 -(void) refreshContent {
@@ -121,14 +132,16 @@ long currentTag = 1;
     NSURL *url;
     UIImage *image = [UIImage imageNamed:@"appicon.png"];
     
-    image = [UIImage imageNamed:@"unspecified.png"];
+    image = [UIImage imageNamed:@"bigone.png"];
     
-    url= [NSURL URLWithString:@"https://itunes.apple.com/us/app/partee-golf-connect-with-other-golfers/id1244801350?ls=1&mt=8"];
+    url= [NSURL URLWithString:@"https://itunes.apple.com/us/app/partee-find-a-golf-partner/id1244801350?mt=8"];
     
     UIActivityViewController *controller =
     [[UIActivityViewController alloc]
      initWithActivityItems:@[text, url,image]
      applicationActivities:nil];
+    
+     controller.popoverPresentationController.sourceView = sender;
     
     [self presentViewController:controller animated:YES completion:nil];
 }
@@ -141,7 +154,7 @@ long currentTag = 1;
 }
 
 -(void) ComingSoon  {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:kAppName message:@"Feature Coming Soon!" delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:kAppName message:@"Coming Fall 2018" delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
     alert.tag=121;
     [alert show];
     
@@ -151,9 +164,7 @@ long currentTag = 1;
     
     NSString *text = @"Join the ParTee! Sign up. Make a Friend. Play some golf.";
     NSURL *url;
-    UIImage *image = [UIImage imageNamed:@"appicon.png"];
-    
-    image = [UIImage imageNamed:@"unspecified.png"];
+    UIImage *image = [UIImage imageNamed:@"bigone.png"];
     
     url= [NSURL URLWithString:@"https://itunes.apple.com/us/app/partee-golf-connect-with-other-golfers/id1244801350?ls=1&mt=8"];
     
@@ -161,6 +172,8 @@ long currentTag = 1;
     [[UIActivityViewController alloc]
      initWithActivityItems:@[text, url,image]
      applicationActivities:nil];
+    
+    controller.popoverPresentationController.sourceView = [self view];
 
     [self presentViewController:controller animated:YES completion:nil];
 
@@ -183,13 +196,12 @@ long currentTag = 1;
     switch(indexPath.row)
     {
         case 0:
-            return collapseRow ? 52.0 : 25.0;
+            return collapseRow ? 52.0 : 40.0;
             break;
         case 1:
         case 2:
         case 3:
-        case 4:
-            return collapseRow ? 0 : 25.0;
+            return collapseRow ? 0 : 40.0;
             break;
             
     }
@@ -208,7 +220,10 @@ long currentTag = 1;
     [btnImage addTarget:self action:@selector(ComingSoon) forControlEvents:UIControlEventTouchUpInside];
     UIImage *image = [UIImage imageNamed:@"info-filled.png"];
     [btnImage setImage:image forState:UIControlStateNormal];
-    [btnImage setTintColor:[UIColor redColor]];
+    [btnImage setTintColor:[UIColor colorWithRed:((float) 74 / 255.0f)
+                                           green:((float) 165 / 255.0f)
+                                            blue:((float) 77 / 255.0f)
+                                           alpha:1.0f]];
     
     btnImage.hidden = hideButton;
     btnImage.tag = tag;
@@ -241,30 +256,40 @@ long currentTag = 1;
             cell.hidden = hideCell;
             break;
         case 2:
-            cell.lbl_Name.text = @"\tINVITATIONS";
-            cell.hidden = hideCell;
-            break;
-        case 3:
             cell.lbl_Name.text = @"\tTEE TIMES";
             cell.hidden = hideCell;
-            break;
-        case 4:
-            cell.lbl_Name.text = @"\tEVENTS";
-            cell.hidden = hideCell;
-            if(![self.view viewWithTag:4])
+            if(![self.view viewWithTag:2])
                 
             {
-                [cell.contentView addSubview: [self ComingSoonButton:cell.frame.origin.x originY:cell.frame.origin.y hideButton:false tag:4]];
+                [cell.contentView addSubview: [self ComingSoonButton:cell.frame.origin.x originY:cell.frame.origin.y hideButton:false tag:2]];
             }
             break;
-        case 5:
+        case 3:
+            cell.lbl_Name.text = @"\tEVENTS";
+            cell.hidden = hideCell;
+            if(![self.view viewWithTag:3])
+                
+            {
+                [cell.contentView addSubview: [self ComingSoonButton:cell.frame.origin.x originY:cell.frame.origin.y hideButton:false tag:3]];
+            }
+            break;
+        case 4:
             cell.lbl_Name.text = @"GOLFERS";
             break;
-        case 6:
+        case 5:
             cell.lbl_Name.text = @"COURSES";
             break;
-        case 7:
+        case 6:
            cell.lbl_Name.text = @"PROS";
+            break;
+        case 7:
+            cell.lbl_Name.text = @"EVENTS";
+            if(![self.view viewWithTag:7])
+                
+            {
+                [cell.contentView addSubview: [self ComingSoonButton:cell.frame.origin.x originY:cell.frame.origin.y hideButton:false tag:7]];
+            }
+            
             break;
         case 8:
             cell.lbl_Name.text = @"PARTEE LINE BLOG";
@@ -343,38 +368,36 @@ long currentTag = 1;
             [AppDelegate sharedinstance].strIsMyMatches=@"1";
             break;
         case 2:
-            viewController    = [[InviteViewController alloc] initWithNibName:@"InviteViewController" bundle:nil];
-            ((InviteViewController*)viewController).strIsConnInvite=@"1";
-            break;
-        case 3:
-            viewController    = [[SpecialsViewController alloc] initWithNibName:@"SpecialsViewController" bundle:nil];
-            ((SpecialsViewController*)viewController).strIsMyCourses=@"1";
-            break;
-        case 4:
             [self ComingSoon];
             break;
-        case 5:
+        case 3:
+            [self ComingSoon];
+            break;
+        case 4:
             viewController    = [[ViewUsersViewController alloc] initWithNibName:@"ViewUsersViewController" bundle:nil];
             ((ViewUsersViewController*)viewController).strIsMyMatches=@"0";
             [AppDelegate sharedinstance].strIsMyMatches=@"0";
             ((ViewUsersViewController*)viewController).IsPro=false;
             break;
-        case 6:
+        case 5:
             viewController    = [[SpecialsViewController alloc] initWithNibName:@"SpecialsViewController" bundle:nil];
             ((SpecialsViewController*)viewController).strIsMyCourses=@"0";
             [[AppDelegate sharedinstance] setStringObj:@"0" forKey:@"courseOptions"];
             break;
-        case 7:
+        case 6:
             viewController    = [[ViewUsersViewController alloc] initWithNibName:@"ViewUsersViewController" bundle:nil];
             ((ViewUsersViewController*)viewController).strIsMyMatches=@"0";
             ((ViewUsersViewController*)viewController).IsPro=true;
             [AppDelegate sharedinstance].strIsMyMatches=@"0";
             break;
-        case 8:
+        case 7:
             [self ComingSoon];
             break;
-        case 9:
+        case 8:
            [self ComingSoon];
+            break;
+        case 9:
+            [self ComingSoon];
             break;
             
             

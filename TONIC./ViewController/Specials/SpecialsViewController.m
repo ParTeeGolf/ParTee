@@ -49,11 +49,6 @@ int courseOption;
     self.navigationController.navigationBarHidden=YES;
     tblList.tableFooterView = [UIView new];
     [lblNotAvailable setHidden:YES];
-
-    imgViewUser1.layer.cornerRadius = imgViewUser1.frame.size.width/2;
-    imgViewUser1.layer.borderWidth=2.0f;
-    [imgViewUser1.layer setMasksToBounds:YES];
-    [imgViewUser1.layer setBorderColor:[UIColor whiteColor].CGColor];
     
     arrData = [[NSMutableArray alloc] init];
     arrCoursesData = [[NSMutableArray alloc] init];
@@ -67,12 +62,12 @@ int courseOption;
     [[NSUserDefaults standardUserDefaults] setObject:dictcoursePreferencesData forKey:kcoursePreferencesData];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
+    tblList.separatorInset = UIEdgeInsetsZero;
+    
     [tblList reloadData];
-
-    if(isiPhone4) {
-        
-        [tblList setFrame:CGRectMake(tblList.frame.origin.x, tblList.frame.origin.y, tblList.frame.size.width, tblList.frame.size.height-88)];
-    }
+    
+    btnSearchBig.layer.cornerRadius = btnSearchBig.bounds.size.width / 2;
+    btnSearchBig.imageEdgeInsets = UIEdgeInsetsMake(10, 10, 10, 10);
     
 }
 
@@ -80,7 +75,6 @@ int courseOption;
     self.menuContainerViewController.panMode=YES;
     
     [[AppDelegate sharedinstance] showLoader];
-    arrData = [[NSMutableArray alloc] init];
   
     _currentPage=0;
     shouldLoadNext = YES;
@@ -103,13 +97,11 @@ int courseOption;
     {
         
         if([strIsMyCourses isEqualToString:@"1"]) {
-            [btnSearchSmall setHidden:YES];
             [btnSearchBig setHidden:YES];
 
             [self getMySpecials];
         }
         else {
-            [btnSearchSmall setHidden:NO];
             [btnSearchBig setHidden:NO];
             [self getData];
         }
@@ -132,16 +124,6 @@ int courseOption;
             }
         }];
     }
-    
-
-    if(status==1) {
-        [btnBack setHidden:NO];
-        [btnMenu setHidden:YES];
-    }
-    else {
-        [btnBack setHidden:YES];
-        [btnMenu setHidden:NO];
-    }
 }
 
 -(void) presentAd {
@@ -157,17 +139,17 @@ int courseOption;
 {
     lblScreenTitle.text = @"Courses";
     
-    [imgViewUser1 setShowActivityIndicatorView:YES];
-    [imgViewUser1 setIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    
     [segmentSpecials setSelectedSegmentIndex:courseOption];
+
+
+    [btnSearchBig setHidden:[segmentSpecials selectedSegmentIndex] != 3 && [segmentSpecials selectedSegmentIndex] != 1];
+    
     
     arrData = [[NSMutableArray alloc] init];
     
     NSMutableDictionary *dictUserData = [[[NSUserDefaults standardUserDefaults] objectForKey:kuserData] mutableCopy];
 
     NSString *imageUrl = [NSString stringWithFormat:@"%@", [dictUserData objectForKey:@"userPicBase"]];
-    [imgViewUser1 sd_setImageWithURL:[NSURL URLWithString:imageUrl] ];
     
     NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
 
@@ -198,98 +180,111 @@ int courseOption;
         case 0:
             [getRequest setObject: @"true" forKey:@"featured"];
             [getRequest setObject: @"order" forKey:@"sort_asc"];
+            [self getGolfCourses:getRequest];
             break;
         case 1:
-            strFilterDistance = [NSString stringWithFormat:@"%f,%f;%f",[strlong floatValue],[strlat floatValue],40233.6f];
+            strFilterDistance = [NSString stringWithFormat:@"%f,%f;%f",[strlong floatValue],[strlat floatValue],160934.0f];
             [getRequest setObject:strFilterDistance forKey:@"coordinates[near]"];
+            [self getGolfCourses:getRequest];
             break;
         case 2:
             [getRequest setObject: strCurrentUserID forKey:@"userFavID[in]"];
+            [self getGolfCourses:getRequest];
             break;
         case 3:
             dictcoursePreferencesData = [[[NSUserDefaults standardUserDefaults] objectForKey:kcoursePreferencesData] mutableCopy];
             
-            if(dictcoursePreferencesData) {
+            if(dictcoursePreferencesData)
+            {
+                NSArray *arrcf_amenities= [[dictcoursePreferencesData  objectForKey:@"cf_amenities"] componentsSeparatedByString:@","];
                 
-                NSString *strcf_name = [dictcoursePreferencesData  objectForKey:@"cf_name"];
-                NSString *strcf_state= [dictcoursePreferencesData  objectForKey:@"cf_state"];
-                NSString *strcf_city = [dictcoursePreferencesData  objectForKey:@"cf_city"];
-                NSString *strcf_zipcode = [dictcoursePreferencesData  objectForKey:@"cf_zipcode"];
-                NSString *strcf_amenities= [dictcoursePreferencesData  objectForKey:@"cf_amenities"];
-                NSString *strcf_distance= [dictcoursePreferencesData  objectForKey:@"cf_distance"];
-                NSString *strcf_type= [dictcoursePreferencesData  objectForKey:@"cf_type"];
-                NSString *strcf_isFav= [dictcoursePreferencesData  objectForKey:@"cf_isFav"];
-                
-                if([strcf_type isEqualToString:@"1"]) {
-                    [getRequest setObject: @"Public" forKey:@"CourseType"];
-                }
-                else if([strcf_type isEqualToString:@"2"]) {
-                    [getRequest setObject: @"Private" forKey:@"CourseType"];
-                }
-                else if(![strcf_type isEqualToString:@"All"])
-                {
-                    [getRequest setObject: strcf_type forKey:@"CourseType"];
-                }
-                
-                if(![strcf_name isEqualToString:@"All"])
-                {
-                    [getRequest setObject: strcf_name forKey:@"Name[ctn]"];
-                }
-                
-                if(![strcf_state isEqualToString:@"All"]) {
-                    [getRequest setObject: strcf_state forKey:@"State"];
-                }
-                
-                if(![strcf_city isEqualToString:@"All"]) {
-                    [getRequest setObject: strcf_city forKey:@"City[in]"];
-                }
-                
-                if(![strcf_zipcode isEqualToString:@"All"]) {
-                    [getRequest setObject: strcf_zipcode forKey:@"ZipCode"];
-                }
-                
-                NSArray *items = [strcf_amenities componentsSeparatedByString:@","];
-                
-                if([items count]>0) {
-                    
-                    if(![[items objectAtIndex:0] isEqualToString:@"Any"]) {
-                        [getRequest setObject: items forKey:@"amenities_temp[in]"];
-                        
-                    }
-                }
-                
-                if(![strcf_distance isEqualToString:@"150"]) {
-                    
-                    float val = [strcf_distance floatValue];
-                    float metres = val* 1609.34f;
-                    
-                    NSString *strFilterDistance = [NSString stringWithFormat:@"%f,%f;%f",[strlong floatValue],[strlat floatValue],metres];
-                    [getRequest setObject:strFilterDistance forKey:@"coordinates[near]"];
-                    
-                }
-                else {
-                    NSString *strFilterDistance = [NSString stringWithFormat:@"%f,%f;%f",[strlong1 floatValue],[strlat1 floatValue],9999999.f];
-                    [getRequest setObject:strFilterDistance forKey:@"coordinates[near]"];
-                }
-                
-                if([strcf_isFav isEqualToString:@"1"]) {
-                    showOnyFav=YES;
-                    [getRequest setObject: strCurrentUserID forKey:@"userFavID[in]"];
-                }
-                else {
-                    showOnyFav=NO;
-                }
+                [QBRequest objectsWithClassName:@"CourseAmenities" extendedRequest:nil successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page)
+                 {
+                     
+                     NSString *strcf_name = [dictcoursePreferencesData  objectForKey:@"cf_name"];
+                     NSString *strcf_state= [dictcoursePreferencesData  objectForKey:@"cf_state"];
+                     NSString *strcf_city = [dictcoursePreferencesData  objectForKey:@"cf_city"];
+                     NSString *strcf_zipcode = [dictcoursePreferencesData  objectForKey:@"cf_zipcode"];
+                     NSString *strcf_distance= [dictcoursePreferencesData  objectForKey:@"cf_distance"];
+                     NSString *strcf_type= [dictcoursePreferencesData  objectForKey:@"cf_type"];
+                     NSString *strcf_isFav= [dictcoursePreferencesData  objectForKey:@"cf_isFav"];
+                     
+                     if([strcf_type isEqualToString:@"1"])
+                     {
+                         [getRequest setObject: @"Public" forKey:@"CourseType"];
+                     }
+                     else if([strcf_type isEqualToString:@"2"]) {
+                         [getRequest setObject: @"Private" forKey:@"CourseType"];
+                     }
+                     else if(![strcf_type isEqualToString:@"All"])
+                     {
+                         [getRequest setObject: strcf_type forKey:@"CourseType"];
+                     }
+                     
+                     if(![strcf_name isEqualToString:@"All"])
+                     {
+                         [getRequest setObject: strcf_name forKey:@"Name[ctn]"];
+                     }
+                     
+                     if(![strcf_state isEqualToString:@"All"]) {
+                         [getRequest setObject: strcf_state forKey:@"State"];
+                     }
+                     
+                     if(![strcf_city isEqualToString:@"All"]) {
+                         [getRequest setObject: strcf_city forKey:@"City[in]"];
+                     }
+                     
+                     if(![strcf_zipcode isEqualToString:@"All"]) {
+                         [getRequest setObject: strcf_zipcode forKey:@"ZipCode"];
+                     }
+                     
+                     if(![arrcf_amenities containsObject:@"Any"])
+                     {
+                         NSMutableArray *objAmenities = [objects mutableCopy];
+                         
+                         NSMutableArray *courseIds = [[NSMutableArray alloc] init];
+                         
+                         for(QBCOCustomObject *obj in objAmenities)
+                         {
+                             if([arrcf_amenities containsObject:[[obj.fields objectForKey:@"Amenity"] lowercaseString]])
+                             {
+                                  [courseIds addObject:obj.parentID];
+                             }
+                         }
+                         
+                         [getRequest setObject: courseIds forKey:@"_id"];
+                     }
+                     
+                     
+                     if([strcf_isFav isEqualToString:@"1"]) {
+                         showOnyFav=YES;
+                         [getRequest setObject: strCurrentUserID forKey:@"userFavID[in]"];
+                     }
+                     else {
+                         showOnyFav=NO;
+                     }
+                     [self getGolfCourses:getRequest];
+                 } errorBlock:^(QBResponse *response) {
+                     // error handling
+                     [[AppDelegate sharedinstance] hideLoader];
+                     
+                     NSLog(@"Response error: %@", [response.error description]);
+                 }];
                 
             }
-            else {
+            else
+            {
                 NSString *strFilterDistance = [NSString stringWithFormat:@"%f,%f;%f",[strlong1 floatValue],[strlat1 floatValue],9999999.f];
                 [getRequest setObject:strFilterDistance forKey:@"coordinates[near]"];
+                [self getGolfCourses:getRequest];
             }
             break;
     }
 
-
-    
+}
+                 
+-(void) getGolfCourses:(NSMutableDictionary *)getRequest
+{
     [[AppDelegate sharedinstance] showLoader];
     
     [QBRequest objectsWithClassName:@"GolfCourses" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
@@ -299,7 +294,7 @@ int courseOption;
         [[AppDelegate sharedinstance] hideLoader];
         
         [arrData addObjectsFromArray:[objects mutableCopy]];
-
+        
         if([arrData count]==0) {
             [lblNotAvailable setHidden:NO];
             [tblList setHidden:YES];
@@ -313,56 +308,21 @@ int courseOption;
         if([objects count]>=[kLimit integerValue]) {
             shouldLoadNext=YES;
             
-//            NSMutableArray *arrTemp = [[NSMutableArray alloc] init];
-//            
-//            for(QBCOCustomObject *obj in objects) {
-//                
-//                [obj.fields setObject:@"4" forKey:@"Order"];
-//                [arrTemp addObject:obj];
-//            }
-//            
-//            [QBRequest updateObjects:arrTemp className:@"GolfCourses" successBlock:^(QBResponse *response, NSArray *objects, NSArray *notFoundObjectsIds) {
-//                
-//                [tblList reloadData];
-//                
-//                // response processing
-//            } errorBlock:^(QBResponse *error) {
-//                // error handling
-//                NSLog(@"Response error: %@", [response.error description]);
-//            }];
-
         }
         else {
             shouldLoadNext=NO;
-//            NSMutableArray *arrTemp = [[NSMutableArray alloc] init];
-//            
-//            for(QBCOCustomObject *obj in objects) {
-//                
-//                [obj.fields setObject:@"4" forKey:@"Order"];
-//                [arrTemp addObject:obj];
-//            }
-//            
-//            [QBRequest updateObjects:arrTemp className:@"GolfCourses" successBlock:^(QBResponse *response, NSArray *objects, NSArray *notFoundObjectsIds) {
-//                
-//                [tblList reloadData];
-//                
-//                // response processing
-//            } errorBlock:^(QBResponse *error) {
-//                // error handling
-//                NSLog(@"Response error: %@", [response.error description]);
-//            }];
-
+            
+            
         }
         
-         [tblList reloadData];
+        [tblList reloadData];
         
-        } errorBlock:^(QBResponse *response) {
+    } errorBlock:^(QBResponse *response) {
         // error handling
         [[AppDelegate sharedinstance] hideLoader];
         
         NSLog(@"Response error: %@", [response.error description]);
     }];
-
 }
 
 -(void) getMySpecials {
@@ -502,6 +462,9 @@ int courseOption;
 -(IBAction)searchtapped:(id)sender {
     
     CoursePreferencesViewController *obj = [[CoursePreferencesViewController alloc] initWithNibName:@"CoursePreferencesViewController" bundle:nil];
+    
+    [segmentSpecials setSelectedSegmentIndex:3];
+    courseOption = 3;
 
     [self.navigationController pushViewController:obj animated:YES];
 }
@@ -541,6 +504,7 @@ int courseOption;
     
     cell.backgroundColor=[UIColor clearColor];
     cell.contentView.backgroundColor=[UIColor clearColor];
+    
     
     if([strIsMyCourses isEqualToString:@"0"]) {
         // FROM ALL
@@ -683,12 +647,8 @@ int courseOption;
         
         viewController.status=1;
         
-        
-  
-        
         QBCOCustomObject *obj = [arrData objectAtIndex:indexPath.row];
 
-        
         viewController.courseObject=obj;
         [self.navigationController pushViewController:viewController animated:YES];
     

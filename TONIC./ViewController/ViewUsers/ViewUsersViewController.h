@@ -10,13 +10,13 @@
 
 @interface ViewUsersViewController : UIViewController <UITextFieldDelegate,UIActionSheetDelegate> {
 
-    IBOutlet UIImageView *imgViewBg;
     IBOutlet UITableView *tblList;
     NSMutableArray *arrData;
     NSMutableArray *arrDialogData;
-    NSMutableArray *arrFinalData;
-    NSMutableArray *arrFinalUserData;
-    NSMutableArray *arrFinalDialogData;
+    
+    IBOutlet UISegmentedControl *myMatchesSegments;
+    IBOutlet UISegmentedControl *proSegments;
+    IBOutlet UISegmentedControl *golferSegments;
 
     NSMutableArray *arrConnections;
     
@@ -24,32 +24,28 @@
     NSArray *arrBgImages,*arrFav;
     BOOL isPageRefreshing;
 
-    IBOutlet UILabel *lblMessage;
     NSArray *arrConnectionsTemp;
 
-    IBOutlet UIImageView *imgView1;
-    IBOutlet UIImageView *imgView2;
-    IBOutlet UIImageView *imgView3;
-    IBOutlet UIImageView *imgView4;
-    IBOutlet UIView *viewMoreMatches;
-    IBOutlet UIButton *btnMore;
     int _currentPage;
     int _currentDialog;
     
     BOOL shouldLoadNext;
-    IBOutlet UISegmentedControl *segmentGender;
     IBOutlet UILabel *lblNotAvailable;
     NSString *strIsMyMatches;
     IBOutlet UILabel *lblTitle;
     
-    IBOutlet UIButton *btnSettingsSmall;
+
     IBOutlet UIButton *btnSettingsBig;
+    
+    
     
     CLLocationCoordinate2D desplaceCoord;
     CLLocationCoordinate2D scrplaceCoord;
     
     NSString *strlat;
     NSString *strlong;
+    
+    long segmentMode;
 }
 
 @property (strong, nonatomic) IBOutlet UITableView *tblList;

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" colorMatched="YES">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -37,7 +37,6 @@
                 <outlet property="txtName" destination="nEx-Zg-DnI" id="f6g-3x-gkG"/>
                 <outlet property="txtPwd" destination="iTc-c7-Z5j" id="rfF-q2-Bag"/>
                 <outlet property="txtState" destination="6pv-e2-l4N" id="wdo-RB-Vou"/>
-                <outlet property="txtZipCode" destination="oxO-gE-GoL" id="Frv-7D-l2b"/>
                 <outlet property="view" destination="aNV-OD-qlN" id="JRm-oi-gGB"/>
             </connections>
         </placeholder>
@@ -290,34 +289,8 @@
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
-                        <view contentMode="scaleToFill" misplaced="YES" id="GnO-CB-z80" userLabel="pwd">
-                            <rect key="frame" x="17" y="486" width="286" height="60"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <subviews>
-                                <view contentMode="scaleToFill" id="G9H-1G-r4X">
-                                    <rect key="frame" x="46" y="42" width="210" height="1"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" red="0.90196078430000004" green="0.91764705879999997" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </view>
-                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter your zipcode" textAlignment="natural" minimumFontSize="17" id="oxO-gE-GoL">
-                                    <rect key="frame" x="46" y="14" width="240" height="21"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="12"/>
-                                    <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="done"/>
-                                    <connections>
-                                        <outlet property="delegate" destination="-1" id="kLy-Gq-buM"/>
-                                    </connections>
-                                </textField>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ico-zip.png" id="0zR-2o-TMO">
-                                    <rect key="frame" x="19" y="19" width="12" height="12"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                </imageView>
-                            </subviews>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        </view>
                         <view contentMode="scaleToFill" misplaced="YES" id="7lx-tf-Nlz" userLabel="pwd">
-                            <rect key="frame" x="17" y="529" width="286" height="60"/>
+                            <rect key="frame" x="17" y="487" width="286" height="60"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <view contentMode="scaleToFill" id="Cce-5s-Cis">
@@ -364,29 +337,18 @@
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
-                        <view contentMode="scaleToFill" misplaced="YES" id="MBe-vQ-vT3">
-                            <rect key="frame" x="0.0" y="732" width="320" height="46"/>
+                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ZAv-Ld-Vs7">
+                            <rect key="frame" x="23" y="718" width="273" height="46"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <subviews>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="roundrect.png" id="zud-f2-xqD">
-                                    <rect key="frame" x="23" y="0.0" width="273" height="46"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                </imageView>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ZAv-Ld-Vs7">
-                                    <rect key="frame" x="23" y="0.0" width="273" height="46"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    <fontDescription key="fontDescription" name="Oswald-Bold" family="Oswald" pointSize="12"/>
-                                    <state key="normal" title="DONE">
-                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    </state>
-                                    <connections>
-                                        <action selector="action_CreateAccount:" destination="-1" eventType="touchUpInside" id="Eqg-dL-xpO"/>
-                                    </connections>
-                                </button>
-                            </subviews>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        </view>
+                            <color key="backgroundColor" red="0.2314537912607193" green="0.51600313186645508" blue="0.20002152025699615" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            <fontDescription key="fontDescription" name="Oswald-Bold" family="Oswald" pointSize="12"/>
+                            <state key="normal" title="DONE">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="action_CreateAccount:" destination="-1" eventType="touchUpInside" id="Eqg-dL-xpO"/>
+                            </connections>
+                        </button>
                         <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="80l-h2-NiO">
                             <rect key="frame" x="59" y="666" width="239" height="25"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -472,8 +434,6 @@
         <image name="ico-mail.png" width="30" height="22"/>
         <image name="ico-profile.png" width="30" height="30"/>
         <image name="ico-pwd.png" width="22" height="28"/>
-        <image name="ico-zip.png" width="24" height="24"/>
-        <image name="roundrect.png" width="546" height="93"/>
         <image name="user.png" width="256" height="256"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

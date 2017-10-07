@@ -30,14 +30,11 @@
 #import "PreviewProfileViewController.h"
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
-#import "InviteViewController.h"
 #import "MoreViewController.h"
 #import "CoursePreferencesViewController.h"
 @import CoreLocation;
 @import AVFoundation;
 @import ImageIO;
-
-
 
 @interface AppDelegate ()
 
@@ -67,11 +64,9 @@ static AppDelegate *delegate;
 @synthesize locationManager;
 @synthesize commonone;
 @synthesize ProIcons;
+@synthesize AmenitiesIcons;
 
--(void) temp {
- 
 
-}
 
 //-----------------------------------------------------------------------
 
@@ -234,8 +229,7 @@ static AppDelegate *delegate;
     [[Harpy sharedInstance] setDebugEnabled:true];
 
     	[[Harpy sharedInstance] setAlertType:HarpyAlertTypeForce];
-    [self temp];
-    
+   
   //  [self locationInit];
     
     [OneSignal initWithLaunchOptions:launchOptions appId:@"c064a937-b4df-4551-aa4e-e31eeba49d23" handleNotificationReceived:^(OSNotification *notification) {
@@ -900,23 +894,7 @@ static AppDelegate *delegate;
                 
                 UIViewController *vc;
                 
-                if([[AppDelegate sharedinstance] checkSubstring:@"has invited you for a golf course" containedIn:strMessage]) {
-                    // redirect user to invitation screen
-                    
-                    strRedirectScreen = kRedirectToInvitationCourse;
-                    vc = [[InviteViewController alloc] initWithNibName:@"InviteViewController" bundle:nil];
-                    ((InviteViewController*)vc).strIsConnInvite=@"0";
-
-                }
-                else if([[AppDelegate sharedinstance] checkSubstring:@"has invited you to connect" containedIn:strMessage]) {
-                    // redirect user to invitation screen
-                    
-                    strRedirectScreen = kRedirectToInvitationUser;
-                    vc = [[InviteViewController alloc] initWithNibName:@"InviteViewController" bundle:nil];
-                   ((InviteViewController*)vc).strIsConnInvite=@"1";
-                    
-                }
-                else if([[AppDelegate sharedinstance] checkSubstring:@"has accepted your request for a course" containedIn:strMessage]) {
+                if([[AppDelegate sharedinstance] checkSubstring:@"has accepted your request for a course" containedIn:strMessage]) {
                     // redirect user to My courses
                     
                     strRedirectScreen = kRedirectToMyCourses;
@@ -1082,6 +1060,15 @@ static AppDelegate *delegate;
 
 //-----------------------------------------------------------------------
 
+-(NSString *) getCurrentUserGuid {
+    
+    NSString *strCurrentUserID=[[NSUserDefaults standardUserDefaults] objectForKey:kuserInfoID];
+    return strCurrentUserID;
+    
+}
+
+//-----------------------------------------------------------------------
+
 -(NSString *) getCurrentUserEmail {
     
     NSString *strCurrentUserID=[[NSUserDefaults standardUserDefaults] objectForKey:kuserEmail];
@@ -1161,54 +1148,16 @@ static AppDelegate *delegate;
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     	[[Harpy sharedInstance] checkVersion];
     
-    [QBRequest objectsWithClassName:@"ProIcons" extendedRequest:nil successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
-        
-        NSMutableArray *arr = [objects mutableCopy];
-        
-        NSMutableDictionary *proIcons = [[NSMutableDictionary alloc] init];
-        
-        for(QBCOCustomObject *obj in arr)
-        {
-            
-            NSString *class = [obj.fields objectForKey:@"class"];
-            
-            NSString *uid = obj.ID;
-            
-            bool reload = [arr indexOfObject:obj] + 1 == [arr count];
-            
-            [QBRequest downloadFileFromClassName:@"ProIcons" objectID:uid fileFieldName:@"icon"
-                                    successBlock:^(QBResponse *response, NSData *loadedData) {
-                                        [proIcons setObject:loadedData forKey:class];
-                                        if(reload)
-                                        {
-                                            [self setProIcons:proIcons];
-                                        }
-                                        
-                                    } statusBlock:^(QBRequest *request, QBRequestStatus *status) {
-                                        // handle progress
-                                    } errorBlock:^(QBResponse *error) {
-                                        // error handling
-                                        NSLog(@"Response error: %@", [error description]);
-                                    }];
-            
-            
-            
-            
-        }
-        
-        
-        
-        
-    } errorBlock:^(QBResponse *response) {
-        // error handling
-        
-        NSLog(@"Response error: %@", [response.error description]);
-    }];
+    ProIcons = [[NSMutableDictionary alloc] init];
+    AmenitiesIcons = [[NSMutableDictionary alloc] init];
+    
+    [self setProIcons];
+    [self setAmenitiesIcons];
     
     BOOL isRated = [[NSUserDefaults standardUserDefaults] boolForKey:@"isRated"];
     if(!isRated) {
         
-        int usageCounter = [[NSUserDefaults standardUserDefaults] integerForKey:kUsageCounter];
+        long usageCounter = [[NSUserDefaults standardUserDefaults] integerForKey:kUsageCounter];
         
         ++usageCounter;
         
@@ -1478,14 +1427,61 @@ static AppDelegate *delegate;
     NSLog(@"%@", message);
 }
 
-- (void)setProIcons:(NSMutableDictionary *)proIcons
+- (void)setProIcons
 {
-    ProIcons = proIcons;
+    [QBRequest objectsWithClassName:@"ProIcons" extendedRequest:nil successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
+        
+        NSMutableArray *arr = [objects mutableCopy];
+        
+        for(QBCOCustomObject *obj in arr)
+        {
+             [ProIcons setObject:[obj.fields objectForKey:@"IconUrl"]  forKey:[(NSString*)[obj.fields objectForKey:@"class"] lowercaseString]];
+        }
+        
+    } errorBlock:^(QBResponse *response) {
+        // error handling
+        
+        NSLog(@"Response error: %@", [response.error description]);
+    }];
+    
 }
 
-- (NSData *)getProIcons:(NSString *)key
+- (void)setAmenitiesIcons
 {
-    return [ProIcons objectForKey:key];
+    [QBRequest objectsWithClassName:@"AmenitiesIcon" extendedRequest:nil successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
+        
+        NSMutableArray *arr = [objects mutableCopy];
+        
+        for(QBCOCustomObject *obj in arr)
+        {
+            [AmenitiesIcons setObject:[obj.fields objectForKey:@"IconUrl"] forKey:[(NSString*)[obj.fields objectForKey:@"Amenities"] lowercaseString]];
+        }
+        
+    } errorBlock:^(QBResponse *response) {
+        // error handling
+        
+        NSLog(@"Response error: %@", [response.error description]);
+    }];
+}
+
+- (NSString *)getProIcons:(NSString *)key
+{
+    return [ProIcons objectForKey:[key lowercaseString]];
+}
+
+- (NSMutableDictionary *)getAllProIcons
+{
+    return ProIcons;
+}
+
+- (NSString *)getAmenitiesIcons:(NSString *)key
+{
+    return [AmenitiesIcons objectForKey:[key lowercaseString]];
+}
+
+- (NSMutableDictionary *)getAllAmenitiesIcons
+{
+    return AmenitiesIcons;
 }
 
 

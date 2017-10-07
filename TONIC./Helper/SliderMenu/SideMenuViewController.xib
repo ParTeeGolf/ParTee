@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -12,12 +12,6 @@
         <array key="Montserrat-Regular.ttf">
             <string>Montserrat-Regular</string>
         </array>
-        <array key="Oswald-Regular.ttf">
-            <string>Oswald-Regular</string>
-        </array>
-        <array key="SFUIText-Light.ttf">
-            <string>SFUIText-Light</string>
-        </array>
         <array key="montserrat-light.ttf">
             <string>Montserrat-Light</string>
         </array>
@@ -27,7 +21,7 @@
             <connections>
                 <outlet property="imgViewPic" destination="068-i4-1FN" id="y3r-Dz-NiX"/>
                 <outlet property="lblName" destination="wqT-Ld-Lgq" id="nyh-oZ-91r"/>
-                <outlet property="scrollViewContainer" destination="ITS-cC-Pv2" id="G7L-9z-itu"/>
+                <outlet property="sideView" destination="d1j-j3-a5N" id="QVR-yd-wEK"/>
                 <outlet property="tblView" destination="Yec-L7-J53" id="bUe-El-k4m"/>
                 <outlet property="view" destination="d1j-j3-a5N" id="G9c-zg-kz1"/>
             </connections>
@@ -35,99 +29,54 @@
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" misplaced="YES" id="d1j-j3-a5N">
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-            <autoresizingMask key="autoresizingMask"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
             <subviews>
-                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="ITS-cC-Pv2">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Akshay!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="wqT-Ld-Lgq">
+                    <rect key="frame" x="108" y="48" width="212" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Akshay!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="wqT-Ld-Lgq">
-                            <rect key="frame" x="111" y="45" width="212" height="30"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="18"/>
-                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="VIEW PROFILE" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="FcX-tc-hdF">
-                            <rect key="frame" x="110" y="75" width="212" height="21"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" name="Montserrat-Light" family="Montserrat" pointSize="12"/>
-                            <color key="textColor" red="0.67805659770965576" green="0.67774581909179688" blue="0.68704795837402344" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="user.png" id="068-i4-1FN">
-                            <rect key="frame" x="20" y="35" width="77" height="77"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        </imageView>
-                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="cqc-7U-day">
-                            <rect key="frame" x="8" y="8" width="231" height="136"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <state key="normal">
-                                <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            </state>
-                            <connections>
-                                <action selector="profilePressed:" destination="-1" eventType="touchUpInside" id="Mo5-6i-m9g"/>
-                            </connections>
-                        </button>
-                        <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" scrollEnabled="NO" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="Yec-L7-J53">
-                            <rect key="frame" x="0.0" y="131" width="320" height="437"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
-                            <connections>
-                                <outlet property="dataSource" destination="-1" id="Tf5-qJ-BI7"/>
-                                <outlet property="delegate" destination="-1" id="lhA-v5-XJk"/>
-                            </connections>
-                        </tableView>
-                    </subviews>
-                </scrollView>
+                    <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="18"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="VIEW PROFILE" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="FcX-tc-hdF">
+                    <rect key="frame" x="108" y="71" width="212" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="Montserrat-Light" family="Montserrat" pointSize="12"/>
+                    <color key="textColor" red="0.67805659770965576" green="0.67774581909179688" blue="0.68704795837402344" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="user.png" id="068-i4-1FN">
+                    <rect key="frame" x="23" y="36" width="77" height="77"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="cqc-7U-day">
+                    <rect key="frame" x="4" y="0.0" width="312" height="136"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                    <state key="normal">
+                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="profilePressed:" destination="-1" eventType="touchUpInside" id="Mo5-6i-m9g"/>
+                    </connections>
+                </button>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="Yec-L7-J53">
+                    <rect key="frame" x="0.0" y="121" width="319" height="447"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="Tf5-qJ-BI7"/>
+                        <outlet property="delegate" destination="-1" id="lhA-v5-XJk"/>
+                    </connections>
+                </tableView>
             </subviews>
             <color key="backgroundColor" red="0.18823529410000001" green="0.22352941179999999" blue="0.25098039220000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <nil key="simulatedTopBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="230" y="-384"/>
+            <point key="canvasLocation" x="230" y="-317"/>
         </view>
-        <view contentMode="scaleToFill" id="hSy-w1-4X5">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-            <subviews>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="USe-D2-9iC">
-                    <rect key="frame" x="0.0" y="0.0" width="112" height="34"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" name="Oswald-Regular" family="Oswald" pointSize="13"/>
-                    <state key="normal" title="LOGOUT"/>
-                    <connections>
-                        <action selector="logoutPressed:" destination="-1" eventType="touchUpInside" id="hhx-r9-pti"/>
-                    </connections>
-                </button>
-            </subviews>
-            <color key="backgroundColor" red="0.0" green="0.67450980392156867" blue="0.22352941176470587" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-            <userDefinedRuntimeAttributes>
-                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                    <integer key="value" value="16"/>
-                </userDefinedRuntimeAttribute>
-            </userDefinedRuntimeAttributes>
-        </view>
-        <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="qM0-gi-aX0">
-            <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-            <fontDescription key="fontDescription" name="SFUIText-Light" family="SF UI Text" pointSize="18"/>
-            <state key="normal" image="share"/>
-            <connections>
-                <action selector="logoutPressed:" destination="-1" eventType="touchUpInside" id="DDA-rs-bch"/>
-            </connections>
-        </button>
-        <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="bwK-Tn-mOO">
-            <rect key="frame" x="0.0" y="0.0" width="69" height="46"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-            <fontDescription key="fontDescription" name="SFUIText-Light" family="SF UI Text" pointSize="18"/>
-            <connections>
-                <action selector="sharePressed:" destination="-1" eventType="touchUpInside" id="ryG-LT-qnC"/>
-            </connections>
-        </button>
     </objects>
     <resources>
-        <image name="share" width="30" height="30"/>
         <image name="user.png" width="256" height="256"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

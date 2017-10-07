@@ -64,9 +64,6 @@
     IBOutlet UIButton *btnDevOn;
 
     NSString *isDev;
-    IBOutlet OBSlider *myObSliderOutlet;
-    
-    IBOutlet UILabel *lblDistanceValue;
     
     IBOutlet UIPickerView *pickerView;
     

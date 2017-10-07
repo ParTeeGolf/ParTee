@@ -25,6 +25,9 @@
 -(void) viewWillAppear:(BOOL)animated {
     [AppDelegate sharedinstance].currentScreen = kScreenRegister;
     
+    doneButton.layer.cornerRadius = 20; // this value vary as per your desire
+    doneButton.clipsToBounds = YES;
+    
     if(autocompletePlaceStatus == -1) {
         strlat = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlat];
         strlat = [[AppDelegate sharedinstance] nullcheck:strlat];
@@ -69,7 +72,6 @@
     [txtState setTag:105];
     [txtCity setTag:106];
     [txtHomeCourse setTag:107];
-    [txtZipCode setTag:108];
     [txtHandicap setTag:109];
     [tvInfo setTag:110];
 
@@ -99,7 +101,7 @@
     tvInfo.placeholderTextColor = [UIColor colorWithRed:0.780 green:0.780 blue:0.804 alpha:1.00];
     //tvInfo.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18.0];
     
-    NSArray *fields = @[ txtName,txtEmail,txtPwd,txtBday,txtState,txtCity,txtHomeCourse,txtZipCode,txtHandicap,tvInfo];
+    NSArray *fields = @[ txtName,txtEmail,txtPwd,txtBday,txtState,txtCity,txtHomeCourse,txtHandicap,tvInfo];
     
     [self setKeyboardControls:[[BSKeyboardControls alloc] initWithFields:fields]];
     [self.keyboardControls setDelegate:self];
@@ -254,12 +256,6 @@
         [[AppDelegate sharedinstance] displayMessage:@"Please fill all the details"];
         return NO;
     }
-
-    
-    if([[[AppDelegate sharedinstance] nullcheck:txtZipCode.text] length]==0) {
-        [[AppDelegate sharedinstance] displayMessage:@"Please fill all the details"];
-        return NO;
-    }
     
     if([[[AppDelegate sharedinstance] nullcheck:txtHandicap.text] length]==0) {
         [[AppDelegate sharedinstance] displayMessage:@"Please fill all the details"];
@@ -297,7 +293,6 @@
     [txtBday setText:@"10/10/1980"];
     [txtState setText:@"Montana"];
     [txtCity setText:@"Bozeman"];
-    [txtZipCode setText:@"59718"];
     [txtHandicap setText:@"10"];
     [tvInfo setText:@"I'm a golfer"];
     
@@ -950,7 +945,6 @@
     [dictUserDetails setObject:txtName.text forKey:@"userDisplayName"];
     [dictUserDetails setObject:txtCity.text forKey:@"userCity"];
     [dictUserDetails setObject:txtState.text forKey:@"userState"];
-    [dictUserDetails setObject:txtZipCode.text forKey:@"userZipcode"];
     [dictUserDetails setObject:txtHandicap.text forKey:@"userHandicap"];
     [dictUserDetails setObject:tvInfo.text forKey:@"userInfo"];
     [dictUserDetails setObject:strImgURLBase forKey:@"userPicBase"];
@@ -1121,7 +1115,6 @@
                 
                 [localObject.fields setObject:@"1" forKey:@"userDeviceType"];
                 
-                [localObject.fields setObject:txtZipCode.text forKey:@"userZipcode"];
                 [localObject.fields setObject:txtHandicap.text forKey:@"userHandicap"];
                 [localObject.fields setObject:txtHandicap.text forKey:@"userHandicap"];
                 [localObject.fields setObject:tvInfo.text forKey:@"userInfo"];

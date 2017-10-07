@@ -15,11 +15,10 @@
     IBOutlet UIButton *btnMale;
     IBOutlet UIButton *btnFemale;
 
-    IBOutlet UIButton *btnPush;
     QBCOCustomObject *object;
     NSArray *arrData;
 
-    NSArray *arrTypeList;
+    NSMutableArray *arrTypeList;
     NSMutableArray *arrAgeList;
     NSMutableArray *arrHandicapList;
     
@@ -29,7 +28,7 @@
     NSMutableArray *arrCityStateList;
 
     NSMutableArray *tempArraySelcted,*userIdArray,*arrNetworkSelected;
-    IBOutlet UITableView *tblNetwork,*tblMembers;
+    IBOutlet UITableView *tblMembers;
 
     NSMutableArray *arrStateList;
     NSMutableArray *arrHomeCourseList;
@@ -45,9 +44,10 @@
     IBOutlet UIPickerView *pickerView;
     IBOutlet UIView *minMaxView;
     IBOutlet UISegmentedControl *minMax;
-    IBOutlet UISegmentedControl *btnNA;
+    IBOutlet UIButton *btnNA;
     
     IBOutlet UIView *HandicapView;
+    IBOutlet UIView *TypeView;
 
 
     NSMutableArray *Gender;
@@ -56,17 +56,14 @@
     IBOutlet UIView *viewToolbar,*viewTable;
     NSMutableArray *arrHomeCoursesObjects;
 
-    IBOutlet UIButton *btnAge,*btnType,*btnCity;
+    IBOutlet UIButton *btnType,*btnCity;
     
     int buttonTapped;
     NSString *strFromScreen;
     IBOutlet UIButton *btnBack;
-    IBOutlet UIButton *btnDevOn;
 
     NSString *isDev;
-    IBOutlet OBSlider *myObSliderOutlet;
     
-    IBOutlet UILabel *lblDistanceValue;
     IBOutlet UILabel *lblTitle;
     
     int pickerOption;

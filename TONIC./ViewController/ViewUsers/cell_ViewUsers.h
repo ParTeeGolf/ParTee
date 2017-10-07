@@ -10,6 +10,7 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *lblUserName;
 @property (weak, nonatomic) IBOutlet UILabel *lblhandicap;
+@property (weak, nonatomic) IBOutlet UILabel *lblHomeCourse;
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageViewUsers;
 @property (weak, nonatomic) IBOutlet UIImageView *imageViewBadge;
@@ -17,5 +18,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnAdd;
 @property (weak, nonatomic) IBOutlet UIButton *btnMessageBadge;
 @property (weak, nonatomic) IBOutlet UILabel *lblOnlineStatus;
+@property (weak, nonatomic) IBOutlet UIButton *acceptButton;
+@property (weak, nonatomic) IBOutlet UIButton *denyButton;
+
 
 @end

@@ -13,25 +13,13 @@
 @interface PurchaseSpecialsViewController : UIViewController <RNGridMenuDelegate,UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout,UITextFieldDelegate> {
     BOOL isFavCourse;
 
-    IBOutlet UIImageView *imgViewBg;
-    IBOutlet UIImageView *imgViewUser1;
-    IBOutlet UIImageView *imgViewUser2;
+    
     IBOutlet UIScrollView *scrollViewContainer;
 
     int k;
     NSArray *arrBgImages,*arrFav;
-
-    IBOutlet UILabel *lblMessage;
-    
-    IBOutlet UIImageView *imgView1;
-    IBOutlet UIImageView *imgView2;
-    IBOutlet UIImageView *imgView3;
-
-    IBOutlet UISegmentedControl *segmentGender;
     
     IBOutlet UILabel *lblName;
-    IBOutlet UILabel *lblPoints;
-    IBOutlet UILabel *lblExpiresOn;
     IBOutlet UILabel *lblAddress;
     IBOutlet UIImageView *imageUrl;
     IBOutlet UILabel *lblTitle;
@@ -48,37 +36,27 @@
     CLLocationCoordinate2D desplaceCoord;
     CLLocationCoordinate2D scrplaceCoord;
     
-    IBOutlet UIButton *btnPlus;
-    
-    IBOutlet UIButton *btnInfo;
-
-    IBOutlet UIButton *btnRequest;
-
-    IBOutlet UIButton *lblContactNum;
-    IBOutlet UIButton *lblWebsite;
-    IBOutlet UIButton *lblbooking;
-
-    IBOutlet UILabel *lblForPrivate;
-
-    IBOutlet UITextView *tvAmenities;
-    
-    IBOutlet UIButton *btnSendInviteSmall;
     IBOutlet UIButton *btnSendInviteBig;
     IBOutlet UIButton *btnFavImage;
     
     NSMutableArray *arrAmenities;
-    
-    IBOutlet UIButton *btnNext;
-    IBOutlet UILabel *lblNotFound;
+    NSMutableArray *arrEvents;
     
     IBOutlet UIView *proView;
     IBOutlet UITableView *proTable;
+    
+    IBOutlet UIView *basicView;
+    IBOutlet UIView *amenitiesView;
+    IBOutlet UITableView *amenitiesTable;
+    IBOutlet UIView *eventsView;
+    IBOutlet UITableView *eventsTable;
+    IBOutlet UITextView *aboutTextView;
     
     NSMutableArray *arrData;
 
     
 }
-@property (nonatomic, strong) IBOutlet UICollectionView *collectionViewData;
+
 
 @property (strong, nonatomic) IBOutlet UIButton *btnFavImage;
 
