@@ -12,6 +12,7 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *lblName;
 @property (weak, nonatomic) IBOutlet UILabel *proType;
+@property (weak, nonatomic) IBOutlet UILabel *alternateProType;
 @property (weak, nonatomic) IBOutlet UIImageView *imageUrl;
 @property (weak, nonatomic) IBOutlet button_ViewPro *profileButton;
 @property (weak, nonatomic) IBOutlet UIImageView *proIcon;

@@ -646,24 +646,6 @@ static void JSQInstallWorkaroundForSheetPresentationIssue26295020(void) {
     }
     
     return NO;
-
-    self.selectedIndexPathForMenu = indexPath;
-
-    //  textviews are selectable to allow data detectors
-    //  however, this allows the 'copy, define, select' UIMenuController to show
-    //  which conflicts with the collection view's UIMenuController
-    //  temporarily disable 'selectable' to prevent this issue
-    JSQMessagesCollectionViewCell *selectedCell = (JSQMessagesCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
-    selectedCell.textView.selectable = NO;
-    
-    //  it will reset the font and fontcolor when selectable is NO
-    //  however, the actual font and fontcolor in textView do not get changed
-    //  in order to preserve link colors, we need to re-assign the font and fontcolor when selectable is NO
-    //  see GitHub issues #1675 and #1759
-    selectedCell.textView.textColor = selectedCell.textView.textColor;
-    selectedCell.textView.font = selectedCell.textView.font;
-
-    return YES;
 }
 
 - (BOOL)collectionView:(UICollectionView *)collectionView canPerformAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender

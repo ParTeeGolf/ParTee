@@ -6,8 +6,6 @@
 //
 
 #import "PurchaseSpecialsViewController.h"
-#import "HomeViewController.h"
-#import "ViewSpecialInvite.h"
 #import "CoursePhotoViewController.h"
 #import "PreviewProfileViewController.h"
 #import "MapViewController.h"
@@ -63,8 +61,7 @@ NSString *courseId;
 
 -(void) viewWillAppear:(BOOL)animated {
     
-    if(status==1)
-    {
+
         QBCOCustomObject *obj = courseObject;
         
         NSMutableArray *userIds = [[NSMutableArray alloc] init];
@@ -185,13 +182,15 @@ NSString *courseId;
         NSString *website = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"Website"]];
         NSString *booking = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"booking"]];
         
+        numberOfHoles.text = [NSString stringWithFormat:@"%@", [obj.fields objectForKey:@"NumberHoles"] == nil ? @"" : [obj.fields objectForKey:@"NumberHoles"]];
+        
         str1 = [NSString stringWithFormat:@"Phone: %@\n\nWebsite: %@\n\nTee Times: %@",phone,website,booking];
+          
+        NSString *scoreCard = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"ScoreCard"]];
         
-        NSString *numberOfHoles = [obj.fields objectForKey:@"NumberHoles"];
-        
-        if(numberOfHoles !=  nil)
+        if(![scoreCard isEqualToString:@""])
         {
-            str1 = [str1 stringByAppendingString:[NSString stringWithFormat:@"\n\n%@ Holes", numberOfHoles]];
+            str1 = [str1 stringByAppendingString:[NSString stringWithFormat:@"\n\nDownload Scorecard: %@", scoreCard]];
         }
         
         NSString *news = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"News"]];
@@ -220,44 +219,8 @@ NSString *courseId;
         
         if(!arr || arr.count==0)
             arr = [[NSMutableArray alloc] init];
-        
-        NSString *strCurrentUserID = [[AppDelegate sharedinstance] getCurrentUserId];
-        
-        if([arr containsObject:strCurrentUserID]) {
-           // [btnFavImage setImage:[UIImage imageNamed:@"favourite-filled"] forState:UIControlStateNormal];
-
-        }
-        else {
-          //  [btnFavImage setImage:[UIImage imageNamed:@"favourite-unfilled"] forState:UIControlStateNormal];
-
-        }
-
-        
-    }
-   else if(status==3) {
-        [btnSendInviteBig setHidden:YES];
-        
-        [lblTitle setText:@"Courses"];
-       
-       [btnSendInviteBig setHidden:YES];
-       [self bindDataForUser];
-       
-       
-    }
-    else if (status ==5) {
-        [lblTitle setText:@"Accepted"];
-
-        [btnSendInviteBig setHidden:YES];
-        
-        [self bindDataForUser];
-        
-    }
-    else {
-        [self bindData];
-        
-    }
     
-  }
+}
 
  
 -(void) bindDataForUser {
@@ -427,36 +390,7 @@ NSString *courseId;
     
     NSString *strCurrentUserID = [[AppDelegate sharedinstance] getCurrentUserId];
     
-    if([arr containsObject:strCurrentUserID]) {
-        isFavCourse = YES;
-     //   [btnFavImage setImage:[UIImage imageNamed:@"favourite-filled"] forState:UIControlStateNormal];
-
-    }
-    else {
-        isFavCourse = NO;
-        //[btnFavImage setImage:[UIImage imageNamed:@"favourite-unfilled"] forState:UIControlStateNormal];
-
-    }
-}
-
-//-----------------------------------------------------------------------
-
--(IBAction)viewUser:(id)sender {
-    
-    PreviewProfileViewController *viewController;
-    viewController    = [[PreviewProfileViewController alloc] initWithNibName:@"PreviewProfileViewController" bundle:nil];
-    viewController.strCameFrom=@"5";
-    
-    if(status==3) {
-        viewController.strEmailOfUser = [courseObject.fields objectForKey:@"courseSenderID"];
-
-    }
-    else {
-        viewController.strEmailOfUser = [otherUserObj.fields objectForKey:@"userEmail"];
-
-    }
-    [self.navigationController pushViewController:viewController animated:YES];
-    
+    isFavCourse = [arr containsObject:strCurrentUserID];
 }
 
 //-----------------------------------------------------------------------
@@ -469,82 +403,6 @@ NSString *courseId;
     NSArray *controllers = [NSArray arrayWithObject:viewController];
     navigationController.viewControllers = controllers;
     [self.menuContainerViewController setMenuState:MFSideMenuStateClosed];
-    
-}
-
--(IBAction)selectUser:(id)sender {
-    
-    if(status == 5) {
-        PreviewProfileViewController *viewController;
-        viewController    = [[PreviewProfileViewController alloc] initWithNibName:@"PreviewProfileViewController" bundle:nil];
-        viewController.strCameFrom=@"5";
-        
-        if(status==3) {
-            viewController.strEmailOfUser = [userObject.fields objectForKey:@"courseSenderID"];
-            
-        }
-        else {
-            viewController.strEmailOfUser = [otherUserObj.fields objectForKey:@"userEmail"];
-            
-        }
-        [self.navigationController pushViewController:viewController animated:YES];
-    }
-    else if (status==3) {
-        
-        PreviewProfileViewController *viewController;
-        viewController    = [[PreviewProfileViewController alloc] initWithNibName:@"PreviewProfileViewController" bundle:nil];
-        viewController.strCameFrom=@"5";
-        
-        if(status==3) {
-            viewController.strEmailOfUser = [userObject.fields objectForKey:@"courseSenderID"];
-        }
-        else {
-            viewController.strEmailOfUser = [otherUserObj.fields objectForKey:@"userEmail"];
-        }
-        
-        [self.navigationController pushViewController:viewController animated:YES];
-        
-//        [[AppDelegate sharedinstance] showLoader];
-//        
-//        ViewProfileViewController *viewController;
-//        viewController    = [[ViewProfileViewController alloc] initWithNibName:@"ViewProfileViewController" bundle:nil];
-//        
-//        NSString *strSenderId = [shareObject.fields objectForKey:@"specialSenderID"];
-//        
-//        NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
-//        [getRequest setObject:strSenderId forKey:@"userEmail"];
-//        
-//        [QBRequest objectsWithClassName:@"UserInfo" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
-//            [[AppDelegate sharedinstance] hideLoader];
-//            
-//            viewController.customShareObj=[objects objectAtIndex:0];
-//            viewController.isMyMatch=NO;
-//            [self.navigationController pushViewController:viewController animated:YES];
-//
-//        } errorBlock:^(QBResponse *response) {
-//            // error handling
-//            [[AppDelegate sharedinstance] hideLoader];
-//
-//            NSLog(@"Response error: %@", [response.error description]);
-//        }];
-    }
-    else {
-
-        ViewSpecialInvite *vc = [[ViewSpecialInvite alloc] initWithNibName:@"ViewSpecialInvite" bundle:nil];
-        [self.navigationController pushViewController:vc animated:YES];
-//        
-//        UINavigationController *navigationController =
-//        [[UINavigationController alloc] initWithRootViewController:vc];
-//        navigationController.navigationBar.barStyle = self.navigationController.navigationBar.barStyle;
-//        
-//        //now present this navigation controller modally
-//        [self presentViewController:navigationController
-//                           animated:YES
-//                         completion:^{
-//                             [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-//                             
-//                         }];
-    }
     
 }
 
@@ -1014,6 +872,7 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section {
     
     cell.lblName.text = [obj.fields objectForKey:@"userDisplayName"];
     cell.proType.text = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"ProType"]];
+    cell.alternateProType.text = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"AlternateProType"]];
     
     [cell.imageUrl setShowActivityIndicatorView:YES];
     [cell.imageUrl setIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];

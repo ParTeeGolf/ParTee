@@ -6,10 +6,9 @@
 //
 
 #import "LoginViewController.h"
-#import "HomeViewController.h"
-#import "PDFViewController.h"
 #import "RegisterViewController.h"
 #import "EditProfileViewController.h"
+#import "TourViewController.h"
 
 @interface LoginViewController ()
 
@@ -47,60 +46,9 @@
     
     BOOL isFirstTime = [[NSUserDefaults standardUserDefaults] boolForKey:kIsFirstTime];
     
-    if(isFirstTime) {
-        
-        
-    }
-    else {
-        
-        // basic
-        EAIntroPage *page1 = [EAIntroPage page];
-        page1.title = @"";
-        page1.desc = @"";
-        
-        // basic
-        EAIntroPage *page2 = [EAIntroPage page];
-        page2.title = @"";
-        page2.desc = @"";
-        
-        EAIntroPage *page3 = [EAIntroPage page];
-        page3.title = @"";
-        page3.desc = @"";
-        
-        EAIntroPage *page4 = [EAIntroPage page];
-        page4.title = @"";
-        page4.desc = @"";
-        
-        EAIntroPage *page5 = [EAIntroPage page];
-        
-        if(isiPhone4) {
-            page1.bgImage = [UIImage imageNamed:@"Slide 1_4s"];
-            page2.bgImage = [UIImage imageNamed:@"Slide 2_4s"];
-            page3.bgImage = [UIImage imageNamed:@"Slide 3_4s"];
-            page4.bgImage = [UIImage imageNamed:@"Slide 4_4s"];
-            page5.bgImage = [UIImage imageNamed:@"Silde 5_4s"];
-
-        }
-        else {
-            page1.bgImage = [UIImage imageNamed:@"Slide 1"];
-            page2.bgImage = [UIImage imageNamed:@"Slide 2"];
-            page3.bgImage = [UIImage imageNamed:@"Slide 3"];
-            page4.bgImage = [UIImage imageNamed:@"Slide 4"];
-            page5.bgImage = [UIImage imageNamed:@"Silde 5"];
-
-        }
-        
-        EAIntroView *intro = [[EAIntroView alloc] initWithFrame:self.view.bounds andPages:@[page1,page2,page3,page4,page5]];
-        UIFont *font = [UIFont fontWithName:@"Montserrat-Regular" size:15];
-        [intro.skipButton.titleLabel setFont:font];
-        [intro.skipButton setTitle:@"SKIP" forState:UIControlStateNormal];
-        [intro.skipButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [intro setDelegate:self];
-        [intro showInView:self.view animateDuration:0.0];
-        
-        [[NSUserDefaults standardUserDefaults]  setBool:YES forKey:kIsFirstTime];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        
+    if(!isFirstTime) {
+        TourViewController *viewController    = [[TourViewController alloc] initWithNibName:@"TourViewController" bundle:nil];
+        [self.navigationController pushViewController:viewController animated:YES];
     }
 }
 
@@ -296,15 +244,10 @@
                 }
                 
                 NSString *userFullMode= [[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"userFullMode"]];
-                if([userFullMode isEqualToString:@"1"]) {
-                    
-                    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kIAPFULLVERSION];
-                    [[NSUserDefaults standardUserDefaults] synchronize];
-                }
-                else {
-                    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kIAPFULLVERSION];
-                    [[NSUserDefaults standardUserDefaults] synchronize];
-                }
+                
+                [[NSUserDefaults standardUserDefaults] setBool:[userFullMode isEqualToString:@"1"] forKey:kIAPFULLVERSION];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+                
                 
                 NSMutableDictionary *dictUserDetails = [[NSMutableDictionary alloc] init];
                 [dictUserDetails setObject:strName forKey:@"userDisplayName"];
@@ -340,6 +283,8 @@
                 
                 [dictUserDetails setObject:[[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"isDevelopment"]] forKey:@"isDevelopment"];
                 
+                [dictUserDetails setObject:[[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"UserRole"]] forKey:@"UserRole"];
+                
                 [[NSUserDefaults standardUserDefaults] setObject:dictUserDetails forKey:kuserData];
                 [[NSUserDefaults standardUserDefaults] synchronize];
                 
@@ -354,7 +299,6 @@
                     // object updated
                     
                     SpecialsViewController *vc = [[SpecialsViewController alloc] initWithNibName:@"SpecialsViewController" bundle:nil];
-                    ((SpecialsViewController*)vc).strIsMyCourses=@"0";
                     
                     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
                     
@@ -830,7 +774,7 @@ didAutocompleteWithPlace:(GMSPlace *)place {
 didFailAutocompleteWithError:(NSError *)error {
     autocompletePlaceStatus =3;
     // TODO: handle the error.
-    NSLog(@"error: %ld", [error code]);
+    NSLog(@"error: %ld", (long)[error code]);
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

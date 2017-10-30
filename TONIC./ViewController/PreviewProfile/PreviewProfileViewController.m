@@ -6,8 +6,6 @@
 //
 
 #import "PreviewProfileViewController.h"
-#import "HomeViewController.h"
-#import "PDFViewController.h"
 #import "ReportViewController.h"
 #import "DemoMessagesViewController.h"
 #define kPickerBday 1
@@ -349,20 +347,44 @@
 -(void) inviteUser {
     
     NSMutableDictionary *dictLocalUserData = [[[NSUserDefaults standardUserDefaults] objectForKey:kuserData] mutableCopy];
-    __block int weeklyConnects = [[dictLocalUserData objectForKey:@"userFreeConnects"] integerValue];
-    __block  int userPurchasedConnects = [[dictLocalUserData objectForKey:@"userPurchasedConnects"] integerValue];
+    __block long weeklyConnects = [[dictLocalUserData objectForKey:@"userFreeConnects"] integerValue];
+    __block long userPurchasedConnects = [[dictLocalUserData objectForKey:@"userPurchasedConnects"] integerValue];
     
     if(![[dictLocalUserData objectForKey:@"userFullMode"] isEqualToString:@"1"]){
         
-        int totalAvailableConnects = weeklyConnects + userPurchasedConnects;
+        long totalAvailableConnects = weeklyConnects + userPurchasedConnects;
         
         if(totalAvailableConnects<1) {
             
             // Show pop up to buy more or upgrade
             
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"PURCHASE CONNECTS" message:@"Sorry, you have no CONNECTS available to send request.\nDo you want to buy them?" delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
-            alert.tag=121;
-            [alert show];
+            UIAlertController * alert = [UIAlertController
+                                         alertControllerWithTitle:@"PURCHASE CONNECTS"
+                                         message:@"Sorry, you have no CONNECTS available to send request.\nDo you want to buy them?"
+                                         preferredStyle:UIAlertControllerStyleAlert];
+            
+            
+            
+            UIAlertAction* yesButton = [UIAlertAction
+                                        actionWithTitle:@"YES"
+                                        style:UIAlertActionStyleDefault
+                                        handler:^(UIAlertAction * action) {
+                                            MyMatchesViewController *obj = [[MyMatchesViewController alloc] initWithNibName:@"MyMatchesViewController" bundle:nil];
+                                            obj.productType=@"Connects";
+                                            [self.navigationController pushViewController:obj animated:NO];
+                                        }];
+            
+            UIAlertAction* noButton = [UIAlertAction
+                                       actionWithTitle:@"NO"
+                                       style:UIAlertActionStyleDefault
+                                       handler:^(UIAlertAction * action) {
+                                           
+                                       }];
+            
+            [alert addAction:yesButton];
+            [alert addAction:noButton];
+            
+            [self presentViewController:alert animated:YES completion:nil];
             return;
         }
     }

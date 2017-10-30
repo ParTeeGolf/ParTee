@@ -6,10 +6,8 @@
 //
 
 #import "SpecialsViewController.h"
-#import "HomeViewController.h"
 #import "PurchaseSpecialsViewController.h"
 #import "cell_ViewSpecials.h"
-#import "PurchasedViewController.h"
 #import "MapViewController.h"
 #import "CoursePreferencesViewController.h"
 #import "CoursePhotoViewController.h"
@@ -25,35 +23,28 @@
 #define kNearMe 1;
 #define kFavorite 2;
 
-int courseOption;
-
 @interface SpecialsViewController ()
 
 @end
 
 @implementation SpecialsViewController
-@synthesize status;
-@synthesize strIsMyCourses;
 
-- (void)viewDidLoad {
-    
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     
     shouldLoadNext=YES;
     
-    
     [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshContent" object:nil];
-
+    
     segmentMode=0;
-
+    
     self.navigationController.navigationBarHidden=YES;
     tblList.tableFooterView = [UIView new];
     [lblNotAvailable setHidden:YES];
     
     arrData = [[NSMutableArray alloc] init];
     arrCoursesData = [[NSMutableArray alloc] init];
-    
-    courseOption = kFeatured;
     
     NSMutableDictionary *dictcoursePreferencesData = [[[NSUserDefaults standardUserDefaults] objectForKey:kcoursePreferencesData] mutableCopy];
     
@@ -69,94 +60,55 @@ int courseOption;
     btnSearchBig.layer.cornerRadius = btnSearchBig.bounds.size.width / 2;
     btnSearchBig.imageEdgeInsets = UIEdgeInsetsMake(10, 10, 10, 10);
     
+    lblScreenTitle.text = @"Courses";
+    
 }
 
 -(void) viewWillAppear:(BOOL)animated {
     self.menuContainerViewController.panMode=YES;
     
     [[AppDelegate sharedinstance] showLoader];
-  
+    
     _currentPage=0;
     shouldLoadNext = YES;
     
     [AppDelegate sharedinstance].strIsChatConnected = @"0";
-
+    
     QBUUser *currentUser = [QBSession currentSession].currentUser;
     currentUser.password = [[AppDelegate sharedinstance] getStringObjfromKey:kuserPassword];
     
-    NSMutableDictionary *dictcoursePreferencesData = [[[NSUserDefaults standardUserDefaults] objectForKey:kcoursePreferencesData] mutableCopy];
-    
-    NSString *strCourseOption = [dictcoursePreferencesData objectForKey:@"cf_courseOption"];
-    
-    if([strCourseOption length] > 0)
-    {
-        courseOption = [strCourseOption intValue];
-    }
-    
     if([[[AppDelegate sharedinstance] sharedChatInstance] isConnected])
     {
-        
-        if([strIsMyCourses isEqualToString:@"1"]) {
-            [btnSearchBig setHidden:YES];
-
-            [self getMySpecials];
-        }
-        else {
-            [btnSearchBig setHidden:NO];
-            [self getData];
-        }
+        [btnSearchBig setHidden:NO];
+        [self getData];
     }
     else
     {
-        [[AppDelegate sharedinstance] showLoader];
-        
-        [self performSelector:@selector(letotherfeatureswork) withObject:nil afterDelay:10.f];
-        
         // connect to Chat
         [[AppDelegate sharedinstance].sharedChatInstance connectWithUser:currentUser completion:^(NSError * _Nullable error) {
             [AppDelegate sharedinstance].strIsChatConnected = @"1";
             
-            if([strIsMyCourses isEqualToString:@"1"]) {
-                [self getMySpecials];
-            }
-            else {
-                [self getData];
-            }
+            [self getData];
         }];
     }
 }
 
--(void) presentAd {
-    BOOL isFullVersion = [[NSUserDefaults standardUserDefaults] boolForKey:kIAPFULLVERSION];
-
-    if(!isFullVersion) {
-
-    }
-}
-
-
 -(void) getData
 {
-    lblScreenTitle.text = @"Courses";
-    
-    [segmentSpecials setSelectedSegmentIndex:courseOption];
-
-
-    [btnSearchBig setHidden:[segmentSpecials selectedSegmentIndex] != 3 && [segmentSpecials selectedSegmentIndex] != 1];
-    
+    NSArray *searchSegments = [NSArray arrayWithObjects:[NSNumber numberWithInteger:0]
+                               , [NSNumber numberWithInteger:2]
+                               , nil];
+    NSNumber *selectedSegment = [NSNumber numberWithInteger:[segmentSpecials selectedSegmentIndex]];
+    [btnSearchBig setHidden:[searchSegments  containsObject: selectedSegment]];
     
     arrData = [[NSMutableArray alloc] init];
     
-    NSMutableDictionary *dictUserData = [[[NSUserDefaults standardUserDefaults] objectForKey:kuserData] mutableCopy];
-
-    NSString *imageUrl = [NSString stringWithFormat:@"%@", [dictUserData objectForKey:@"userPicBase"]];
-    
     NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
-
+    
     [getRequest setObject:kLimit forKey:@"limit"];
-
+    
     NSString *strPage = [NSString stringWithFormat:@"%d",[kLimit intValue] * _currentPage];
-
+    
     [getRequest setObject:strPage forKey:@"skip"];
     
     NSString *strlat1 = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlat];
@@ -175,7 +127,7 @@ int courseOption;
     NSString *strFilterDistance;
     NSString *strCurrentUserID = [[AppDelegate sharedinstance] getCurrentUserId];
     
-    switch(courseOption)
+    switch([selectedSegment integerValue])
     {
         case 0:
             [getRequest setObject: @"true" forKey:@"featured"];
@@ -205,18 +157,11 @@ int courseOption;
                      NSString *strcf_state= [dictcoursePreferencesData  objectForKey:@"cf_state"];
                      NSString *strcf_city = [dictcoursePreferencesData  objectForKey:@"cf_city"];
                      NSString *strcf_zipcode = [dictcoursePreferencesData  objectForKey:@"cf_zipcode"];
-                     NSString *strcf_distance= [dictcoursePreferencesData  objectForKey:@"cf_distance"];
                      NSString *strcf_type= [dictcoursePreferencesData  objectForKey:@"cf_type"];
                      NSString *strcf_isFav= [dictcoursePreferencesData  objectForKey:@"cf_isFav"];
                      
-                     if([strcf_type isEqualToString:@"1"])
-                     {
-                         [getRequest setObject: @"Public" forKey:@"CourseType"];
-                     }
-                     else if([strcf_type isEqualToString:@"2"]) {
-                         [getRequest setObject: @"Private" forKey:@"CourseType"];
-                     }
-                     else if(![strcf_type isEqualToString:@"All"])
+                     
+                     if(![strcf_type isEqualToString:@"All"])
                      {
                          [getRequest setObject: strcf_type forKey:@"CourseType"];
                      }
@@ -248,7 +193,7 @@ int courseOption;
                          {
                              if([arrcf_amenities containsObject:[[obj.fields objectForKey:@"Amenity"] lowercaseString]])
                              {
-                                  [courseIds addObject:obj.parentID];
+                                 [courseIds addObject:obj.parentID];
                              }
                          }
                          
@@ -280,9 +225,9 @@ int courseOption;
             }
             break;
     }
-
+    
 }
-                 
+
 -(void) getGolfCourses:(NSMutableDictionary *)getRequest
 {
     [[AppDelegate sharedinstance] showLoader];
@@ -305,16 +250,7 @@ int courseOption;
             
         }
         
-        if([objects count]>=[kLimit integerValue]) {
-            shouldLoadNext=YES;
-            
-        }
-        else {
-            shouldLoadNext=NO;
-            
-            
-        }
-        
+        shouldLoadNext=[objects count]>=[kLimit integerValue];
         [tblList reloadData];
         
     } errorBlock:^(QBResponse *response) {
@@ -325,123 +261,19 @@ int courseOption;
     }];
 }
 
--(void) getMySpecials {
-    
-    lblScreenTitle.text = @"Tee Times";
-    
-    [segmentSpecials setHidden:YES];
-    
-    tblList.frame = CGRectMake(tblList.frame.origin.x, tblList.frame.origin.y -29, self.view.frame.size.width, self.view.frame.size.height);
+//-----------------------------------------------------------------------
 
-    arrCoursesData = [[NSMutableArray alloc] init];
+- (IBAction)action_Menu:(id)sender{
     
-    NSString *strUserEmail = [[AppDelegate sharedinstance] getCurrentUserEmail];
-    
-    NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
-    
-    [getRequest setObject:kLimit forKey:@"limit"];
-    
-    NSString *strPage = [NSString stringWithFormat:@"%d",[kLimit intValue] * _currentPage];
-    
-    [getRequest setObject:strPage forKey:@"skip"];
-    
-    [getRequest setObject:@"5" forKey:@"courseStatus"];
-    [getRequest setObject:@"created_at" forKey:@"sort_desc"];
-
-    [getRequest setObject:strUserEmail forKey:@"courseSenderID[or]"];
-    [getRequest setObject:strUserEmail forKey:@"courseReceiverID[or]"];
-
-    [[AppDelegate sharedinstance] showLoader];
-    
-    [QBRequest objectsWithClassName:@"UserCourses" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
+    [self.menuContainerViewController toggleLeftSideMenuCompletion:^{
         
-        [arrCoursesData addObjectsFromArray:[objects mutableCopy]];
-        
-        if([arrCoursesData count]==0) {
-            [lblNotAvailable setHidden:NO];
-            [tblList setHidden:YES];
-        }
-        else {
-            [lblNotAvailable setHidden:YES];
-            [tblList setHidden:NO];
-
-        }
-        
-        NSMutableArray *arrCourseIDData = [[NSMutableArray alloc] init];
-        
-        for(QBCOCustomObject *courseobj in arrCoursesData) {
-            [arrCourseIDData addObject:[courseobj.fields objectForKey:@"courseId"]];
-        }
-        
-        NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
-        [getRequest setObject:@"10000" forKey:@"limit"];
-        [getRequest setObject:@"created_at" forKey:@"sort_desc"];
-        [getRequest setObject:[[arrCourseIDData valueForKey:@"description"] componentsJoinedByString:@","] forKey:@"_id[in]"];
-        
-        [QBRequest objectsWithClassName:@"GolfCourses" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
-            [[AppDelegate sharedinstance] hideLoader];
-            
-            arrData = [objects mutableCopy];
-            
-            [tblList reloadData];
-            
-        } errorBlock:^(QBResponse *response) {
-            // error handling
-            [[AppDelegate sharedinstance] hideLoader];
-            
-            NSLog(@"Response error: %@", [response.error description]);
-        }];
-    } errorBlock:^(QBResponse *response) {
-        // error handling
-        [[AppDelegate sharedinstance] hideLoader];
-        
-        NSLog(@"Response error: %@", [response.error description]);
     }];
+    //
 }
 
-//-----------------------------------------------------------------------
-// In case chat is not connecting, let other features of the app work as it should
-//-----------------------------------------------------------------------
-
--(void) letotherfeatureswork {
-    
-    if([[AppDelegate sharedinstance].strIsChatConnected isEqualToString:@"0"]){
-        if([strIsMyCourses isEqualToString:@"1"]) {
-            [self getMySpecials];
-        }
-        else {
-            [self getData];
-        }
-    }
-}
-
-//-----------------------------------------------------------------------
-
-- (IBAction)segmentSwitch:(id)sender {
-    UISegmentedControl *segmentedControl = (UISegmentedControl *) sender;
-    NSInteger selectedSegment = segmentedControl.selectedSegmentIndex;
-    
-    courseOption = (int)selectedSegment;
-    
+- (IBAction)segmentSwitch:(id)sender
+{
     [self getData];
-}
-
--(IBAction) segmentChanged :(UISegmentedControl*) sender {
-    
-    fromSegment=1;
-    
-    if(sender.selectedSegmentIndex==0) {
-        //  My Specials
-        segmentMode=0;
-        
-     //   [self getSpecialInvitations];
-        [self getData];
-    }
-    else {
-        //  ALL Specials
-        [self getMySpecials];
-        segmentMode=1;
-    }
 }
 
 -(IBAction)mapviewtapped:(id)sender {
@@ -464,8 +296,7 @@ int courseOption;
     CoursePreferencesViewController *obj = [[CoursePreferencesViewController alloc] initWithNibName:@"CoursePreferencesViewController" bundle:nil];
     
     [segmentSpecials setSelectedSegmentIndex:3];
-    courseOption = 3;
-
+    
     [self.navigationController pushViewController:obj animated:YES];
 }
 
@@ -483,11 +314,7 @@ int courseOption;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if([strIsMyCourses isEqualToString:@"0"])
-        return arrData.count;
-    
-    return arrCoursesData.count;
-    
+    return arrData.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -505,265 +332,125 @@ int courseOption;
     cell.backgroundColor=[UIColor clearColor];
     cell.contentView.backgroundColor=[UIColor clearColor];
     
+    // FROM ALL
+    QBCOCustomObject *obj = [arrData objectAtIndex:indexPath.row];
     
-    if([strIsMyCourses isEqualToString:@"0"]) {
-        // FROM ALL
-        QBCOCustomObject *obj = [arrData objectAtIndex:indexPath.row];
-        
-        NSString *str1 = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"Name"]];
-        [cell.lblName setText:[str1 uppercaseString]];
-        
-//        str1 = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"Points"]];
-//        [cell.lblPoints setText:str1];
-        
-        str1 = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"Address"]];
-        
-        NSString *strCity= [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"City"]];
-        NSString *strState= [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"State"]];
-        NSString *strZipCode= [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"ZipCode"]];
-
-        str1 = [NSString stringWithFormat:@"%@, %@, %@ %@",str1,strCity,strState,strZipCode];
-        [cell.lblAddress setText:str1];
-        
-        [cell.imageUrl setShowActivityIndicatorView:YES];
-        [cell.imageUrl setIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-        [cell.imageUrl sd_setImageWithURL:[NSURL URLWithString:[obj.fields objectForKey:@"ImageUrl"]] placeholderImage:[UIImage imageNamed:@"imgplaceholder.jpg"]];
-
-        
-        NSArray *arrCoord = [obj.fields objectForKey:@"coordinates"];
-        
-        strlat = [arrCoord objectAtIndex:1];
-        strlat = [[AppDelegate sharedinstance] nullcheck:strlat];
-        
-        strlong = [arrCoord objectAtIndex:0];
-        strlong = [[AppDelegate sharedinstance] nullcheck:strlong];
-        
-        //Create a special variable to hold this coordinate info.
-        CLLocationCoordinate2D placeCoord;
-        
-        //Set the lat and long.
-        placeCoord.latitude=[strlat doubleValue];
-        placeCoord.longitude=[strlong doubleValue];
-        desplaceCoord = placeCoord;
-        
-        
-        strlat = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlat];
-        strlat = [[AppDelegate sharedinstance] nullcheck:strlat];
-        
-        strlong = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlong];
-        strlong = [[AppDelegate sharedinstance] nullcheck:strlong];
-        
-        //Set the lat and long.
-        placeCoord.latitude=[strlat doubleValue];
-        placeCoord.longitude=[strlong doubleValue];
-        
-        CLLocationCoordinate2D myposition = {  placeCoord.latitude, placeCoord.longitude };
-        scrplaceCoord = myposition;
-        
-        CLLocation *loc2;
-        CLLocation *loc1;
-        loc1 = [[CLLocation alloc] initWithLatitude:scrplaceCoord.latitude longitude:scrplaceCoord.longitude];
-        loc2 = [[CLLocation alloc] initWithLatitude:desplaceCoord.latitude longitude:desplaceCoord.longitude];
-        
-        CLLocationDistance distanceInMeters = [loc1 distanceFromLocation:loc2];
-        
-        double distanceinKm =(distanceInMeters/1000.f);
-        distanceinKm = roundf(distanceinKm * 10.0f)/10.0f;
-        NSString *strDistance = [NSString stringWithFormat:@"%.1f mi",distanceinKm * 0.621371];
-        [cell.lblDistance setText:strDistance];
-        [cell.lblDistance setHidden:NO];
-        
-        NSLog(@" distance in km %f",distanceinKm);
-        
-        [cell.viewAlpha setAlpha:0];
-        
-        NSString *str11= [[arrData objectAtIndex:indexPath.row] description];
-        NSString *str22= [[arrData lastObject] description];
-        
-        BOOL lastItemReached;
-        
-        if([str11 isEqualToString:str22]) {
-            lastItemReached=YES;
-        }
-        else {
-            lastItemReached=NO;
-            
-        }
-        
-        if (lastItemReached && indexPath.row == [arrData count] - 1) {
-            
-            if(shouldLoadNext) {
-                _currentPage++;
-
-                [self getData];
-            }
-        }
-        
+    NSString *str1 = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"Name"]];
+    [cell.lblName setText:[str1 uppercaseString]];
+    
+    //        str1 = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"Points"]];
+    //        [cell.lblPoints setText:str1];
+    
+    str1 = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"Address"]];
+    
+    NSString *strCity= [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"City"]];
+    NSString *strState= [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"State"]];
+    NSString *strZipCode= [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"ZipCode"]];
+    
+    str1 = [NSString stringWithFormat:@"%@, %@, %@ %@",str1,strCity,strState,strZipCode];
+    [cell.lblAddress setText:str1];
+    
+    [cell.imageUrl setShowActivityIndicatorView:YES];
+    [cell.imageUrl setIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    [cell.imageUrl sd_setImageWithURL:[NSURL URLWithString:[obj.fields objectForKey:@"ImageUrl"]] placeholderImage:[UIImage imageNamed:@"imgplaceholder.jpg"]];
+    
+    
+    NSArray *arrCoord = [obj.fields objectForKey:@"coordinates"];
+    
+    strlat = [arrCoord objectAtIndex:1];
+    strlat = [[AppDelegate sharedinstance] nullcheck:strlat];
+    
+    strlong = [arrCoord objectAtIndex:0];
+    strlong = [[AppDelegate sharedinstance] nullcheck:strlong];
+    
+    //Create a special variable to hold this coordinate info.
+    CLLocationCoordinate2D placeCoord;
+    
+    //Set the lat and long.
+    placeCoord.latitude=[strlat doubleValue];
+    placeCoord.longitude=[strlong doubleValue];
+    desplaceCoord = placeCoord;
+    
+    
+    strlat = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlat];
+    strlat = [[AppDelegate sharedinstance] nullcheck:strlat];
+    
+    strlong = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlong];
+    strlong = [[AppDelegate sharedinstance] nullcheck:strlong];
+    
+    //Set the lat and long.
+    placeCoord.latitude=[strlat doubleValue];
+    placeCoord.longitude=[strlong doubleValue];
+    
+    CLLocationCoordinate2D myposition = {  placeCoord.latitude, placeCoord.longitude };
+    scrplaceCoord = myposition;
+    
+    CLLocation *loc2;
+    CLLocation *loc1;
+    loc1 = [[CLLocation alloc] initWithLatitude:scrplaceCoord.latitude longitude:scrplaceCoord.longitude];
+    loc2 = [[CLLocation alloc] initWithLatitude:desplaceCoord.latitude longitude:desplaceCoord.longitude];
+    
+    CLLocationDistance distanceInMeters = [loc1 distanceFromLocation:loc2];
+    
+    double distanceinKm =(distanceInMeters/1000.f);
+    distanceinKm = roundf(distanceinKm * 10.0f)/10.0f;
+    NSString *strDistance = [NSString stringWithFormat:@"%.1f mi",distanceinKm * 0.621371];
+    [cell.lblDistance setText:strDistance];
+    [cell.lblDistance setHidden:NO];
+    
+    NSLog(@" distance in km %f",distanceinKm);
+    
+    [cell.viewAlpha setAlpha:0];
+    
+    NSString *str11= [[arrData objectAtIndex:indexPath.row] description];
+    NSString *str22= [[arrData lastObject] description];
+    
+    BOOL lastItemReached;
+    
+    if([str11 isEqualToString:str22]) {
+        lastItemReached=YES;
     }
     else {
-        // FROM MY
-        QBCOCustomObject *userObject = [arrCoursesData objectAtIndex:indexPath.row];
+        lastItemReached=NO;
+        
+    }
     
-            for(QBCOCustomObject *courseobj in arrData) {
-                
-                NSString *strCourseID = courseobj.ID;
-                
-                if([ [userObject.fields objectForKey:@"courseId"] isEqualToString:strCourseID]) {
-                    
-                    NSString *str1 = [[AppDelegate sharedinstance] nullcheck:[courseobj.fields objectForKey:@"Name"]];
-                    
-                    [cell.lblName setText:[str1 uppercaseString]];
-                    
-                    str1 = [[AppDelegate sharedinstance] nullcheck:[courseobj.fields objectForKey:@"Address"]];
-                    
-                    NSString *strCity= [[AppDelegate sharedinstance] nullcheck:[courseobj.fields objectForKey:@"City"]];
-                    NSString *strState= [[AppDelegate sharedinstance] nullcheck:[courseobj.fields objectForKey:@"State"]];
-                    NSString *strZipCode= [[AppDelegate sharedinstance] nullcheck:[courseobj.fields objectForKey:@"ZipCode"]];
-                    
-                    str1 = [NSString stringWithFormat:@"%@, %@, %@ %@",str1,strCity,strState,strZipCode];
-                    [cell.lblAddress setText:str1];
-                    
-                    //    [cell.lblUserName setText:str1];
-                    
-                    [cell.imageUrl setShowActivityIndicatorView:YES];
-                    [cell.imageUrl setIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-                    [cell.imageUrl sd_setImageWithURL:[NSURL URLWithString:[courseobj.fields objectForKey:@"ImageUrl"]] placeholderImage:[UIImage imageNamed:@"imgplaceholder.jpg"]];
-                    
-                    break;
-                }
-            }
+    if (lastItemReached && indexPath.row == [arrData count] - 1) {
+        
+        if(shouldLoadNext) {
+            _currentPage++;
+            
+            [self getData];
         }
+    }
+    
+    
+    
     
     return cell;
     
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-
-    if([strIsMyCourses isEqualToString:@"0"]) {
-        // FROM ALL
-        PurchaseSpecialsViewController *viewController;
-        viewController    = [[PurchaseSpecialsViewController alloc] initWithNibName:@"PurchaseSpecialsViewController" bundle:nil];
-        
-        viewController.status=1;
-        
-        QBCOCustomObject *obj = [arrData objectAtIndex:indexPath.row];
-
-        viewController.courseObject=obj;
-        [self.navigationController pushViewController:viewController animated:YES];
     
-    }
-    else {
-        // FROM MY
-        PurchaseSpecialsViewController *viewController;
-        viewController    = [[PurchaseSpecialsViewController alloc] initWithNibName:@"PurchaseSpecialsViewController" bundle:nil];
-        
-        viewController.status=5;
-        
-        QBCOCustomObject *userObject = [arrCoursesData objectAtIndex:indexPath.row];
-        viewController.userObject=userObject;
-
-        for(QBCOCustomObject *courseobj in arrData) {
-            
-            NSString *strCourseID = courseobj.ID;
-            
-            if([ [userObject.fields objectForKey:@"courseId"] isEqualToString:strCourseID]) {
-                
-                viewController.courseObject=courseobj;
-
-                break;
-            }
-        }
-        
-        [self.navigationController pushViewController:viewController animated:YES];
-        
-    }
+    
+    // FROM ALL
+    PurchaseSpecialsViewController *viewController;
+    viewController    = [[PurchaseSpecialsViewController alloc] initWithNibName:@"PurchaseSpecialsViewController" bundle:nil];
+    
+    viewController.status=1;
+    
+    QBCOCustomObject *obj = [arrData objectAtIndex:indexPath.row];
+    
+    viewController.courseObject=obj;
+    [self.navigationController pushViewController:viewController animated:YES];
+    
+    
     
 }
 
 //-----------------------------------------------------------------------
 
-- (IBAction)action_Menu:(id)sender{
-    
-    if(status==1) {
-        [self.navigationController popViewControllerAnimated:YES];
-    }
-    else {
-        [self.menuContainerViewController toggleLeftSideMenuCompletion:^{
-            
-        }];
-    }
-}
-
-//-----------------------------------------------------------------------
-
-- (IBAction)action_gotoMyMatches:(id)sender {
-    UIViewController *viewController;
-    viewController    = [[MyMatchesViewController alloc] initWithNibName:@"MyMatchesViewController" bundle:nil];
-    
-    UINavigationController *navigationController = (UINavigationController*)self.menuContainerViewController.centerViewController;
-    NSArray *controllers = [NSArray arrayWithObject:viewController];
-    navigationController.viewControllers = controllers;
-    [self.menuContainerViewController setMenuState:MFSideMenuStateClosed];
-    
-}
-
--(IBAction)specialTapped:(id)sender {
-    PurchaseSpecialsViewController *obj = [[PurchaseSpecialsViewController alloc] initWithNibName:@"PurchaseSpecialsViewController" bundle:nil];
-    [self.navigationController pushViewController:obj animated:YES];
-    
-}
-
--(IBAction)favTapped:(UIButton*)sender  {
-    
-    CGPoint center=sender.center;
-    
-    CGPoint rootViewPoint = [sender.superview convertPoint:center toView:tblList];
-    NSIndexPath *indexPath = [tblList indexPathForRowAtPoint:rootViewPoint];
-    selectedRow = indexPath.row;
-    
-    QBCOCustomObject *obj ;
-    
-    if([strIsMyCourses isEqualToString:@"0"]) {
-        
-        // All courses
-        obj = [arrData objectAtIndex:selectedRow];
-    }
-    else {
-        
-        QBCOCustomObject *userObject = [arrCoursesData objectAtIndex:selectedRow];
-        
-        for(QBCOCustomObject *courseobj in arrData) {
-            
-            NSString *strCourseID = courseobj.ID;
-            
-            if([ [userObject.fields objectForKey:@"courseId"] isEqualToString:strCourseID]) {
-                obj =courseobj;
-                break;
-            }
-        }
-    }
-    
-    sharedobj = obj;
-    
-    NSMutableArray *arr = [[obj.fields objectForKey:@"userFavID"] mutableCopy];
-    
-    if(!arr || arr.count==0)
-        arr = [[NSMutableArray alloc] init];
-    
-    NSString *strCurrentUserID = [[AppDelegate sharedinstance] getCurrentUserId];
-    
-    if([arr containsObject:strCurrentUserID]) {
-        // it is fav
-        isFavCourse=YES;
-    }
-    else {
-        isFavCourse=NO;
-    }
-    
-    [self showGrid];
-
-  }
 
 - (UIStatusBarStyle) preferredStatusBarStyle {
     return UIStatusBarStyleLightContent;
@@ -776,16 +463,16 @@ int courseOption;
     
     NSString *favoriteTitle = isFavCourse==YES ? @"Mark Unfavorite" : @"Mark Favorite";
     
-
-        items= @[
-                 [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:@"unfav"] title:favoriteTitle],
-                 [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:@"info-filled"] title:@"Information"],
-                 [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:@"viewmap"] title:@"On Map"],
-                 [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:@"direction"] title:@"Directions"],
-                 [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:@"image-placeholder"] title:@"Photos"],
-                 ];
     
-
+    items= @[
+             [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:@"unfav"] title:favoriteTitle],
+             [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:@"info-filled"] title:@"Information"],
+             [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:@"viewmap"] title:@"On Map"],
+             [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:@"direction"] title:@"Directions"],
+             [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:@"image-placeholder"] title:@"Photos"],
+             ];
+    
+    
     
     RNGridMenu *av = [[RNGridMenu alloc] initWithItems:[items subarrayWithRange:NSMakeRange(0, numberOfOptions)]];
     av.delegate = self;
@@ -835,7 +522,7 @@ int courseOption;
 
 -(void ) actionDirection {
     NSArray *arrCoord = [sharedobj.fields objectForKey:@"coordinates"];
-
+    
     strlat = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlat];
     strlat = [[AppDelegate sharedinstance] nullcheck:strlat];
     
@@ -868,49 +555,33 @@ int courseOption;
         
     }
     
-//    NSString *googleMapUrlString = [NSString stringWithFormat:@"http://maps.google.com/?saddr=%f,%f&daddr=%f,%f", scrplaceCoord.latitude, scrplaceCoord.longitude, desplaceCoord.latitude, desplaceCoord.longitude];
+    //    NSString *googleMapUrlString = [NSString stringWithFormat:@"http://maps.google.com/?saddr=%f,%f&daddr=%f,%f", scrplaceCoord.latitude, scrplaceCoord.longitude, desplaceCoord.latitude, desplaceCoord.longitude];
     
     NSString *googleMapUrlString = [NSString stringWithFormat:@"http://maps.apple.com/?saddr=%f,%f&daddr=%f,%f", scrplaceCoord.latitude, scrplaceCoord.longitude, desplaceCoord.latitude, desplaceCoord.longitude];
-
     
-//     NSString *strPlaceName = @"Batumi+Botanical+Garden";
-//    
-//    NSString *googleMapUrlString = [NSString stringWithFormat:@"https://www.google.com/maps/place/%@",strPlaceName];
-
+    
+    //     NSString *strPlaceName = @"Batumi+Botanical+Garden";
+    //
+    //    NSString *googleMapUrlString = [NSString stringWithFormat:@"https://www.google.com/maps/place/%@",strPlaceName];
+    
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:googleMapUrlString] options:[[NSDictionary alloc] init] completionHandler:nil];
     
 }
 
 -(void) actionInfo {
-    QBCOCustomObject *obj ;
     
-    if([strIsMyCourses isEqualToString:@"0"]) {
-        
-        // All courses
-        obj = [arrData objectAtIndex:selectedRow];
-    }
-    else {
-        
-        QBCOCustomObject *userObject = [arrCoursesData objectAtIndex:selectedRow];
-        
-        for(QBCOCustomObject *courseobj in arrData) {
-            
-            NSString *strCourseID = courseobj.ID;
-            
-            if([ [userObject.fields objectForKey:@"courseId"] isEqualToString:strCourseID]) {
-                obj =courseobj;
-                break;
-            }
-        }
-    }
     
-   
+    // All courses
+    QBCOCustomObject *obj = [arrData objectAtIndex:selectedRow];
+    
+    
+    
     NSString *strInfo = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"description"]];
     
     if([strInfo length]>0) {
-    
         
-            NSString* messageString = strInfo;
+        
+        NSString* messageString = strInfo;
         
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Information"
                                                                                  message:messageString
@@ -928,31 +599,14 @@ int courseOption;
     else {
         [[AppDelegate sharedinstance] displayMessage:@"No information available"];
     }
-
+    
 }
 
 -(void) actionFav {
-    QBCOCustomObject *obj ;
     
-    if([strIsMyCourses isEqualToString:@"0"]) {
-        
-        // All courses
-        obj = [arrData objectAtIndex:selectedRow];
-    }
-    else {
-        
-        QBCOCustomObject *userObject = [arrCoursesData objectAtIndex:selectedRow];
-        
-        for(QBCOCustomObject *courseobj in arrData) {
-            
-            NSString *strCourseID = courseobj.ID;
-            
-            if([ [userObject.fields objectForKey:@"courseId"] isEqualToString:strCourseID]) {
-                obj =courseobj;
-                break;
-            }
-        }
-    }
+    // All courses
+    QBCOCustomObject *obj = [arrData objectAtIndex:selectedRow];
+    
     
     NSMutableArray *arr = [[obj.fields objectForKey:@"userFavID"] mutableCopy];
     
@@ -984,21 +638,16 @@ int courseOption;
     
     [QBRequest updateObject:obj successBlock:^(QBResponse *response, QBCOCustomObject *object) {
         // object updated
+        [arrData replaceObjectAtIndex:selectedRow withObject:obj];
         
-        if([strIsMyCourses isEqualToString:@"0"]) {
-            [arrData replaceObjectAtIndex:selectedRow withObject:obj];
-        }
-        else {
-            //            [arrData replaceObjectAtIndex:indexPath.row withObject:obj];
-        }
-
+        
         if(showOnyFav) {
             
             [self getData];
         }
         else {
-                    [[AppDelegate sharedinstance] hideLoader];
-                    [tblList reloadData];
+            [[AppDelegate sharedinstance] hideLoader];
+            [tblList reloadData];
         }
         
     } errorBlock:^(QBResponse *response) {
@@ -1007,7 +656,7 @@ int courseOption;
         [[AppDelegate sharedinstance] hideLoader];
         
     }];
-
+    
 }
 
 @end

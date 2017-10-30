@@ -96,10 +96,12 @@
 +(AppDelegate *)SharedDelegate;
 +(AppDelegate*)sharedinstance;
 -(NSString *) getCurrentUserId;
+-(NSString *) getCurrentRole;
 -(NSString *) getFullImgUrl:(NSString*) strImgName;
 -(NSString *) getSlideFullImgUrl:(NSString*) strName;
 -(NSString *) getFullAudioUrl:(NSString*) strImgName;
 -(NSString *) getFullVideoUrl:(NSString*) strImgName;
+-(NSDictionary *) getUserData;
 -(BOOL) checkSubstring:(NSString *) substring containedIn:(NSString*) string;
 -(NSString *) nullcheckForReport:(NSString *) str;
 -(void)displayServerFailureMessage;

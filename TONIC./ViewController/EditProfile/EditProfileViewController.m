@@ -6,9 +6,8 @@
 //
 
 #import "EditProfileViewController.h"
-#import "HomeViewController.h"
-#import "PDFViewController.h"
 #import "PreviewProfileViewController.h"
+#import "ProRegisterViewController.h"
 
 #define kPickerBday 1
 #define kPickerCity 2
@@ -36,6 +35,7 @@ NSDateFormatter *dateFormat;
     imageChosen=kImageCancel;
     
     viewSave.layer.cornerRadius = 20;
+    proButton.layer.cornerRadius = 20;
   //  viewSave.layer.borderWidth=1.0f;
     [viewSave.layer setMasksToBounds:YES];
    // [viewSave.layer setBorderColor:[UIColor clearColor].CGColor];
@@ -163,6 +163,19 @@ NSDateFormatter *dateFormat;
         else {
             [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kIAPFULLVERSION];
             [[NSUserDefaults standardUserDefaults] synchronize];
+        }
+        
+        NSString *status = [object.fields objectForKey:@"Status"];
+        int role = [[object.fields objectForKey:@"UserRole"] intValue];
+        if([status isEqualToString:@"Pending"])
+        {
+            proButton.enabled = NO;
+            [proButton setTitle:@"Pro Request Sent" forState:UIControlStateNormal];
+        }
+        else if(role == 1)
+        {
+            proButton.enabled = NO;
+            [proButton setTitle:@"Pro Status Confirmed" forState:UIControlStateNormal];
         }
 
         [self localSave];
@@ -722,7 +735,7 @@ NSDateFormatter *dateFormat;
         [UIView setAnimationBeginsFromCurrentState:YES];
         [UIView setAnimationDuration:.5];
         
-        NSLog(@"%ld",(43*([textField tag]%10)));
+        NSLog(@"%d",(int)(43*([textField tag]%10)));
         
         [scrollViewContainer setContentOffset:CGPointMake(0, 60 + (43*(([textField tag]-1)%10))) animated:NO];
         [UIView commitAnimations];
@@ -908,6 +921,11 @@ NSDateFormatter *dateFormat;
     
 }
 
+-(IBAction)ProRequestTapped:(id)sender
+{
+    ProRegisterViewController *viewController    = [[ProRegisterViewController alloc] initWithNibName:@"ProRegisterViewController" bundle:nil];
+    [self.navigationController pushViewController:viewController animated:YES];
+}
 
 @end
 

@@ -5,7 +5,6 @@
 //  Copyright (c) 2015 WLc. All rights reserved.
 //
 
-#import "HomeViewController.h"
 #import "cell_ViewPhoto.h"
 #import "CoursePhotoViewController.h"
 

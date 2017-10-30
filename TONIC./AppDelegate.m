@@ -16,21 +16,16 @@
 #import <SystemConfiguration/SystemConfiguration.h>
 #import <sys/socket.h>
 #import <netinet/in.h>
-#import "HomeViewController.h"
-#import "ProfileViewController.h"
 #import "SettingsViewController.h"
 #import "MyMatchesViewController.h"
 #import "SpecialsViewController.h"
 #import "PurchaseSpecialsViewController.h"
-#import "PurchasedViewController.h"
-#import "ViewProfileViewController.h"
 #import "DemoMessagesViewController.h"
 #import "ViewUsersViewController.h"
 #import "RegisterViewController.h"
 #import "PreviewProfileViewController.h"
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
-#import "MoreViewController.h"
 #import "CoursePreferencesViewController.h"
 @import CoreLocation;
 @import AVFoundation;
@@ -90,7 +85,6 @@ static AppDelegate *delegate;
  //    return [[CoursePreferencesViewController alloc] initWithNibName:@"CoursePreferencesViewController" bundle:nil];
         
     SpecialsViewController *svc = [[SpecialsViewController alloc] initWithNibName:@"SpecialsViewController" bundle:nil];
-    svc.strIsMyCourses=@"0";
      return svc;
         
         //        return [[MyMatchesViewController alloc] initWithNibName:@"MyMatchesViewController" bundle:nil];
@@ -103,10 +97,6 @@ static AppDelegate *delegate;
         
         return [[EditProfileViewController alloc] initWithNibName:@"EditProfileViewController" bundle:nil];
         
-        DemoMessagesViewController *vc = [DemoMessagesViewController messagesViewController];
-        return vc;
-        
-        // return [[ProfileViewController alloc] initWithNibName:@"ProfileViewController" bundle:nil];
     }
     
     return [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
@@ -900,7 +890,6 @@ static AppDelegate *delegate;
                     strRedirectScreen = kRedirectToMyCourses;
                     
                     vc = [[SpecialsViewController alloc] initWithNibName:@"SpecialsViewController" bundle:nil];
-                    ((SpecialsViewController*)vc).strIsMyCourses=@"1";
 
                 }
                 else if([[AppDelegate sharedinstance] checkSubstring:@"has accepted your connection request" containedIn:strMessage]) {
@@ -1045,6 +1034,18 @@ static AppDelegate *delegate;
 -(NSString *) getCurrentName {
     NSDictionary *dictUserDetails = [[NSUserDefaults standardUserDefaults] objectForKey:kuserData];
     NSString *strname = [dictUserDetails objectForKey:@"userDisplayName"];
+    return strname;
+    
+}
+
+-(NSDictionary *) getUserData {
+    return [[NSUserDefaults standardUserDefaults] objectForKey:kuserData];
+    
+}
+
+-(NSString *) getCurrentRole {
+    NSDictionary *dictUserDetails = [[NSUserDefaults standardUserDefaults] objectForKey:kuserData];
+    NSString *strname = [dictUserDetails objectForKey:@"UserRole"];
     return strname;
     
 }
@@ -1381,18 +1382,18 @@ static AppDelegate *delegate;
     
     NSLog(@"DateOfBirth======%@",DateOfBirth);
     
-    NSInteger years = [[[NSCalendar currentCalendar] components:NSCalendarUnitYear
+    long years = [[[NSCalendar currentCalendar] components:NSCalendarUnitYear
                                                        fromDate:DateOfBirth
                                                          toDate:currentTime options:0]year];
     
-    NSInteger months = [[[NSCalendar currentCalendar] components:NSCalendarUnitMonth
+    long months = [[[NSCalendar currentCalendar] components:NSCalendarUnitMonth
                                                         fromDate:DateOfBirth
                                                           toDate:currentTime options:0]month];
     
    
     
-    NSLog(@"Number of years: %d",years);
-    NSLog(@"Number of Months: %d,",months);
+    NSLog(@"Number of years: %ld",years);
+    NSLog(@"Number of Months: %ld,",months);
     
 
     
@@ -1435,7 +1436,7 @@ static AppDelegate *delegate;
         
         for(QBCOCustomObject *obj in arr)
         {
-             [ProIcons setObject:[obj.fields objectForKey:@"IconUrl"]  forKey:[(NSString*)[obj.fields objectForKey:@"class"] lowercaseString]];
+             [ProIcons setObject:[[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"IconUrl"]]  forKey:[(NSString*)[obj.fields objectForKey:@"class"] lowercaseString]];
         }
         
     } errorBlock:^(QBResponse *response) {

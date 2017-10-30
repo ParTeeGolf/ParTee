@@ -6,7 +6,6 @@
 //
 
 #import "SettingsViewController.h"
-#import "HomeViewController.h"
 #import "SendMessageCellTableViewCell.h"
 
 
@@ -237,7 +236,8 @@
          NSArray *arrCity = [object.fields objectForKey:@"City"];
          NSString *strCity = [arrCity componentsJoinedByString:@","];
          NSString *strState = [[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"State"]];
-         NSString *strhome_course= [[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"Name"]];
+         NSString *strhome_course= [[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"Course"]];
+         NSString *strName= [[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"Name"]];
          
          NSString *strAge = [[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"Age"]];
          NSString *strType = [[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"Type"]];
@@ -278,26 +278,21 @@
          
          [txtType setText:strType];
          
+         txtName.text = strName;
+         
          if([strHandicap length]==0)
          {
              strHandicap = @"-40 - 5";
-             [btnNA setTitle:@"NA: YES" forState:UIControlStateNormal];
+             [handicapSwitch setOn:YES];
          }
          else
          {
-             NSArray* splitHandicap = [strHandicap componentsSeparatedByString: @":"];
-             strHandicap = splitHandicap[0];
-             if([splitHandicap[1] isEqualToString:@"1"])
-             {
-                 [btnNA setTitle:@"NA: NO" forState:UIControlStateNormal];
-             }
-             else
-             {
-                 [btnNA setTitle:@"NA: YES" forState:UIControlStateNormal];
-             }
+             [handicapSwitch setOn:![strHandicap isEqualToString:@"All"]];
          }
          
          [txtHandicap setText:strHandicap];
+         handicapButton.enabled = ![strHandicap isEqualToString:@"All"];
+         
      }
                          errorBlock:^(QBResponse *response) {
                              // error handling
@@ -415,18 +410,21 @@
         return;
     }
     
-    NSArray* splitHandicap = [txtHandicap.text componentsSeparatedByString: @" - "];
-    first = [[splitHandicap objectAtIndex: 0] intValue];
-    second = [[splitHandicap objectAtIndex: 1] intValue];
-    
-    if(second < first)
+    if(![txtHandicap.text isEqualToString:@"All"])
     {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:kAppName message:@"Invalid Handicap Range" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-        alert.tag=121;
-        [alert show];
-        return;
+        NSArray* splitHandicap = [txtHandicap.text componentsSeparatedByString: @" - "];
+        first = [[splitHandicap objectAtIndex: 0] intValue];
+        second = [[splitHandicap objectAtIndex: 1] intValue];
+        
+        if(second > first)
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:kAppName message:@"Invalid Handicap Range" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+            alert.tag=121;
+            [alert show];
+            return;
+        }
     }
-    
+
     [self savesettings];
 }
 
@@ -549,8 +547,8 @@
     [minMax setHidden:NO];
     
     NSArray* splitAge = [txtHandicap.text componentsSeparatedByString: @" - "];
-    int first = [[splitAge objectAtIndex: 0] intValue];
-    int second = [[splitAge objectAtIndex: 1] intValue];
+    int first = [[splitAge objectAtIndex: 1] intValue];
+    int second = [[splitAge objectAtIndex: 0] intValue];
     
     pickerOption = kPickerHandicap;
     
@@ -652,31 +650,16 @@
     return UIStatusBarStyleLightContent;
 }
 
--(IBAction)btnNATapped:(id)sender
-{
-    if([btnNA.titleLabel.text isEqualToString:@"NA: YES"])
-    {
-        [btnNA setTitle:@"NA: NO" forState:UIControlStateNormal];
-    }
-    else
-    {
-        [btnNA setTitle:@"NA: YES" forState:UIControlStateNormal];
-    }
-}
-
 -(void) savesettings
 {
     [object.fields setObject:[Gender componentsJoinedByString:@","]  forKey:@"Gender"];
     [object.fields setObject:txtState.text forKey:@"State"];
-    [object.fields setObject:txtCourse.text forKey:@"Name"];
+    [object.fields setObject:txtCourse.text forKey:@"Course"];
+    [object.fields setObject:txtName.text forKey:@"Name"];
     [object.fields setObject:txtAge.text  forKey:@"Age"];
     [object.fields setObject:txtType.text  forKey:@"Type"];
     
-    long isNA = [btnNA.titleLabel.text isEqualToString:@"NA: YES"] ? 0 : 1;
-    
-    NSString *strIntHandicap = [txtHandicap.text stringByAppendingString:[NSString stringWithFormat:@":%ld",isNA]];
-    
-    [object.fields setObject:strIntHandicap forKey:@"Handicap"];
+    [object.fields setObject:txtHandicap.text forKey:@"Handicap"];
     [object.fields setObject:[txtCity.text componentsSeparatedByString: @","] forKey:@"City"];
 
     [object.fields setObject:@"Course" forKey:@"Location"];
@@ -696,11 +679,12 @@
         
         [dictUserData setObject:[txtCity.text componentsSeparatedByString: @","] forKey:@"City"];
         [dictUserData setObject:txtState.text forKey:@"State"];
-        [dictUserData setObject:txtCourse.text forKey:@"Name"];
+        [dictUserData setObject:txtName.text forKey:@"Name"];
+        [dictUserData setObject:txtCourse.text forKey:@"Course"];
 
         [dictUserData setObject:txtAge.text forKey:@"Age"];
         [dictUserData setObject:txtType.text forKey:@"Type"];
-        [dictUserData setObject: strIntHandicap forKey:@"Handicap"];
+        [dictUserData setObject: txtHandicap.text forKey:@"Handicap"];
 
         [[NSUserDefaults standardUserDefaults] setObject:dictUserData forKey:searchType];
         [[NSUserDefaults standardUserDefaults] synchronize];
@@ -839,8 +823,11 @@
     [txtCity setText:@"All"];
     [txtState setText:@"All"];
     [txtCourse setText:@"All"];
+    [txtName setText:@""];
     
-    [txtHandicap setText:@"-40 - 5"];
+    [txtHandicap setText:@"5 - -40"];
+    [handicapButton setEnabled:YES];
+    
     [btnNA setTitle:@"NA: YES" forState:UIControlStateNormal];
     
 }
@@ -1339,6 +1326,18 @@
     }
     
 }
+
+-(IBAction)HandicapTapped:(id)sender
+{
+    txtHandicap.text = [handicapSwitch isOn] ? @"5 - -40" : @"All";
+    handicapButton.enabled = [handicapSwitch isOn];
+    
+    [viewToolbar setHidden:YES];
+    [minMaxView setHidden:YES];
+    [minMax setHidden:YES];
+    
+}
+
 -(BOOL) prefersStatusBarHidden {
     return NO;
 }

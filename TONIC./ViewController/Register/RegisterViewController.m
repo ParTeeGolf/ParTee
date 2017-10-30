@@ -6,8 +6,6 @@
 //
 
 #import "RegisterViewController.h"
-#import "HomeViewController.h"
-#import "PDFViewController.h"
 
 #define kPickerBday 1
 #define kPickerCity 2
@@ -1137,6 +1135,7 @@
                 [localObject.fields setObject:[NSNumber numberWithInteger:0] forKey:@"stolenBlockCount"];
                 [localObject.fields setObject:[NSNumber numberWithInteger:0] forKey:@"abusiveBlockCount"];
                 [localObject.fields setObject:[NSNumber numberWithInteger:0] forKey:@"otherBlockCount"];
+                [localObject.fields setObject:[NSNumber numberWithInteger:0] forKey:@"UserRole"];
                 
                 [localObject.fields setObject:[NSNumber numberWithInteger:1] forKey:@"user_type"];
                 
@@ -1187,7 +1186,6 @@
                     //                        viewController.strIsMyMatches=@"1";
                     
                     SpecialsViewController *vc = [[SpecialsViewController alloc] initWithNibName:@"SpecialsViewController" bundle:nil];
-                    ((SpecialsViewController*)vc).strIsMyCourses=@"0";
                     
                     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
                     SideMenuViewController *leftMenuViewController;
@@ -1288,7 +1286,7 @@ didAutocompleteWithPlace:(GMSPlace *)place {
 didFailAutocompleteWithError:(NSError *)error {
     autocompletePlaceStatus = 3;
     // TODO: handle the error.
-    NSLog(@"error: %ld", [error code]);
+    NSLog(@"error: %ld", (long)[error code]);
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

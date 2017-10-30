@@ -50,7 +50,4 @@
     IBOutlet UIButton *btnSearchBig;
 
 }
-
-@property (nonatomic,assign) int status;
-@property(nonatomic,strong) NSString *strIsMyCourses;
 @end

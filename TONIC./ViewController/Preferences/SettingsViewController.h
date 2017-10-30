@@ -41,10 +41,13 @@
     IBOutlet UITextField *txtCourse;
     IBOutlet UITextField *txtState;
     IBOutlet UITextField *txtHandicap;
+    IBOutlet UITextField *txtName;
     IBOutlet UIPickerView *pickerView;
     IBOutlet UIView *minMaxView;
     IBOutlet UISegmentedControl *minMax;
     IBOutlet UIButton *btnNA;
+    IBOutlet UISwitch *handicapSwitch;
+    IBOutlet UIButton *handicapButton;
     
     IBOutlet UIView *HandicapView;
     IBOutlet UIView *TypeView;

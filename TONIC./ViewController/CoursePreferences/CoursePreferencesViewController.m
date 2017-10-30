@@ -6,7 +6,6 @@
 //
 
 #import "SettingsViewController.h"
-#import "HomeViewController.h"
 #import "CoursePreferencesViewController.h"
 
 #import "CourseCellTableViewCell.h"
@@ -806,7 +805,7 @@
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
-    NSLog(@"Selected Row %ld", row);
+    NSLog(@"Selected Row %ld", (long)row);
     
     switch (pickerOption)
     {

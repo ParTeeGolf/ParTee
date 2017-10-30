@@ -8,16 +8,11 @@
 #import "MFSideMenu.h"
 #import "cell_Menu.h"
 
-#import "HomeViewController.h"
-#import "ProfileViewController.h"
 #import "SettingsViewController.h"
 #import "MyMatchesViewController.h"
 #import "SpecialsViewController.h"
 #import "PurchaseSpecialsViewController.h"
-#import "PurchasedViewController.h"
-#import "ViewProfileViewController.h"
 #import "LoginViewController.h"
-#import "ConnectssViewController.h"
 #import "EditProfileViewController.h"
 
 #import "ViewUsersViewController.h"
@@ -65,7 +60,7 @@ long currentTag = 1;
     [imgViewPic.layer setMasksToBounds:YES];
     [imgViewPic.layer setBorderColor:[UIColor whiteColor].CGColor];
     
-    numOfRows=11;
+    numOfRows=12;
     
     [tblView reloadData];
 }
@@ -97,7 +92,7 @@ long currentTag = 1;
         [imgViewPic sd_setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:[UIImage imageNamed:@"user"]];
     
     
-    numOfRows=11;
+    numOfRows=12;
     
      [tblView reloadData];
     
@@ -310,6 +305,10 @@ long currentTag = 1;
 
             break;
         case 10:
+            cell.lbl_Name.text = @"PARTEE PARTNERS";
+            break;
+
+        case 11:
             cell.lbl_Name.text = @"";
             if(![self.view viewWithTag:101])
                 
@@ -381,7 +380,6 @@ long currentTag = 1;
             break;
         case 5:
             viewController    = [[SpecialsViewController alloc] initWithNibName:@"SpecialsViewController" bundle:nil];
-            ((SpecialsViewController*)viewController).strIsMyCourses=@"0";
             [[AppDelegate sharedinstance] setStringObj:@"0" forKey:@"courseOptions"];
             break;
         case 6:
@@ -399,7 +397,51 @@ long currentTag = 1;
         case 9:
             [self ComingSoon];
             break;
+        case 10:
+            [[AppDelegate sharedinstance] showLoader];
             
+            [QBRequest objectsWithClassName:@"ParteePartners" extendedRequest:nil successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
+                // response processing
+                [[AppDelegate sharedinstance] hideLoader];
+                
+                // checking user there in custom user table or not.
+                QBCOCustomObject *obj = objects[0];
+                
+                
+                UIAlertController *alert = [UIAlertController
+                         alertControllerWithTitle:[obj.fields objectForKey:@"Title"]
+                         message:[obj.fields objectForKey:@"Description"]
+                         preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction* yesButton = [UIAlertAction
+                                            actionWithTitle:@"Take Me There"
+                                            style:UIAlertActionStyleDefault
+                                            handler:^(UIAlertAction * action)
+                {
+                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[obj.fields objectForKey:@"Url"]] options: @{} completionHandler:nil];
+                                            }];
+                
+                UIAlertAction* noButton = [UIAlertAction
+                                           actionWithTitle:@"Cancel"
+                                           style:UIAlertActionStyleDefault
+                                           handler:^(UIAlertAction * action) {
+                                               
+                                           }];
+                
+                [alert addAction:yesButton];
+                [alert addAction:noButton];
+                
+                [self presentViewController:alert animated:YES completion:nil];
+                
+                
+            }
+                                 errorBlock:^(QBResponse *response) {
+                                     // error handling
+                                     [[AppDelegate sharedinstance] hideLoader];
+                                     
+                                     NSLog(@"Response error: %@", [response.error description]);
+                                 }];
+            
+            break;
             
             
     }

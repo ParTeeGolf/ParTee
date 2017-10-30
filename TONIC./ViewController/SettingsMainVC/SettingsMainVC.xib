@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -26,7 +26,6 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SettingsMainVC">
             <connections>
                 <outlet property="btnBack" destination="QVa-jv-NhH" id="u8P-3N-gyC"/>
-                <outlet property="btnDevOn" destination="s1S-ad-L6x" id="csg-0L-7Tb"/>
                 <outlet property="btnPush" destination="wcx-ad-kgK" id="Sjf-GY-Pn1"/>
                 <outlet property="scrollViewContainer" destination="80n-aH-qkA" id="APV-WG-4AA"/>
                 <outlet property="view" destination="kQ2-JO-dcV" id="IMi-bo-BLU"/>
@@ -58,14 +57,6 @@
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <connections>
                                 <action selector="action_Menu:" destination="-1" eventType="touchUpInside" id="U3X-IN-gkU"/>
-                            </connections>
-                        </button>
-                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="s1S-ad-L6x">
-                            <rect key="frame" x="240" y="25" width="70" height="34"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                            <state key="normal" title="Dev-ON"/>
-                            <connections>
-                                <action selector="devModeChanged:" destination="-1" eventType="touchUpInside" id="yWF-Jz-KAr"/>
                             </connections>
                         </button>
                     </subviews>
@@ -414,9 +405,4 @@
         <image name="fwd.png" width="50" height="50"/>
         <image name="toggleOn.png" width="100" height="100"/>
     </resources>
-    <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedStatusBarMetrics key="statusBar"/>
-        <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4_7.fullscreen"/>
-    </simulatedMetricsContainer>
 </document>

@@ -6,7 +6,6 @@
 //
 
 #import "MyMatchesViewController.h"
-#import "HomeViewController.h"
 #import "ViewUsersViewController.h"
 #import "cell_ViewUsers.h"
 #import "cell_ViewPro.h"
@@ -441,6 +440,7 @@
         NSString *role = [self IsPro] ? @"1" : @"0";
         
         [getRequest setObject:role forKey:@"UserRole"];
+        [getRequest setObject:@"Pending" forKey:@"Status[ne]"];
     }
     else if([self IsPro] && segmentMode == 0)
     {
@@ -473,27 +473,20 @@
     
     NSString *strHandicap = [dictUserSearchData objectForKey:@"Handicap"];
     
-    if([strHandicap length]!=0 && ![self IsPro])
+    if([strHandicap length]!=0 && ![self IsPro] && ![strHandicap isEqualToString:@"All"])
     {
-        NSArray* splitHandicap = [strHandicap componentsSeparatedByString: @":"];
-        NSString *handicapRange = [splitHandicap objectAtIndex: 0];
-        NSString *includeNA = [splitHandicap objectAtIndex: 1];
-        
-        NSArray* splitRange = [handicapRange componentsSeparatedByString: @" - "];
+        NSArray* splitRange = [strHandicap componentsSeparatedByString: @" - "];
         lowerlimit = [[splitRange objectAtIndex: 0] intValue];
         upperlimit = [[splitRange objectAtIndex: 1] intValue];
         
         NSMutableArray *handicapArr = [[NSMutableArray alloc] init];
         
-        for(long x = lowerlimit; x <= upperlimit; ++x)
+        for(long x = upperlimit; x <= lowerlimit; ++x)
         {
             [handicapArr addObject:[NSString stringWithFormat:@"%ld", x]];
         }
         
-        if([includeNA isEqualToString:@"0"])
-        {
-            [handicapArr addObject:@"N/A"];
-        }
+        
         [getRequest setObject:handicapArr forKey:@"userHandicap[in]"];
         [getRequest setObject:@"userHandicap" forKey:@"sort_asc"];
         
@@ -521,7 +514,7 @@
     }
     
     
-   NSString *strinterested_in_home_course = [[AppDelegate sharedinstance] nullcheck:[dictUserSearchData objectForKey:@"Name"]];
+   NSString *strinterested_in_home_course = [[AppDelegate sharedinstance] nullcheck:[dictUserSearchData objectForKey:@"Course"]];
     
     if([strinterested_in_home_course length]>0)
     {
@@ -531,6 +524,17 @@
         }
         
     }
+        
+        NSString *strName = [[AppDelegate sharedinstance] nullcheck:[dictUserSearchData objectForKey:@"Name"]];
+        
+        if([strName length]>0)
+        {
+            if(![strName isEqualToString:@""])
+            {
+                [getRequest setObject:strName forKey:@"userDisplayName[ctn]"];
+            }
+            
+        }
     
     NSString *role = [self IsPro] ? @"1" : @"0";
     
@@ -729,7 +733,9 @@
                                         actionWithTitle:@"YES"
                                         style:UIAlertActionStyleDefault
                                         handler:^(UIAlertAction * action) {
-                                            //Handle your yes please button action here
+                                            MyMatchesViewController *obj = [[MyMatchesViewController alloc] initWithNibName:@"MyMatchesViewController" bundle:nil];
+                                            obj.productType=@"Connects";
+                                            [self.navigationController pushViewController:obj animated:NO];
                                         }];
             
             UIAlertAction* noButton = [UIAlertAction
@@ -789,12 +795,9 @@
                     
                     [arrData removeObject:obj];
                     
-                    if([arrData count]==0) {
-                        [lblNotAvailable setHidden:NO];
-                    }
-                    else {
-                        [lblNotAvailable setHidden:YES];
-                    }
+    
+                    [lblNotAvailable setHidden:[arrData count]==0];
+                   
                     
                     int weeklyConnects = [[dictUserData objectForKey:@"userFreeConnects"] intValue];
                     int userPurchasedConnects = [[dictUserData objectForKey:@"userPurchasedConnects"] intValue];
@@ -810,11 +813,8 @@
                          weeklyConnects = weeklyConnects - 1;
                         [object.fields setObject:[NSString stringWithFormat:@"%d",weeklyConnects]  forKey:@"userFreeConnects"];
                     }
-                    else {
-                       
-                        if(userPurchasedConnects>0) {
-                            userPurchasedConnects = userPurchasedConnects - 1;
-                        }
+                    else if(userPurchasedConnects>0){
+                        userPurchasedConnects = userPurchasedConnects - 1;
                         
                         [object.fields setObject:[NSString stringWithFormat:@"%d",userPurchasedConnects]  forKey:@"userPurchasedConnects"];
                     }
@@ -1010,7 +1010,8 @@
         [cell.profileButton addTarget:self action:@selector(viewProfile:) forControlEvents:UIControlEventTouchUpInside];
         
         cell.lblName.text = [obj.fields objectForKey:@"userDisplayName"];
-        cell.proType.text = [obj.fields objectForKey:@"ProType"];
+        cell.proType.text = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"ProType"]];
+        cell.alternateProType.text = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"AlternateProType"]];
         
         [cell.imageUrl setShowActivityIndicatorView:YES];
         [cell.imageUrl setIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
@@ -1046,8 +1047,6 @@
         cell = [topLevelObjects objectAtIndex:0];
         
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        
-        
         
         if([strIsMyMatches isEqualToString:@"0"])
         {
@@ -1258,7 +1257,8 @@
     
         switch(segmentMode)
         {
-            case 0:
+            case 0: 
+            case 1:
                 [cell.acceptButton setHidden:YES];
                 [cell.denyButton setHidden:YES];
                 break;
@@ -1593,7 +1593,7 @@
                             
                             QBMPushMessage *pushMessage = [[QBMPushMessage alloc] initWithPayload:payload];
                             
-                            NSString *strUserId = [NSString stringWithFormat:@"%ld",obj.userID];
+                            NSString *strUserId = [NSString stringWithFormat:@"%ld",(unsigned long)obj.userID];
                             
                             [QBRequest sendPush:pushMessage toUsers:strUserId successBlock:^(QBResponse *response, QBMEvent *event) {
                                 

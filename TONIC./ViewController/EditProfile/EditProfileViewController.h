@@ -52,6 +52,7 @@
     NSString *strImgURLBase;
 
     IBOutlet UIButton *saveButton;
+    IBOutlet UIButton *proButton;
     int pickerOption;
 }
 @property (strong, nonatomic) MBProgressHUD *HUD;

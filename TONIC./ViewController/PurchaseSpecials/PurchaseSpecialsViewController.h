@@ -51,6 +51,7 @@
     IBOutlet UIView *eventsView;
     IBOutlet UITableView *eventsTable;
     IBOutlet UITextView *aboutTextView;
+    IBOutlet UILabel *numberOfHoles;
     
     NSMutableArray *arrData;
 
@@ -61,14 +62,6 @@
 @property (strong, nonatomic) IBOutlet UIButton *btnFavImage;
 
 @property (nonatomic,assign) int status;
-
--(IBAction)viewUser:(id)sender;
-
--(IBAction)selectUser:(id)sender;
-
--(IBAction)bookingpressed:(id)sender;
--(IBAction)phonepressed:(id)sender;
--(IBAction)websitepressed:(id)sender;
 
 @property (nonatomic,strong) QBCOCustomObject *userObject;
 @property (nonatomic,strong) QBCOCustomObject *courseObject;

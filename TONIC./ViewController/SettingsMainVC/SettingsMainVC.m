@@ -6,8 +6,8 @@
 //
 
 #import "SettingsMainVC.h"
-#import "HomeViewController.h"
 #import "SendMessageCellTableViewCell.h"
+#import "TourViewController.h"
 
 #define kButtonCity 1
 #define kButtonAge 2
@@ -326,51 +326,11 @@
 
 -(IBAction)Walkthroughtapped:(id)sender {
     
-    // basic
-    EAIntroPage *page1 = [EAIntroPage page];
-    page1.title = @"";
-    page1.desc = @"";
+    UIViewController *viewController;
+    viewController    = [[TourViewController alloc] initWithNibName:@"TourViewController" bundle:nil];
     
-    // basic
-    EAIntroPage *page2 = [EAIntroPage page];
-    page2.title = @"";
-    page2.desc = @"";
-    
-    EAIntroPage *page3 = [EAIntroPage page];
-    page3.title = @"";
-    page3.desc = @"";
-    
-    EAIntroPage *page4 = [EAIntroPage page];
-    page4.title = @"";
-    page4.desc = @"";
-    
-    EAIntroPage *page5 = [EAIntroPage page];
-    
-    if(isiPhone4) {
-        page1.bgImage = [UIImage imageNamed:@"Slide 1_4s"];
-        page2.bgImage = [UIImage imageNamed:@"Slide 2_4s"];
-        page3.bgImage = [UIImage imageNamed:@"Slide 3_4s"];
-        page4.bgImage = [UIImage imageNamed:@"Slide 4_4s"];
-        page5.bgImage = [UIImage imageNamed:@"Silde 5_4s"];
-        
-    }
-    else {
-        page1.bgImage = [UIImage imageNamed:@"Slide 1"];
-        page2.bgImage = [UIImage imageNamed:@"Slide 2"];
-        page3.bgImage = [UIImage imageNamed:@"Slide 3"];
-        page4.bgImage = [UIImage imageNamed:@"Slide 4"];
-        page5.bgImage = [UIImage imageNamed:@"Silde 5"];
-        
-    }
-
-    
-    EAIntroView *intro = [[EAIntroView alloc] initWithFrame:self.view.bounds andPages:@[page1,page2,page3,page4,page5]];
-    UIFont *font = [UIFont fontWithName:@"Montserrat-Regular" size:15];
-    [intro.skipButton.titleLabel setFont:font];
-    [intro.skipButton setTitle:@"SKIP" forState:UIControlStateNormal];
-    [intro.skipButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [intro setDelegate:self];
-    [intro showInView:self.view animateDuration:0.0];
+    [self.navigationController pushViewController:viewController animated:YES];
+   
 }
 
 #pragma mark - EAIntroView delegate

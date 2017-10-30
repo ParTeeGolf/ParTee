@@ -157,7 +157,7 @@
 -(void) customchanges {
     
     UIFont *font = [UIFont fontWithName:@"Montserrat-Regular" size:15];
-    UIFont *font1 = [UIFont fontWithName:@"Oswald-Regular" size:22];
+    UIFont *font1 = [UIFont fontWithName:@"Montserrat-Bold" size:22];
 
     self.collectionView.collectionViewLayout.messageBubbleFont =font;
     self.navigationController.navigationBarHidden=YES;
@@ -469,20 +469,6 @@
     });
 }
 
-- (void) keyboardPressed:(UIBarButtonItem *)sender {
-    ViewProfileViewController *viewController;
-    
-    viewController    = [[ViewProfileViewController alloc] initWithNibName:@"ViewProfileViewController" bundle:nil];
-    
-    QBCOCustomObject *obj = otherUserObject;
-    viewController.customShareObj=obj;
-    viewController.isMyMatch=NO;
-    [self.navigationController pushViewController:viewController animated:YES];
-
-    
-   // [self.inputToolbar.contentView.textView becomeFirstResponder];
-}
-
 - (UIStatusBarStyle) preferredStatusBarStyle {
     return UIStatusBarStyleLightContent;
 }
@@ -728,13 +714,6 @@
      *  Show a timestamp for every 3rd message
      */
     return nil;
-
-    if (indexPath.item % 4 == 0) {
-        JSQMessage *message = [self.demoData.messages objectAtIndex:indexPath.item];
-        return [[JSQMessagesTimestampFormatter sharedFormatter] attributedTimestampForDate:message.date];
-    }
-    
-    return nil;
 }
 
 - (NSAttributedString *)collectionView:(JSQMessagesCollectionView *)collectionView attributedTextForMessageBubbleTopLabelAtIndexPath:(NSIndexPath *)indexPath
@@ -875,35 +854,12 @@
      *  Show a timestamp for every 3rd message
      */
     return 0.0f;
-
-    if (indexPath.item % 4 == 0) {
-        return kJSQMessagesCollectionViewCellLabelHeightDefault ;
-    }
-    
-    return 0.0f;
 }
 
 - (CGFloat)collectionView:(JSQMessagesCollectionView *)collectionView
                    layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout heightForMessageBubbleTopLabelAtIndexPath:(NSIndexPath *)indexPath
 {
     return 5.0f;
-
-    /**
-     *  iOS7-style sender name labels
-     */
-    JSQMessage *currentMessage = [self.demoData.messages objectAtIndex:indexPath.item];
-    if ([[currentMessage senderId] isEqualToString:self.senderId]) {
-        return 0.0f;
-    }
-    
-    if (indexPath.item - 1 > 0) {
-        JSQMessage *previousMessage = [self.demoData.messages objectAtIndex:indexPath.item - 1];
-        if ([[previousMessage senderId] isEqualToString:[currentMessage senderId]]) {
-            return 0.0f;
-        }
-    }
-    
-    return kJSQMessagesCollectionViewCellLabelHeightDefault;
 }
 
 - (CGFloat)collectionView:(JSQMessagesCollectionView *)collectionView

@@ -146,13 +146,6 @@ typedef enum {
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
     return UIStatusBarStyleLightContent;
-
-    if (self.centerViewController) {
-        if ([self.centerViewController isKindOfClass:[UINavigationController class]]) {
-            return [((UINavigationController *)self.centerViewController).topViewController preferredStatusBarStyle];
-        }
-        return [self.centerViewController preferredStatusBarStyle];
-    }
 }
 
 
