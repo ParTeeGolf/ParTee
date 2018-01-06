@@ -9,6 +9,7 @@
 @interface button_ViewPro : UIButton
 
 @property (weak, nonatomic) NSString *proID;
+@property (weak, nonatomic) NSString *administrationType;
 
 
 @end

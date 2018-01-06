@@ -16,17 +16,16 @@
 #import <SystemConfiguration/SystemConfiguration.h>
 #import <sys/socket.h>
 #import <netinet/in.h>
-#import "SettingsViewController.h"
 #import "MyMatchesViewController.h"
 #import "SpecialsViewController.h"
 #import "PurchaseSpecialsViewController.h"
 #import "DemoMessagesViewController.h"
 #import "ViewUsersViewController.h"
-#import "RegisterViewController.h"
 #import "PreviewProfileViewController.h"
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
 #import "CoursePreferencesViewController.h"
+#import "AdminViewController.h"
 @import CoreLocation;
 @import AVFoundation;
 @import ImageIO;
@@ -46,7 +45,6 @@ static AppDelegate *delegate;
 @synthesize delegateShareObject;
 @synthesize dialog;
 @synthesize currentScreen;
-@synthesize strIsMyMatches;
 @synthesize strisDevelopment;
 @synthesize sharedChatInstance;
 @synthesize topView;
@@ -69,72 +67,6 @@ static AppDelegate *delegate;
 
 //-----------------------------------------------------------------------
 
-- (UIViewController *) demoController
-{
-   
-
-    if([[AppDelegate    sharedinstance] isUserLogIn]) {
-        
-//        ViewUsersViewController *viewController    = [[ViewUsersViewController alloc] initWithNibName:@"ViewUsersViewController" bundle:nil];
-//        ((ViewUsersViewController*)viewController).strIsMyMatches=@"1";
-////
-//       return viewController;
-        
-      //  return [[InviteViewController alloc] initWithNibName:@"InviteViewController" bundle:nil];
-
- //    return [[CoursePreferencesViewController alloc] initWithNibName:@"CoursePreferencesViewController" bundle:nil];
-        
-    SpecialsViewController *svc = [[SpecialsViewController alloc] initWithNibName:@"SpecialsViewController" bundle:nil];
-     return svc;
-        
-        //        return [[MyMatchesViewController alloc] initWithNibName:@"MyMatchesViewController" bundle:nil];
-        
- 
-        
-        
-        return [[SpecialsViewController alloc] initWithNibName:@"SpecialsViewController" bundle:nil];
-        
-        
-        return [[EditProfileViewController alloc] initWithNibName:@"EditProfileViewController" bundle:nil];
-        
-    }
-    
-    return [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
-    
-    
-    return [[RegisterViewController alloc] initWithNibName:@"RegisterViewController" bundle:nil];
-    
-    
-    //return [[InviteViewController alloc] initWithNibName:@"InviteViewController" bundle:nil];
-    
-    //  return [[ViewUsersViewController alloc] initWithNibName:@"ViewUsersViewController" bundle:nil];
-    
-    //return [[ViewProfileViewController alloc] initWithNibName:@"ViewProfileViewController" bundle:nil];
-    
-    
-    // return [[HomeViewController alloc] initWithNibName:@"HomeViewController" bundle:nil];
-    
-    
-    //return [[SettingsViewController alloc] initWithNibName:@"SettingsViewController" bundle:nil];
-    
-    // return [[MyMatchesViewController alloc] initWithNibName:@"MyMatchesViewController" bundle:nil];
-    
-    //return [[SpecialsViewController alloc] initWithNibName:@"SpecialsViewController" bundle:nil];
-    
-    //    return [[PurchaseSpecialsViewController alloc] initWithNibName:@"PurchaseSpecialsViewController" bundle:nil];
-    
-    //    return [[PurchasedViewController alloc] initWithNibName:@"PurchasedViewController" bundle:nil];
-    
-    // return [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
-    
-    //    return [[ChatVC alloc] initWithNibName:@"ChatVC" bundle:nil];
-    
-    //  DemoMessagesViewController *vc = [DemoMessagesViewController messagesViewController];
-    //  [self.navigationController pushViewController:vc animated:YES];
-    
-    // return vc;//[[DemoMessagesViewController alloc] initWithNibName:@"DemoMessagesViewController" bundle:nil];
-    
-}
 
 //-----------------------------------------------------------------------
 
@@ -195,7 +127,6 @@ static AppDelegate *delegate;
     [[NSUserDefaults standardUserDefaults] setObject:build forKey:@"buildapp"];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
-    strIsMyMatches=@"1";
     
     [application setStatusBarStyle:UIStatusBarStyleLightContent];
     
@@ -212,7 +143,7 @@ static AppDelegate *delegate;
     
     [application setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalMinimum];
     hasLink=NO;
-    [self setRootViewController];
+    [self setRootViewController:YES];
     [[Harpy sharedInstance] setPresentingViewController:_window.rootViewController];
     [[Harpy sharedInstance] setDelegate:self];
     [[Harpy sharedInstance] setShowAlertAfterCurrentVersionHasBeenReleasedForDays:1];
@@ -687,41 +618,7 @@ static AppDelegate *delegate;
    
 }
 
-//
-//    NSString *notificationBody = [[[userInfo objectForKey:@"aps"] objectForKey:@"alert"] objectForKey:@"body"];
-//    NSString *notificationTitle= [[[userInfo objectForKey:@"aps"] objectForKey:@"alert"] objectForKey:@"title"];
-//
-//    UIApplicationState state = [application applicationState];
-//
-//    if (state == UIApplicationStateActive) {
-//
-//            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:notificationTitle message:notificationBody delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-//            [alertView show];
-//
-//    }
-//
-//    if([[userInfo objectForKey:@"custom"] valueForKey:@"a"] != nil) {
-//
-//        NSDictionary *dict =[[userInfo objectForKey:@"custom"] valueForKey:@"a"];
-//
-//        if([dict valueForKey:@"link"] != nil) {
-//
-//            NSString *strLink = [dict objectForKey:@"link"];
-//
-//            hasLink=YES;
-//
-//            [[NSUserDefaults standardUserDefaults] setObject:strLink forKey:knotificationlink];
-//            [[NSUserDefaults standardUserDefaults] synchronize];
-//
-//            NSLog(@"customKey: %@", strLink);
-//
-//            [self setRootViewController];
-//
-//        }
-//
-//    }
-//
-//}
+
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
     BOOL handled = [[FBSDKApplicationDelegate sharedInstance] application:application
@@ -735,12 +632,77 @@ static AppDelegate *delegate;
 
 //-----------------------------------------------------------------------
 
--(void) setRootViewController {
-    
+-(void) setRootViewController:(BOOL) panMode
+{
+    if([[AppDelegate    sharedinstance] isUserLogIn]) {
+        
+        int RoleId = [[AppDelegate sharedinstance] getCurrentRole];
+        UIViewController *svc;
+        NSMutableDictionary *getRequest;
+        
+        switch(RoleId)
+        {
+            case -1:
+                svc = [[AdminViewController alloc] initWithNibName:@"AdminViewController" bundle:nil];
+                [self managerController:svc:panMode];
+                break;
+            case 0:
+            case 1:
+                svc = [[SpecialsViewController alloc] initWithNibName:@"SpecialsViewController" bundle:nil];
+                ((SpecialsViewController*)svc).DataType = filterCourse;
+                [self managerController:svc:panMode];
+                break;
+            case 2:
+            case 3:
+                getRequest = [[NSMutableDictionary alloc] init];
+                
+                [getRequest setObject:[[AppDelegate sharedinstance] getCurrentUserGuid] forKey:@"_parent_id"];
+                
+                [QBRequest objectsWithClassName:@"UserCourses" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
+                    
+                    NSLog(@"Entries %lu",(unsigned long)page.totalEntries);
+                    
+                    NSMutableArray *arrCourseIds = [[NSMutableArray alloc] init];
+                    
+                    for(QBCOCustomObject *obj in objects)
+                    {
+                        @try
+                        {
+                            [arrCourseIds addObject:[obj.fields objectForKey:RoleId == 2 ? @"EventManagerCourse" : @"CourseAdminCourse"]];
+                        }
+                        @catch(NSException *e)
+                        {
+                            
+                        }
+                        
+                    }
+                    
+                    SpecialsViewController *vc = [[SpecialsViewController alloc] initWithNibName:@"SpecialsViewController" bundle:nil];
+                    vc.DataType = filterCourse;
+                    vc.courseIds = arrCourseIds;
+                    [self managerController:vc:panMode];
+                    
+                } errorBlock:^(QBResponse *response) {
+                    // error handling
+                    [[AppDelegate sharedinstance] hideLoader];
+                    
+                    NSLog(@"Response error: %@", [response.error description]);
+                }];
+                break;
+        }
+    }
+    else
+    {
+        [self managerController:[[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil]:panMode];
+    }
+}
+
+-(void) managerController:(UIViewController *)vc :(BOOL) panMode
+{
     [[UIApplication sharedApplication]setStatusBarStyle:UIStatusBarStyleLightContent];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
-    self.navigationController=[[UINavigationController alloc] initWithRootViewController:[self demoController]];
+    self.navigationController=[[UINavigationController alloc] initWithRootViewController:vc];
     
     SideMenuViewController *leftMenuViewController = [[SideMenuViewController alloc] initWithNibName:@"SideMenuViewController" bundle:nil];
     
@@ -759,11 +721,7 @@ static AppDelegate *delegate;
 //-----------------------------------------------------------------------
 
 -(BOOL) isUserLogIn {
-    
-    if([[AppDelegate sharedinstance] getStringObjfromKey:kuserEmail].length == 0)
-        return NO;
-    
-    return YES;
+        return [[AppDelegate sharedinstance] getStringObjfromKey:kuserEmail].length != 0;
 }
 
 
@@ -800,10 +758,6 @@ static AppDelegate *delegate;
 
 //-----------------------------------------------------------------------
 
-- (UINavigationController *)navigationController {
-    return [[UINavigationController alloc]
-            initWithRootViewController:[self demoController]];
-}
 
 
 
@@ -898,14 +852,14 @@ static AppDelegate *delegate;
                     strRedirectScreen = kRedirectToMyFriends;
                     
                     vc   = [[ViewUsersViewController alloc] initWithNibName:@"ViewUsersViewController" bundle:nil];
-                    ((ViewUsersViewController*)vc).strIsMyMatches=@"1";
+                    ((ViewUsersViewController*)vc).IsFriends=YES;
                 }
                 else {
                     // redirect user to my friends screen
                     strRedirectScreen = kRedirectToMyFriends;
                     
                     vc   = [[ViewUsersViewController alloc] initWithNibName:@"ViewUsersViewController" bundle:nil];
-                    ((ViewUsersViewController*)vc).strIsMyMatches=@"1";
+                    ((ViewUsersViewController*)vc).IsFriends=YES;
                     
 //                    if(currentScreen==kScreenChat) {
 //                        [[NSNotificationCenter defaultCenter] postNotificationName:@"hidethekeyboard" object:nil];
@@ -1043,11 +997,13 @@ static AppDelegate *delegate;
     
 }
 
--(NSString *) getCurrentRole {
-    NSDictionary *dictUserDetails = [[NSUserDefaults standardUserDefaults] objectForKey:kuserData];
-    NSString *strname = [dictUserDetails objectForKey:@"UserRole"];
-    return strname;
-    
+-(void) setCurrentRole :(int) roleId{
+    [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%d", roleId] forKey:@"UserRole"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+-(int) getCurrentRole {
+    return [[[NSUserDefaults standardUserDefaults] objectForKey:@"UserRole"] intValue];
 }
 
 //-----------------------------------------------------------------------
@@ -1176,13 +1132,6 @@ static AppDelegate *delegate;
         }
     }
     
-//    for(NSString* family in [UIFont familyNames]) {
-//        NSLog(@"%@", family);
-//        for(NSString* name in [UIFont fontNamesForFamilyName: family]) {
-//            NSLog(@"  %@", name);
-//        }
-//    }
-    
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber: 0];
 //    [[UIApplication sharedApplication] cancelAllLocalNotifications];
     
@@ -1208,52 +1157,7 @@ static AppDelegate *delegate;
         
         if([strlat length]==0)
         {
-            
-            if([[AppDelegate sharedinstance].sharedChatInstance isConnected]) {
-                [[AppDelegate sharedinstance].sharedChatInstance disconnectWithCompletionBlock:^(NSError * _Nullable error) {
-                    
-                    [[AppDelegate sharedinstance] setStringObj:@"" forKey:kuserEmail];
-                    
-                    LoginViewController *loginView;
-                    
-                    loginView = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
-                    
-                    self.navigationController=[[UINavigationController alloc] initWithRootViewController:[self demoController]];
-                    SideMenuViewController *leftMenuViewController = [[SideMenuViewController alloc] initWithNibName:@"SideMenuViewController" bundle:nil];
-                    
-                    MFSideMenuContainerViewController *container = [MFSideMenuContainerViewController
-                                                                    containerWithCenterViewController: self.navigationController
-                                                                    leftMenuViewController:leftMenuViewController
-                                                                    rightMenuViewController:nil];
-                    container.panMode=NO;
-
-                    self.navigationController.navigationBarHidden=YES;
-                    [self.navigationController.navigationBar setTranslucent:NO];
-                    self.window.rootViewController = container;
-                }];
-            }
-            else {
-                [[AppDelegate sharedinstance] setStringObj:@"" forKey:kuserEmail];
-                
-                LoginViewController *loginView;
-                
-                loginView = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
-                
-                self.navigationController=[[UINavigationController alloc] initWithRootViewController:[self demoController]];
-                SideMenuViewController *leftMenuViewController = [[SideMenuViewController alloc] initWithNibName:@"SideMenuViewController" bundle:nil];
-                
-                MFSideMenuContainerViewController *container = [MFSideMenuContainerViewController
-                                                                containerWithCenterViewController: self.navigationController
-                                                                leftMenuViewController:leftMenuViewController
-                                                                rightMenuViewController:nil];
-                container.panMode=NO;
-                
-                self.navigationController.navigationBarHidden=YES;
-                [self.navigationController.navigationBar setTranslucent:NO];
-                self.window.rootViewController = container;
-
-                
-            }
+            [self setRootViewController:NO];
         }
         
     }
@@ -1449,7 +1353,9 @@ static AppDelegate *delegate;
 
 - (void)setAmenitiesIcons
 {
-    [QBRequest objectsWithClassName:@"AmenitiesIcon" extendedRequest:nil successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
+    NSMutableDictionary *request = [[NSMutableDictionary alloc] init];
+    [request setObject:@"class" forKey:@"sort_asc"];
+    [QBRequest objectsWithClassName:@"AmenitiesIcon" extendedRequest:request successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
         
         NSMutableArray *arr = [objects mutableCopy];
         

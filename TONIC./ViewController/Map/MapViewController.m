@@ -59,7 +59,7 @@
 }
 
 -(void) gotLocationFromMain {
-    int n=arrCourseData.count;
+    long n=arrCourseData.count;
     
     if([arrCourseData count]>50) {
         n=50;

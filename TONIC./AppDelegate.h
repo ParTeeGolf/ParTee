@@ -32,7 +32,6 @@
     QBCOCustomObject *delegateShareObject;
     QBChatDialog *dialog;
      int currentScreen;
-    NSString *strIsMyMatches;
     int isOneSignalPush;
     NSString *strisDevelopment;
     QBChatDialog *sharedchatDialog;
@@ -46,7 +45,6 @@
     NSMutableArray *arrSharedOnlineUsers;
     NSMutableArray *arrContactListIDs;
     NSString *strRedirectScreen;
-    
 }
 
    @property (strong, nonatomic) CLLocationManager *locationManager;
@@ -55,6 +53,8 @@
 @property (strong, nonatomic)NSMutableArray *arrSharedOnlineUsers;
 @property (strong, nonatomic) NSMutableArray *arrContactListIDs;
 @property (strong, nonatomic)  NSString *strIsChatConnected;
+
+@property int CurrentRole;
 
 -(NSString *) getCurrentName;
 @property (strong,nonatomic)  UIView * topView;
@@ -80,7 +80,6 @@
 @property (strong, nonatomic) QBChat *sharedChatInstance;
 
 @property (nonatomic,strong) NSString *strPropertyId;
-@property (nonatomic,strong) NSString *strIsMyMatches;
 
 @property (nonatomic,strong) NSMutableDictionary  *dictReportData;
 @property (nonatomic,strong) QBCOCustomObject *delegateShareObject;
@@ -96,7 +95,7 @@
 +(AppDelegate *)SharedDelegate;
 +(AppDelegate*)sharedinstance;
 -(NSString *) getCurrentUserId;
--(NSString *) getCurrentRole;
+-(int) getCurrentRole;
 -(NSString *) getFullImgUrl:(NSString*) strImgName;
 -(NSString *) getSlideFullImgUrl:(NSString*) strName;
 -(NSString *) getFullAudioUrl:(NSString*) strImgName;
@@ -111,7 +110,6 @@
 -(void)displayMessage:(NSString *) strMessage;
 - (BOOL)connected;
 -(void) checkConnection ;
--(BOOL) checkSubstring:(NSString *) substring containedIn:(NSString*) string;
 -(NSDictionary *) getDictObjfromKey:(NSString*) strKey;
 -(NSString *) getStringObjfromKey:(NSString*) strKey;
 -(void) setStringObj:(NSString *) data forKey: (NSString*) strKey;
@@ -121,8 +119,8 @@
 - (void)saveFileData : (NSData*)data withFileName : (NSString*)name atDir:(NSString *) strDirectoryName;
 -(BOOL) fileExists : (NSString*)filename  AtDir:(NSString*) strDirectoryName;
 -(NSString*)getDirectory:(NSString*) strDirectoryName;
--(BOOL) isUserLogIn;
 -(void) setProIcons:(NSMutableDictionary*)proIcons;
+-(void) setCurrentRole:(int)roleId;
 -(NSString *) getProIcons:(NSString *)key;
 -(void) setAmenitiesIcons:(NSMutableDictionary*)amenitesIcons;
 -(NSString *) getAmenitiesIcons:(NSString *)key;

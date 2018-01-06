@@ -251,7 +251,7 @@ NSMutableArray *colorArr;
                 
                 UIViewController *viewController;
                 viewController    = [[ViewUsersViewController alloc] initWithNibName:@"ViewUsersViewController" bundle:nil];
-                ((ViewUsersViewController*)viewController).strIsMyMatches=@"0";
+                ((ViewUsersViewController*)viewController).IsFriends = NO;
                 
                 UINavigationController *navigationController = (UINavigationController*)self.menuContainerViewController.centerViewController;
                 NSArray *controllers = [NSArray arrayWithObject:viewController];
@@ -313,51 +313,46 @@ NSMutableArray *colorArr;
     }
     else
     {
-        QBCOCustomObject *object = [QBCOCustomObject customObject];
-        object.className = @"UserInfo";
-        object.ID= [[AppDelegate sharedinstance] getStringObjfromKey:kuserInfoID];
+
         
-        [object.fields setObject:@"1"  forKey:@"UserRole"];
-        [object.fields setObject:featurnedPro ? @"true" : @"false" forKey:@"Featured"];
-        [object.fields setObject:@"Pending" forKey:@"Status"];
-        [object.fields setObject:[NSDate date] forKey:@"DateAsPro"];
-        
-        
-        //    [object.fields setObject:[NSString stringWithFormat:@"%d",currentPurchasedConnects]  forKey:@"userPurchasedConnects"];
         
         [[AppDelegate sharedinstance] showLoader];
         
-        [QBRequest updateObject:object successBlock:^(QBResponse *response, QBCOCustomObject *object) {
-            // object updated
+
             
-            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kIAPFULLVERSION];
-            [[NSUserDefaults standardUserDefaults] synchronize];
+            QBCOCustomObject *obj = [QBCOCustomObject customObject];
+            obj.className = @"UserRoles";
+            obj.parentID= [[AppDelegate sharedinstance] getStringObjfromKey:kuserInfoID];
             
-            NSMutableDictionary *dictUserData = [[[NSUserDefaults standardUserDefaults] objectForKey:kuserData] mutableCopy];
-            [dictUserData setObject:@"2" forKey:@"UserRole"];
-            [[NSUserDefaults standardUserDefaults] setObject:dictUserData forKey:kuserData];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-            
-            [[AppDelegate sharedinstance] displayMessage:@"Pro Request Sent"];
-            [[AppDelegate sharedinstance] hideLoader];
-            
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshContent" object:nil];
-            
-            UIViewController *viewController;
-            viewController    = [[ViewUsersViewController alloc] initWithNibName:@"ViewUsersViewController" bundle:nil];
-            ((ViewUsersViewController*)viewController).strIsMyMatches=@"0";
-            
-            UINavigationController *navigationController = (UINavigationController*)self.menuContainerViewController.centerViewController;
-            NSArray *controllers = [NSArray arrayWithObject:viewController];
-            navigationController.viewControllers = controllers;
-            [self.menuContainerViewController setMenuState:MFSideMenuStateClosed];
+            [obj.fields setObject:@"1"  forKey:@"RoleId"];
+            [obj.fields setObject:@"Pending" forKey:@"Status"];
+            [obj.fields setObject:[NSDate date] forKey:@"DateAsRole"];
+            [obj.fields setObject:@"True" forKey:@"Active"];
             
             
-        } errorBlock:^(QBResponse *response) {
-            
-            [[AppDelegate sharedinstance] hideLoader];
-            NSLog(@"Response error: %@", [response.error description]);
-        }];
+            [QBRequest createObject:obj successBlock:^(QBResponse *response, QBCOCustomObject *object)  {
+                // object updated
+
+                [[AppDelegate sharedinstance] displayMessage:@"Pro Request Sent"];
+                [[AppDelegate sharedinstance] hideLoader];
+                
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshContent" object:nil];
+                
+                UIViewController *viewController;
+                viewController    = [[ViewUsersViewController alloc] initWithNibName:@"ViewUsersViewController" bundle:nil];
+                ((ViewUsersViewController*)viewController).IsFriends = NO;
+                
+                UINavigationController *navigationController = (UINavigationController*)self.menuContainerViewController.centerViewController;
+                NSArray *controllers = [NSArray arrayWithObject:viewController];
+                navigationController.viewControllers = controllers;
+                [self.menuContainerViewController setMenuState:MFSideMenuStateClosed];
+                
+                
+            } errorBlock:^(QBResponse *response) {
+                
+                [[AppDelegate sharedinstance] hideLoader];
+                NSLog(@"Response error: %@", [response.error description]);
+            }];
     }
   
 }
@@ -420,10 +415,6 @@ NSMutableArray *colorArr;
         packageNumber = indexPath.row + 1;
         
         isfullVersionPurchase=packageNumber = packageNumber == 4;;
-    }
-    else
-    {
-        featurnedPro = indexPath.row == 0;
     }
     
     [self purchaseCall];

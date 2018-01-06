@@ -6,6 +6,7 @@
 //
 
 #import "RegisterViewController.h"
+#import "Shared.h"
 
 #define kPickerBday 1
 #define kPickerCity 2
@@ -27,32 +28,49 @@
     doneButton.clipsToBounds = YES;
     
     if(autocompletePlaceStatus == -1) {
-        strlat = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlat];
-        strlat = [[AppDelegate sharedinstance] nullcheck:strlat];
-        
-        strlong = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlong];
-        strlong = [[AppDelegate sharedinstance] nullcheck:strlong];
+
+        strlat = [[AppDelegate sharedinstance] nullcheck:[[AppDelegate sharedinstance] getStringObjfromKey:klocationlat]];
+        strlong = [[AppDelegate sharedinstance] nullcheck:[[AppDelegate sharedinstance] getStringObjfromKey:klocationlong]];
         
         if([strlat length]==0)
         {
-            // Show 2 options to get location
-            
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Location will only be used when app is opened"
-                                                            message:@"ParTee needs location access to show near by courses and golfers" delegate:self cancelButtonTitle:nil otherButtonTitles: @"Detect automatically",@"Add manually",nil];
-            alert.tag=121;
-            [alert show];
+            [self LocationMessage];
         }
     }
     else if(autocompletePlaceStatus==2)  {
         [self signUpUser];
     }
+    
+}
 
+-(void) LocationMessage
+{
+    // Show 2 options to get location
+    UIAlertController * ac = [UIAlertController
+                              alertControllerWithTitle:@"Location will only be used when app is opened"
+                              message:@"ParTee needs location access to show near by courses and golfers"
+                              preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction* automaticButton = [UIAlertAction
+                                      actionWithTitle:@"Detect automatically"
+                                      style:UIAlertActionStyleDefault
+                                      handler:^(UIAlertAction * action) {
+                                          [[AppDelegate sharedinstance] locationInit];
+                                      }];
+    UIAlertAction* manualButton = [UIAlertAction
+                                   actionWithTitle:@"Add manually"
+                                   style:UIAlertActionStyleDefault
+                                   handler:^(UIAlertAction * action) {
+                                       [self manualAdd];
+                                   }];
+    [ac addAction:automaticButton];
+    [ac addAction:manualButton];
+    [self presentViewController:ac animated:YES completion:nil];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-  //[self sampleFillUser];
+    
+    //[self sampleFillUser];
     [btnCheckmark setTag:200];
     
     strImgURLBase=@"";
@@ -62,7 +80,7 @@
     [[AppDelegate sharedinstance] hideLoader];
     
     [scrollViewContainer setContentSize:CGSizeMake(320, 1300)];
-
+    
     [txtName setTag:101];
     [txtEmail setTag:102];
     [txtPwd setTag:103];
@@ -72,7 +90,7 @@
     [txtHomeCourse setTag:107];
     [txtHandicap setTag:109];
     [tvInfo setTag:110];
-
+    
     datePicker.maximumDate=[NSDate date];
     datePicker.backgroundColor=[UIColor whiteColor];
     
@@ -81,18 +99,21 @@
     txtState.inputView=pickerView;
     txtHandicap.inputView = pickerView;
     txtHomeCourse.inputView = pickerView;
-
+    
     txtHandicap.text = @"N/A";
     txtHomeCourse.text = @"N/A";
-
-//    arrStateList = [NSArray arrayWithObjects:@"Montana",nil];
-//    arrCityList = [NSArray arrayWithObjects:@"Bozeman",@"Billings",@"Butte",@"Big Sky",@"Kalispell",@"Livingston",@"All",nil];
     
     arrStateList = [[NSMutableArray alloc] init];
     arrCityList = [[NSMutableArray alloc] init];
     arrHomeCourses= [[NSMutableArray alloc] init];
+    arrHandicapList= [[NSMutableArray alloc] init];
     
-    [self setupHandicapArray];
+    for(int i = -40; i <= 5; ++i)
+    {
+        [arrHandicapList addObject:[NSString stringWithFormat:@"%d", i]];
+    }
+    
+    [arrHandicapList insertObject:@"N/A" atIndex:0];
     
     tvInfo.placeholder = @"Enter something about you";
     
@@ -103,20 +124,15 @@
     
     [self setKeyboardControls:[[BSKeyboardControls alloc] initWithFields:fields]];
     [self.keyboardControls setDelegate:self];
-
+    
     imgViewProfilePic.layer.cornerRadius = imgViewProfilePic.frame.size.width/2;
     [imgViewProfilePic.layer setMasksToBounds:YES];
     [imgViewProfilePic.layer setBorderColor:[UIColor clearColor].CGColor];
-
+    
     self.navigationController.navigationBarHidden=YES;
     
     self.menuContainerViewController.panMode = NO;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gotLocation) name:@"gotLocation" object:nil];
-
-    if(isiPhone4) {
-        
-     
-    }
     
     [self getLocationDataFromServer];
 }
@@ -124,7 +140,7 @@
 -(void) getLocationDataFromServer {
     
     [[AppDelegate sharedinstance] showLoader];
-
+    
     [QBRequest objectsWithClassName:@"Location" extendedRequest:nil successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
         // response processing
         
@@ -137,7 +153,7 @@
             QBCOCustomObject *obj = [arrData objectAtIndex:i];
             
             NSString *strName = [obj.fields objectForKey:@"stateName"];
-
+            
             if(![arrStateList containsObject:strName]) {
                 [arrStateList addObject:strName];
             }
@@ -151,7 +167,7 @@
         
         txtState.text = [arrStateList objectAtIndex:0];
         txtCity.text = [arrCityList objectAtIndex:0];
-
+        
     }
                          errorBlock:^(QBResponse *response) {
                              // error handling
@@ -209,7 +225,7 @@
 }
 
 -(BOOL) validateData {
-
+    
     
     if([[[AppDelegate sharedinstance] nullcheck:txtName.text] length]==0) {
         [[AppDelegate sharedinstance] displayMessage:@"Please fill all the details"];
@@ -242,13 +258,13 @@
         [[AppDelegate sharedinstance] displayMessage:@"Please fill all the details"];
         return NO;
     }
-
+    
     
     if([[[AppDelegate sharedinstance] nullcheck:txtState.text] length]==0) {
         [[AppDelegate sharedinstance] displayMessage:@"Please fill all the details"];
         return NO;
     }
-
+    
     
     if([[[AppDelegate sharedinstance] nullcheck:txtCity.text] length]==0) {
         [[AppDelegate sharedinstance] displayMessage:@"Please fill all the details"];
@@ -265,7 +281,7 @@
         [[AppDelegate sharedinstance] displayMessage:@"Please fill all the details"];
         return NO;
     }
-
+    
     if([btnCheckmark tag]==200) {
         [self.view makeToast:@"You need to agree to terms to proceed"
                     duration:2.0
@@ -281,40 +297,7 @@
 
 #pragma mark - Custom Methods
 
-//-----------------------------------------------------------------------
-
--(void) sampleFillUser {
-    
-    [txtName setText:@"Diana Rissusa"];
-    [txtEmail setText:@"diana@gmail.com"];
-    [txtPwd setText:@"12345678"];
-    [txtBday setText:@"10/10/1980"];
-    [txtState setText:@"Montana"];
-    [txtCity setText:@"Bozeman"];
-    [txtHandicap setText:@"10"];
-    [tvInfo setText:@"I'm a golfer"];
-    
-//    [txtName setText:@"Developer"];
-//    [txtEmail setText:@"hoodacreations@gmail.com"];
-//    [txtPwd setText:@"12345678"];
-//    [txtBday setText:@"12/11/1980"];
-//    [txtState setText:@"Montana"];
-//    [txtCity setText:@"Kalispell"];
-//    [txtZipCode setText:@"300010"];
-//    [txtHandicap setText:@"10"];
-//    [tvInfo setText:@"I'm a developer"];
-//    
-//    [txtName setText:@"Demo"];
-//    [txtEmail setText:@"developer.roadies@gmail.com"];
-//    [txtPwd setText:@"12345678"];
-//    [txtBday setText:@"02/11/1980"];
-//    [txtState setText:@"Montana"];
-//    [txtCity setText:@"Kalispell"];
-//    [txtZipCode setText:@"300010"];
-//    [txtHandicap setText:@"11"];
-//    [tvInfo setText:@"I'm a good guy"];
-    
-}
+//---------------------------------------------------------------------
 
 -(void) registerForNotifications {
     
@@ -329,7 +312,7 @@
 - (IBAction)action_CreateAccount:(id)sender  {
     
     [self.view endEditing:YES];
-
+    
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationBeginsFromCurrentState:YES];
     [UIView setAnimationDuration:.5];
@@ -343,29 +326,11 @@
     
     if([self validateData]) {
         
-        // take location here
-        
-        strlat = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlat];
-        strlat = [[AppDelegate sharedinstance] nullcheck:strlat];
-        
-        strlong = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlong];
-        strlong = [[AppDelegate sharedinstance] nullcheck:strlong];
-        
-            if([strlat length]==0)
-        {
-            // Show 2 options to get location
-            
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Location will only be used when app is opened"
-                                                            message:@"ParTee needs location access to show near by courses and golfers" delegate:self cancelButtonTitle:nil otherButtonTitles: @"Detect automatically",@"Add manually",nil];
-            alert.tag=121;
-            [alert show];
-            
-        }
-        else {
-            [self signUpUser];
+        strlat = [[AppDelegate sharedinstance] nullcheck:[[AppDelegate sharedinstance] getStringObjfromKey:klocationlat]];
+        strlong = [[AppDelegate sharedinstance] nullcheck:[[AppDelegate sharedinstance] getStringObjfromKey:klocationlong]];
 
-        }
-
+        [strlat length]==0 ? [self LocationMessage] : [self signUpUser];
+        
     }
 }
 
@@ -378,7 +343,7 @@
         
         NSString *strGolfName = [obj.fields objectForKey:@"Name"];
         NSString *strGolfId = obj.ID;
-
+        
         if([strName isEqualToString:strGolfName]) {
             
             return strGolfId;
@@ -386,114 +351,22 @@
     }
     
     return @"N/A";
-
-}
-
-//-----------------------------------------------------------------------
-
--(void) sendtagForAgerange {
-    
-//    Age-18-29  (agerange = 1)
-//    Age-30-39  (agerange = 2)
-//    Age-40-49 (agerange = 3)
-//    Age-50-59 (agerange = 4)
-//    Age-60+ (agerange = 5)
-    
-    NSString *stringAgeRange;
-    
-    if(age>17 && age<30) {
-        stringAgeRange=@"1";
-    }
-    else if(age>29 && age<40) {
-        stringAgeRange=@"2";
-    }
-    else if(age>39 && age<50) {
-        stringAgeRange=@"3";
-    }
-    else if(age>49 && age<60) {
-        stringAgeRange=@"4";
-    }
-    else if(age>59) {
-        stringAgeRange=@"5";
-    }
-    
-    NSString *stringGender;
-    
-    if(segmentGender.selectedSegmentIndex==0)
-    {
-        // male
-        stringGender=@"gender-male";
-    }
-    else {
-        // female
-        stringGender=@"gender-female";
-    }
-
-    int handicapval = [txtHandicap.text intValue];
-    
-//    handicap-greaterorequalto0
-//    handicap-1to-8
-//    handicap-9to-16
-//    handicap-17to-24
-//    handicap-25to-32
-//    handicap-33to-40
-
-    NSString *stringHandicap;
-    
-    if(handicapval>=0) {
-        stringHandicap=@"1"; //All “+X” and “0” values
-    }
-    else if(handicapval>=-8 && handicapval<=-1) {
-        stringHandicap=@"2"; //-1 through -8
-    }
-    else if(handicapval>=-16 && handicapval<=-9) {
-        stringHandicap=@"3"; //-9 through -16
-    }
-    else if(handicapval>=-24 && handicapval<=-17) {
-        stringHandicap=@"4"; //-17 through -24
-    }
-    else if(handicapval>=-32 && handicapval<=-25) {
-        stringHandicap=@"5"; //-25 through -32
-    }
-    else if(handicapval>=-40 && handicapval<=33) {
-        stringHandicap=@"6"; //-33 through -40
-    }
-    
-    NSString *stringCity=txtCity.text;
-    stringCity = [stringCity stringByReplacingOccurrencesOfString:@" " withString:@""];
-    stringCity = [NSString stringWithFormat:@"City-%@",stringCity];
-    
-    [OneSignal sendTags:@{@"agerange" : stringAgeRange, @"gender" : stringGender, @"handicap" : stringHandicap, @"city" : stringCity}];
     
 }
 
 //-----------------------------------------------------------------------
 
-- (IBAction)action_Menu:(id)sender{
-    
-    [self.navigationController popViewControllerAnimated:YES];
-    
-    //    [self.menuContainerViewController toggleLeftSideMenuCompletion:^{
-    //
-    //    }];
-    //
-}
-
-//-----------------------------------------------------------------------
-
--(IBAction)cameraPressed:(id)sender {
-    
+-(IBAction)cameraPressed:(id)sender
+{
     [self.view endEditing:YES];
-
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Select image"
-                                                             delegate:self
-                                                    cancelButtonTitle:@"Cancel"
-                                               destructiveButtonTitle:nil
-                                                    otherButtonTitles:@"Camera", @"Select from Library", nil];
-    actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
-    [actionSheet showInView:self.view];
-    
+    Shared *camera = [[Shared alloc] init];
+    [camera cameraPressed:self];
 }
+
+
+//-----------------------------------------------------------------------
+
+
 
 -(IBAction)dateChanged:(id)sender{
     
@@ -514,13 +387,13 @@
     
     if([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:URL]])
     {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:URL]];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:URL] options:@{} completionHandler:nil];
     }
 }
 
 
 
-    
+
 -(IBAction)Privacytapped:(id)sender {
     NSString *strWebsite = @"https://www.partee.golf/privacy";
     
@@ -529,7 +402,7 @@
     
     if([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:URL]])
     {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:URL]];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:URL] options:@{} completionHandler:nil];
     }
 }
 
@@ -549,7 +422,7 @@
         
         [btnCheckmark setTag:200];
     }
-
+    
 }
 
 //-----------------------------------------------------------------------
@@ -581,7 +454,7 @@
     else if(pickerOption==kPickerCourses) {
         return arrHomeCourses.count;
     }
-
+    
     return 10;
 }
 
@@ -591,50 +464,47 @@
 
 //-----------------------------------------------------------------------
 
-- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+    switch(pickerOption)
+    {
+        case kPickerState:
+            return [arrStateList objectAtIndex:row];
+            break;
+        case kPickerCity:
+            return [arrCityList objectAtIndex:row];
+            break;
+        case kPickerHandicap:
+            return [arrHandicapList objectAtIndex:row];
+            break;
+        case kPickerCourses:
+            return [arrHomeCourses objectAtIndex:row];
+            break;
+    }
     
-    if(pickerOption==kPickerState) {
-        return [arrStateList objectAtIndex:row];
-
-    }
-    else if(pickerOption==kPickerCity) {
-        return [arrCityList objectAtIndex:row];
-
-    }
-    else if(pickerOption==kPickerHandicap) {
-        return [arrHandicapList objectAtIndex:row];
-    }
-    else if(pickerOption==kPickerCourses) {
-        
-        return [arrHomeCourses objectAtIndex:row];
-    }
-
-    return @"";
+    return nil;
 }
 
 //-----------------------------------------------------------------------
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
-    NSLog(@"Selected Row %d", row);
+    NSLog(@"Selected Row %ld", row);
     
-    if(pickerOption==kPickerState) {
-        txtState.text = [arrStateList objectAtIndex:row];
-    }
-    else if(pickerOption==kPickerCity) {
-        txtCity.text = [arrCityList objectAtIndex:row];
-    }
-    else if(pickerOption==kPickerHandicap) {
-        txtHandicap.text = [arrHandicapList objectAtIndex:row];
-
-    }
-    else if(pickerOption==kPickerCourses) {
-       
-        if([arrHomeCourses count]>0) {
+    switch(pickerOption)
+    {
+        case kPickerState:
+            txtState.text = [arrStateList objectAtIndex:row];
+            break;
+        case kPickerCity:
+            txtCity.text = [arrCityList objectAtIndex:row];
+            break;
+        case kPickerHandicap:
+            txtHandicap.text = [arrHandicapList objectAtIndex:row];
+            break;
+        case kPickerCourses:
             txtHomeCourse.text = [arrHomeCourses objectAtIndex:row];
-
-        }
-        
+            break;
     }
 }
 
@@ -712,7 +582,7 @@
         
     }
     else if([textField tag]>101) {
-
+        
         [UIView beginAnimations:nil context:NULL];
         [UIView setAnimationBeginsFromCurrentState:YES];
         [UIView setAnimationDuration:.5];
@@ -725,7 +595,7 @@
     }
     
     [self.keyboardControls setActiveField:textField];
-
+    
     if(textField==txtBday) {
         pickerOption=kPickerBday;
     }
@@ -744,24 +614,10 @@
     else if(textField==txtCity) {
         pickerOption=kPickerCity;
         
-        NSString *strStateSelected = txtState.text;
+        [self resetCityList:arrData :txtState.text];
         
-            if([arrCityList count]>0)
-                [arrCityList removeAllObjects];
-            
-            for(int i=0;i<[arrData count];i++) {
-                QBCOCustomObject *obj = [arrData objectAtIndex:i];
-                
-                NSString *strName = [obj.fields objectForKey:@"stateName"];
-                
-                if([strName isEqualToString:strStateSelected]) {
-                    
-                    [arrCityList addObject:[obj.fields objectForKey:@"cityName"]];
-                }
-            }
-            
-            [pickerView reloadAllComponents];
-
+        [pickerView reloadAllComponents];
+        
     }
     else if(textField==txtHomeCourse) {
         pickerOption=kPickerCourses;
@@ -770,40 +626,41 @@
             txtHomeCourse.text = @"N/A";
         
         [self getCoursesForSelection];
-    
+        
     }
     else {
         pickerOption=6;
     }
-
+    
     [pickerView reloadAllComponents];
     
     return YES;
 }
 
-- (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
+-(void) resetCityList:(NSArray *) data :(NSString *) strStateSelected
+{
+    if([arrCityList count]>0)
+        [arrCityList removeAllObjects];
     
-    NSString *strStateSelected = txtState.text;
-    
-    if(textField ==txtState) {
+    for(QBCOCustomObject *obj in data) {
         
-        if([arrCityList count]>0)
-            [arrCityList removeAllObjects];
-
-        for(int i=0;i<[arrData count];i++) {
-            QBCOCustomObject *obj = [arrData objectAtIndex:i];
+        NSString *strName = [obj.fields objectForKey:@"stateName"];
+        
+        if([strName isEqualToString:strStateSelected]) {
             
-            NSString *strName = [obj.fields objectForKey:@"stateName"];
-
-            if([strName isEqualToString:strStateSelected]) {
-                
-                [arrCityList addObject:[obj.fields objectForKey:@"cityName"]];
-            }
+            [arrCityList addObject:[obj.fields objectForKey:@"cityName"]];
         }
-        
+    }
+}
+
+- (BOOL)textFieldShouldEndEditing:(UITextField *)textField
+{
+    if(textField ==txtState)
+    {
+        [self resetCityList:arrData :txtState.text];
         [pickerView reloadAllComponents];
     }
- 
+    
     
     return YES;
 }
@@ -836,110 +693,13 @@
 }
 
 
-//-----------------------------------------------------------------------
-
-#pragma mark -
-#pragma mark UIActionSheetDelegate
-- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
-{
-    int i = buttonIndex;
-    switch(i)
-    {
-        case 0:
-        {
-            if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
-            {
-                UIImagePickerController * picker = [[UIImagePickerController alloc] init];
-                picker.delegate = self;
-                self.imagePickerController = picker;
-                //                picker.modalPresentationStyle = UIModalPresentationCurrentContext;
-                picker.sourceType = UIImagePickerControllerSourceTypeCamera;
-                picker.allowsEditing = YES;
-                
-                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                    [self presentViewController:self.imagePickerController animated:YES completion:nil];
-                }];
-                
-            }
-            else {
-                [[[UIAlertView alloc] initWithTitle:kAppName message:@"Device does not supports camera" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil] show];
-                return;
-            }
-        }
-            break;
-        case 1:
-        {
-            UIImagePickerController * picker = [[UIImagePickerController alloc] init];
-            picker.delegate = self;
-            picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-            self.imagePickerController = picker;
-            picker.allowsEditing = YES;
-            
-            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                
-                if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-              
-                }
-                else {
-                    [self presentViewController:self.imagePickerController animated:YES completion:nil];
-                    
-                }
-            }];
-        }
-        default:
-            // Do Nothing.........
-            break;
-    }
-}
-
-//-----------------------------------------------------------------------
-
-#pragma mark -
-#pragma - mark Selecting Image from Camera and Library
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
-{
-    
-    // Picking Image from Camera/ Library
-    
-    UIImage *image= [info objectForKey:@"UIImagePickerControllerEditedImage"];
-    
-    if (!image)
-    {
-        return;
-    }
-    
-    // Adjusting Image Orientations
-    
-    imgViewProfilePic.image=image;
-
-    [picker dismissViewControllerAnimated:YES completion:^{}];
-
-}
-
-//-----------------------------------------------------------------------
-
-- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
-    
-    [imgViewProfilePic setAccessibilityIdentifier:@"default"] ;
-   
-    [picker dismissViewControllerAnimated:YES completion:^{}];
-}
 
 //-----------------------------------------------------------------------
 
 -(void)  localSave {
     NSMutableDictionary *dictUserDetails = [[NSMutableDictionary alloc] init];
     
-    if(segmentGender.selectedSegmentIndex==0)
-    {
-        // male
-        [dictUserDetails setObject:@"male" forKey:@"userGender"];
-    }
-    else {
-        // female
-        [dictUserDetails setObject:@"female" forKey:@"userGender"];
-    }
-    
+    [dictUserDetails setObject:segmentGender.selectedSegmentIndex==0 ? @"male" : @"female" forKey:@"userGender"];
     [dictUserDetails setObject:txtName.text forKey:@"userDisplayName"];
     [dictUserDetails setObject:txtCity.text forKey:@"userCity"];
     [dictUserDetails setObject:txtState.text forKey:@"userState"];
@@ -948,29 +708,11 @@
     [dictUserDetails setObject:strImgURLBase forKey:@"userPicBase"];
     [dictUserDetails setObject:@"0" forKey:@"userFullMode"];
     [dictUserDetails setObject:txtEmail.text forKey:@"userEmail"];
-
-   
-    [dictUserDetails setObject:@"1" forKey:@"userPush"];
-    [dictUserDetails setObject:@"0" forKey:@"userFullMode"];
     [dictUserDetails setObject:strCurrentUserId forKey:@"userInfoId"];
+    [dictUserDetails setObject:[NSString stringWithFormat:@"%ld",[[AppDelegate sharedinstance] getAge:txtBday.text]] forKey:@"userAge"];
     
-
-    [dictUserDetails setObject:[NSString stringWithFormat:@"%ld",(long)age] forKey:@"userAge"];
-    
-//    [dictUserDetails setObject:@"" forKey:@"isDevelopment"];
-
-//    if([[AppDelegate sharedinstance].strisDevelopment  isEqualToString:@"1"]) {
-//        [dictUserDetails setObject:@"1" forKey:@"isDevelopment"];
-//    }
-//    else {
-//        [dictUserDetails setObject:@"" forKey:@"isDevelopment"];
-//    }
-    
-    [dictUserDetails setObject:@"" forKey:@"isDevelopment"];
-
     [dictUserDetails setObject:txtHomeCourse.text forKey:@"home_coursename"];
     [dictUserDetails setObject:strHomeCourseID forKey:@"home_course_id"];
-    https://www.linkedin.com/in/hoodacreations/
     [[NSUserDefaults standardUserDefaults] setObject:dictUserDetails forKey:kuserData];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
@@ -978,91 +720,8 @@
     
 }
 
--(void) setupHandicapArray {
-    arrHandicapList = [[NSMutableArray alloc] init];
-    
-    [arrHandicapList addObject:@"N/A"];
-    [arrHandicapList addObject:@"-40"];
-    [arrHandicapList addObject:@"-39"];
-    [arrHandicapList addObject:@"-38"];
-    [arrHandicapList addObject:@"-37"];
-    [arrHandicapList addObject:@"-36"];
-    [arrHandicapList addObject:@"-35"];
-    [arrHandicapList addObject:@"-34"];
-    [arrHandicapList addObject:@"-33"];
-    [arrHandicapList addObject:@"-32"];
-    [arrHandicapList addObject:@"-31"];
-    [arrHandicapList addObject:@"-30"];
-    [arrHandicapList addObject:@"-29"];
-    [arrHandicapList addObject:@"-28"];
-    [arrHandicapList addObject:@"-27"];
-    [arrHandicapList addObject:@"-26"];
-    [arrHandicapList addObject:@"-25"];
-    [arrHandicapList addObject:@"-24"];
-    [arrHandicapList addObject:@"-23"];
-    [arrHandicapList addObject:@"-22"];
-    [arrHandicapList addObject:@"-21"];
-    [arrHandicapList addObject:@"-20"];
-    [arrHandicapList addObject:@"-19"];
-    [arrHandicapList addObject:@"-18"];
-    [arrHandicapList addObject:@"-17"];
-    [arrHandicapList addObject:@"-16"];
-    [arrHandicapList addObject:@"-15"];
-    [arrHandicapList addObject:@"-14"];
-    [arrHandicapList addObject:@"-13"];
-    [arrHandicapList addObject:@"-12"];
-    [arrHandicapList addObject:@"-11"];
-    [arrHandicapList addObject:@"-10"];
-
-    [arrHandicapList addObject:@"-9"];
-    [arrHandicapList addObject:@"-8"];
-    [arrHandicapList addObject:@"-7"];
-    [arrHandicapList addObject:@"-6"];
-    [arrHandicapList addObject:@"-5"];
-    [arrHandicapList addObject:@"-4"];
-    [arrHandicapList addObject:@"-3"];
-    [arrHandicapList addObject:@"-2"];
-    [arrHandicapList addObject:@"-1"];
-    [arrHandicapList addObject:@"0"];
-
-    [arrHandicapList addObject:@"1"];
-    [arrHandicapList addObject:@"2"];
-    [arrHandicapList addObject:@"3"];
-    [arrHandicapList addObject:@"4"];
-    [arrHandicapList addObject:@"5"];
-    [arrHandicapList addObject:@"6"];
-    [arrHandicapList addObject:@"7"];
-    [arrHandicapList addObject:@"8"];
-    [arrHandicapList addObject:@"9"];
-    [arrHandicapList addObject:@"10"];
-
-    
-}
-
-//-----------------------------------------------------------------------
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    
-    if (alertView.tag == 121) {
-        
-        if (buttonIndex == 0) {
-            
-            // automatic
-            
-            [[AppDelegate sharedinstance] locationInit];
-            
-        }
-        else {
-            
-            // manual
-            [self manualAdd];
-
-        }
-    }
-}
-
 -(void) signUpUser {
-
+    
     QBUUser *user = [QBUUser user];
     user.fullName = txtName.text;
     user.password = txtPwd.text;
@@ -1088,84 +747,34 @@
                 QBCOCustomObject *localObject = [QBCOCustomObject customObject];
                 localObject.className = @"UserInfo"; // your Class name
                 
-                if(segmentGender.selectedSegmentIndex==0)
-                {
-                    // male
-                    [localObject.fields setObject:@"male" forKey:@"userGender"];
-                }
-                else {
-                    // female
-                    [localObject.fields setObject:@"female" forKey:@"userGender"];
-                }
-                
-                
+                [localObject.fields setObject:segmentGender.selectedSegmentIndex==0 ? @"male" :@"female"   forKey:@"userGender"];
                 [localObject.fields setObject:txtEmail.text forKey:@"userEmail"];
-                
                 [localObject.fields setObject:txtName.text forKey:@"userDisplayName"];
                 [localObject.fields setObject:txtBday.text forKey:@"userBday"];
                 [localObject.fields setObject:txtCity.text forKey:@"userCity"];
                 [localObject.fields setObject:txtState.text forKey:@"userState"];
-                
-                age = [[AppDelegate sharedinstance] getAge:txtBday.text ] ;
-                
-                [localObject.fields setObject:[NSNumber numberWithInteger:age] forKey:@"userAge"];
-                
-                
-                [localObject.fields setObject:@"1" forKey:@"userDeviceType"];
-                
-                [localObject.fields setObject:txtHandicap.text forKey:@"userHandicap"];
+                [localObject.fields setObject:[NSNumber numberWithInteger:[[AppDelegate sharedinstance] getAge:txtBday.text ]] forKey:@"userAge"];
                 [localObject.fields setObject:txtHandicap.text forKey:@"userHandicap"];
                 [localObject.fields setObject:tvInfo.text forKey:@"userInfo"];
-                
-                
                 [[AppDelegate sharedinstance] setStringObj:@"0" forKey:@"userPurchasedConnects"];
                 [[AppDelegate sharedinstance] setStringObj:@"10" forKey:@"userFreeConnects"];
-                
-                [localObject.fields setObject:@"1" forKey:@"userPush"];
                 [localObject.fields setObject:@"0" forKey:@"userFullMode"];
                 [localObject.fields setObject:@"0" forKey:@"userNumberOfBlocks"];
-                
                 [localObject.fields setObject:strImgURLBase forKey:@"userPicBase"];
-                [localObject.fields setObject:@"" forKey:@"isDevelopment"];
-                
-                
                 [localObject.fields setObject:[NSNumber numberWithInteger:0] forKey:@"advertisingBlockCount"];
                 [localObject.fields setObject:[NSNumber numberWithInteger:0] forKey:@"spamBlockCount"];
                 [localObject.fields setObject:[NSNumber numberWithInteger:0] forKey:@"contentBlockCount"];
                 [localObject.fields setObject:[NSNumber numberWithInteger:0] forKey:@"stolenBlockCount"];
                 [localObject.fields setObject:[NSNumber numberWithInteger:0] forKey:@"abusiveBlockCount"];
                 [localObject.fields setObject:[NSNumber numberWithInteger:0] forKey:@"otherBlockCount"];
-                [localObject.fields setObject:[NSNumber numberWithInteger:0] forKey:@"UserRole"];
-                
                 [localObject.fields setObject:[NSNumber numberWithInteger:1] forKey:@"user_type"];
-                
                 [localObject.fields setObject:txtHomeCourse.text forKey:@"home_coursename"];
-                
-                strHomeCourseID = [self getHomeCourseIdFromName:txtHomeCourse.text];
-                [localObject.fields setObject:strHomeCourseID forKey:@"home_course_id"];
-                
-                
-                strlat = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlat];
-                strlat = [[AppDelegate sharedinstance] nullcheck:strlat];
-                
-                strlong = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlong];
-                strlong = [[AppDelegate sharedinstance] nullcheck:strlong];
-                
-                NSString *strPoint = [NSString stringWithFormat:@"%f,%f",[strlong floatValue],[strlat floatValue]];
-                [localObject.fields setObject:strPoint forKey:@"current_location"];
-                
-                
-                //                    if([[AppDelegate sharedinstance].strisDevelopment isEqualToString:@"1"]) {
-                //                        [object.fields setObject:@"1" forKey:@"isDevelopment"];
-                //
-                //                    }
-                //                    else {
-                //                        [object.fields setObject:@"" forKey:@"isDevelopment"];
-                //                    }
-                
+                [localObject.fields setObject:[self getHomeCourseIdFromName:txtHomeCourse.text] forKey:@"home_course_id"];
+                strlat = [[AppDelegate sharedinstance] nullcheck:[[AppDelegate sharedinstance] getStringObjfromKey:klocationlat]];
+                strlong = [[AppDelegate sharedinstance] nullcheck:[[AppDelegate sharedinstance] getStringObjfromKey:klocationlong]];
+                [localObject.fields setObject:[NSString stringWithFormat:@"%f,%f",[strlong floatValue],[strlat floatValue]] forKey:@"current_location"];
                 [QBRequest createObject:localObject successBlock:^(QBResponse *response, QBCOCustomObject *object) {
-                    [self sendtagForAgerange];
-                    
+            
                     [[AppDelegate sharedinstance] setStringObj:object.ID forKey:kuserInfoID];
                     
                     // do something when object is successfully created on a server
@@ -1174,29 +783,54 @@
                     [[AppDelegate sharedinstance] setStringObj:strCurrentUserId forKey:kuserDBID];
                     [[AppDelegate sharedinstance] setStringObj:strCurrentUserId forKey:@"userQuickbloxID"];
                     
-                    
                     [self localSave];
-                    
-                    [[AppDelegate sharedinstance] hideLoader];
-                    //                        [[AppDelegate sharedinstance] displayMessage:@"Account successfully created"];
-                    
                     [self registerForNotifications];
                     
-                    //                        ViewUsersViewController *viewController=[[ViewUsersViewController alloc] initWithNibName:@"ViewUsersViewController" bundle:nil];
-                    //                        viewController.strIsMyMatches=@"1";
-                    
-                    SpecialsViewController *vc = [[SpecialsViewController alloc] initWithNibName:@"SpecialsViewController" bundle:nil];
-                    
-                    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
-                    SideMenuViewController *leftMenuViewController;
-                    leftMenuViewController = [[SideMenuViewController alloc] initWithNibName:@"SideMenuViewController" bundle:nil];
-                    MFSideMenuContainerViewController *container = [MFSideMenuContainerViewController
-                                                                    containerWithCenterViewController:nav
-                                                                    leftMenuViewController:leftMenuViewController
-                                                                    rightMenuViewController:nil];
-                    container.panMode=YES;
-                    
-                    [[AppDelegate sharedinstance].window setRootViewController:container];
+                    [QBRequest createObject:localObject successBlock:^(QBResponse *response, QBCOCustomObject *object) {
+                        QBCOCustomObject *localObject = [QBCOCustomObject customObject];
+                        localObject.className = @"UserRoles"; // your Class name
+                        
+                        [localObject.fields setObject:object.ID forKey:@"_parent_id"];
+                        [localObject.fields setObject:@"0" forKey:@"RoleId"];
+                        [localObject.fields setObject:@"Golfer" forKey:@"Name"];
+                        [localObject.fields setObject:@"Approved" forKey:@"Status"];
+                        [localObject.fields setObject:[NSDate date] forKey:@"DateAsRole"];
+                        
+                        [[AppDelegate sharedinstance] setCurrentRole:0];
+                        
+                        [QBRequest createObject:localObject successBlock:^(QBResponse *response, QBCOCustomObject *object) {
+                            [[AppDelegate sharedinstance] hideLoader];
+                            
+                            SpecialsViewController *vc = [[SpecialsViewController alloc] initWithNibName:@"SpecialsViewController" bundle:nil];
+                            
+                            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+                            SideMenuViewController *leftMenuViewController;
+                            leftMenuViewController = [[SideMenuViewController alloc] initWithNibName:@"SideMenuViewController" bundle:nil];
+                            MFSideMenuContainerViewController *container = [MFSideMenuContainerViewController
+                                                                            containerWithCenterViewController:nav
+                                                                            leftMenuViewController:leftMenuViewController
+                                                                            rightMenuViewController:nil];
+                            container.panMode=YES;
+                            
+                            [[AppDelegate sharedinstance].window setRootViewController:container];
+                            
+                        } errorBlock:^(QBResponse *response) {
+                            // error handling
+                            
+                            [[AppDelegate sharedinstance] hideLoader];
+                            [[AppDelegate sharedinstance] displayServerErrorMessage];
+                            
+                            NSLog(@"Response error: %@", [response.error description]);
+                        }];
+                        [[AppDelegate sharedinstance] hideLoader];
+                    } errorBlock:^(QBResponse *response) {
+                        // error handling
+                        
+                        [[AppDelegate sharedinstance] hideLoader];
+                        [[AppDelegate sharedinstance] displayServerErrorMessage];
+                        
+                        NSLog(@"Response error: %@", [response.error description]);
+                    }];
                     
                 } errorBlock:^(QBResponse *response) {
                     // error handling
@@ -1237,18 +871,14 @@
         }
         
         autocompletePlaceStatus = 3;
-
-       [self dismissViewControllerAnimated:YES completion:nil];
+        
+        [self dismissViewControllerAnimated:YES completion:nil];
     }];
 }
 
 -(void) gotLocation {
-    
-    strlat = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlat];
-    strlat = [[AppDelegate sharedinstance] nullcheck:strlat];
-    
-    strlong = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlong];
-    strlong = [[AppDelegate sharedinstance] nullcheck:strlong];
+    strlat = [[AppDelegate sharedinstance] nullcheck:[[AppDelegate sharedinstance] getStringObjfromKey:klocationlat]];
+    strlong = [[AppDelegate sharedinstance] nullcheck:[[AppDelegate sharedinstance] getStringObjfromKey:klocationlong]];
     
     [self signUpUser];
 }
@@ -1268,7 +898,6 @@ didAutocompleteWithPlace:(GMSPlace *)place {
     NSLog(@"Place name %@", place.name);
     NSLog(@"Place address %@", place.formattedAddress);
     
-    // txtAddress.text = place.formattedAddress;
     NSString *strLat = [NSString stringWithFormat:@"%f", place.coordinate.latitude];
     NSString *strLong = [NSString stringWithFormat:@"%f",place.coordinate.longitude];
     
@@ -1276,9 +905,7 @@ didAutocompleteWithPlace:(GMSPlace *)place {
     [[AppDelegate sharedinstance] setStringObj:strLong forKey:klocationlong];
     
     NSLog(@"Place attributions %@", place.attributions.string);
-   [self signUpUser];
-    
-  //[self dismissViewControllerAnimated:YES completion:nil];
+    [self signUpUser];
     
 }
 

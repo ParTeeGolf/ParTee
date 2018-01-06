@@ -68,82 +68,28 @@
 }
 
 - (void) bindData {
+    
 
     NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
     
-    if([strCameFrom isEqualToString:kScreenViewMatch]) {
-        [getRequest setObject:strEmailOfUser forKey:@"userEmail"];
+   
+        [btnOptions setHidden:![self IsFriend]];
+        [btnOptionsBig setHidden:![self IsFriend]];
         
-        [btnOptions setHidden:NO];
-        [btnOptionsBig setHidden:NO];
-        
-        [btnAdd setHidden:YES];
-        [btnAddBg setHidden:YES];
-
-        
-    }
-    else if([strCameFrom isEqualToString:kScreenViewUsers]) {
-        [btnOptions setHidden:YES];
-        [btnOptionsBig setHidden:YES];
-        
-        [btnAdd setHidden:NO];
-        [btnAddBg setHidden:NO];
-        
-        [getRequest setObject:strEmailOfUser forKey:@"userEmail"];
-
-        [lblScreenName setText:@"Golfers"];
-
-    }
-    else if([strCameFrom isEqualToString:kScreenViewInvitation]) {
-        [btnOptions setHidden:YES];
-        [btnOptionsBig setHidden:YES];
-        
-        [btnAdd setHidden:YES];
-        [btnAddBg setHidden:YES];
-        
-        [getRequest setObject:strEmailOfUser forKey:@"userEmail"];
-        
-        [lblScreenName setText:@"Invitation"];
-    }
-    else if([strCameFrom isEqualToString:kScreenViewAccepted]) {
-        [btnOptions setHidden:YES];
-        [btnOptionsBig setHidden:YES];
-        
-        [btnAdd setHidden:YES];
-        [btnAddBg setHidden:YES];
-        
-        [getRequest setObject:strEmailOfUser forKey:@"userEmail"];
-        
-        [lblScreenName setText:@"Preview"];
-    }
-    else if([strCameFrom isEqualToString:kScreenViewPro]) {
-        [btnOptions setHidden:YES];
-        [btnOptionsBig setHidden:YES];
-        
-        NSString *currentUserGuid = [[AppDelegate sharedinstance] getCurrentUserGuid];
-        
-        [btnAdd setHidden: [currentUserGuid isEqualToString:userID]];
-        [btnAddBg setHidden:[currentUserGuid isEqualToString:userID]];
+        [btnAdd setHidden:[self IsFriend]];
+        [btnAddBg setHidden:[self IsFriend]];
         
         [getRequest setObject:userID forKey:@"_id"];
-        
-        [lblScreenName setText:@"Preview"];
-    }
-    else  {
-        [getRequest setObject:[[AppDelegate sharedinstance] getCurrentUserEmail] forKey:@"userEmail"];
-        
-        [btnAdd setHidden:YES];
-        [btnAddBg setHidden:YES];
-        
-        [btnOptions setHidden:YES];
-        [btnOptionsBig setHidden:YES];
-        
-    }
-    
+
     [[AppDelegate sharedinstance] showLoader];
     
     [QBRequest objectsWithClassName:@"UserInfo" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
-        [[AppDelegate sharedinstance] hideLoader];
+         [[AppDelegate sharedinstance] hideLoader];
+        if(objects.count == 0)
+        {
+            return;
+        }
+       
         
         // response processing
         dictUserData =  [objects objectAtIndex:0];
@@ -153,10 +99,6 @@
         if([[[AppDelegate sharedinstance] nullcheck:[dictUserData.fields objectForKey:@"userPicBase"]] length]>0) {
             imageUrl = [NSString stringWithFormat:@"%@", [dictUserData.fields objectForKey:@"userPicBase"]];
             
-//            imageUrl =@"https://maps.googleapis.com/maps/api/place/photo?maxwidth=1000&maxheight=1000&photoreference=CmRaAAAAy6l-YWFYlY2Ftfg4yLZoLKx-rWooipnEypAcWksxxet7wsobOLXt5qHsXCzsU3UFCKi7jWmvPzdCHlvTEA_OOtR9ylGxg5WHXCIE3yLdzKghCaX_DAAzpSOUaxVmG1s8EhAOxCEf8kiMeEG8N-V_0AT5GhSZKAM6qbDKyxfy5zzzysprXEjyyA&key= AIzaSyAVEgy3n4h2oK3Knc5I1__YILYshzNWiW4";
-//            imageUrl=[imageUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-
-         //   [imgViewProfilePic sd_setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:[UIImage imageNamed:@"user"]];
             [imgViewProfilePic setShowActivityIndicatorView:YES];
             [imgViewProfilePic setIndicatorStyle:UIActivityIndicatorViewStyleGray];
             
@@ -167,34 +109,15 @@
 
             }];
             
-//            [imgViewProfilePic setImageWithURL:[NSURL URLWithString:imageUrl]
-//                           placeholderImage:[UIImage imageNamed:@"user"]
-//                                  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-//                                      //... completion code here ...
-//                                      [imgViewProfilePic setContentMode:UIViewContentModeCenter];
-//                                      
-//                                  }];
-            
         }
         else {
             [imgViewProfilePic setImage:[UIImage imageNamed:@"user"]];
         }
         
-        NSString *userFullMode= [[AppDelegate sharedinstance] nullcheck:[dictUserData.fields objectForKey:@"userFullMode"]];
         
-        if([userFullMode isEqualToString:@"1"]) {
-            [imgBadge setHidden:NO];
-        }
-        else {
-            [imgBadge setHidden:YES];
-        }
-        
-        
-        
+
         long int age = [[AppDelegate sharedinstance] getAge:[dictUserData.fields objectForKey:@"userBday" ]];
         NSString *strAge = [NSString stringWithFormat:@"%ld",age];
-
-        NSString *strName = [NSString stringWithFormat:@"%@",[dictUserData.fields objectForKey:@"userDisplayName"]];
         NSString *strUserName = [NSString stringWithFormat:@"%@",[dictUserData.fields objectForKey:@"userDisplayName"]];
         
         
@@ -246,18 +169,30 @@
             
         }];
         
-        long role = [[[AppDelegate sharedinstance] nullcheck:[dictUserData.fields objectForKey:@"UserRole"]] longLongValue];
+        int currentUserRole = [[AppDelegate sharedinstance] getCurrentRole];
         
-        if(role != 1)
-        {
-            [proView setHidden:YES];
-            lblScreenName.text = @"Golfer";
-        }
-        else
-        {
-            [imgBadge setHidden:NO];
-            lblScreenName.text = @"Pro";
-        }
+        [proButtons setHidden:currentUserRole != -1];
+        NSMutableDictionary *getRequest = [[NSMutableDictionary alloc] init];
+        [getRequest setObject:dictUserData.ID forKey:@"_parent_id"];
+        [getRequest setObject:@"1" forKey:@"RoleId"];
+        [getRequest setObject:@"Approved" forKey:@"Status"];
+        [getRequest setObject:@"true" forKey:@"Active"];
+        [QBRequest objectsWithClassName:@"UserRoles" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
+            [proView setHidden:objects.count == 0];
+            lblScreenName.text = objects.count > 0 ? @"Pro" : @"Golfer";
+            NSString *userFullMode= [[AppDelegate sharedinstance] nullcheck:[dictUserData.fields objectForKey:@"userFullMode"]];
+            
+            [imgBadge setHidden:objects.count == 0 && ![userFullMode isEqualToString:@"1"]];
+        }errorBlock:^(QBResponse *response) {
+            // error handling
+            [[AppDelegate sharedinstance] hideLoader];
+            [[AppDelegate sharedinstance] displayServerErrorMessage];
+            
+            NSLog(@"Response error: %@", [response.error description]);
+        }];
+        
+        
+       
         
     } errorBlock:^(QBResponse *response) {
         // error handling
@@ -284,7 +219,7 @@
         UIAlertController * alert = [UIAlertController
                                      alertControllerWithTitle:@"Choose an option"
                                      message:@""
-                                     preferredStyle:UIAlertControllerStyleAlert];
+                                     preferredStyle:UIAlertControllerStyleActionSheet];
         
         
         
@@ -308,13 +243,7 @@
                                          handler:^(UIAlertAction * action) {
                                              [self blockUser];
                                          }];
-        
-        UIAlertAction* sendButton = [UIAlertAction
-                                      actionWithTitle:@"Send Invitation"
-                                      style:UIAlertActionStyleDefault
-                                      handler:^(UIAlertAction * action) {
-                                          [self sendMessage];
-                                      }];
+    
         
         UIAlertAction* cancelButton = [UIAlertAction
                                      actionWithTitle:@"Cancel"
@@ -322,19 +251,14 @@
                                      handler:^(UIAlertAction * action) {
                                          
                                      }];
-    if([[AppDelegate sharedinstance].strIsMyMatches isEqualToString:@"1"])
-    {
+
+
         [alert addAction:messageButton];
         [alert addAction:unfriendButton];
-    }
-    else
-    {
-        [alert addAction:sendButton];
-    }
-    
-    [alert addAction:blockButton];
+        [alert addAction:blockButton];
+   
     [alert addAction:cancelButton];
-    
+    alert.popoverPresentationController.sourceView = sender;
     [self presentViewController:alert animated:YES completion:nil];
 }
 
@@ -426,7 +350,7 @@
                     
                     QBMPushMessage *pushMessage = [[QBMPushMessage alloc] initWithPayload:payload];
                     
-                    NSString *strUserId = [NSString stringWithFormat:@"%d",obj.userID];
+                    NSString *strUserId = [NSString stringWithFormat:@"%ld",obj.userID];
                     
                     [QBRequest sendPush:pushMessage toUsers:strUserId successBlock:^(QBResponse *response, QBMEvent *event) {
                         
@@ -438,22 +362,22 @@
                         
                         if(weeklyConnects>0) {
                             weeklyConnects = weeklyConnects - 1;
-                            [object.fields setObject:[NSString stringWithFormat:@"%d",weeklyConnects]  forKey:@"userFreeConnects"];
+                            [object.fields setObject:[NSString stringWithFormat:@"%ld",weeklyConnects]  forKey:@"userFreeConnects"];
                         }
                         else {
                             if(userPurchasedConnects>0)
                                 userPurchasedConnects = userPurchasedConnects - 1;
-                            [object.fields setObject:[NSString stringWithFormat:@"%d",userPurchasedConnects]  forKey:@"userPurchasedConnects"];
+                            [object.fields setObject:[NSString stringWithFormat:@"%ld",userPurchasedConnects]  forKey:@"userPurchasedConnects"];
                         }
                         
-                        [dictLocalUserData setObject:[NSString stringWithFormat:@"%d",weeklyConnects]  forKey:@"userFreeConnects"];
-                        [dictLocalUserData setObject:[NSString stringWithFormat:@"%d",userPurchasedConnects]  forKey:@"userPurchasedConnects"];
+                        [dictLocalUserData setObject:[NSString stringWithFormat:@"%ld",weeklyConnects]  forKey:@"userFreeConnects"];
+                        [dictLocalUserData setObject:[NSString stringWithFormat:@"%ld",userPurchasedConnects]  forKey:@"userPurchasedConnects"];
                         
                         [QBRequest updateObject:object successBlock:^(QBResponse *response, QBCOCustomObject *object) {
                             // object updated
                             
-                            [dictLocalUserData setObject:[NSString stringWithFormat:@"%d",weeklyConnects]  forKey:@"userFreeConnects"];
-                            [dictLocalUserData setObject:[NSString stringWithFormat:@"%d",userPurchasedConnects]  forKey:@"userPurchasedConnects"];
+                            [dictLocalUserData setObject:[NSString stringWithFormat:@"%ld",weeklyConnects]  forKey:@"userFreeConnects"];
+                            [dictLocalUserData setObject:[NSString stringWithFormat:@"%ld",userPurchasedConnects]  forKey:@"userPurchasedConnects"];
                             
                             [[NSUserDefaults standardUserDefaults] setObject:dictLocalUserData forKey:kuserData];
                             [[NSUserDefaults standardUserDefaults] synchronize];
@@ -478,22 +402,22 @@
                         
                         if(weeklyConnects>0) {
                             weeklyConnects = weeklyConnects - 1;
-                            [object.fields setObject:[NSString stringWithFormat:@"%d",weeklyConnects]  forKey:@"userFreeConnects"];
+                            [object.fields setObject:[NSString stringWithFormat:@"%ld",weeklyConnects]  forKey:@"userFreeConnects"];
                         }
                         else {
                             if(userPurchasedConnects>0)
                                 userPurchasedConnects = userPurchasedConnects - 1;
-                            [object.fields setObject:[NSString stringWithFormat:@"%d",userPurchasedConnects]  forKey:@"userPurchasedConnects"];
+                            [object.fields setObject:[NSString stringWithFormat:@"%ld",userPurchasedConnects]  forKey:@"userPurchasedConnects"];
                         }
                         
-                        [dictLocalUserData setObject:[NSString stringWithFormat:@"%d",weeklyConnects]  forKey:@"userFreeConnects"];
-                        [dictLocalUserData setObject:[NSString stringWithFormat:@"%d",userPurchasedConnects]  forKey:@"userPurchasedConnects"];
+                        [dictLocalUserData setObject:[NSString stringWithFormat:@"%ld",weeklyConnects]  forKey:@"userFreeConnects"];
+                        [dictLocalUserData setObject:[NSString stringWithFormat:@"%ld",userPurchasedConnects]  forKey:@"userPurchasedConnects"];
                         
                         [QBRequest updateObject:object successBlock:^(QBResponse *response, QBCOCustomObject *object) {
                             // object updated
                             
-                            [dictLocalUserData setObject:[NSString stringWithFormat:@"%d",weeklyConnects]  forKey:@"userFreeConnects"];
-                            [dictLocalUserData setObject:[NSString stringWithFormat:@"%d",userPurchasedConnects]  forKey:@"userPurchasedConnects"];
+                            [dictLocalUserData setObject:[NSString stringWithFormat:@"%ld",weeklyConnects]  forKey:@"userFreeConnects"];
+                            [dictLocalUserData setObject:[NSString stringWithFormat:@"%ld",userPurchasedConnects]  forKey:@"userPurchasedConnects"];
                             
                             [[NSUserDefaults standardUserDefaults] setObject:dictLocalUserData forKey:kuserData];
                             [[NSUserDefaults standardUserDefaults] synchronize];
@@ -521,26 +445,26 @@
                     
                     if(weeklyConnects>0) {
                         weeklyConnects = weeklyConnects - 1;
-                        [object.fields setObject:[NSString stringWithFormat:@"%d",weeklyConnects]  forKey:@"userFreeConnects"];
+                        [object.fields setObject:[NSString stringWithFormat:@"%ld",weeklyConnects]  forKey:@"userFreeConnects"];
                     }
                     else {
                         if(userPurchasedConnects>0)
                             userPurchasedConnects = userPurchasedConnects - 1;
-                        [object.fields setObject:[NSString stringWithFormat:@"%d",userPurchasedConnects]  forKey:@"userPurchasedConnects"];
+                        [object.fields setObject:[NSString stringWithFormat:@"%ld",userPurchasedConnects]  forKey:@"userPurchasedConnects"];
                     }
                     
-                    [dictLocalUserData setObject:[NSString stringWithFormat:@"%d",weeklyConnects] forKey:@"userFreeConnects"];
-                    [dictLocalUserData setObject:[NSString stringWithFormat:@"%d",userPurchasedConnects] forKey:@"userPurchasedConnects"];
+                    [dictLocalUserData setObject:[NSString stringWithFormat:@"%ld",weeklyConnects] forKey:@"userFreeConnects"];
+                    [dictLocalUserData setObject:[NSString stringWithFormat:@"%ld",userPurchasedConnects] forKey:@"userPurchasedConnects"];
                     
                     [[NSUserDefaults standardUserDefaults] setObject:dictLocalUserData forKey:kuserData];
                     [[NSUserDefaults standardUserDefaults] synchronize];
                     
-                    [[AppDelegate sharedinstance] setStringObj:[NSString stringWithFormat:@"%d",weeklyConnects] forKey:@"userFreeConnects"];
-                    [[AppDelegate sharedinstance] setStringObj:[NSString stringWithFormat:@"%d",userPurchasedConnects] forKey:@"userPurchasedConnects"];
+                    [[AppDelegate sharedinstance] setStringObj:[NSString stringWithFormat:@"%ld",weeklyConnects] forKey:@"userFreeConnects"];
+                    [[AppDelegate sharedinstance] setStringObj:[NSString stringWithFormat:@"%ld",userPurchasedConnects] forKey:@"userPurchasedConnects"];
                     
                     [QBRequest updateObject:object successBlock:^(QBResponse *response, QBCOCustomObject *object) {
-                        [dictLocalUserData setObject:[NSString stringWithFormat:@"%d",weeklyConnects]  forKey:@"userFreeConnects"];
-                        [dictLocalUserData setObject:[NSString stringWithFormat:@"%d",userPurchasedConnects]  forKey:@"userPurchasedConnects"];
+                        [dictLocalUserData setObject:[NSString stringWithFormat:@"%ld",weeklyConnects]  forKey:@"userFreeConnects"];
+                        [dictLocalUserData setObject:[NSString stringWithFormat:@"%ld",userPurchasedConnects]  forKey:@"userPurchasedConnects"];
                         
                         // object updated
                         [[NSUserDefaults standardUserDefaults] setObject:dictLocalUserData forKey:kuserData];
@@ -595,7 +519,6 @@
     [self presentViewController:navigationController
                        animated:YES
                      completion:^{
-                         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
                      }];
 }
 
@@ -691,6 +614,191 @@
         NSLog(@"Response error: %@", [response.error description]);
     }];
     
+}
+
+-(IBAction)ApproveFeaturedPro:(id)sender
+{
+    [self approveAction:YES];
+}
+
+-(IBAction)ApprovePro:(UIButton *)sender
+{
+    [self approveAction:NO];  
+}
+
+-(IBAction)DenyPro:(UIButton *)sender
+{
+    [[AppDelegate sharedinstance] showLoader];
+    NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
+    
+    [getRequest setObject:@"1" forKey:@"RoleId"];
+    [getRequest setObject:@"true" forKey:@"Active"];
+    [getRequest setObject:dictUserData.ID forKey:@"_parent_id"];
+    
+    [QBRequest objectsWithClassName:@"UserRoles" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page)
+     {
+         QBCOCustomObject *obj = [objects objectAtIndex:0];
+         [obj.fields setObject:@"false" forKey:@"Active"];
+         
+         
+         [QBRequest updateObject:obj successBlock:^(QBResponse *response, QBCOCustomObject *object) {
+             NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
+             
+             [getRequest setObject:@"0" forKey:@"RoleId"];
+             [getRequest setObject:@"true" forKey:@"Active"];
+             [getRequest setObject:dictUserData.ID forKey:@"_parent_id"];
+             
+             [QBRequest objectsWithClassName:@"UserRoles" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page)
+              {
+                  QBCOCustomObject *obj = [objects objectAtIndex:0];
+                  [obj.fields setObject:@"false" forKey:@"Active"];
+                  
+                  
+                  [QBRequest updateObject:obj successBlock:^(QBResponse *response, QBCOCustomObject *object) {
+                      
+                      QBCOCustomObject *roleObj = [QBCOCustomObject init];
+                      
+                      roleObj.className = @"UserRoles";
+                      [roleObj.fields setObject:dictUserData.ID forKey:@"_parent_id"];
+                      [roleObj.fields setObject:sender.titleLabel.text forKey:@"Status"];
+                      [roleObj.fields setObject:@"0" forKey:@"RoleId"];
+                      [roleObj.fields setObject:@"true" forKey:@"Active"];
+                      [roleObj.fields setObject:@"Golfer" forKey:@"Name"];
+                      [roleObj.fields setObject:[NSDate date] forKey:@"DateAsRole"];
+                      
+                      [QBRequest createObject:obj successBlock:^(QBResponse *response, QBCOCustomObject *object) {
+                          [[AppDelegate sharedinstance] hideLoader];
+                          [self.navigationController popViewControllerAnimated:YES];
+                          
+                          
+                      } errorBlock:^(QBResponse *response) {
+                          // error handling
+                          [[AppDelegate sharedinstance] hideLoader];
+                          
+                          NSLog(@"Response error: %@", [response.error description]);
+                      }];
+                      
+                      
+                      
+                  } errorBlock:^(QBResponse *response) {
+                      // error handling
+                      [[AppDelegate sharedinstance] hideLoader];
+                      
+                      NSLog(@"Response error: %@", [response.error description]);
+                  }];
+                  
+              } errorBlock:^(QBResponse *response) {
+                  // error handling
+                  [[AppDelegate sharedinstance] hideLoader];
+                  
+                  NSLog(@"Response error: %@", [response.error description]);
+              }];
+             
+             
+         } errorBlock:^(QBResponse *response) {
+             // error handling
+             [[AppDelegate sharedinstance] hideLoader];
+             
+             NSLog(@"Response error: %@", [response.error description]);
+         }];
+         
+     } errorBlock:^(QBResponse *response) {
+         // error handling
+         [[AppDelegate sharedinstance] hideLoader];
+         
+         NSLog(@"Response error: %@", [response.error description]);
+     }];
+}
+
+-(void)approveAction: (BOOL) featured
+{
+    [[AppDelegate sharedinstance] showLoader];
+    NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
+    
+    [getRequest setObject:@"1" forKey:@"RoleId"];
+    [getRequest setObject:@"true" forKey:@"Active"];
+    [getRequest setObject:dictUserData.ID forKey:@"_parent_id"];
+    
+    [QBRequest objectsWithClassName:@"UserRoles" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page)
+     {
+         if(objects.count == 0)
+         {
+             return;
+         }
+         QBCOCustomObject *obj = [objects objectAtIndex:0];
+         [obj.fields setObject:@"False" forKey:@"Active"];
+         
+         
+         [QBRequest updateObject:obj successBlock:^(QBResponse *response, QBCOCustomObject *object) {
+             QBCOCustomObject *roleObj = [QBCOCustomObject alloc];
+             
+             roleObj.className = @"UserRoles";
+             [roleObj.fields setObject:dictUserData.ID forKey:@"_parent_id"];
+             [roleObj.fields setObject:@"Approved" forKey:@"Status"];
+             [roleObj.fields setObject:@"1" forKey:@"RoleId"];
+             [roleObj.fields setObject:@"true" forKey:@"Active"];
+             [roleObj.fields setObject:@"Pro" forKey:@"Name"];
+             [roleObj.fields setObject:featured ? @"true" : @"false" forKey:@"Featured"];
+             [roleObj.fields setObject:[NSDate date] forKey:@"DateAsRole"];
+             
+             [QBRequest createObject:roleObj successBlock:^(QBResponse *response, QBCOCustomObject *object) {
+                 NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
+                 
+                 [getRequest setObject:@"0" forKey:@"RoleId"];
+                 [getRequest setObject:@"true" forKey:@"Active"];
+                 [getRequest setObject:dictUserData.ID forKey:@"_parent_id"];
+                 
+                 [QBRequest objectsWithClassName:@"UserRoles" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page)
+                  {
+                      if(objects.count == 0)
+                      {
+                          [[AppDelegate sharedinstance] hideLoader];
+                          [self.navigationController popViewControllerAnimated:YES];
+                          return;
+                      }
+                      QBCOCustomObject *obj = [objects objectAtIndex:0];
+                      [obj.fields setObject:@"False" forKey:@"Active"];
+                      
+                      
+                      [QBRequest updateObject:obj successBlock:^(QBResponse *response, QBCOCustomObject *object) {
+                          
+                          [[AppDelegate sharedinstance] hideLoader];
+                          [self.navigationController popViewControllerAnimated:YES];
+                          
+                      } errorBlock:^(QBResponse *response) {
+                          // error handling
+                          [[AppDelegate sharedinstance] hideLoader];
+                          
+                          NSLog(@"Response error: %@", [response.error description]);
+                      }];
+                      
+                  } errorBlock:^(QBResponse *response) {
+                      // error handling
+                      [[AppDelegate sharedinstance] hideLoader];
+                      
+                      NSLog(@"Response error: %@", [response.error description]);
+                  }];
+                 
+             } errorBlock:^(QBResponse *response) {
+                 // error handling
+                 [[AppDelegate sharedinstance] hideLoader];
+                 
+                 NSLog(@"Response error: %@", [response.error description]);
+             }];
+             
+         } errorBlock:^(QBResponse *response) {
+             // error handling
+             [[AppDelegate sharedinstance] hideLoader];
+             
+             NSLog(@"Response error: %@", [response.error description]);
+         }];
+         
+     } errorBlock:^(QBResponse *response) {
+         // error handling
+         [[AppDelegate sharedinstance] hideLoader];
+         
+         NSLog(@"Response error: %@", [response.error description]);
+     }];
 }
 
 -(BOOL) prefersStatusBarHidden {

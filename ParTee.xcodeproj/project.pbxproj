@@ -43,8 +43,6 @@
 		3D1AF1271D71B64B005EEAE7 /* CVCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D1AF1251D71B64B005EEAE7 /* CVCell.xib */; };
 		3D268FB31F149C5C00874A8F /* SendMessageCellTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D268FAE1F149C5C00874A8F /* SendMessageCellTableViewCell.m */; };
 		3D268FB41F149C5C00874A8F /* SendMessageCellTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D268FAF1F149C5C00874A8F /* SendMessageCellTableViewCell.xib */; };
-		3D268FB51F149C5C00874A8F /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D268FB11F149C5C00874A8F /* SettingsViewController.m */; };
-		3D268FB61F149C5C00874A8F /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D268FB21F149C5C00874A8F /* SettingsViewController.xib */; };
 		3D268FBB1F149C9300874A8F /* SettingsMainVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D268FB91F149C9300874A8F /* SettingsMainVC.m */; };
 		3D268FBC1F149C9300874A8F /* SettingsMainVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D268FBA1F149C9300874A8F /* SettingsMainVC.xib */; };
 		3D29C24F1F05688100538596 /* count_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D29C24E1F05688100538596 /* count_bg.png */; };
@@ -508,8 +506,6 @@
 		3DAABBAD1F24F1E20009E6C7 /* bg1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DAABBAB1F24F1E20009E6C7 /* bg1@2x.png */; };
 		3DAABBAE1F24F1E20009E6C7 /* bg2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DAABBAC1F24F1E20009E6C7 /* bg2@2x.png */; };
 		3DB241A21EBDD88C00B7E7EF /* ico-sendreq.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DB241A11EBDD88C00B7E7EF /* ico-sendreq.png */; };
-		3DBF15B51EAB611600D92C2B /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DBF15B31EAB611600D92C2B /* RegisterViewController.m */; };
-		3DBF15B61EAB611600D92C2B /* RegisterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DBF15B41EAB611600D92C2B /* RegisterViewController.xib */; };
 		3DBF15C01EAB631D00D92C2B /* ico-back.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DBF15B71EAB631D00D92C2B /* ico-back.png */; };
 		3DBF15C11EAB631D00D92C2B /* ico-bday.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DBF15B81EAB631D00D92C2B /* ico-bday.png */; };
 		3DBF15C21EAB631D00D92C2B /* ico-checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DBF15B91EAB631D00D92C2B /* ico-checkmark.png */; };
@@ -568,6 +564,12 @@
 		3DFF3C061F404FC9003B51DE /* CourseCellTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DFF3C011F404FC9003B51DE /* CourseCellTableViewCell.xib */; };
 		3DFF3C071F404FC9003B51DE /* CoursePreferencesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFF3C031F404FC9003B51DE /* CoursePreferencesViewController.m */; };
 		3DFF3C081F404FC9003B51DE /* CoursePreferencesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DFF3C041F404FC9003B51DE /* CoursePreferencesViewController.xib */; };
+		8A240AE91FBAAD0C00727183 /* RoleViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A240AE71FBAAD0C00727183 /* RoleViewController.xib */; };
+		8A240AEA1FBAAD0C00727183 /* RoleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A240AE81FBAAD0C00727183 /* RoleViewController.m */; };
+		8A240AF71FC67CD900727183 /* EditEventViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A240AF51FC67CD800727183 /* EditEventViewController.m */; };
+		8A240AF81FC67CD900727183 /* EditEventViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A240AF61FC67CD800727183 /* EditEventViewController.xib */; };
+		8A240AFC1FD3652300727183 /* EditCourseViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A240AF91FD3652300727183 /* EditCourseViewController.xib */; };
+		8A240AFD1FD3652300727183 /* EditCourseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A240AFB1FD3652300727183 /* EditCourseViewController.m */; };
 		8A3C9CD21F919389007E017E /* TourViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A3C9CD01F919389007E017E /* TourViewController.m */; };
 		8A3C9CD91F91CD1C007E017E /* TourViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8A3C9CD81F91CD1C007E017E /* TourViewController.storyboard */; };
 		8A3C9CDF1F95C41D007E017E /* iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 8A3C9CDE1F95C41C007E017E /* iphone.png */; };
@@ -575,6 +577,8 @@
 		8A3C9CE41F9AC2F8007E017E /* ProRegisterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A3C9CE11F9AC2F8007E017E /* ProRegisterViewController.xib */; };
 		8A3C9CE81F9BBBB8007E017E /* cell_ViewPrices.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A3C9CE61F9BBBB8007E017E /* cell_ViewPrices.m */; };
 		8A3C9CE91F9BBBB8007E017E /* cell_ViewPrices.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A3C9CE71F9BBBB8007E017E /* cell_ViewPrices.xib */; };
+		8A432F001FF826C600C6B390 /* icon-email.png in Resources */ = {isa = PBXBuildFile; fileRef = 8A432EFE1FF826C600C6B390 /* icon-email.png */; };
+		8A432F011FF826C600C6B390 /* icon-key.png in Resources */ = {isa = PBXBuildFile; fileRef = 8A432EFF1FF826C600C6B390 /* icon-key.png */; };
 		8A535C251F63743A0063B813 /* image-placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = 8A535C241F63743A0063B813 /* image-placeholder.png */; };
 		8A535C291F637FF40063B813 /* CoursePhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A535C271F637FF40063B813 /* CoursePhotoViewController.m */; };
 		8A535C2A1F637FF40063B813 /* CoursePhotoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A535C281F637FF40063B813 /* CoursePhotoViewController.xib */; };
@@ -597,6 +601,13 @@
 		8A943EA21F783BBE000FF957 /* cell_ViewAmenities.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A943EA01F783BBE000FF957 /* cell_ViewAmenities.xib */; };
 		8A943EA61F788449000FF957 /* cell_ViewEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A943EA41F788449000FF957 /* cell_ViewEvents.m */; };
 		8A943EA71F788449000FF957 /* cell_ViewEvents.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A943EA51F788449000FF957 /* cell_ViewEvents.xib */; };
+		8AA4187D1FD395FE0089E142 /* EditAmenitiesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8AA4187A1FD395FE0089E142 /* EditAmenitiesViewController.xib */; };
+		8AA4187E1FD395FE0089E142 /* EditAmenitiesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AA4187C1FD395FE0089E142 /* EditAmenitiesViewController.m */; };
+		8AA418821FD509360089E142 /* cell_EventUsers.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8AA4187F1FD509360089E142 /* cell_EventUsers.xib */; };
+		8AA418831FD509360089E142 /* cell_EventUsers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AA418811FD509360089E142 /* cell_EventUsers.m */; };
+		8AA418861FD8D8170089E142 /* button_ViewEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AA418841FD8D8170089E142 /* button_ViewEvent.m */; };
+		8ABE57631FAEADD0002D297F /* AdminViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8ABE57601FAEADD0002D297F /* AdminViewController.m */; };
+		8ABE57641FAEADD0002D297F /* AdminViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8ABE57621FAEADD0002D297F /* AdminViewController.xib */; };
 		8AC6BF991F7DDF3D007FAB2E /* bigone.png in Resources */ = {isa = PBXBuildFile; fileRef = 8AC6BF981F7DDF3D007FAB2E /* bigone.png */; };
 		8AC6BF9B1F817132007FAB2E /* listBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 8AC6BF9A1F817132007FAB2E /* listBackground.png */; };
 		8AC6BFA51F886CAF007FAB2E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8AC6BFA41F886CAF007FAB2E /* Assets.xcassets */; };
@@ -645,9 +656,6 @@
 		3D268FAD1F149C5C00874A8F /* SendMessageCellTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendMessageCellTableViewCell.h; sourceTree = "<group>"; };
 		3D268FAE1F149C5C00874A8F /* SendMessageCellTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendMessageCellTableViewCell.m; sourceTree = "<group>"; };
 		3D268FAF1F149C5C00874A8F /* SendMessageCellTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SendMessageCellTableViewCell.xib; sourceTree = "<group>"; };
-		3D268FB01F149C5C00874A8F /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
-		3D268FB11F149C5C00874A8F /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
-		3D268FB21F149C5C00874A8F /* SettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
 		3D268FB81F149C9300874A8F /* SettingsMainVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsMainVC.h; sourceTree = "<group>"; };
 		3D268FB91F149C9300874A8F /* SettingsMainVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsMainVC.m; sourceTree = "<group>"; };
 		3D268FBA1F149C9300874A8F /* SettingsMainVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsMainVC.xib; sourceTree = "<group>"; };
@@ -1276,9 +1284,6 @@
 		3DAABBAB1F24F1E20009E6C7 /* bg1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg1@2x.png"; sourceTree = "<group>"; };
 		3DAABBAC1F24F1E20009E6C7 /* bg2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg2@2x.png"; sourceTree = "<group>"; };
 		3DB241A11EBDD88C00B7E7EF /* ico-sendreq.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ico-sendreq.png"; sourceTree = "<group>"; };
-		3DBF15B21EAB611600D92C2B /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
-		3DBF15B31EAB611600D92C2B /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
-		3DBF15B41EAB611600D92C2B /* RegisterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RegisterViewController.xib; sourceTree = "<group>"; };
 		3DBF15B71EAB631D00D92C2B /* ico-back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ico-back.png"; sourceTree = "<group>"; };
 		3DBF15B81EAB631D00D92C2B /* ico-bday.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ico-bday.png"; sourceTree = "<group>"; };
 		3DBF15B91EAB631D00D92C2B /* ico-checkmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ico-checkmark.png"; sourceTree = "<group>"; };
@@ -1344,6 +1349,15 @@
 		3DFF3C021F404FC9003B51DE /* CoursePreferencesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoursePreferencesViewController.h; sourceTree = "<group>"; };
 		3DFF3C031F404FC9003B51DE /* CoursePreferencesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoursePreferencesViewController.m; sourceTree = "<group>"; };
 		3DFF3C041F404FC9003B51DE /* CoursePreferencesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CoursePreferencesViewController.xib; sourceTree = "<group>"; };
+		8A240AE61FBAAD0B00727183 /* RoleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoleViewController.h; sourceTree = "<group>"; };
+		8A240AE71FBAAD0C00727183 /* RoleViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RoleViewController.xib; sourceTree = "<group>"; };
+		8A240AE81FBAAD0C00727183 /* RoleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoleViewController.m; sourceTree = "<group>"; };
+		8A240AF41FC67CD800727183 /* EditEventViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditEventViewController.h; sourceTree = "<group>"; };
+		8A240AF51FC67CD800727183 /* EditEventViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditEventViewController.m; sourceTree = "<group>"; };
+		8A240AF61FC67CD800727183 /* EditEventViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditEventViewController.xib; sourceTree = "<group>"; };
+		8A240AF91FD3652300727183 /* EditCourseViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditCourseViewController.xib; sourceTree = "<group>"; };
+		8A240AFA1FD3652300727183 /* EditCourseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditCourseViewController.h; sourceTree = "<group>"; };
+		8A240AFB1FD3652300727183 /* EditCourseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditCourseViewController.m; sourceTree = "<group>"; };
 		8A3C9CCF1F919389007E017E /* TourViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TourViewController.h; path = StartScreen/TourViewController.h; sourceTree = "<group>"; };
 		8A3C9CD01F919389007E017E /* TourViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TourViewController.m; path = StartScreen/TourViewController.m; sourceTree = "<group>"; };
 		8A3C9CD81F91CD1C007E017E /* TourViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TourViewController.storyboard; sourceTree = "<group>"; };
@@ -1354,6 +1368,8 @@
 		8A3C9CE51F9BBBB8007E017E /* cell_ViewPrices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cell_ViewPrices.h; path = TONIC./ViewController/SettingsMainVC/cell_ViewPrices.h; sourceTree = SOURCE_ROOT; };
 		8A3C9CE61F9BBBB8007E017E /* cell_ViewPrices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = cell_ViewPrices.m; path = TONIC./ViewController/SettingsMainVC/cell_ViewPrices.m; sourceTree = SOURCE_ROOT; };
 		8A3C9CE71F9BBBB8007E017E /* cell_ViewPrices.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = cell_ViewPrices.xib; path = TONIC./ViewController/SettingsMainVC/cell_ViewPrices.xib; sourceTree = SOURCE_ROOT; };
+		8A432EFE1FF826C600C6B390 /* icon-email.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-email.png"; sourceTree = "<group>"; };
+		8A432EFF1FF826C600C6B390 /* icon-key.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-key.png"; sourceTree = "<group>"; };
 		8A535C241F63743A0063B813 /* image-placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "image-placeholder.png"; sourceTree = "<group>"; };
 		8A535C261F637FF40063B813 /* CoursePhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoursePhotoViewController.h; sourceTree = "<group>"; };
 		8A535C271F637FF40063B813 /* CoursePhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoursePhotoViewController.m; sourceTree = "<group>"; };
@@ -1382,6 +1398,17 @@
 		8A943EA31F788449000FF957 /* cell_ViewEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cell_ViewEvents.h; sourceTree = "<group>"; };
 		8A943EA41F788449000FF957 /* cell_ViewEvents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = cell_ViewEvents.m; sourceTree = "<group>"; };
 		8A943EA51F788449000FF957 /* cell_ViewEvents.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = cell_ViewEvents.xib; sourceTree = "<group>"; };
+		8AA4187A1FD395FE0089E142 /* EditAmenitiesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditAmenitiesViewController.xib; sourceTree = "<group>"; };
+		8AA4187B1FD395FE0089E142 /* EditAmenitiesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditAmenitiesViewController.h; sourceTree = "<group>"; };
+		8AA4187C1FD395FE0089E142 /* EditAmenitiesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditAmenitiesViewController.m; sourceTree = "<group>"; };
+		8AA4187F1FD509360089E142 /* cell_EventUsers.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = cell_EventUsers.xib; sourceTree = "<group>"; };
+		8AA418801FD509360089E142 /* cell_EventUsers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cell_EventUsers.h; sourceTree = "<group>"; };
+		8AA418811FD509360089E142 /* cell_EventUsers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = cell_EventUsers.m; sourceTree = "<group>"; };
+		8AA418841FD8D8170089E142 /* button_ViewEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = button_ViewEvent.m; sourceTree = "<group>"; };
+		8AA418851FD8D8170089E142 /* button_ViewEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = button_ViewEvent.h; sourceTree = "<group>"; };
+		8ABE57601FAEADD0002D297F /* AdminViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdminViewController.m; sourceTree = "<group>"; };
+		8ABE57611FAEADD0002D297F /* AdminViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdminViewController.h; sourceTree = "<group>"; };
+		8ABE57621FAEADD0002D297F /* AdminViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AdminViewController.xib; sourceTree = "<group>"; };
 		8AC6BF981F7DDF3D007FAB2E /* bigone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bigone.png; sourceTree = "<group>"; };
 		8AC6BF9A1F817132007FAB2E /* listBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = listBackground.png; sourceTree = "<group>"; };
 		8AC6BFA41F886CAF007FAB2E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -1490,9 +1517,6 @@
 		3D268FAC1F149C5C00874A8F /* Preferences */ = {
 			isa = PBXGroup;
 			children = (
-				3D268FB01F149C5C00874A8F /* SettingsViewController.h */,
-				3D268FB11F149C5C00874A8F /* SettingsViewController.m */,
-				3D268FB21F149C5C00874A8F /* SettingsViewController.xib */,
 				3D268FAD1F149C5C00874A8F /* SendMessageCellTableViewCell.h */,
 				3D268FAE1F149C5C00874A8F /* SendMessageCellTableViewCell.m */,
 				3D268FAF1F149C5C00874A8F /* SendMessageCellTableViewCell.xib */,
@@ -1514,6 +1538,8 @@
 		3D30D8FD1D58AD0400D4286B /* PurchaseSpecials */ = {
 			isa = PBXGroup;
 			children = (
+				8AA418851FD8D8170089E142 /* button_ViewEvent.h */,
+				8AA418841FD8D8170089E142 /* button_ViewEvent.m */,
 				8A943EA31F788449000FF957 /* cell_ViewEvents.h */,
 				8A943EA41F788449000FF957 /* cell_ViewEvents.m */,
 				8A943EA51F788449000FF957 /* cell_ViewEvents.xib */,
@@ -1659,6 +1685,15 @@
 		3D68DF221EADF7C000511062 /* EditProfile */ = {
 			isa = PBXGroup;
 			children = (
+				8AA4187B1FD395FE0089E142 /* EditAmenitiesViewController.h */,
+				8AA4187C1FD395FE0089E142 /* EditAmenitiesViewController.m */,
+				8AA4187A1FD395FE0089E142 /* EditAmenitiesViewController.xib */,
+				8A240AFA1FD3652300727183 /* EditCourseViewController.h */,
+				8A240AFB1FD3652300727183 /* EditCourseViewController.m */,
+				8A240AF91FD3652300727183 /* EditCourseViewController.xib */,
+				8A240AF41FC67CD800727183 /* EditEventViewController.h */,
+				8A240AF51FC67CD800727183 /* EditEventViewController.m */,
+				8A240AF61FC67CD800727183 /* EditEventViewController.xib */,
 				3D68DF231EADF7C000511062 /* EditProfileViewController.h */,
 				3D68DF241EADF7C000511062 /* EditProfileViewController.m */,
 				3D68DF251EADF7C000511062 /* EditProfileViewController.xib */,
@@ -1713,7 +1748,6 @@
 				3D9F54881ED5E1BF00CEE90C /* ParTee.entitlements */,
 				3D28E5791D98A92100A89227 /* TONIC..entitlements */,
 				3D707B521D56DC7C00591BF6 /* Resources */,
-				3D707A771D56D6E200591BF6 /* Helper */,
 				3D707A731D56D6CA00591BF6 /* ViewController */,
 				3D707BC11D56E15A00591BF6 /* Frameworks */,
 				3D707A6D1D56D57300591BF6 /* Info.plist */,
@@ -1926,6 +1960,9 @@
 		3D707B3E1D56D99900591BF6 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				8A240AE61FBAAD0B00727183 /* RoleViewController.h */,
+				8A240AE81FBAAD0C00727183 /* RoleViewController.m */,
+				8A240AE71FBAAD0C00727183 /* RoleViewController.xib */,
 				3D707B3F1D56D99900591BF6 /* LoginViewController.h */,
 				3D707B401D56D99900591BF6 /* LoginViewController.m */,
 				3D707B411D56D99900591BF6 /* LoginViewController.xib */,
@@ -2154,6 +2191,12 @@
 		3D86515F1D65F34A0097C096 /* ViewUsers */ = {
 			isa = PBXGroup;
 			children = (
+				8AA418801FD509360089E142 /* cell_EventUsers.h */,
+				8AA418811FD509360089E142 /* cell_EventUsers.m */,
+				8AA4187F1FD509360089E142 /* cell_EventUsers.xib */,
+				8ABE57611FAEADD0002D297F /* AdminViewController.h */,
+				8ABE57601FAEADD0002D297F /* AdminViewController.m */,
+				8ABE57621FAEADD0002D297F /* AdminViewController.xib */,
 				3D8651601D65F34A0097C096 /* ViewUsersViewController.h */,
 				3D8651611D65F34A0097C096 /* ViewUsersViewController.m */,
 				3D8651621D65F34A0097C096 /* ViewUsersViewController.xib */,
@@ -2402,6 +2445,8 @@
 		3D9543C81EAA4829006573BE /* images-partee */ = {
 			isa = PBXGroup;
 			children = (
+				8A432EFE1FF826C600C6B390 /* icon-email.png */,
+				8A432EFF1FF826C600C6B390 /* icon-key.png */,
 				8A6715DC1FA52D3900A4095D /* Copy of Silde 5.png */,
 				8A6715DD1FA52D3900A4095D /* Copy of Slide 2.png */,
 				8A6715DF1FA52D3900A4095D /* Copy of Slide 3.png */,
@@ -2608,9 +2653,6 @@
 				8A3C9CE21F9AC2F8007E017E /* ProRegisterViewController.h */,
 				8A3C9CE01F9AC2F8007E017E /* ProRegisterViewController.m */,
 				8A3C9CE11F9AC2F8007E017E /* ProRegisterViewController.xib */,
-				3DBF15B21EAB611600D92C2B /* RegisterViewController.h */,
-				3DBF15B31EAB611600D92C2B /* RegisterViewController.m */,
-				3DBF15B41EAB611600D92C2B /* RegisterViewController.xib */,
 			);
 			path = Register;
 			sourceTree = "<group>";
@@ -2720,6 +2762,7 @@
 				3DFF3C021F404FC9003B51DE /* CoursePreferencesViewController.h */,
 				3DFF3C031F404FC9003B51DE /* CoursePreferencesViewController.m */,
 				3DFF3C041F404FC9003B51DE /* CoursePreferencesViewController.xib */,
+				3D707A771D56D6E200591BF6 /* Helper */,
 				3DFF3BFF1F404FC9003B51DE /* CourseCellTableViewCell.h */,
 				3DFF3C001F404FC9003B51DE /* CourseCellTableViewCell.m */,
 				3DFF3C011F404FC9003B51DE /* CourseCellTableViewCell.xib */,
@@ -2816,6 +2859,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8AA4187D1FD395FE0089E142 /* EditAmenitiesViewController.xib in Resources */,
 				3DA1389A1F3DBACF0000189A /* Reception Hall@2x.png in Resources */,
 				3D87C5931EB4440700CC362C /* guestmalefilled.png in Resources */,
 				3DA138A51F3DBACF0000189A /* Valet Parking@2x.png in Resources */,
@@ -2871,6 +2915,7 @@
 				3D92C8961D5B5D55005C8CAE /* share.png in Resources */,
 				3D92C8861D5B5D55005C8CAE /* bubble_tailless.png in Resources */,
 				3D707BAE1D56DC7C00591BF6 /* SFUIText-Semibold.ttf in Resources */,
+				8A240AFC1FD3652300727183 /* EditCourseViewController.xib in Resources */,
 				3D707BAA1D56DC7C00591BF6 /* SFUIText-Medium.ttf in Resources */,
 				3DC65E701D574D63008A0ADC /* Female User@2x.png in Resources */,
 				3D9F54801ED5C79700CEE90C /* iap1.png in Resources */,
@@ -2882,7 +2927,6 @@
 				3D8651691D65F5110097C096 /* cell_ViewUsers.xib in Resources */,
 				3DC65E901D57658F008A0ADC /* 3@2x.png in Resources */,
 				8A943E8F1F68E870000FF957 /* trophy.png in Resources */,
-				3DBF15B61EAB611600D92C2B /* RegisterViewController.xib in Resources */,
 				3D92C83B1D5B5B24005C8CAE /* JSQMessagesLoadEarlierHeaderView.xib in Resources */,
 				3D707B8D1D56DC7C00591BF6 /* SFCompactDisplay-Thin.ttf in Resources */,
 				3D30D9051D58AD9900D4286B /* Placeholder.png in Resources */,
@@ -2894,6 +2938,7 @@
 				8A535C341F650AF50063B813 /* cell_ViewPro.xib in Resources */,
 				3DA138C81F3E0E950000189A /* ic_thumbnail.png in Resources */,
 				3D87C5901EB4440700CC362C /* guestfemale.png in Resources */,
+				8AA418821FD509360089E142 /* cell_EventUsers.xib in Resources */,
 				3D19D3641EBB68A30007DBAD /* course.png in Resources */,
 				3D707BA51D56DC7C00591BF6 /* SFUIText-BoldItalic.ttf in Resources */,
 				3DA138CF1F3E2E340000189A /* type-4@2x.png in Resources */,
@@ -2920,6 +2965,7 @@
 				3DA1389C1F3DBACF0000189A /* Riding Carts@2x.png in Resources */,
 				3DA138791F3DBACF0000189A /* 18 holes@2x.png in Resources */,
 				3D707BB01D56DC7C00591BF6 /* sep.png in Resources */,
+				8A432F011FF826C600C6B390 /* icon-key.png in Resources */,
 				3D707B9D1D56DC7C00591BF6 /* SFUIDisplay-Heavy.ttf in Resources */,
 				3D707B941D56DC7C00591BF6 /* SFCompactText-LightItalic.ttf in Resources */,
 				3DAABBAD1F24F1E20009E6C7 /* bg1@2x.png in Resources */,
@@ -2985,7 +3031,6 @@
 				3D1AF1271D71B64B005EEAE7 /* CVCell.xib in Resources */,
 				3DC65EAC1D57972C008A0ADC /* Banner bg@2x.png in Resources */,
 				3D707B281D56D7A200591BF6 /* SideMenuViewController.xib in Resources */,
-				3D268FB61F149C5C00874A8F /* SettingsViewController.xib in Resources */,
 				3D707B901D56DC7C00591BF6 /* SFCompactText-BoldItalic.ttf in Resources */,
 				3DA138841F3DBACF0000189A /* Club Repair@2x.png in Resources */,
 				3D707B9F1D56DC7C00591BF6 /* SFUIDisplay-Medium.ttf in Resources */,
@@ -3010,11 +3055,13 @@
 				3D30D9231D58B1FA00D4286B /* Big tonic@2x.png in Resources */,
 				3D707B931D56DC7C00591BF6 /* SFCompactText-Light.ttf in Resources */,
 				3D707B8B1D56DC7C00591BF6 /* SFCompactDisplay-Regular.ttf in Resources */,
+				8A432F001FF826C600C6B390 /* icon-email.png in Resources */,
 				3D5A17D11EB75C3100AD181A /* blue_chk@2x.png in Resources */,
 				3DA138881F3DBACF0000189A /* Drink Cart@2x.png in Resources */,
 				3DA1389B1F3DBACF0000189A /* Resort@2x.png in Resources */,
 				3DA138BB1F3DDFFF0000189A /* fav.png in Resources */,
 				3D30D9251D58B1FA00D4286B /* Check@2x.png in Resources */,
+				8A240AE91FBAAD0C00727183 /* RoleViewController.xib in Resources */,
 				3D15C44B1F2B52AE0001EBC3 /* Slide 4_4s.png in Resources */,
 				3D0F3ADC1EB0E00000327C58 /* badge-mini.png in Resources */,
 				3D707BA21D56DC7C00591BF6 /* SFUIDisplay-Thin.ttf in Resources */,
@@ -3145,6 +3192,7 @@
 				3D8173491F1F5E8E0095EDC7 /* 4_glow_effects_golf_ball_symbol02.png in Resources */,
 				3D707B3D1D56D8D000591BF6 /* Default-568h@2x.png in Resources */,
 				3DA1387A1F3DBACF0000189A /* 27 holes@2x.png in Resources */,
+				8A240AF81FC67CD900727183 /* EditEventViewController.xib in Resources */,
 				3D707C131D56FDF800591BF6 /* Tonic-nav.png in Resources */,
 				3D0F3ADA1EB0DF9900327C58 /* badge-zoom.png in Resources */,
 				3D707B881D56DC7C00591BF6 /* SFCompactDisplay-Heavy.ttf in Resources */,
@@ -3164,6 +3212,7 @@
 				3D9F54831ED5C79700CEE90C /* iap4.png in Resources */,
 				3D95D52D1F1E38900038DFD7 /* noti-iconfilled.png in Resources */,
 				3DC65E721D574D63008A0ADC /* Female User2@2x.png in Resources */,
+				8ABE57641FAEADD0002D297F /* AdminViewController.xib in Resources */,
 				3D9F54811ED5C79700CEE90C /* iap2.png in Resources */,
 				3D143E3F1F2A2EA700D98C98 /* pageDot@2x.png in Resources */,
 				3D15C44A1F2B52AE0001EBC3 /* Slide 3_4s.png in Resources */,
@@ -3256,6 +3305,7 @@
 				3D65B5C81F1D0D8C00852FD9 /* DGActivityIndicatorLineScalePulseOutAnimation.m in Sources */,
 				3D92C8311D5B5B24005C8CAE /* JSQMessagesCollectionView.m in Sources */,
 				3D65B5BF1F1D0D8C00852FD9 /* DGActivityIndicatorBallSpinFadeLoader.m in Sources */,
+				8A240AFD1FD3652300727183 /* EditCourseViewController.m in Sources */,
 				3D707B1C1D56D7A200591BF6 /* SDWebImagePrefetcher.m in Sources */,
 				3D707B2D1D56D7A200591BF6 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				3D8651631D65F34A0097C096 /* ViewUsersViewController.m in Sources */,
@@ -3291,8 +3341,8 @@
 				3D707B2E1D56D7A200591BF6 /* UIAlertView+AFNetworking.m in Sources */,
 				3D268FB31F149C5C00874A8F /* SendMessageCellTableViewCell.m in Sources */,
 				3D707AFF1D56D7A200591BF6 /* AFSecurityPolicy.m in Sources */,
-				3DBF15B51EAB611600D92C2B /* RegisterViewController.m in Sources */,
 				3D707AFD1D56D7A200591BF6 /* AFHTTPSessionManager.m in Sources */,
+				8AA418861FD8D8170089E142 /* button_ViewEvent.m in Sources */,
 				3D92C82B1D5B5B24005C8CAE /* JSQMessage.m in Sources */,
 				3D65B5C41F1D0D8C00852FD9 /* DGActivityIndicatorDoubleBounceAnimation.m in Sources */,
 				3D707B161D56D7A200591BF6 /* SDImageCache.m in Sources */,
@@ -3302,6 +3352,7 @@
 				3DC65E5B1D574537008A0ADC /* cell_Menu.m in Sources */,
 				3DAABBA41F24EAD00009E6C7 /* SMPageControl.m in Sources */,
 				3D268FBB1F149C9300874A8F /* SettingsMainVC.m in Sources */,
+				8ABE57631FAEADD0002D297F /* AdminViewController.m in Sources */,
 				3D92C8231D5B5B24005C8CAE /* JSQAudioMediaViewAttributes.m in Sources */,
 				3D707B1B1D56D7A200591BF6 /* SDWebImageManager.m in Sources */,
 				3D92C8391D5B5B24005C8CAE /* JSQMessagesLabel.m in Sources */,
@@ -3339,8 +3390,8 @@
 				3D707B421D56D99900591BF6 /* LoginViewController.m in Sources */,
 				3D8651681D65F5110097C096 /* cell_ViewUsers.m in Sources */,
 				3D65B5C61F1D0D8C00852FD9 /* DGActivityIndicatorLineScaleAnimation.m in Sources */,
+				8AA418831FD509360089E142 /* cell_EventUsers.m in Sources */,
 				3D68DF261EADF7C000511062 /* EditProfileViewController.m in Sources */,
-				3D268FB51F149C5C00874A8F /* SettingsViewController.m in Sources */,
 				3D1363B81D59A31A00E20297 /* ReportViewController.m in Sources */,
 				3D65B5BC1F1D0D8C00852FD9 /* DGActivityIndicatorBallScaleMultipleAnimation.m in Sources */,
 				3D92C82F1D5B5B24005C8CAE /* JSQVideoMediaItem.m in Sources */,
@@ -3372,6 +3423,7 @@
 				3DCFA7241F0C829900B8090B /* UIView+Toast.m in Sources */,
 				3D707B181D56D7A200591BF6 /* SDWebImageDecoder.m in Sources */,
 				3D92C83D1D5B5B24005C8CAE /* JSQMessagesToolbarContentView.m in Sources */,
+				8A240AF71FC67CD900727183 /* EditEventViewController.m in Sources */,
 				3D707B171D56D7A200591BF6 /* SDWebImageCompat.m in Sources */,
 				3D707B331D56D7A200591BF6 /* UIWebView+AFNetworking.m in Sources */,
 				3D92C8291D5B5B24005C8CAE /* JSQLocationMediaItem.m in Sources */,
@@ -3380,6 +3432,7 @@
 				3D65B5C31F1D0D8C00852FD9 /* DGActivityIndicatorCookieTerminatorAnimation.m in Sources */,
 				3D707B211D56D7A200591BF6 /* UIImageView+HighlightedWebCache.m in Sources */,
 				3D92C83A1D5B5B24005C8CAE /* JSQMessagesLoadEarlierHeaderView.m in Sources */,
+				8A240AEA1FBAAD0C00727183 /* RoleViewController.m in Sources */,
 				3D92C81F1D5B5B24005C8CAE /* JSQMessagesBubbleImageFactory.m in Sources */,
 				3D30D9011D58AD0400D4286B /* PurchaseSpecialsViewController.m in Sources */,
 				3D92C84E1D5B5B69005C8CAE /* NSUserDefaults+DemoSettings.m in Sources */,
@@ -3392,6 +3445,7 @@
 				3D65B5B91F1D0D8C00852FD9 /* DGActivityIndicatorBallPulseSyncAnimation.m in Sources */,
 				3D707B151D56D7A200591BF6 /* NSData+ImageContentType.m in Sources */,
 				3D65B5D01F1D0D8C00852FD9 /* DGActivityIndicatorTriplePulseAnimation.m in Sources */,
+				8AA4187E1FD395FE0089E142 /* EditAmenitiesViewController.m in Sources */,
 				3D65B5B11F1D0D8C00852FD9 /* DGActivityIndicatorAnimation.m in Sources */,
 				3D65B5C11F1D0D8C00852FD9 /* DGActivityIndicatorBallZigZagAnimation.m in Sources */,
 				3D65B5C21F1D0D8C00852FD9 /* DGActivityIndicatorBallZigZagDeflectAnimation.m in Sources */,

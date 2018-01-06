@@ -120,16 +120,22 @@
 
 #define kuserAccessToken @"userToken"
 #define kuserData @"userData"
-#define kuserSearchUser @"userSearchUser"
-#define kuserSearchPro @"userSearchPro"
 
-#define kcoursePreferencesData @"coursePreferencesData"
+#define kSearchUser @"userSearchUser"
+#define kSearchPro @"userSearchPro"
+#define kSearchCourse @"UserSearchCourse"
+#define kSearchEvent @"UserSearchEvent"
 
 #define kScreenChat 10
 #define kScreenOther 9
 #define kScreenusers 1
 #define kScreenLogin 121
 #define kScreenRegister 122
+
+#define filterEvent 101
+#define filterCourse 102
+#define filterGolfer 103
+#define filterPro 104
 
 #define kCourseFilterData @"kCourseFilterData"
 

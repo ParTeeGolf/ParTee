@@ -10,6 +10,7 @@
 
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageUrl;
+@property (weak, nonatomic) IBOutlet UIImageView *primary;
 
 
 

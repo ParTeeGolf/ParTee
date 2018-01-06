@@ -20,7 +20,6 @@
     NSArray *arrData;
 
     NSMutableArray *arrTypeList;
-    NSArray *arrAgeList;
     
     QBCOCustomObject *object1;
     NSArray *arrData1;
@@ -35,25 +34,42 @@
     NSMutableArray *arrNameList;
     NSMutableArray *arrzipcodeList;
     NSMutableArray *arramenitiesList;
-    
-    
-    IBOutlet UIScrollView *scrollViewContainer;
+    NSMutableArray *arrAgeList;
+    NSMutableArray *arrHandicapList;
 
     IBOutlet UITextField *txtCity;
-    IBOutlet UITextField *txtAge;
     IBOutlet UITextField *txtType;
-    IBOutlet UITextField *txtCourse;
     IBOutlet UITextField *txtState;
-    
     IBOutlet UITextField *txtCourseName;
     IBOutlet UITextField *txtCourseZipcode;
     IBOutlet UITextField *txtAmenities;
+    IBOutlet UISwitch *favoriteSwitch;
+    
+    IBOutlet UITextField *txtCityEvent;
+    IBOutlet UITextField *txtStateEvent;
+    IBOutlet UITextField *txtCourseNameEvent;
+    IBOutlet UITextField *txtCourseZipcodeEvent;
+    IBOutlet UITextField *txtStartDate;
+    IBOutlet UITextField *txtEndDate;
+    
+    IBOutlet UITextField *txtCityGolfer;
+    IBOutlet UITextField *txtStateGolfer;
+    IBOutlet UITextField *txtName;
+    IBOutlet UITextField *txtCourseGolfer;
+    IBOutlet UITextField *txtTypeGolfer;
+    IBOutlet UITextField *txtHandicap;
+    IBOutlet UISwitch *handicapSwitch;
+    IBOutlet UIButton *handicapButton;
+    IBOutlet UIView *handicapView;
+    IBOutlet UIButton *btnNA;
+
 
     NSString *strUserMale;
     NSString *strUserFeMale;
 
     NSString *strPush;
     IBOutlet UIView *viewToolbar,*viewTable;
+    IBOutlet UITextField *txtAge;
     NSMutableArray *arrHomeCoursesObjects;
 
     IBOutlet UIButton *btnAge,*btnType,*btnCity,*btnName,*btnCourseAmenities,*btnCourseZipcode;
@@ -67,11 +83,24 @@
     
     IBOutlet UIPickerView *pickerView;
     
+    IBOutlet UIView *courseView;
+    IBOutlet UIView *eventView;
+    IBOutlet UIView *golferView;
+    
+    IBOutlet UILabel *searchTitle;
+    IBOutlet UIDatePicker *datePicker;
+    
+    int dateOption;
+    
+    NSMutableArray *Gender;
+    
     int pickerOption;
     
 }
 
 @property (nonatomic,strong) NSString *cameFromScreen;
+
+@property int SearchType;
 
 
 -(IBAction)pushTapped:(id)sender;

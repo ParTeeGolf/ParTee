@@ -7,14 +7,12 @@
 #import "SideMenuViewController.h"
 #import "MFSideMenu.h"
 #import "cell_Menu.h"
-
-#import "SettingsViewController.h"
 #import "MyMatchesViewController.h"
 #import "SpecialsViewController.h"
 #import "PurchaseSpecialsViewController.h"
 #import "LoginViewController.h"
 #import "EditProfileViewController.h"
-
+#import "AdminViewController.h"
 #import "ViewUsersViewController.h"
 
 #define kIndexHome 0
@@ -36,6 +34,8 @@ BOOL hideCell = true;
 long prevTag = -1;
 long currentTag = 1;
 
+int RoleId;
+
 -(void) viewDidLoad {
     
     if(isiPhone4) {
@@ -50,9 +50,6 @@ long currentTag = 1;
     
     [sideView setFrame:newFrame];
     
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshContent) name:@"refreshContent" object:nil];
-
     imgViewPic.image = [UIImage imageNamed:@"missing-profile-photo.png"];
     
     imgViewPic.layer.cornerRadius = imgViewPic.frame.size.width/2;
@@ -60,43 +57,58 @@ long currentTag = 1;
     [imgViewPic.layer setMasksToBounds:YES];
     [imgViewPic.layer setBorderColor:[UIColor whiteColor].CGColor];
     
-    numOfRows=12;
+    RoleId = [[AppDelegate sharedinstance] getCurrentRole];
+    
+    switch(RoleId)
+    {
+        case -1:
+            numOfRows = 2;
+            break;
+        case 2:
+            numOfRows = 1;
+            break;
+        case 3:
+            numOfRows = 4;
+            break;
+        case 0:
+        case 1:
+            numOfRows = 12;
+            break;
+    }
     
     [tblView reloadData];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshContent) name:@"refreshContent" object:nil];
 }
 
 -(void) viewWillAppear:(BOOL)animated {
-    [[UIApplication sharedApplication]setStatusBarHidden:NO];
     
     
-
 }
 
 -(void) refreshContent {
-
-        NSMutableDictionary *dictUserData = [[[NSUserDefaults standardUserDefaults] objectForKey:kuserData] mutableCopy];
-        NSString *Points= [[AppDelegate sharedinstance] nullcheck:[dictUserData objectForKey:@"userPoints"]];
     
-        if([Points length]==0) {
-            Points = @"10";
-        }
+    NSMutableDictionary *dictUserData = [[[NSUserDefaults standardUserDefaults] objectForKey:kuserData] mutableCopy];
+    NSString *Points= [[AppDelegate sharedinstance] nullcheck:[dictUserData objectForKey:@"userPoints"]];
     
-        //[lblPoints setText:Points];
+    if([Points length]==0) {
+        Points = @"10";
+    }
     
-        [lblName setText: [[AppDelegate sharedinstance] nullcheck:[dictUserData objectForKey:@"userDisplayName"]]];
-        
-        [imgViewPic setShowActivityIndicatorView:YES];
-        [imgViewPic setIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-        
-        NSString *imageUrl = [NSString stringWithFormat:@"%@", [dictUserData objectForKey:@"userPicBase"]];
-        [imgViewPic sd_setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:[UIImage imageNamed:@"user"]];
+    //[lblPoints setText:Points];
+    
+    [lblName setText: [[AppDelegate sharedinstance] nullcheck:[dictUserData objectForKey:@"userDisplayName"]]];
+    
+    [imgViewPic setShowActivityIndicatorView:YES];
+    [imgViewPic setIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    
+    NSString *imageUrl = [NSString stringWithFormat:@"%@", [dictUserData objectForKey:@"userPicBase"]];
+    [imgViewPic sd_setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:[UIImage imageNamed:@"user"]];
     
     
-    numOfRows=12;
+    [tblView reloadData];
     
-     [tblView reloadData];
-    
- }
+}
 
 -(IBAction)profilePressed:(id)sender {
     UIViewController *viewController;
@@ -121,6 +133,18 @@ long currentTag = 1;
     
 }
 
+-(IBAction)adminPressed:(id)sender {
+    
+    UIViewController *viewController;
+    viewController    = [[AdminViewController alloc] initWithNibName:@"AdminViewController" bundle:nil];
+    
+    UINavigationController *navigationController = (UINavigationController*)self.menuContainerViewController.centerViewController;
+    NSArray *controllers = [NSArray arrayWithObject:viewController];
+    navigationController.viewControllers = controllers;
+    [self.menuContainerViewController setMenuState:MFSideMenuStateClosed];
+    
+}
+
 -(IBAction)Sharetapped:(id)sender {
     
     NSString *text = @"Join the ParTee! Sign up. Make a Friend. Play some golf.";
@@ -136,22 +160,92 @@ long currentTag = 1;
      initWithActivityItems:@[text, url,image]
      applicationActivities:nil];
     
-     controller.popoverPresentationController.sourceView = sender;
+    controller.popoverPresentationController.sourceView = sender;
     
     [self presentViewController:controller animated:YES completion:nil];
 }
 
--(IBAction)logoutPressed:(id)sender  {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:kAppName message:@"Are you sure want to logout?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
-    alert.tag=121;
-    [alert show];
+-(IBAction)logoutPressed  {
+    UIAlertController * alert = [UIAlertController
+                                 alertControllerWithTitle:kAppName
+                                 message:@"Logging out? Fairways and greens!"
+                                 preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction* yesButton = [UIAlertAction
+                                actionWithTitle:@"Yes"
+                                style:UIAlertActionStyleDefault
+                                handler:^(UIAlertAction * action) {
+                                    if([[AppDelegate sharedinstance].sharedChatInstance isConnected]) {
+                                        [[AppDelegate sharedinstance].sharedChatInstance disconnectWithCompletionBlock:^(NSError * _Nullable error) {
+                                            
+                                            [[AppDelegate sharedinstance] setStringObj:@"" forKey:kuserEmail];
+                                            
+                                            LoginViewController *loginView;
+                                            
+                                            loginView = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
+                                            
+                                            UINavigationController *navigationController = self.menuContainerViewController.centerViewController;
+                                            NSArray *controllers = [NSArray arrayWithObject:loginView];
+                                            navigationController.viewControllers = controllers;
+                                            
+                                            self.menuContainerViewController.panMode=NO;
+                                            
+                                            [self.menuContainerViewController setMenuState:MFSideMenuStateClosed];
+                                            
+                                        }];
+                                    }
+                                    else {
+                                        [[AppDelegate sharedinstance] setStringObj:@"" forKey:kuserEmail];
+                                        
+                                        LoginViewController *loginView;
+                                        
+                                        loginView = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
+                                        
+                                        UINavigationController *navigationController = self.menuContainerViewController.centerViewController;
+                                        NSArray *controllers = [NSArray arrayWithObject:loginView];
+                                        navigationController.viewControllers = controllers;
+                                        
+                                        self.menuContainerViewController.panMode=NO;
+                                        
+                                        [self.menuContainerViewController setMenuState:MFSideMenuStateClosed];
+                                        
+                                    }
+                                }];
+    
+    UIAlertAction* noButton = [UIAlertAction
+                               actionWithTitle:@"No"
+                               style:UIAlertActionStyleDefault
+                               handler:^(UIAlertAction * action) {
+                                   
+                               }];
+    
+    
+    [alert addAction:yesButton];
+    [alert addAction:noButton];
+    
+    
+    [self presentViewController:alert animated:YES completion:nil];
+    
     
 }
 
 -(void) ComingSoon  {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:kAppName message:@"Coming Fall 2018" delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-    alert.tag=121;
-    [alert show];
+    UIAlertController * alert = [UIAlertController
+                                 alertControllerWithTitle:kAppName
+                                 message:@"Coming Fall 2018"
+                                 preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction* okButton = [UIAlertAction
+                               actionWithTitle:@"OK"
+                               style:UIAlertActionStyleDefault
+                               handler:^(UIAlertAction * action) {
+                                   
+                               }];
+    
+    
+    
+    [alert addAction:okButton];
+    
+    
+    [self presentViewController:alert animated:YES completion:nil];
     
 }
 
@@ -169,9 +263,9 @@ long currentTag = 1;
      applicationActivities:nil];
     
     controller.popoverPresentationController.sourceView = [self view];
-
+    
     [self presentViewController:controller animated:YES completion:nil];
-
+    
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -187,19 +281,26 @@ long currentTag = 1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-
-    switch(indexPath.row)
+    
+    switch(RoleId)
     {
-        case 0:
-            return collapseRow ? 52.0 : 40.0;
-            break;
         case 1:
-        case 2:
-        case 3:
-            return collapseRow ? 0 : 40.0;
+        case 0:
+            switch(indexPath.row)
+        {
+            case 0:
+                return collapseRow ? 52.0 : 40.0;
+                break;
+            case 1:
+            case 2:
+            case 3:
+                return collapseRow ? 0 : 40.0;
+                break;
+                
+        }
             break;
-            
     }
+    
     
     return 52.0;
 }
@@ -240,274 +341,356 @@ long currentTag = 1;
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
     
     cell.backgroundColor = [UIColor clearColor];
- 
-    switch(indexPath.row)
+    
+    switch(RoleId)
     {
-        case 0:
-            cell.lbl_Name.text = @"MY...";
-            break;
-        case 1:
-            cell.lbl_Name.text = @"\tFRIENDS";
-            cell.hidden = hideCell;
+        case -1:
+            switch(indexPath.row)
+        {
+            case 0:
+                cell.lbl_Name.text = @"\tADD/REMOVE COURSE ADMIN";
+                break;
+            case 1:
+                cell.lbl_Name.text = @"";
+                if(![self.view viewWithTag:101])
+                {
+                    [cell.contentView addSubview:[self MoreButton:cell]];
+                }
+                break;
+        }
             break;
         case 2:
-            cell.lbl_Name.text = @"\tTEE TIMES";
-            cell.hidden = hideCell;
-            if(![self.view viewWithTag:2])
-                
-            {
-                [cell.contentView addSubview: [self ComingSoonButton:cell.frame.origin.x originY:cell.frame.origin.y hideButton:false tag:2]];
-            }
+            switch(indexPath.row)
+        {
+            case 0:
+                cell.lbl_Name.text = @"";
+                if(![self.view viewWithTag:101])
+                {
+                    [cell.contentView addSubview:[self MoreButton:cell]];
+                }
+                break;
+        }
             break;
         case 3:
-            cell.lbl_Name.text = @"\tEVENTS";
-            cell.hidden = hideCell;
-            if(![self.view viewWithTag:3])
+            switch(indexPath.row)
+        {
+            case 0:
+                cell.lbl_Name.text = @"\tCOURSES";
+                break;
+            case 1:
+                cell.lbl_Name.text = @"\tADD/REMOVE EVENT MANAGER";
+                break;
+            case 2:
+                cell.lbl_Name.text = @"\tADD/REMOVE COURSE ADMIN";
+                break;
+            case 3:
+                cell.lbl_Name.text = @"";
+                if(![self.view viewWithTag:101])
+                {
+                    [cell.contentView addSubview:[self MoreButton:cell]];
+                }
+                break;
+        }
+            break;
+        case 0:
+        case 1:
+            switch(indexPath.row)
+        {
+            case 0:
+                cell.lbl_Name.text = @"\tMY...";
+                break;
+            case 1:
+                cell.lbl_Name.text = @"\t\tFRIENDS";
+                cell.hidden = hideCell;
+                break;
+            case 2:
+                cell.lbl_Name.text = @"\t\tTEE TIMES";
+                cell.hidden = hideCell;
+                if(![self.view viewWithTag:2])
+                    
+                {
+                    [cell.contentView addSubview: [self ComingSoonButton:cell.frame.origin.x originY:cell.frame.origin.y hideButton:false tag:2]];
+                }
+                break;
+            case 3:
+                cell.lbl_Name.text = @"\t\tEVENTS";
+                cell.hidden = hideCell;
+                if(![self.view viewWithTag:3])
+                    
+                {
+                    [cell.contentView addSubview: [self ComingSoonButton:cell.frame.origin.x originY:cell.frame.origin.y hideButton:false tag:3]];
+                }
+                break;
+            case 4:
+                cell.lbl_Name.text = @"\tGOLFERS";
+                break;
+            case 5:
+                cell.lbl_Name.text = @"\tCOURSES";
+                break;
+            case 6:
+                cell.lbl_Name.text = @"\tPROS";
+                break;
+            case 7:
+                cell.lbl_Name.text = @"\tEVENTS";
+                break;
+            case 8:
+                cell.lbl_Name.text = @"\tPARTEE LINE BLOG";
+                if(![self.view viewWithTag:8])
+                    
+                {
+                    [cell.contentView addSubview: [self ComingSoonButton:cell.frame.origin.x originY:cell.frame.origin.y hideButton:false tag:8]];
+                }
                 
-            {
-                [cell.contentView addSubview: [self ComingSoonButton:cell.frame.origin.x originY:cell.frame.origin.y hideButton:false tag:3]];
-            }
-            break;
-        case 4:
-            cell.lbl_Name.text = @"GOLFERS";
-            break;
-        case 5:
-            cell.lbl_Name.text = @"COURSES";
-            break;
-        case 6:
-           cell.lbl_Name.text = @"PROS";
-            break;
-        case 7:
-            cell.lbl_Name.text = @"EVENTS";
-            if(![self.view viewWithTag:7])
+                break;
+            case 9:
+                cell.lbl_Name.text = @"\t30 SECOND LESSONS";
+                if(![self.view viewWithTag:9])
+                    
+                {
+                    [cell.contentView addSubview: [self ComingSoonButton:cell.frame.origin.x originY:cell.frame.origin.y hideButton:false tag:9]];
+                }
                 
-            {
-                [cell.contentView addSubview: [self ComingSoonButton:cell.frame.origin.x originY:cell.frame.origin.y hideButton:false tag:7]];
-            }
-            
-            break;
-        case 8:
-            cell.lbl_Name.text = @"PARTEE LINE BLOG";
-            if(![self.view viewWithTag:8])
+                break;
+            case 10:
+                cell.lbl_Name.text = @"\tPARTEE PARTNERS";
+                break;
                 
-            {
-                [cell.contentView addSubview: [self ComingSoonButton:cell.frame.origin.x originY:cell.frame.origin.y hideButton:false tag:8]];
-            }
-
-            break;
-        case 9:
-            cell.lbl_Name.text = @"30 SECOND LESSONS";
-            if(![self.view viewWithTag:9])
+            case 11:
+                cell.lbl_Name.text = @"";
+                if(![self.view viewWithTag:101])
+                    
+                {
+                    [cell.contentView addSubview:[self MoreButton:cell]];
+                    
+                    UIButton *btnImage = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+                    
+                    //set the position of the button
+                    btnImage.frame = CGRectMake(cell.frame.origin.x + 200, cell.frame.origin.y, 30, 30);
+                    btnImage.layer.cornerRadius = 10;
+                    [btnImage setTitleColor:[UIColor whiteColor] forState: UIControlStateNormal];
+                    [btnImage addTarget:self action:@selector(Sharetapped:) forControlEvents:UIControlEventTouchUpInside];
+                    UIImage *image = [UIImage imageNamed:@"share"];
+                    [btnImage setImage:image forState:UIControlStateNormal];
+                    [btnImage setTintColor:[UIColor whiteColor]];
+                    [cell.contentView addSubview:btnImage];
+                }
                 
-            {
-                [cell.contentView addSubview: [self ComingSoonButton:cell.frame.origin.x originY:cell.frame.origin.y hideButton:false tag:9]];
-            }
-
-            break;
-        case 10:
-            cell.lbl_Name.text = @"PARTEE PARTNERS";
-            break;
-
-        case 11:
-            cell.lbl_Name.text = @"";
-            if(![self.view viewWithTag:101])
+                break;
                 
-            {
-            
-            UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-            
-            //set the position of the button
-            button.frame = CGRectMake(cell.frame.origin.x + 20, cell.frame.origin.y, 100, 30);
-            button.layer.cornerRadius = 10;
-            [button setTitleColor:[UIColor whiteColor] forState: UIControlStateNormal];
-            [button setTitle:@"More" forState:UIControlStateNormal];
-            [button addTarget:self action:@selector(morePressed:) forControlEvents:UIControlEventTouchUpInside];
-            button.tag = 101;
-            button.backgroundColor = [UIColor colorWithRed:((float) 74 / 255.0f)
-                                                     green:((float) 165 / 255.0f)
-                                                      blue:((float) 77 / 255.0f)
-                                                     alpha:1.0f];
-            [cell.contentView addSubview:button];
-            
-            UIButton *btnImage = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-            
-            //set the position of the button
-            btnImage.frame = CGRectMake(cell.frame.origin.x + 200, cell.frame.origin.y, 30, 30);
-            btnImage.layer.cornerRadius = 10;
-            [btnImage setTitleColor:[UIColor whiteColor] forState: UIControlStateNormal];
-            [btnImage addTarget:self action:@selector(Sharetapped:) forControlEvents:UIControlEventTouchUpInside];
-            UIImage *image = [UIImage imageNamed:@"share"];
-            [btnImage setImage:image forState:UIControlStateNormal];
-            [btnImage setTintColor:[UIColor whiteColor]];
-            [cell.contentView addSubview:btnImage];
-            }
-            
+        }
             break;
-            
     }
     
+    
+    
     return cell;
+}
+
+-(UIButton *) MoreButton: (cell_Menu *) cell
+{
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    
+    //set the position of the button
+    button.frame = CGRectMake(cell.frame.origin.x + 20, cell.frame.origin.y, 100, 30);
+    button.layer.cornerRadius = 10;
+    [button setTitleColor:[UIColor whiteColor] forState: UIControlStateNormal];
+    [button setTitle:@"More" forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(morePressed:) forControlEvents:UIControlEventTouchUpInside];
+    button.tag = 101;
+    button.backgroundColor = [UIColor colorWithRed:((float) 74 / 255.0f)
+                                             green:((float) 165 / 255.0f)
+                                              blue:((float) 77 / 255.0f)
+                                             alpha:1.0f];
+    return button;
 }
 
 
 
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     UIViewController *viewController;
-   
-    switch(indexPath.row)
+    UINavigationController *navigationController;
+    NSArray *controllers;
+    
+    switch(RoleId)
     {
-        case 0:
-            collapseRow = !collapseRow;
-            hideCell = !hideCell;
-            [tblView reloadData];
-            break;
-        case 1:
-            viewController    = [[ViewUsersViewController alloc] initWithNibName:@"ViewUsersViewController" bundle:nil];
-            ((ViewUsersViewController*)viewController).strIsMyMatches=@"1";
-            [AppDelegate sharedinstance].strIsMyMatches=@"1";
-            break;
-        case 2:
-            [self ComingSoon];
+        case -1:
+            switch(indexPath.row)
+        {
+            case 0:
+                viewController    = [[ViewUsersViewController alloc] initWithNibName:@"ViewUsersViewController" bundle:nil];
+                ((ViewUsersViewController *)viewController).searchRoleId = @"3";
+                navigationController = (UINavigationController*)self.menuContainerViewController.centerViewController;
+                controllers = [NSArray arrayWithObject:viewController];
+                navigationController.viewControllers = controllers;
+                [self.menuContainerViewController setMenuState:MFSideMenuStateClosed];
+                break;
+        }
             break;
         case 3:
-            [self ComingSoon];
+            switch(indexPath.row)
+        {
+            case 0:
+                [self getCourseForCourseAdmin];
+                break;
+            case 1:
+                viewController    = [[ViewUsersViewController alloc] initWithNibName:@"ViewUsersViewController" bundle:nil];
+                ((ViewUsersViewController *)viewController).searchRoleId = @"2";
+                navigationController = (UINavigationController*)self.menuContainerViewController.centerViewController;
+                controllers = [NSArray arrayWithObject:viewController];
+                navigationController.viewControllers = controllers;
+                [self.menuContainerViewController setMenuState:MFSideMenuStateClosed];
+                break;
+            case 2:
+                viewController    = [[ViewUsersViewController alloc] initWithNibName:@"ViewUsersViewController" bundle:nil];
+                ((ViewUsersViewController *)viewController).searchRoleId = @"3";
+                navigationController = (UINavigationController*)self.menuContainerViewController.centerViewController;
+                controllers = [NSArray arrayWithObject:viewController];
+                navigationController.viewControllers = controllers;
+                [self.menuContainerViewController setMenuState:MFSideMenuStateClosed];
+                break;
+        }
             break;
-        case 4:
-            viewController    = [[ViewUsersViewController alloc] initWithNibName:@"ViewUsersViewController" bundle:nil];
-            ((ViewUsersViewController*)viewController).strIsMyMatches=@"0";
-            [AppDelegate sharedinstance].strIsMyMatches=@"0";
-            ((ViewUsersViewController*)viewController).IsPro=false;
-            break;
-        case 5:
-            viewController    = [[SpecialsViewController alloc] initWithNibName:@"SpecialsViewController" bundle:nil];
-            [[AppDelegate sharedinstance] setStringObj:@"0" forKey:@"courseOptions"];
-            break;
-        case 6:
-            viewController    = [[ViewUsersViewController alloc] initWithNibName:@"ViewUsersViewController" bundle:nil];
-            ((ViewUsersViewController*)viewController).strIsMyMatches=@"0";
-            ((ViewUsersViewController*)viewController).IsPro=true;
-            [AppDelegate sharedinstance].strIsMyMatches=@"0";
-            break;
-        case 7:
-            [self ComingSoon];
-            break;
-        case 8:
-           [self ComingSoon];
-            break;
-        case 9:
-            [self ComingSoon];
-            break;
-        case 10:
-            [[AppDelegate sharedinstance] showLoader];
             
-            [QBRequest objectsWithClassName:@"ParteePartners" extendedRequest:nil successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
-                // response processing
-                [[AppDelegate sharedinstance] hideLoader];
+        case 0:
+        case 1:
+            switch(indexPath.row)
+        {
+            case 0:
+                collapseRow = !collapseRow;
+                hideCell = !hideCell;
+                [tblView reloadData];
+                break;
+            case 1:
+                viewController    = [[ViewUsersViewController alloc] initWithNibName:@"ViewUsersViewController" bundle:nil];
+                ((ViewUsersViewController*)viewController).IsFriends = YES;
+                break;
+            case 2:
+                [self ComingSoon];
+                break;
+            case 3:
+                [self ComingSoon];
+                break;
+            case 4:
+                viewController    = [[ViewUsersViewController alloc] initWithNibName:@"ViewUsersViewController" bundle:nil];
+                break;
+            case 5:
+                viewController    = [[SpecialsViewController alloc] initWithNibName:@"SpecialsViewController" bundle:nil];
+                ((SpecialsViewController*)viewController).DataType = filterCourse;
+                [[AppDelegate sharedinstance] setStringObj:@"0" forKey:@"courseOptions"];
+                break;
+            case 6:
+                viewController    = [[ViewUsersViewController alloc] initWithNibName:@"ViewUsersViewController" bundle:nil];
+                ((ViewUsersViewController*)viewController).IsPro=true;
+                break;
+            case 7:
+                viewController = [[SpecialsViewController alloc] initWithNibName:@"SpecialsViewController" bundle:nil];
+                ((SpecialsViewController*)viewController).DataType = filterEvent;
+                break;
+            case 8:
+                [self ComingSoon];
+                break;
+            case 9:
+                [self ComingSoon];
+                break;
+            case 10:
+                [[AppDelegate sharedinstance] showLoader];
                 
-                // checking user there in custom user table or not.
-                QBCOCustomObject *obj = objects[0];
+                [QBRequest objectsWithClassName:@"ParteePartners" extendedRequest:nil successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
+                    // response processing
+                    [[AppDelegate sharedinstance] hideLoader];
+                    
+                    // checking user there in custom user table or not.
+                    QBCOCustomObject *obj = objects[0];
+                    
+                    
+                    UIAlertController *alert = [UIAlertController
+                                                alertControllerWithTitle:[obj.fields objectForKey:@"Title"]
+                                                message:[obj.fields objectForKey:@"Description"]
+                                                preferredStyle:UIAlertControllerStyleAlert];
+                    UIAlertAction* yesButton = [UIAlertAction
+                                                actionWithTitle:@"Take Me There"
+                                                style:UIAlertActionStyleDefault
+                                                handler:^(UIAlertAction * action)
+                                                {
+                                                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[obj.fields objectForKey:@"Url"]] options: @{} completionHandler:nil];
+                                                }];
+                    
+                    UIAlertAction* noButton = [UIAlertAction
+                                               actionWithTitle:@"Cancel"
+                                               style:UIAlertActionStyleDefault
+                                               handler:^(UIAlertAction * action) {
+                                                   
+                                               }];
+                    
+                    [alert addAction:yesButton];
+                    [alert addAction:noButton];
+                    
+                    [self presentViewController:alert animated:YES completion:nil];
+                    
+                    
+                }
+                                     errorBlock:^(QBResponse *response) {
+                                         // error handling
+                                         [[AppDelegate sharedinstance] hideLoader];
+                                         
+                                         NSLog(@"Response error: %@", [response.error description]);
+                                     }];
                 
-                
-                UIAlertController *alert = [UIAlertController
-                         alertControllerWithTitle:[obj.fields objectForKey:@"Title"]
-                         message:[obj.fields objectForKey:@"Description"]
-                         preferredStyle:UIAlertControllerStyleAlert];
-                UIAlertAction* yesButton = [UIAlertAction
-                                            actionWithTitle:@"Take Me There"
-                                            style:UIAlertActionStyleDefault
-                                            handler:^(UIAlertAction * action)
-                {
-                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[obj.fields objectForKey:@"Url"]] options: @{} completionHandler:nil];
-                                            }];
-                
-                UIAlertAction* noButton = [UIAlertAction
-                                           actionWithTitle:@"Cancel"
-                                           style:UIAlertActionStyleDefault
-                                           handler:^(UIAlertAction * action) {
-                                               
-                                           }];
-                
-                [alert addAction:yesButton];
-                [alert addAction:noButton];
-                
-                [self presentViewController:alert animated:YES completion:nil];
-                
-                
+                break;
+        }
+            
+            if(viewController != NULL)
+            {
+                navigationController = (UINavigationController*)self.menuContainerViewController.centerViewController;
+                controllers = [NSArray arrayWithObject:viewController];
+                navigationController.viewControllers = controllers;
+                [self.menuContainerViewController setMenuState:MFSideMenuStateClosed];
             }
-                                 errorBlock:^(QBResponse *response) {
-                                     // error handling
-                                     [[AppDelegate sharedinstance] hideLoader];
-                                     
-                                     NSLog(@"Response error: %@", [response.error description]);
-                                 }];
-            
             break;
-            
-            
     }
     
-    if(viewController != NULL)
-    {
+    
+}
+
+-(void) getCourseForCourseAdmin
+{
+    NSMutableDictionary *getRequest = [[NSMutableDictionary alloc] init];
+    
+    [getRequest setObject:[[AppDelegate sharedinstance] getCurrentUserGuid] forKey:@"_parent_id"];
+    
+    [QBRequest objectsWithClassName:@"UserCourses" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
+        
+        NSLog(@"Entries %lu",(unsigned long)page.totalEntries);
+        
+        NSMutableArray *arrCourseIds = [[NSMutableArray alloc] init];
+        
+        int roleId = [[AppDelegate sharedinstance] getCurrentRole];
+        
+        for(QBCOCustomObject *obj in objects)
+        {
+            @try
+            {
+                [arrCourseIds addObject:[obj.fields objectForKey:roleId == 2 ? @"EventManagerCourse" : @"CourseAdminCourse"]];
+            }
+            @catch(NSException *e)
+            {
+                
+            }
+        }
+        
+        SpecialsViewController *vc = [[SpecialsViewController alloc] initWithNibName:@"SpecialsViewController" bundle:nil];
+        vc.DataType = filterCourse;
+        vc.courseIds = arrCourseIds;
+        NSArray *controllers = [NSArray arrayWithObject:vc];
         UINavigationController *navigationController = (UINavigationController*)self.menuContainerViewController.centerViewController;
-        NSArray *controllers = [NSArray arrayWithObject:viewController];
         navigationController.viewControllers = controllers;
         [self.menuContainerViewController setMenuState:MFSideMenuStateClosed];
-    }
-    
+        
+    } errorBlock:^(QBResponse *response) {
+        // error handling
+        [[AppDelegate sharedinstance] hideLoader];
+        
+        NSLog(@"Response error: %@", [response.error description]);
+    }];
 }
-
-//-----------------------------------------------------------------------
-
-#pragma mark - Alert Delegate
-
-//-----------------------------------------------------------------------
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (alertView.tag == 121)
-    {
-        if (buttonIndex == 0)
-        {
-        }
-        else if (buttonIndex == 1)
-        {
-            
-            if([[AppDelegate sharedinstance].sharedChatInstance isConnected]) {
-                [[AppDelegate sharedinstance].sharedChatInstance disconnectWithCompletionBlock:^(NSError * _Nullable error) {
-                    
-                    [[AppDelegate sharedinstance] setStringObj:@"" forKey:kuserEmail];
-                    
-                    LoginViewController *loginView;
-                    
-                    loginView = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
-                    
-                    UINavigationController *navigationController = self.menuContainerViewController.centerViewController;
-                    NSArray *controllers = [NSArray arrayWithObject:loginView];
-                    navigationController.viewControllers = controllers;
-                    
-                    self.menuContainerViewController.panMode=NO;
-                    
-                    [self.menuContainerViewController setMenuState:MFSideMenuStateClosed];
-
-                }];
-            }
-            else {
-                [[AppDelegate sharedinstance] setStringObj:@"" forKey:kuserEmail];
-                
-                LoginViewController *loginView;
-                
-                loginView = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
-                
-                UINavigationController *navigationController = self.menuContainerViewController.centerViewController;
-                NSArray *controllers = [NSArray arrayWithObject:loginView];
-                navigationController.viewControllers = controllers;
-                
-                self.menuContainerViewController.panMode=NO;
-                
-                [self.menuContainerViewController setMenuState:MFSideMenuStateClosed];
-
-            }
-          }
-    }
-}
-
 @end

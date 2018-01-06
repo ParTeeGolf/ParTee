@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -20,6 +20,9 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ViewUsersViewController">
             <connections>
                 <outlet property="btnSettingsBig" destination="fav-5L-Obw" id="cqm-t3-0xF"/>
+                <outlet property="coursePicker" destination="lAG-lq-D5f" id="a9u-QU-kZb"/>
+                <outlet property="doneView" destination="gGk-Ny-GM6" id="PiF-pS-C4Q"/>
+                <outlet property="eventManagerSegments" destination="yXc-5y-9Ry" id="lx4-FZ-tMF"/>
                 <outlet property="golferSegments" destination="bFC-O7-T29" id="euf-h3-jky"/>
                 <outlet property="lblNotAvailable" destination="sN4-bx-xCN" id="qmc-qC-ecj"/>
                 <outlet property="lblTitle" destination="yeg-94-2DR" id="43t-uA-ACW"/>
@@ -133,6 +136,43 @@
                         <action selector="settingsTapped:" destination="-1" eventType="touchUpInside" id="oLg-TN-a6p"/>
                     </connections>
                 </button>
+                <pickerView contentMode="scaleToFill" misplaced="YES" id="lAG-lq-D5f">
+                    <rect key="frame" x="0.0" y="356" width="320" height="212"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="tD1-jN-Cmw"/>
+                        <outlet property="delegate" destination="-1" id="Xbb-kN-Rmh"/>
+                    </connections>
+                </pickerView>
+                <view contentMode="scaleToFill" misplaced="YES" id="gGk-Ny-GM6">
+                    <rect key="frame" x="0.0" y="314" width="320" height="44"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="GSm-Ym-Y1o">
+                            <rect key="frame" x="245" y="0.0" width="77" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" title="DONE"/>
+                            <connections>
+                                <action selector="doneButtonPressed" destination="-1" eventType="touchUpInside" id="EMz-C3-MF6"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" red="0.0" green="0.67450980390000004" blue="0.22352941179999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                </view>
+                <segmentedControl opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="yXc-5y-9Ry">
+                    <rect key="frame" x="0.0" y="60" width="320" height="29"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" red="0.2432380468" green="0.53166908030000004" blue="0.22747804220000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    <segments>
+                        <segment title="Add"/>
+                        <segment title="Remove"/>
+                    </segments>
+                    <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <action selector="viewUserSegmentChanged:" destination="-1" eventType="primaryActionTriggered" id="oMS-my-ZPD"/>
+                    </connections>
+                </segmentedControl>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
@@ -140,13 +180,8 @@
         </view>
     </objects>
     <resources>
-        <image name="Menu.png" width="39" height="27"/>
+        <image name="Menu.png" width="20" height="16"/>
         <image name="listBackground.png" width="640" height="1136"/>
         <image name="search.png" width="50" height="50"/>
     </resources>
-    <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedStatusBarMetrics key="statusBar"/>
-        <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4_7.fullscreen"/>
-    </simulatedMetricsContainer>
 </document>

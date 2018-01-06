@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" colorMatched="YES">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -22,90 +22,109 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EditProfileViewController">
             <connections>
+                <outlet property="btnBack" destination="PLh-2K-3jk" id="tPT-UF-uwD"/>
+                <outlet property="btnCheckmark" destination="3Ng-jk-rp3" id="xjT-cb-BMJ"/>
+                <outlet property="cityView" destination="oT0-NC-2Rj" id="7Y6-lQ-MUE"/>
+                <outlet property="datePicker" destination="CLI-gL-Bdi" id="L52-Xu-jIq"/>
+                <outlet property="doneButton" destination="2WM-QC-WVy" id="M6p-Sf-LAE"/>
+                <outlet property="editView" destination="tEN-YG-9id" id="b5I-Ej-LJk"/>
+                <outlet property="homeCourseView" destination="9DU-6H-gi9" id="2kT-Mz-upQ"/>
                 <outlet property="imgViewProfilePic" destination="iyR-JS-l85" id="Wue-z8-8o6"/>
+                <outlet property="menu" destination="zQX-NA-F1C" id="EU9-q4-0Wm"/>
+                <outlet property="pickerView" destination="0gH-lW-Ri6" id="dP0-GI-RDW"/>
+                <outlet property="preview" destination="lhk-aD-bkE" id="8UE-xG-be7"/>
                 <outlet property="proButton" destination="kHH-PY-leT" id="jE2-FW-N1C"/>
+                <outlet property="registerView" destination="Agd-hV-qu8" id="yj0-11-OV1"/>
                 <outlet property="saveButton" destination="XyD-3b-0tD" id="T2A-m2-yDA"/>
                 <outlet property="scrollViewContainer" destination="FbU-sx-ofY" id="bBp-Xo-iu8"/>
+                <outlet property="segmentGender" destination="T27-0M-8xg" id="OiN-pP-fJR"/>
+                <outlet property="titleLabel" destination="uQL-ny-NGG" id="p8a-2a-rUW"/>
                 <outlet property="tvInfo" destination="QWH-aG-efk" id="pFe-Hr-KcJ"/>
                 <outlet property="txtBday" destination="lcL-5t-xQ9" id="tdX-c0-qYG"/>
                 <outlet property="txtCity" destination="OmP-uJ-QRH" id="SLt-gv-pOM"/>
+                <outlet property="txtEmail" destination="AMl-Ti-o68" id="RGk-e0-ZkW"/>
                 <outlet property="txtHandicap" destination="Z87-v2-9II" id="oWf-QF-al3"/>
                 <outlet property="txtHomeCourse" destination="XDJ-dS-fH2" id="1yr-42-3wA"/>
                 <outlet property="txtName" destination="nEx-Zg-DnI" id="f6g-3x-gkG"/>
+                <outlet property="txtPwd" destination="hhb-cR-LMr" id="JrS-cp-N3w"/>
+                <outlet property="txtRePwd" destination="gLw-E0-kk4" id="hhV-Fb-DMQ"/>
                 <outlet property="txtState" destination="6pv-e2-l4N" id="wdo-RB-Vou"/>
                 <outlet property="view" destination="aNV-OD-qlN" id="JRm-oi-gGB"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" misplaced="YES" id="aNV-OD-qlN">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="653"/>
+            <rect key="frame" x="0.0" y="0.0" width="378" height="905"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" misplaced="YES" id="Mv5-6q-YfT" userLabel="ViewNav">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
+                    <rect key="frame" x="0.0" y="0.0" width="378" height="60"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="SDk-tn-jbb">
-                            <rect key="frame" x="277" y="27" width="30" height="30"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                            <state key="normal" image="preview"/>
-                            <connections>
-                                <action selector="action_PreviewProfile:" destination="-1" eventType="touchUpInside" id="Dy9-Or-B7K"/>
-                            </connections>
-                        </button>
-                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="WqG-6K-RUp">
-                            <rect key="frame" x="15" y="34" width="20" height="16"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <state key="normal" backgroundImage="Menu.png"/>
-                            <connections>
-                                <action selector="action_Menu:" destination="-1" eventType="touchUpInside" id="Nbr-RQ-BTK"/>
-                            </connections>
-                        </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Profile" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="uQL-ny-NGG">
-                            <rect key="frame" x="0.0" y="20" width="320" height="40"/>
+                            <rect key="frame" x="0.0" y="20" width="378" height="40"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="22"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="lhk-aD-bkE">
-                            <rect key="frame" x="271" y="19" width="49" height="39"/>
+                            <rect key="frame" x="326" y="19" width="40" height="39"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" image="preview"/>
                             <connections>
                                 <action selector="action_PreviewProfile:" destination="-1" eventType="touchUpInside" id="Fwe-m1-Lf1"/>
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="zQX-NA-F1C">
-                            <rect key="frame" x="0.0" y="20" width="49" height="39"/>
+                            <rect key="frame" x="5" y="19" width="40" height="39"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" image="Menu.png"/>
                             <connections>
                                 <action selector="action_Menu:" destination="-1" eventType="touchUpInside" id="hLA-HA-Ie6"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="PLh-2K-3jk">
+                            <rect key="frame" x="15" y="31" width="20" height="20"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" image="ico-back.png"/>
+                            <connections>
+                                <action selector="backPressed:" destination="-1" eventType="touchUpInside" id="P1P-4J-biv"/>
                             </connections>
                         </button>
                     </subviews>
                     <color key="backgroundColor" red="0.0" green="0.65490196078431373" blue="0.1764705882352941" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 </view>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" id="FbU-sx-ofY">
-                    <rect key="frame" x="0.0" y="60" width="320" height="755"/>
+                    <rect key="frame" x="0.0" y="60" width="378" height="1007"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user.png" id="iyR-JS-l85">
-                            <rect key="frame" x="113" y="20" width="95" height="95"/>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="user.png" id="iyR-JS-l85">
+                            <rect key="frame" x="141" y="20" width="82" height="79"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES"/>
                         </imageView>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="0Db-6u-pl2">
-                            <rect key="frame" x="113" y="20" width="95" height="95"/>
+                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="0Db-6u-pl2">
+                            <rect key="frame" x="141" y="20" width="82" height="79"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES"/>
                             <connections>
-                                <action selector="cameraPressed:" destination="-1" eventType="touchUpInside" id="g6y-eL-oCS"/>
+                                <action selector="cameraPressed:" destination="-1" eventType="touchUpInside" id="abJ-M5-gqa"/>
                             </connections>
                         </button>
+                        <segmentedControl opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="T27-0M-8xg">
+                            <rect key="frame" x="49" y="107" width="280" height="29"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <segments>
+                                <segment title="Male"/>
+                                <segment title="Female"/>
+                            </segments>
+                            <color key="tintColor" red="0.0" green="0.65490196079999996" blue="0.1764705882" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </segmentedControl>
                         <view contentMode="scaleToFill" misplaced="YES" id="Bit-J8-7JN" userLabel="name">
-                            <rect key="frame" x="17" y="138" width="286" height="43"/>
+                            <rect key="frame" x="17" y="138" width="344" height="43"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <view contentMode="scaleToFill" id="WIs-ID-lPa">
-                                    <rect key="frame" x="46" y="38" width="210" height="1"/>
+                                    <rect key="frame" x="46" y="38" width="268" height="1"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" red="0.90196078430000004" green="0.91764705879999997" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </view>
@@ -114,7 +133,7 @@
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 </imageView>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter your name" textAlignment="natural" minimumFontSize="17" id="nEx-Zg-DnI">
-                                    <rect key="frame" x="46" y="10" width="240" height="21"/>
+                                    <rect key="frame" x="46" y="10" width="298" height="21"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                     <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="12"/>
@@ -127,16 +146,16 @@
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
                         <view contentMode="scaleToFill" misplaced="YES" id="oRd-MW-qa8" userLabel="pwd">
-                            <rect key="frame" x="17" y="177" width="286" height="60"/>
+                            <rect key="frame" x="17" y="177" width="344" height="60"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <view contentMode="scaleToFill" id="dPo-Xl-PTl">
-                                    <rect key="frame" x="46" y="42" width="210" height="1"/>
+                                    <rect key="frame" x="46" y="42" width="268" height="1"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" red="0.90196078430000004" green="0.91764705879999997" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </view>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Select your state" textAlignment="natural" minimumFontSize="17" id="6pv-e2-l4N">
-                                    <rect key="frame" x="46" y="14" width="240" height="21"/>
+                                    <rect key="frame" x="46" y="14" width="298" height="21"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                     <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="12"/>
@@ -153,16 +172,16 @@
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
                         <view contentMode="scaleToFill" misplaced="YES" id="oT0-NC-2Rj" userLabel="pwd">
-                            <rect key="frame" x="17" y="220" width="286" height="60"/>
+                            <rect key="frame" x="17" y="220" width="344" height="60"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <view contentMode="scaleToFill" id="Evf-zv-5GE">
-                                    <rect key="frame" x="46" y="42" width="210" height="1"/>
+                                    <rect key="frame" x="46" y="42" width="268" height="1"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" red="0.90196078430000004" green="0.91764705879999997" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </view>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Select your city" textAlignment="natural" minimumFontSize="17" id="OmP-uJ-QRH">
-                                    <rect key="frame" x="46" y="14" width="240" height="21"/>
+                                    <rect key="frame" x="46" y="14" width="298" height="21"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                     <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="12"/>
@@ -179,16 +198,16 @@
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
                         <view contentMode="scaleToFill" misplaced="YES" id="7lx-tf-Nlz" userLabel="pwd">
-                            <rect key="frame" x="17" y="312" width="286" height="60"/>
+                            <rect key="frame" x="17" y="312" width="344" height="60"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <view contentMode="scaleToFill" id="Cce-5s-Cis">
-                                    <rect key="frame" x="46" y="42" width="210" height="1"/>
+                                    <rect key="frame" x="46" y="42" width="268" height="1"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" red="0.90196078430000004" green="0.91764705879999997" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </view>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter your handicap" textAlignment="natural" minimumFontSize="17" id="Z87-v2-9II">
-                                    <rect key="frame" x="46" y="14" width="240" height="21"/>
+                                    <rect key="frame" x="46" y="14" width="298" height="21"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                     <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="12"/>
@@ -204,8 +223,34 @@
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
+                        <view contentMode="scaleToFill" misplaced="YES" id="1SJ-WU-6jn" userLabel="pwd">
+                            <rect key="frame" x="17" y="412" width="344" height="60"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <view contentMode="scaleToFill" id="Q79-tS-hjN">
+                                    <rect key="frame" x="46" y="42" width="268" height="1"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                    <color key="backgroundColor" red="0.90196078430000004" green="0.91764705879999997" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </view>
+                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter your Email" textAlignment="natural" minimumFontSize="17" id="AMl-Ti-o68">
+                                    <rect key="frame" x="46" y="14" width="298" height="21"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                    <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="12"/>
+                                    <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="done"/>
+                                    <connections>
+                                        <outlet property="delegate" destination="-1" id="GZk-Pl-ZjD"/>
+                                    </connections>
+                                </textField>
+                                <imageView userInteractionEnabled="NO" alpha="0.5" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="icon-email.png" id="OHR-4A-OPC">
+                                    <rect key="frame" x="19" y="21" width="13" height="13"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                </imageView>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </view>
                         <view contentMode="scaleToFill" misplaced="YES" id="FiQ-Al-eDG" userLabel="pwd">
-                            <rect key="frame" x="17" y="401" width="286" height="88"/>
+                            <rect key="frame" x="17" y="469" width="344" height="88"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="ico-info.png" id="Wre-n8-V2g">
@@ -213,7 +258,7 @@
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 </imageView>
                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" textAlignment="natural" id="QWH-aG-efk" customClass="SZTextView">
-                                    <rect key="frame" x="41" y="6" width="220" height="76"/>
+                                    <rect key="frame" x="41" y="6" width="278" height="76"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -227,16 +272,16 @@
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
                         <view contentMode="scaleToFill" misplaced="YES" id="9DU-6H-gi9" userLabel="homecourse">
-                            <rect key="frame" x="17" y="263" width="286" height="60"/>
+                            <rect key="frame" x="17" y="263" width="344" height="60"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <view contentMode="scaleToFill" id="a6b-sO-di9">
-                                    <rect key="frame" x="46" y="42" width="210" height="1"/>
+                                    <rect key="frame" x="46" y="42" width="268" height="1"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" red="0.90196078430000004" green="0.91764705879999997" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </view>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Select your home course" textAlignment="natural" minimumFontSize="17" id="XDJ-dS-fH2">
-                                    <rect key="frame" x="46" y="14" width="240" height="21"/>
+                                    <rect key="frame" x="46" y="14" width="298" height="21"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                     <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="12"/>
@@ -253,16 +298,16 @@
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
                         <view contentMode="scaleToFill" misplaced="YES" id="OsJ-zv-t7y" userLabel="pwd">
-                            <rect key="frame" x="17" y="355" width="286" height="60"/>
+                            <rect key="frame" x="17" y="365" width="344" height="60"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <view contentMode="scaleToFill" id="unQ-Lo-k2v">
-                                    <rect key="frame" x="46" y="42" width="210" height="1"/>
+                                    <rect key="frame" x="46" y="42" width="268" height="1"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" red="0.90196078430000004" green="0.91764705879999997" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </view>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Date of Birth" textAlignment="natural" minimumFontSize="17" id="lcL-5t-xQ9">
-                                    <rect key="frame" x="46" y="8" width="240" height="27"/>
+                                    <rect key="frame" x="46" y="8" width="298" height="27"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                     <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="12"/>
@@ -278,45 +323,191 @@
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
-                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="XyD-3b-0tD">
-                            <rect key="frame" x="23" y="489" width="273" height="46"/>
+                        <view contentMode="scaleToFill" misplaced="YES" id="Agd-hV-qu8">
+                            <rect key="frame" x="17" y="558" width="344" height="190"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" red="0.26281920075416565" green="0.58292853832244873" blue="0.22745700180530548" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                            <fontDescription key="fontDescription" name="Oswald-Bold" family="Oswald" pointSize="12"/>
-                            <state key="normal" title="SAVE">
-                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="action_UpdateProfile:" destination="-1" eventType="touchUpInside" id="t6E-ab-jkO"/>
-                            </connections>
-                        </button>
-                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="kHH-PY-leT">
-                            <rect key="frame" x="23" y="537" width="273" height="40"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" red="0.84261560440063477" green="0.51639688014984131" blue="0.18426127731800079" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                            <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="14"/>
-                            <state key="normal" title="Apply for Pro Status"/>
-                            <connections>
-                                <action selector="ProRequestTapped:" destination="-1" eventType="touchUpInside" id="fxE-ll-464"/>
-                            </connections>
-                        </button>
+                            <subviews>
+                                <view contentMode="scaleToFill" misplaced="YES" id="DWZ-3Y-RGu" userLabel="pwd">
+                                    <rect key="frame" x="4" y="0.0" width="335" height="60"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <view contentMode="scaleToFill" id="We5-zf-DLS">
+                                            <rect key="frame" x="46" y="42" width="259" height="1"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                            <color key="backgroundColor" red="0.90196078430000004" green="0.91764705879999997" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </view>
+                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter your password" textAlignment="natural" minimumFontSize="17" id="hhb-cR-LMr">
+                                            <rect key="frame" x="46" y="14" width="289" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                            <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="12"/>
+                                            <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="done"/>
+                                            <connections>
+                                                <outlet property="delegate" destination="-1" id="xgb-UY-moV"/>
+                                            </connections>
+                                        </textField>
+                                        <imageView userInteractionEnabled="NO" alpha="0.5" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="icon-key.png" id="pOL-DM-3bV">
+                                            <rect key="frame" x="19" y="18" width="13" height="13"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        </imageView>
+                                    </subviews>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </view>
+                                <view contentMode="scaleToFill" misplaced="YES" id="XD5-Dl-UCg" userLabel="pwd">
+                                    <rect key="frame" x="4" y="45" width="335" height="60"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <view contentMode="scaleToFill" id="jAz-sj-WLn">
+                                            <rect key="frame" x="46" y="42" width="259" height="1"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                            <color key="backgroundColor" red="0.90196078430000004" green="0.91764705879999997" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </view>
+                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Re-enter your password" textAlignment="natural" minimumFontSize="17" id="gLw-E0-kk4">
+                                            <rect key="frame" x="46" y="14" width="289" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                            <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="12"/>
+                                            <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="done"/>
+                                            <connections>
+                                                <outlet property="delegate" destination="-1" id="dsY-Jr-5rE"/>
+                                            </connections>
+                                        </textField>
+                                        <imageView userInteractionEnabled="NO" alpha="0.5" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="icon-key.png" id="sjP-6q-GI1">
+                                            <rect key="frame" x="19" y="21" width="13" height="13"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        </imageView>
+                                    </subviews>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </view>
+                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="afS-VM-OM8">
+                                    <rect key="frame" x="102" y="91" width="122" height="25"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="12"/>
+                                    <state key="normal" title="Terms &amp; Conditions">
+                                        <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="Termstapped:" destination="-1" eventType="touchUpInside" id="K8w-5t-RG4"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="3Ng-jk-rp3">
+                                    <rect key="frame" x="0.0" y="95" width="36" height="32"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES"/>
+                                    <state key="normal" image="check-unfilled.png"/>
+                                    <connections>
+                                        <action selector="checkmarkPressed:" destination="-1" eventType="touchUpInside" id="LLc-Jk-xcB"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="3rJ-0V-usG">
+                                    <rect key="frame" x="44" y="108" width="92" height="20"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="12"/>
+                                    <state key="normal" title="Privacy Policy">
+                                        <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="Privacytapped:" destination="-1" eventType="touchUpInside" id="T5e-QP-isp"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="2WM-QC-WVy">
+                                    <rect key="frame" x="6" y="136" width="338" height="46"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                    <color key="backgroundColor" red="0.23145379129999999" green="0.51600313190000002" blue="0.20002152030000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                    <fontDescription key="fontDescription" name="Oswald-Bold" family="Oswald" pointSize="12"/>
+                                    <state key="normal" title="DONE">
+                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="action_CreateAccount:" destination="-1" eventType="touchUpInside" id="4B9-O6-SFm"/>
+                                    </connections>
+                                </button>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Agree to " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Q1J-5w-ZED">
+                                    <rect key="frame" x="44" y="93" width="57" height="21"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="12"/>
+                                    <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="and" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="WAI-oM-uOi">
+                                    <rect key="frame" x="227" y="93" width="28" height="21"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="12"/>
+                                    <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </view>
+                        <view contentMode="scaleToFill" misplaced="YES" id="tEN-YG-9id">
+                            <rect key="frame" x="17" y="649" width="344" height="105"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="XyD-3b-0tD">
+                                    <rect key="frame" x="8" y="3" width="328" height="46"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                    <color key="backgroundColor" red="0.26281920075416565" green="0.58292853832244873" blue="0.22745700180530548" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                    <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="17"/>
+                                    <state key="normal" title="SAVE">
+                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="action_UpdateProfile:" destination="-1" eventType="touchUpInside" id="t6E-ab-jkO"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="kHH-PY-leT">
+                                    <rect key="frame" x="8" y="52" width="328" height="46"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+                                    <color key="backgroundColor" red="0.84261560440063477" green="0.51639688014984131" blue="0.18426127731800079" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                    <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="14"/>
+                                    <state key="normal" title="Apply for Pro Status"/>
+                                    <connections>
+                                        <action selector="ProRequestTapped:" destination="-1" eventType="touchUpInside" id="vBl-pv-e9X"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </scrollView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="-3157" y="-1986.5"/>
+            <point key="canvasLocation" x="-3128" y="-1860.5"/>
         </view>
+        <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="1" id="CLI-gL-Bdi">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="216"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+            <date key="date" timeIntervalSinceReferenceDate="418743447.21790999">
+                <!--2014-04-09 13:37:27 +0000-->
+            </date>
+            <connections>
+                <action selector="dateChanged:" destination="-1" eventType="valueChanged" id="NDt-b0-V8w"/>
+            </connections>
+        </datePicker>
+        <pickerView contentMode="scaleToFill" id="0gH-lW-Ri6">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="216"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <color key="backgroundColor" red="0.92549019610000005" green="0.92156862750000001" blue="0.94509803920000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <connections>
+                <outlet property="dataSource" destination="-1" id="jfY-M8-Ph3"/>
+                <outlet property="delegate" destination="-1" id="IRG-04-g76"/>
+            </connections>
+            <point key="canvasLocation" x="1175" y="-169"/>
+        </pickerView>
     </objects>
     <resources>
-        <image name="Menu.png" width="39" height="27"/>
+        <image name="Menu.png" width="20" height="16"/>
+        <image name="check-unfilled.png" width="100" height="100"/>
         <image name="homecourse.png" width="30" height="30"/>
+        <image name="ico-back.png" width="21" height="39"/>
         <image name="ico-bday.png" width="24" height="24"/>
         <image name="ico-handicap.png" width="26" height="16"/>
         <image name="ico-info.png" width="25" height="25"/>
         <image name="ico-loc copy.png" width="20" height="28"/>
         <image name="ico-profile.png" width="30" height="30"/>
+        <image name="icon-email.png" width="2048" height="2048"/>
+        <image name="icon-key.png" width="512" height="512"/>
         <image name="preview" width="30" height="30"/>
         <image name="user.png" width="256" height="256"/>
     </resources>

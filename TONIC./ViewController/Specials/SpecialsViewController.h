@@ -12,29 +12,13 @@
 
 @interface SpecialsViewController : UIViewController <UITextFieldDelegate,RNGridMenuDelegate> {
 
-    IBOutlet UITableView *tblList;
-    NSMutableArray *arrData;
-    NSMutableArray *arrCoursesData;
-
-    NSArray *arrConnections;
-
-    int k;
-    int fromSegment;
-    NSArray *arrBgImages,*arrFav;
-
-    IBOutlet UILabel *lblNotAvailable;
-    IBOutlet UISegmentedControl *segmentSpecials;
-    int segmentMode;
     int _currentPage;
-
-
-    NSArray *arrConnectionsTemp;
-    NSString *strIsMyCourses;
-    IBOutlet UILabel *lblScreenTitle;
-    BOOL shouldLoadNext;
+    
     
     NSInteger selectedRow;
     BOOL isFavCourse;
+    BOOL shouldLoadNext;
+    BOOL showOnyFav;
     
     QBCOCustomObject *sharedobj ;
     
@@ -44,10 +28,31 @@
     NSString *strlat;
     NSString *strlong;
     
-    BOOL showOnyFav;
-    
-
     IBOutlet UIButton *btnSearchBig;
+    IBOutlet UIButton *menuButton;
+    IBOutlet UIButton *backButton;
+    IBOutlet UIButton *mapButton;
+    IBOutlet UIButton *addButton;
+    IBOutlet UITableView *tblList;
+    IBOutlet UILabel *lblNotAvailable;
+    IBOutlet UILabel *lblScreenTitle;
+    IBOutlet UISegmentedControl *segmentSpecials;
+    
+    NSMutableArray *arrCourses;
+    NSMutableArray *arrEvents;
+    NSMutableArray *arrCourseEvent;
+    NSMutableArray *arrFavorites;
+    NSMutableArray *arrData;
+    NSMutableArray *arrCoursesData;
+    NSMutableArray *arrPhotos;
+    
+    NSArray *arrConnections;
+    NSArray *arrBgImages,*arrFav;
 
 }
+
+@property int DataType;
+@property int roleId;
+@property NSMutableArray *courseIds ;
+
 @end

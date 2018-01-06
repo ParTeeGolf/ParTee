@@ -19,6 +19,7 @@
 @property (weak, nonatomic) IBOutlet UIView *viewAlpha;
 
 @property (weak, nonatomic) IBOutlet UILabel *lblDistance;
+@property (weak, nonatomic) IBOutlet UIButton *buttonOptions;
 
 
 

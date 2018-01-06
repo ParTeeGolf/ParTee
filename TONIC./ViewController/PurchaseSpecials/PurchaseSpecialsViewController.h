@@ -53,6 +53,11 @@
     IBOutlet UITextView *aboutTextView;
     IBOutlet UILabel *numberOfHoles;
     
+    IBOutlet UISegmentedControl *segmentControl;
+    
+    IBOutlet UIButton *editButton;
+    IBOutlet UIButton *backButton;
+    
     NSMutableArray *arrData;
 
     

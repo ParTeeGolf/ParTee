@@ -10,13 +10,16 @@
 #import "RNGridMenu.h"
 #import <QuartzCore/QuartzCore.h>
 
-@interface CoursePhotoViewController : UIViewController <UITextFieldDelegate,RNGridMenuDelegate> {
+@interface CoursePhotoViewController : UIViewController <UITextFieldDelegate,RNGridMenuDelegate,UINavigationControllerDelegate, UIImagePickerControllerDelegate> {
 
     IBOutlet UITableView *tblList1;
     NSMutableArray *arrData1;
-
+    IBOutlet UIButton *addButton;
+    IBOutlet UIButton *backButton;
+    int roleId;
 
 }
 
 @property(nonatomic,strong) NSString *courseID;
+@property long sequence;
 @end

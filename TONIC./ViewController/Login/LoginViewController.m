@@ -6,8 +6,9 @@
 //
 
 #import "LoginViewController.h"
-#import "RegisterViewController.h"
 #import "EditProfileViewController.h"
+#import "RoleViewController.h"
+#import "AdminViewController.h"
 #import "TourViewController.h"
 
 @interface LoginViewController ()
@@ -281,9 +282,6 @@
                 NSString *strPoint = [NSString stringWithFormat:@"%f,%f",[strlong floatValue],[strlat floatValue]];
                 [object.fields setObject:strPoint forKey:@"current_location"];
                 
-                [dictUserDetails setObject:[[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"isDevelopment"]] forKey:@"isDevelopment"];
-                
-                [dictUserDetails setObject:[[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"UserRole"]] forKey:@"UserRole"];
                 
                 [[NSUserDefaults standardUserDefaults] setObject:dictUserDetails forKey:kuserData];
                 [[NSUserDefaults standardUserDefaults] synchronize];
@@ -298,21 +296,80 @@
                 [QBRequest updateObject:object successBlock:^(QBResponse *response, QBCOCustomObject *object1) {
                     // object updated
                     
-                    SpecialsViewController *vc = [[SpecialsViewController alloc] initWithNibName:@"SpecialsViewController" bundle:nil];
+                    NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
+                    [getRequest setObject:[[AppDelegate sharedinstance] getCurrentUserGuid] forKey:@"_parent_id"];
+                    [getRequest setObject:@"true" forKey:@"Active"];
+                    [getRequest setObject:@[@"Approved",@"Renewed"] forKey:@"Status[in]"];
                     
-                    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
-                    
-                    SideMenuViewController *leftMenuViewController;
-                    leftMenuViewController = [[SideMenuViewController alloc] initWithNibName:@"SideMenuViewController" bundle:nil];
-                    MFSideMenuContainerViewController *container = [MFSideMenuContainerViewController
-                                                                    containerWithCenterViewController:nav
-                                                                    leftMenuViewController:leftMenuViewController
-                                                                    rightMenuViewController:nil];
-                    container.panMode=YES;
-                    
-                    [[AppDelegate sharedinstance].window setRootViewController:container];
-                    
-                    [[AppDelegate sharedinstance] hideLoader];
+                    [QBRequest objectsWithClassName:@"UserRoles" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
+                        // object updated
+                        NSMutableArray *roles = [objects mutableCopy];
+                        
+                        UIViewController *vc;
+                        
+                        if(roles.count > 1)
+                        {
+                            vc = [[RoleViewController alloc] initWithNibName:@"RoleViewController" bundle:nil];
+                            ((RoleViewController*)vc).roles = roles;
+                        }
+                        else
+                        {
+                            QBCOCustomObject *obj = roles[0];
+                            int roleId = [[obj.fields objectForKey:@"RoleId"] intValue];
+                            [[AppDelegate sharedinstance] setCurrentRole:roleId];
+                            NSMutableDictionary *getRequest;
+                            
+                            switch(roleId)
+                            {
+                                case -1:
+                                    vc = [[AdminViewController alloc] initWithNibName:@"AdminViewController" bundle:nil];
+                                    break;
+                                case 0:
+                                case 1:
+                                    vc = [[SpecialsViewController alloc] initWithNibName:@"SpecialsViewController" bundle:nil];
+                                    ((SpecialsViewController *)vc).DataType = filterCourse;
+                                    break;
+                                case 2:
+                                     getRequest = [NSMutableDictionary dictionary];
+                                    
+                                    [getRequest setObject:[[AppDelegate sharedinstance] getCurrentUserGuid] forKey:@"_parent_id"];
+                                    
+                                    [QBRequest objectsWithClassName:@"UserCourses" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
+                                        
+                                        NSLog(@"Entries %lu",(unsigned long)page.totalEntries);
+                                        
+                                        NSMutableArray *arrCourseIds = [[NSMutableArray alloc] init];
+                                        
+                                        for(QBCOCustomObject *obj in objects)
+                                        {
+                                            [arrCourseIds addObject:[obj.fields objectForKey:@"CourseId"]];
+                                        }
+
+                                        SpecialsViewController *vc = [[SpecialsViewController alloc] initWithNibName:@"SpecialsViewController" bundle:nil];
+                                        vc.DataType = filterCourse;
+                                        vc.courseIds = arrCourseIds;
+                                        [self manageViewController:vc];
+                                        
+                                    } errorBlock:^(QBResponse *response) {
+                                        // error handling
+                                        [[AppDelegate sharedinstance] hideLoader];
+                                        
+                                        NSLog(@"Response error: %@", [response.error description]);
+                                    }];
+                                    break;
+                            }
+                        }
+                        
+                        [self manageViewController:vc];
+                        
+                        
+                        
+                    } errorBlock:^(QBResponse *response) {
+                        // error handling
+                        [[AppDelegate sharedinstance] hideLoader];
+                        [[AppDelegate sharedinstance] displayServerErrorMessage];
+                        NSLog(@"Response error: %@", [response.error description]);
+                    }];
            
                     
                 } errorBlock:^(QBResponse *response) {
@@ -321,11 +378,6 @@
                     [[AppDelegate sharedinstance] displayServerErrorMessage];
                     NSLog(@"Response error: %@", [response.error description]);
                 }];
-                //                    ViewUsersViewController *viewController=[[ViewUsersViewController alloc] initWithNibName:@"ViewUsersViewController" bundle:nil];
-                //                    viewController.strIsMyMatches=@"1";
-                
-                
-                
             } errorBlock:^(QBResponse *response) {
                 // error handling
                 [[AppDelegate sharedinstance] hideLoader];
@@ -346,6 +398,23 @@
             
         }];
      
+}
+
+-(void) manageViewController:(UIViewController*)vc
+{
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+    
+    SideMenuViewController *leftMenuViewController;
+    leftMenuViewController = [[SideMenuViewController alloc] initWithNibName:@"SideMenuViewController" bundle:nil];
+    MFSideMenuContainerViewController *container = [MFSideMenuContainerViewController
+                                                    containerWithCenterViewController:nav
+                                                    leftMenuViewController:leftMenuViewController
+                                                    rightMenuViewController:nil];
+    container.panMode=YES;
+    
+    [[AppDelegate sharedinstance].window setRootViewController:container];
+    
+    [[AppDelegate sharedinstance] hideLoader];
 }
 
 -(void) bindSearchData:(QBCOCustomObject *) userObject searchType:(NSString *) searchType
@@ -424,7 +493,7 @@
              [dictUserDetails setObject:[object.fields objectForKey:@"interested_in_home_coursename"] forKey:@"interested_in_home_coursename"];
          }*/
          
-         NSString *searchDataType = [searchType isEqualToString:@"User"] ? kuserSearchUser : kuserSearchPro;
+         NSString *searchDataType = [searchType isEqualToString:@"User"] ? kSearchUser : kSearchPro;
          
          [[NSUserDefaults standardUserDefaults] setObject:dictUserDetails forKey:searchDataType];
          [[NSUserDefaults standardUserDefaults] synchronize];
@@ -452,7 +521,7 @@
         return;
     }
     
-    RegisterViewController *viewController =[[RegisterViewController alloc] initWithNibName:@"RegisterViewController" bundle:nil];
+    EditProfileViewController *viewController =[[EditProfileViewController alloc] initWithNibName:@"EditProfileViewController" bundle:nil];
     
       [self.navigationController pushViewController:viewController animated:YES];
     

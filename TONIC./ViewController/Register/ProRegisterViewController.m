@@ -77,7 +77,7 @@
 
 -(BOOL) validateData {
 
-    int totalLength = [[[AppDelegate sharedinstance] nullcheck:txtProType.text] length] +
+    long totalLength = [[[AppDelegate sharedinstance] nullcheck:txtProType.text] length] +
     [[[AppDelegate sharedinstance] nullcheck:txtWebsite.text] length] +
     [[[AppDelegate sharedinstance] nullcheck:txtPhone.text] length] +
     [[[AppDelegate sharedinstance] nullcheck:Achievements.text] length] +

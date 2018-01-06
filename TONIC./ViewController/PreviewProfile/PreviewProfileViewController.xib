@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" colorMatched="YES">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -17,17 +17,20 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PreviewProfileViewController">
             <connections>
                 <outlet property="achievments" destination="09f-fL-XEF" id="hkW-Ch-ui7"/>
+                <outlet property="approveButton" destination="Pbf-pH-UkJ" id="nYY-FI-S5E"/>
                 <outlet property="bio" destination="eh1-qG-coW" id="2gx-Du-pef"/>
                 <outlet property="btnAdd" destination="Pjy-2G-IHA" id="noo-7w-Ekw"/>
                 <outlet property="btnAddBg" destination="LRb-U5-KKn" id="MWV-Ty-TUx"/>
                 <outlet property="btnOptions" destination="SDk-tn-jbb" id="kNE-8M-sLg"/>
                 <outlet property="btnOptionsBig" destination="lhk-aD-bkE" id="CZT-Gs-K57"/>
+                <outlet property="denyButton" destination="q9y-rG-elo" id="9Xh-JK-H8k"/>
                 <outlet property="email" destination="WQj-Zp-5L0" id="5hM-qU-Hsi"/>
                 <outlet property="imgBadge" destination="z5E-XK-Vik" id="yXx-NQ-Wk8"/>
                 <outlet property="imgViewProfilePic" destination="Mct-9n-eGT" id="T8A-YG-ZQX"/>
                 <outlet property="lblHomecourse" destination="rUu-WD-yFj" id="P6J-YV-ntf"/>
                 <outlet property="lblScreenName" destination="uQL-ny-NGG" id="ZH1-Bh-9nB"/>
                 <outlet property="offering" destination="oH5-oP-TGd" id="HEK-z4-02U"/>
+                <outlet property="proButtons" destination="cjv-v6-dNm" id="Y3L-kU-Ius"/>
                 <outlet property="proView" destination="5Aj-R9-gNL" id="fOr-BP-sov"/>
                 <outlet property="scrollViewContainer" destination="FbU-sx-ofY" id="bBp-Xo-iu8"/>
                 <outlet property="view" destination="aNV-OD-qlN" id="JRm-oi-gGB"/>
@@ -167,9 +170,52 @@
                             </connections>
                         </button>
                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="badge-zoom.png" id="z5E-XK-Vik">
-                            <rect key="frame" x="245" y="8" width="67" height="80"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                            <rect key="frame" x="195" y="8" width="117" height="154"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                         </imageView>
+                        <view contentMode="scaleToFill" misplaced="YES" id="cjv-v6-dNm">
+                            <rect key="frame" x="8" y="464" width="304" height="46"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Pbf-pH-UkJ">
+                                    <rect key="frame" x="0.0" y="8" width="101" height="30"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <color key="backgroundColor" red="0.081015031979999999" green="1" blue="0.072849762410000005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                    <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="17"/>
+                                    <state key="normal" title="Normal">
+                                        <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="ApprovePro:" destination="-1" eventType="touchUpInside" id="hiJ-VF-HIy"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="LI7-qL-lK3">
+                                    <rect key="frame" x="101" y="8" width="101" height="30"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <color key="backgroundColor" red="1" green="0.65256080254035898" blue="0.12617061852219824" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                    <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="17"/>
+                                    <state key="normal" title="Featured">
+                                        <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="ApproveFeaturedPro:" destination="-1" eventType="touchUpInside" id="AgF-HI-frC"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="q9y-rG-elo">
+                                    <rect key="frame" x="202" y="8" width="101" height="30"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES"/>
+                                    <color key="backgroundColor" red="1" green="0.14108896181203046" blue="0.10088325793739317" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="17"/>
+                                    <state key="normal" title="Deny">
+                                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="DenyPro:" destination="-1" eventType="touchUpInside" id="Zwk-y8-piX"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </scrollView>
@@ -187,9 +233,4 @@
         <image name="listBackground.png" width="640" height="1136"/>
         <image name="trophy.png" width="29" height="29"/>
     </resources>
-    <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedStatusBarMetrics key="statusBar"/>
-        <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4_0.fullscreen"/>
-    </simulatedMetricsContainer>
 </document>

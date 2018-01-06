@@ -12,13 +12,15 @@
 #import "cell_ViewPro.h"
 #import "cell_ViewAmenities.h"
 #import "cell_ViewEvents.h"
+#import "EditCourseViewController.h"
+#import "EditEventViewController.h"
+#import "EditAmenitiesViewController.h"
 
 #define kIndexFav 0
 #define kIndexMap 1
 #define kIndexDirection 2
 #define kIndexPhoto 3
 
-NSString *tableType;
 NSString *courseId;
 
 @interface PurchaseSpecialsViewController ()
@@ -54,9 +56,16 @@ NSString *courseId;
     
     [AppDelegate sharedinstance].delegateShareObject=nil;
     
-    [self manageCollectionView];
-
+    editButton.layer.cornerRadius = editButton.bounds.size.width / 2;
+    editButton.layer.borderWidth = 2;
+    editButton.layer.borderColor = [[UIColor whiteColor] CGColor];
+    editButton.imageEdgeInsets = UIEdgeInsetsMake(10, 10, 10, 10);
+    [editButton setTitle:@"Edit" forState:UIControlStateNormal];
+    [editButton setHidden:[[AppDelegate sharedinstance] getCurrentRole] != 3];
     
+    backButton.imageEdgeInsets = UIEdgeInsetsMake(0, 4.5, 0, 4.5);
+    
+    [self manageCollectionView];
 }
 
 -(void) viewWillAppear:(BOOL)animated {
@@ -96,58 +105,8 @@ NSString *courseId;
             [QBRequest objectsWithClassName:@"UserInfo" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
                 
                 [arrData addObjectsFromArray:[objects mutableCopy]];
-                
-                tableType = @"ProTable";
                 [proTable reloadData];
-                
-                NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
-                
-                [getRequest setObject: courseId forKey:@"_parent_id"];
-                [getRequest setObject: @"Order" forKey:@"sort_asc"];
-                [QBRequest objectsWithClassName:@"CourseAmenities" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
-                    
-                    NSLog(@"Entries %lu",(unsigned long)page.totalEntries);
-                    
-                    arrAmenities = [[NSMutableArray alloc] init];
-                    
-                    [arrAmenities addObjectsFromArray:[objects mutableCopy]];
-                    
-                    tableType = @"AmenitiesTable";
-                    
-                    [amenitiesTable reloadData];
-                    
-                    NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
-                    
-                    [getRequest setObject: courseId forKey:@"_parent_id"];
-                    [QBRequest objectsWithClassName:@"CourseEvents" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
-                        
-                        NSLog(@"Entries %lu",(unsigned long)page.totalEntries);
-                        
-                        arrEvents = [[NSMutableArray alloc] init];
-                        
-                        [arrEvents addObjectsFromArray:[objects mutableCopy]];
-                        
-                        tableType = @"EventsTable";
-                        
-                        [eventsTable reloadData];
-                        
-                        
-                        
-                    } errorBlock:^(QBResponse *response) {
-                        // error handling
-                        [[AppDelegate sharedinstance] hideLoader];
-                        
-                        NSLog(@"Response error: %@", [response.error description]);
-                    }];
-                    
-                    
-                } errorBlock:^(QBResponse *response) {
-                    // error handling
-                    [[AppDelegate sharedinstance] hideLoader];
-                    
-                    NSLog(@"Response error: %@", [response.error description]);
-                }];
-                
+ 
             } errorBlock:^(QBResponse *response) {
                 // error handling
                 [[AppDelegate sharedinstance] hideLoader];
@@ -162,6 +121,69 @@ NSString *courseId;
             
             NSLog(@"Response error: %@", [response.error description]);
         }];
+    
+    getRequest = [NSMutableDictionary dictionary];
+    
+    [getRequest setObject: obj.ID forKey:@"_parent_id"];
+    [getRequest setObject: @"Order" forKey:@"sort_asc"];
+    [QBRequest objectsWithClassName:@"CourseAmenities" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
+        
+        NSLog(@"Entries %lu",(unsigned long)page.totalEntries);
+        
+        arrAmenities = [[NSMutableArray alloc] init];
+        
+        [arrAmenities addObjectsFromArray:[objects mutableCopy]];
+        
+        [amenitiesTable reloadData];
+
+    } errorBlock:^(QBResponse *response) {
+        // error handling
+        [[AppDelegate sharedinstance] hideLoader];
+        
+        NSLog(@"Response error: %@", [response.error description]);
+    }];
+    
+    getRequest = [NSMutableDictionary dictionary];
+    
+    [getRequest setObject: obj.ID forKey:@"_parent_id"];
+    [QBRequest objectsWithClassName:@"CourseEvents" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
+        
+        NSLog(@"Entries %lu",(unsigned long)page.totalEntries);
+        
+        arrEvents = [[NSMutableArray alloc] init];
+        
+        [arrEvents addObjectsFromArray:[objects mutableCopy]];
+        
+        [eventsTable reloadData];
+    } errorBlock:^(QBResponse *response) {
+        // error handling
+        [[AppDelegate sharedinstance] hideLoader];
+        
+        NSLog(@"Response error: %@", [response.error description]);
+    }];
+    
+    getRequest = [NSMutableDictionary dictionary];
+    
+    [getRequest setObject: obj.ID forKey:@"_parent_id"];
+    [getRequest setObject: @"true" forKey:@"Primary"];
+    [QBRequest objectsWithClassName:@"CoursePhoto" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
+        
+        NSLog(@"Entries %lu",(unsigned long)page.totalEntries);
+        
+        QBCOCustomObject *obj = [objects firstObject];
+        
+        [imageUrl setShowActivityIndicatorView:YES];
+        [imageUrl setIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        [imageUrl sd_setImageWithURL:[NSURL URLWithString:[obj.fields objectForKey:@"Image"]] placeholderImage:[UIImage imageNamed:@"imgplaceholder.jpg"]];
+        
+        
+        
+    } errorBlock:^(QBResponse *response) {
+        // error handling
+        [[AppDelegate sharedinstance] hideLoader];
+        
+        NSLog(@"Response error: %@", [response.error description]);
+    }];
         
         NSString *str1 = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"Name"]];
         str1 = [str1 uppercaseString];
@@ -211,9 +233,7 @@ NSString *courseId;
         aboutTextView.editable = NO;
         aboutTextView.dataDetectorTypes = UIDataDetectorTypeAll;
         
-        [imageUrl setShowActivityIndicatorView:YES];
-        [imageUrl setIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-        [imageUrl sd_setImageWithURL:[NSURL URLWithString:[obj.fields objectForKey:@"ImageUrl"]] placeholderImage:[UIImage imageNamed:@"imgplaceholder.jpg"]];
+    
 
         NSMutableArray *arr = [[obj.fields objectForKey:@"userFavID"] mutableCopy];
         
@@ -287,17 +307,7 @@ NSString *courseId;
     
     NSString *strCurrentUserID = [[AppDelegate sharedinstance] getCurrentUserId];
     
-    if([arr containsObject:strCurrentUserID]) {
-        isFavCourse = YES;
-     //   [btnFavImage setImage:[UIImage imageNamed:@"favourite-filled"] forState:UIControlStateNormal];
-
-    }
-    else {
-        isFavCourse = NO;
-
-     //   [btnFavImage setImage:[UIImage imageNamed:@"favourite-unfilled"] forState:UIControlStateNormal];
-
-    }
+    isFavCourse = [arr containsObject:strCurrentUserID];
     
     [imageUrl setShowActivityIndicatorView:YES];
     [imageUrl setIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
@@ -557,15 +567,9 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section {
     
     NSString *strCurrentUserID = [[AppDelegate sharedinstance] getCurrentUserId];
     
-    if([arr containsObject:strCurrentUserID]) {
-        // already fav, so unfav
-       
-        isFavCourse = YES;
-    }
-    else {
- 
-        isFavCourse = NO;
-    }
+
+    isFavCourse = [arr containsObject:strCurrentUserID];
+
 
     [self showGrid];
     
@@ -722,16 +726,8 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section {
         
     }
     
-    if(!arr || arr.count==0) {
-        [obj.fields setObject:arr forKey:@"userFavID"];
-        
-        
-    }
-    else {
-        [obj.fields setObject:arr forKey:@"userFavID"];
-        
-        
-    }
+    [obj.fields setObject:arr forKey:@"userFavID"];
+
     
     [[AppDelegate sharedinstance] showLoader];
     
@@ -758,13 +754,13 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section {
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if([tableType isEqualToString:@"AmenitiesTable"])
+    if(tableView == amenitiesTable)
     {
         return 60.5;
     }
-    else if([tableType isEqualToString:@"EventsTable"])
+    else if(tableView == eventsTable)
     {
-        return 113;
+        return 226;
     }
     else
     {
@@ -774,11 +770,11 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section {
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if([tableType isEqualToString:@"AmenitiesTable"])
+    if(tableView == amenitiesTable)
     {
         return arrAmenities.count;
     }
-    else if([tableType isEqualToString:@"EventsTable"])
+    else if(tableView == eventsTable)
     {
         return arrEvents.count;
     }
@@ -790,7 +786,7 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section {
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if([tableType isEqualToString:@"AmenitiesTable"])
+    if(tableView == amenitiesTable)
     {
         cell_ViewAmenities *cell = [tableView dequeueReusableCellWithIdentifier:@"cell_ViewAmenities"];
         NSArray *topLevelObjects;
@@ -817,7 +813,7 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section {
         
         return cell;
     }
-    else if([tableType isEqualToString:@"EventsTable"])
+    else if(tableView == eventsTable)
     {
         cell_ViewEvents *cell = [tableView dequeueReusableCellWithIdentifier:@"cell_ViewEvents"];
         NSArray *topLevelObjects;
@@ -832,23 +828,70 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section {
         cell.contentView.backgroundColor=[UIColor clearColor];
         
         QBCOCustomObject *obj = [arrEvents objectAtIndex:indexPath.row];
+        [cell.lblDistance setHidden:YES];
         
-        [QBRequest downloadFileFromClassName:@"CourseEvents" objectID:obj.ID fileFieldName:@"Image"
-                                successBlock:^(QBResponse *response, NSData *loadedData) {
-                                    [cell.imageViewEvents setImage:[UIImage imageWithData:loadedData]];
-                                   // [cell.imageViewEvents setContentMode:UIViewContentModeScaleAspectFill];
-                                    [cell.imageViewEvents setShowActivityIndicatorView:NO];
-                                    
-                                } statusBlock:^(QBRequest *request, QBRequestStatus *status) {
-                                    // handle progress
-                                } errorBlock:^(QBResponse *error) {
-                                    // error handling
-                                    NSLog(@"Response error: %@", [error description]);
-                                }];
+        cell.eventTitle.text = [obj.fields objectForKey:@"Title"];
         
+        NSString *eventType =  [obj.fields objectForKey:@"EventType"];
+        if([eventType isEqualToString:@"One Time"])
+        {
+            NSDate *today = [NSDate date];
+            
+            NSString *dateString =  [obj.fields objectForKey:@"StartDate"];
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZ"];
+            NSDate *date = [dateFormatter dateFromString:dateString];
+            
+            long days = [[[NSCalendar currentCalendar] components:NSCalendarUnitDay
+                                                         fromDate:today
+                                                           toDate:date options:0]day];
+            
+            cell.numberOfDays.text = [NSString stringWithFormat:@"In %ld days", days];
+        }
+        else if([eventType isEqualToString:@"Recurring"])
+        {
+            NSString *days = @"";
+            NSMutableArray *week =  [obj.fields objectForKey:@"Week"];
+            
+            for(int i = 0; i < 7; ++i)
+            {
+                bool selected = [[week objectAtIndex:i] boolValue];
+                if(selected)
+                {
+                    switch(i)
+                    {
+                        case 0:
+                            days = [NSString stringWithFormat:@"%@SUN,", days];
+                            break;
+                        case 1:
+                            days = [NSString stringWithFormat:@"%@ MON,", days];
+                            break;
+                        case 2:
+                            days = [NSString stringWithFormat:@"%@ TUES,", days];
+                            break;
+                        case 3:
+                            days = [NSString stringWithFormat:@"%@ WED,", days];
+                            break;
+                        case 4:
+                            days = [NSString stringWithFormat:@"%@ THURS,", days];
+                            break;
+                        case 5:
+                            days = [NSString stringWithFormat:@"%@ FRI,", days];
+                            break;
+                        case 6:
+                            days = [NSString stringWithFormat:@"%@ SAT,", days];
+                            break;
+                    }
+                }
+            }
+            days = [days stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@","]];
+            cell.numberOfDays.text = days;
+        }
         
-        
-        
+        [cell.imageViewEvents setShowActivityIndicatorView:YES];
+        [cell.imageViewEvents setIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        [cell.imageViewEvents sd_setImageWithURL:[NSURL URLWithString:[obj.fields objectForKey:@"ImageUrl"]] placeholderImage:[UIImage imageNamed:@"imgplaceholder.jpg"]];
+       
         return cell;
     }
     else
@@ -901,7 +944,7 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section {
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     
-    if([tableType isEqualToString:@"EventsTable"])
+    if(tableView == eventsTable)
     {
         QBCOCustomObject *obj = [arrEvents objectAtIndex:indexPath.row];
         
@@ -910,20 +953,77 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section {
         UIAlertController * alert = [UIAlertController
                                      alertControllerWithTitle:@"Event Description"
                                      message:description
-                                     preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction* okButton = [UIAlertAction
-                                    actionWithTitle:@"OK"
-                                    style:UIAlertActionStyleDefault
-                                    handler:^(UIAlertAction * action) {
-                                        
-                                    }];
+                                     preferredStyle:UIAlertControllerStyleActionSheet];
         
-        [alert addAction:okButton];
+        UIAlertAction* editButton = [UIAlertAction
+                                     actionWithTitle:@"Edit Event"
+                                     style:UIAlertActionStyleDefault
+                                     handler:^(UIAlertAction * action) {
+                                         [self editEvent:obj];
+                                     }];
         
+        UIAlertAction* deleteButton = [UIAlertAction
+                                       actionWithTitle:@"Delete Event"
+                                       style:UIAlertActionStyleDefault
+                                       handler:^(UIAlertAction * action) {
+                                           [self deleteEvent:obj.ID];
+                                       }];
+        
+        UIAlertAction* closeButton = [UIAlertAction
+                                       actionWithTitle:@"Close"
+                                       style:UIAlertActionStyleDefault
+                                       handler:^(UIAlertAction * action) {
+                                           
+                                       }];
+        
+        switch([[AppDelegate sharedinstance] getCurrentRole])
+        {
+            case 3:
+                [alert addAction:editButton];
+                [alert addAction:deleteButton];
+                break;
+                
+        }
+        [alert addAction:closeButton];
+        
+        alert.popoverPresentationController.sourceView = [tableView cellForRowAtIndexPath:indexPath];
         [self presentViewController:alert animated:YES completion:nil];
     }
     
    
+}
+
+-(void) editEvent:(QBCOCustomObject *) object
+{
+    EditEventViewController *viewController = [[EditEventViewController alloc] initWithNibName:@"EditEventViewController" bundle:nil];
+    viewController.object = object;
+    viewController.IsEdit = YES;
+    
+    [self.navigationController pushViewController:viewController animated:YES];
+    
+    
+}
+
+-(IBAction) addEvent
+{
+    EditEventViewController *viewController = [[EditEventViewController alloc] initWithNibName:@"EditEventViewController" bundle:nil];
+    viewController.courseId = [self courseObject].ID;
+    viewController.IsEdit = NO;
+    
+    [self.navigationController pushViewController:viewController animated:YES];
+    
+    
+}
+
+-(void) deleteEvent:(NSString *) id
+{
+    [QBRequest deleteObjectWithID:id className:@"CourseEvents" successBlock:^(QBResponse * _Nonnull response) {
+        [arrEvents removeAllObjects];
+        [self viewWillAppear:NO];
+    } errorBlock:^(QBResponse * _Nonnull response) {
+        
+    }
+     ];
 }
 
 -(IBAction) viewProfile: (button_ViewPro*)sender
@@ -941,31 +1041,12 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section {
     UISegmentedControl *segmentedControl = (UISegmentedControl *) sender;
     NSInteger selectedSegment = segmentedControl.selectedSegmentIndex;
     
-    [basicView setHidden:YES];
-    [amenitiesView setHidden:YES];
-    [proView setHidden:YES];
-    [eventsView setHidden:YES];
-    
-    switch(selectedSegment)
-    {
-        case 0:
-            [basicView setHidden:NO];
-            tableType = @"basicTable";
-            break;
-        case 1:
-            [amenitiesView setHidden:NO];
-            tableType = @"AmenitiesTable";
-            break;
-        case 2:
-            [proView setHidden:NO];
-            tableType = @"ProTable";
-            break;
-        case 3:
-            [eventsView setHidden:NO];
-            tableType = @"EventsTable";
-            break;
-
-    }
+    [basicView setHidden:selectedSegment!=0];
+    [amenitiesView setHidden:selectedSegment!=1];
+    [proView setHidden:selectedSegment!=2];
+    [eventsView setHidden:selectedSegment!=3];
+    [editButton setTitle:selectedSegment!=3 ? @"Edit" : @"Add" forState:UIControlStateNormal];
+    [editButton setHidden:[[AppDelegate sharedinstance] getCurrentRole] != 3 || selectedSegment == 2];
 }
 
 -(IBAction)Sharetapped:(id)sender {
@@ -984,6 +1065,29 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section {
      controller.popoverPresentationController.sourceView = sender;
     
     [self presentViewController:controller animated:YES completion:nil];
+}
+
+-(IBAction)EditCourse:(id)sender
+{
+    UIViewController *viewController;
+    switch(segmentControl.selectedSegmentIndex)
+    {
+        case 0:
+            viewController   = [[EditCourseViewController alloc] initWithNibName:@"EditCourseViewController" bundle:nil];
+            ((EditCourseViewController*)viewController).object=[self courseObject];
+            break;
+        case 1:
+            viewController   = [[EditAmenitiesViewController alloc] initWithNibName:@"EditAmenitiesViewController" bundle:nil];
+            ((EditAmenitiesViewController*)viewController).courseID=[self courseObject].ID;
+            break;
+        case 3:
+            viewController   = [[EditEventViewController alloc] initWithNibName:@"EditEventViewController" bundle:nil];
+            ((EditEventViewController*)viewController).courseId=[self courseObject].ID;
+            ((EditEventViewController*)viewController).IsEdit = NO;
+            break;
+    }
+    
+    [self.navigationController pushViewController:viewController animated:YES];
 }
 
 @end

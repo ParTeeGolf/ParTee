@@ -278,15 +278,65 @@
         [[AppDelegate sharedinstance] displayServerFailureMessage];
         return;
     }
+    UIAlertController * alert = [UIAlertController
+                                 alertControllerWithTitle:kAppName
+                                 message:@"Enter your new password"
+                                 preferredStyle:UIAlertControllerStyleAlert];
     
-    UIAlertView *forgotpasswordAlert = [[UIAlertView alloc]initWithTitle:kAppName message:@"Enter your new password"  delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
-    forgotpasswordAlert.tag=300;
+    [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+        textField.placeholder = @"Enter password here";
+        textField.secureTextEntry = YES;
+    }];
     
-    forgotpasswordAlert.alertViewStyle = UIAlertViewStylePlainTextInput;
-    UITextField* textField = [forgotpasswordAlert textFieldAtIndex:0];
-    textField.placeholder=@"Enter password here";
-    textField.secureTextEntry=YES;
-    [forgotpasswordAlert show];
+    UIAlertAction* okButton = [UIAlertAction
+                                actionWithTitle:@"Ok"
+                                style:UIAlertActionStyleDefault
+                                handler:^(UIAlertAction * action) {
+                                    NSString *newpassword = [alert textFields][0].text;
+                                    
+            
+                                        NSCharacterSet *whitespace = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+                                        NSString *trimmed = [newpassword stringByTrimmingCharactersInSet:whitespace];
+                                        
+                                        if([trimmed length]<8 ) {
+                                            [[AppDelegate sharedinstance] displayMessage:@"Password should be of at least eight characters"];
+                                            return;
+                                        } else {
+                                            
+                                            [[AppDelegate sharedinstance] showLoader];
+                                            
+                                            QBUUser *user = [QBUUser user];
+                                            user.ID = [[[AppDelegate sharedinstance] getStringObjfromKey:kuserDBID] integerValue];
+                                            
+                                            QBUpdateUserParameters *updateParameters = [QBUpdateUserParameters new];
+                                            updateParameters.password = newpassword;
+                                            updateParameters.oldPassword = [[AppDelegate sharedinstance] getStringObjfromKey:kuserPassword];
+                                            [QBRequest updateCurrentUser:updateParameters successBlock:^(QBResponse *response, QBUUser *user) {
+                                                
+                                                [[AppDelegate sharedinstance] hideLoader];
+                                                [[AppDelegate sharedinstance] displayMessage:@"Password successfully changed."];
+                                                
+                                            } errorBlock:^(QBResponse *response) {
+                                                // Handle error
+                                                [[AppDelegate sharedinstance] hideLoader];
+                                                [[AppDelegate sharedinstance] displayMessage:@"Some error occured"];
+                                            }];
+                                        
+                                    }
+                                }];
+    
+    UIAlertAction* cancelButton = [UIAlertAction
+                               actionWithTitle:@"Cancel"
+                               style:UIAlertActionStyleDefault
+                               handler:^(UIAlertAction * action) {
+                                   
+                               }];
+    
+    [alert addAction:okButton];
+    [alert addAction:cancelButton];
+    
+    [self presentViewController:alert animated:YES completion:nil];
+    
     
 }
 
@@ -394,56 +444,67 @@
 }
 
 -(IBAction)Ratetapped:(id)sender {
-    NSString *strWebsite = @"https://itunes.apple.com/us/app/partee-golf-connect-with-other-golfers/id1244801350?ls=1&mt=8";
-    
-    NSString *URL =strWebsite;// lblWebsite.titleLabel.text;
-    
-    
-    if([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:URL]])
-    {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:URL]];
-    }
+    [self openURL:@"https://itunes.apple.com/us/app/partee-golf-connect-with-other-golfers/id1244801350?ls=1&mt=8"];
 }
 
 -(IBAction)FAQtapped:(id)sender {
-    NSString *strWebsite = @"https://www.partee.golf/faq";
-    
-    NSString *URL =strWebsite;// lblWebsite.titleLabel.text;
-    
-    
-    if([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:URL]])
-    {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:URL]];
-    }
+    [self openURL:@"https://www.partee.golf/faq"];
 }
 
 -(IBAction)Termstapped:(id)sender {
-    NSString *strWebsite = @"https://www.partee.golf/terms-and-conditions";
-    
-    NSString *URL =strWebsite;// lblWebsite.titleLabel.text;
-    
-    
-    if([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:URL]])
-    {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:URL]];
-    }
+   [self openURL:@"https://www.partee.golf/terms-and-conditions"];
 }
 
 -(IBAction)Privacytapped:(id)sender {
-    NSString *strWebsite = @"https://www.partee.golf/privacy";
-    
-    NSString *URL =strWebsite;// lblWebsite.titleLabel.text;
-    
+    [self openURL:@"https://www.partee.golf/privacy"];
+}
+
+-(void) openURL:(NSString *) URL
+{
     if([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:URL]])
     {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:URL]];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:URL] options:@{} completionHandler:nil];
     }
 }
 
 -(IBAction)Signouttapped:(id)sender {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:kAppName message:@"Are you sure want to logout?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
-    alert.tag=121;
-    [alert show];
+    UIAlertController * alert = [UIAlertController
+                                 alertControllerWithTitle:@"Logging out? Fairways and greens!"
+                                 message:@""
+                                 preferredStyle:UIAlertControllerStyleAlert];
+    
+    
+    
+    UIAlertAction* yesButton = [UIAlertAction
+                                 actionWithTitle:@"Yes"
+                                 style:UIAlertActionStyleDefault
+                                 handler:^(UIAlertAction * action) {
+                                     [[AppDelegate sharedinstance] setStringObj:@"" forKey:kuserEmail];
+                                     
+                                     LoginViewController *loginView;
+                                     
+                                     loginView = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
+                                     
+                                     UINavigationController *navigationController = self.menuContainerViewController.centerViewController;
+                                     NSArray *controllers = [NSArray arrayWithObject:loginView];
+                                     navigationController.viewControllers = controllers;
+                                     
+                                     self.menuContainerViewController.panMode=NO;
+                                     
+                                     [self.menuContainerViewController setMenuState:MFSideMenuStateClosed];
+                                 }];
+    
+    UIAlertAction* noButton = [UIAlertAction
+                                     actionWithTitle:@"No"
+                                     style:UIAlertActionStyleDefault
+                                     handler:^(UIAlertAction * action) {
+                          
+                                     }];
+    
+    [alert addAction:yesButton];
+    [alert addAction:noButton];
+    
+    [self presentViewController:alert animated:YES completion:nil];
 
 }
 
@@ -519,32 +580,12 @@
     }
     else if(buttonTapped == kButtonType) {
         str = [arrTypeList objectAtIndex:indexPath.row];
-//
-//        if(![[selectedType objectAtIndex:indexPath.row] isEqualToString:str])    {
-//            [SendMessageCell.selectbtnimg setImage:[UIImage imageNamed:@"blue_chk.png"] forState:UIControlStateNormal];
-//            [SendMessageCell.selectbtnimg setHidden:NO];
-//            
-//        }
-//        else
-//        {
-//            [SendMessageCell.selectbtnimg setImage:[UIImage imageNamed:@"unchecked_circle.png"] forState:UIControlStateNormal];
-//            [SendMessageCell.selectbtnimg setHidden:YES];
-//        }
+
         
     }
     else if(buttonTapped == kButtonAge) {
        str = [arrAgeList objectAtIndex:indexPath.row];
-//
-//        if(![[selectedAge objectAtIndex:indexPath.row] isEqualToString:str])    {
-//            [SendMessageCell.selectbtnimg setImage:[UIImage imageNamed:@"blue_chk.png"] forState:UIControlStateNormal];
-//            [SendMessageCell.selectbtnimg setHidden:NO];
-//            
-//        }
-//        else
-//        {
-//            [SendMessageCell.selectbtnimg setImage:[UIImage imageNamed:@"unchecked_circle.png"] forState:UIControlStateNormal];
-//            [SendMessageCell.selectbtnimg setHidden:YES];
-//        }
+
     }
 
     if([tempArraySelcted containsObject:str])    {
@@ -562,11 +603,7 @@
     
     [SendMessageCell.selectbtnimg setTag:indexPath.row];
     
-//    [SendMessageCell.selectbtnimg addTarget:self
-//                                     action:@selector(checkBtnClicked:)
-//                           forControlEvents:UIControlEventTouchUpInside];
-    
-   // SendMessageCell.lblName.textColor=PlaceholderRGB;
+
     
     SendMessageCell.lblName.text = str;//[[arrMembers objectAtIndex:indexPath.row] objectForKey:@"Name"];
     
@@ -626,85 +663,6 @@
 
 //-----------------------------------------------------------------------
 
-#pragma mark - Alert View Methods
-
-//-----------------------------------------------------------------------
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if (alertView.tag == 121)
-    {
-        if (buttonIndex == 0)
-        {
-        }
-        else if (buttonIndex == 1)
-        {
-            
-            [[AppDelegate sharedinstance] setStringObj:@"" forKey:kuserEmail];
-            
-            LoginViewController *loginView;
-            
-            loginView = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
-            
-            UINavigationController *navigationController = self.menuContainerViewController.centerViewController;
-            NSArray *controllers = [NSArray arrayWithObject:loginView];
-            navigationController.viewControllers = controllers;
-            
-            self.menuContainerViewController.panMode=NO;
-            
-            [self.menuContainerViewController setMenuState:MFSideMenuStateClosed];
-        }
-    }
-    else if([alertView tag]==300) {
-        
-        NSString *newpassword = [alertView textFieldAtIndex:0].text;
-        
-        if (buttonIndex == 0) {
-            
-        } else {
-            NSCharacterSet *whitespace = [NSCharacterSet whitespaceAndNewlineCharacterSet];
-            NSString *trimmed = [newpassword stringByTrimmingCharactersInSet:whitespace];
-            
-            if([trimmed length]<8 ) {
-                [[AppDelegate sharedinstance] displayMessage:@"Password should be of atleast eight characters"];
-                return;
-            } else {
- 
-              [[AppDelegate sharedinstance] showLoader];
-                
-                QBUUser *user = [QBUUser user];
-                user.ID = [[[AppDelegate sharedinstance] getStringObjfromKey:kuserDBID] integerValue];
-                
-                QBUpdateUserParameters *updateParameters = [QBUpdateUserParameters new];
-                updateParameters.password = newpassword;
-                updateParameters.oldPassword = [[AppDelegate sharedinstance] getStringObjfromKey:kuserPassword];
-                [QBRequest updateCurrentUser:updateParameters successBlock:^(QBResponse *response, QBUUser *user) {
-                    
-                    [[AppDelegate sharedinstance] hideLoader];
-                    [[AppDelegate sharedinstance] displayMessage:@"Password successfully changed."];
-                    
-             } errorBlock:^(QBResponse *response) {
-                    // Handle error
-                 [[AppDelegate sharedinstance] hideLoader];
-                 [[AppDelegate sharedinstance] displayMessage:@"Some error occured"];
-                }];
-              }
-        }
-    }
-    else if(alertView.tag==121) {
-        if (buttonIndex == 0)
-        {
-            [self.navigationController popViewControllerAnimated:YES];
-
-        }
-        else if (buttonIndex == 1)
-        {
-            [self savesettings];
-        }
-    }
-}
-
-//-----------------------------------------------------------------------
-
 #pragma mark -
 #pragma mark - IAP
 
@@ -738,7 +696,7 @@
 
 - (void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response{
     SKProduct *validProduct = nil;
-    int count = [response.products count];
+    long count = [response.products count];
     
     if(count > 0){
         validProduct = [response.products objectAtIndex:0];
@@ -764,7 +722,7 @@
 
 - (void) paymentQueueRestoreCompletedTransactionsFinished:(SKPaymentQueue *)queue
 {
-    NSLog(@"received restored transactions: %i", queue.transactions.count);
+    NSLog(@"received restored transactions: %lu", queue.transactions.count);
     for(SKPaymentTransaction *transaction in queue.transactions){
         if(transaction.transactionState == SKPaymentTransactionStateRestored){
             //called when the user successfully restores a purchase
@@ -807,6 +765,8 @@
                     //the user cancelled the payment ;(
                 }
                 [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
+                break;
+            case SKPaymentTransactionStateDeferred:
                 break;
         }
     }

@@ -35,6 +35,9 @@
     IBOutlet UITextView *offering;
     IBOutlet UITextView *bio;
     IBOutlet UISegmentedControl *proView;
+    IBOutlet UIButton *approveButton;
+    IBOutlet UIButton *denyButton;
+    IBOutlet UIView *proButtons;
 
 }
 @property (nonatomic,strong) QBChatDialog *sharedChatDialog;
@@ -46,6 +49,9 @@
 @property (strong,nonatomic) NSString *strEmailOfUser;
 @property (strong,nonatomic) NSString *userID;
 @property (strong,nonatomic) NSString *courseName;
+@property (strong,nonatomic) NSString *administrationType;
+@property BOOL IsPro;
+@property BOOL IsFriend;
 
 @property (strong, nonatomic) MBProgressHUD *HUD;
 

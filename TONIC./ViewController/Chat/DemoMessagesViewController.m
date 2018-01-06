@@ -148,7 +148,7 @@
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
-    
+    [super viewWillDisappear:YES];
     self.menuContainerViewController.panMode =YES;
     [AppDelegate sharedinstance].currentScreen = kScreenOther;
 
@@ -204,12 +204,6 @@
     
     self.additionalContentInset = UIEdgeInsetsMake(40, 0, 0, 0);
 
-}
-
--(void) viewDidDisappear:(BOOL)animated {
-    self.menuContainerViewController.panMode=YES;
-
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -509,7 +503,7 @@
     qmessage.recipientID = customAmoDialog.recipientID;
     qmessage.markable = YES;
     
-    int currentUserQuickbloxId = [[[AppDelegate sharedinstance] getStringObjfromKey:@"userQuickbloxID"] integerValue];
+    long currentUserQuickbloxId = [[[AppDelegate sharedinstance] getStringObjfromKey:@"userQuickbloxID"] integerValue];
     qmessage.senderID = currentUserQuickbloxId;
     qmessage.dialogID = customAmoDialog.ID;
     
@@ -582,52 +576,58 @@
 - (void)didPressAccessoryButton:(UIButton *)sender
 {
     [self.inputToolbar.contentView.textView resignFirstResponder];
-
-    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Media messages", nil)
-                                                       delegate:self
-                                              cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
-                                         destructiveButtonTitle:nil
-                                              otherButtonTitles:NSLocalizedString(@"Send photo", nil), NSLocalizedString(@"Send location", nil), NSLocalizedString(@"Send video", nil), NSLocalizedString(@"Send audio", nil), nil];
     
-    [sheet showFromToolbar:self.inputToolbar];
+    UIAlertController * alert = [UIAlertController
+                                 alertControllerWithTitle:@"Media messages"
+                                 message:@""
+                                 preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction* photoButton = [UIAlertAction
+                                   actionWithTitle:@"Send photo"
+                                   style:UIAlertActionStyleDefault
+                                   handler:^(UIAlertAction * action) {
+                                       [self.demoData addPhotoMediaMessage];
+                                   }];
+    
+    UIAlertAction* locationButton = [UIAlertAction
+                                    actionWithTitle:@"Send location"
+                                    style:UIAlertActionStyleDefault
+                                    handler:^(UIAlertAction * action) {
+                                        __weak UICollectionView *weakView = self.collectionView;
+                                        
+                                        [self.demoData addLocationMediaMessageCompletion:^{
+                                            [weakView reloadData];
+                                        }];
+                                    }];
+    
+    UIAlertAction* videoButton = [UIAlertAction
+                                  actionWithTitle:@"Send video"
+                                  style:UIAlertActionStyleDefault
+                                  handler:^(UIAlertAction * action) {
+                                      [self.demoData addVideoMediaMessage];
+                                  }];
+    
+    UIAlertAction* audioButton = [UIAlertAction
+                                     actionWithTitle:@"Send audio"
+                                     style:UIAlertActionStyleDefault
+                                     handler:^(UIAlertAction * action) {
+                                         [self.demoData addAudioMediaMessage];
+                                     }];
+    
+    UIAlertAction* cancelButton = [UIAlertAction
+                                   actionWithTitle:@"Cancel"
+                                   style:UIAlertActionStyleDefault
+                                   handler:^(UIAlertAction * action) {
+                                       [self.inputToolbar.contentView.textView becomeFirstResponder];
+                                   }];
+    
+    [alert addAction:photoButton];
+    [alert addAction:locationButton];
+    [alert addAction:videoButton];
+    [alert addAction:audioButton];
+    [alert addAction:cancelButton];
+    alert.popoverPresentationController.sourceView = sender;
+    [self presentViewController:alert animated:YES completion:nil];
 }
-
-- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex == actionSheet.cancelButtonIndex) {
-        [self.inputToolbar.contentView.textView becomeFirstResponder];
-        return;
-    }
-    
-    switch (buttonIndex) {
-        case 0:
-            [self.demoData addPhotoMediaMessage];
-            break;
-            
-        case 1:
-        {
-            __weak UICollectionView *weakView = self.collectionView;
-            
-            [self.demoData addLocationMediaMessageCompletion:^{
-                [weakView reloadData];
-            }];
-        }
-            break;
-            
-        case 2:
-            [self.demoData addVideoMediaMessage];
-            break;
-            
-        case 3:
-            [self.demoData addAudioMediaMessage];
-            break;
-    }
-    
-    // [JSQSystemSoundPlayer jsq_playMessageSentSound];
-    
-    [self finishSendingMessageAnimated:YES];
-}
-
 
 #pragma mark - JSQMessages CollectionView DataSource
 
@@ -825,13 +825,27 @@
 - (void)customAction:(id)sender
 {
     NSLog(@"Custom action received! Sender: %@", sender);
+    
+    
+    UIAlertController * alert = [UIAlertController
+                                 alertControllerWithTitle:@"Custom Action"
+                                 message:@""
+                                 preferredStyle:UIAlertControllerStyleAlert];
+    
+    
+    
+    UIAlertAction* okButton = [UIAlertAction
+                                 actionWithTitle:@"OK"
+                                 style:UIAlertActionStyleDefault
+                                 handler:^(UIAlertAction * action) {
+                                     [[AppDelegate sharedinstance] locationInit];
+                                 }];
+    
 
-    [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Custom Action", nil)
-                                message:nil
-                               delegate:nil
-                      cancelButtonTitle:NSLocalizedString(@"OK", nil)
-                      otherButtonTitles:nil]
-     show];
+    
+    [alert addAction:okButton];
+    
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 
@@ -932,12 +946,12 @@
 //    self.HUD.labelText=@"Connecting ...";
 //    [self.HUD show:YES];
     
-    int currentUserQuickbloxId = [[[AppDelegate sharedinstance] getStringObjfromKey:@"userQuickbloxID"] integerValue];
+    long currentUserQuickbloxId = [[[AppDelegate sharedinstance] getStringObjfromKey:@"userQuickbloxID"] integerValue];
     NSString *strSessToken = [QBSession currentSession].sessionDetails.token;
     
-    int otherUserId = otherUserObject.userID;
+    unsigned long otherUserId = otherUserObject.userID;
     
-    int nameForChatRoom = [[[AppDelegate sharedinstance] getStringObjfromKey:@"userQuickbloxID"] integerValue];
+    long nameForChatRoom = [[[AppDelegate sharedinstance] getStringObjfromKey:@"userQuickbloxID"] integerValue];
     nameForChatRoom = nameForChatRoom + otherUserId;
     
     QBUUser *user = [QBUUser user];
@@ -954,7 +968,7 @@
         
         NSMutableDictionary *filterRequest = [[NSMutableDictionary alloc] init];
         
-        filterRequest[@"name"] = [NSString stringWithFormat:@"%d",nameForChatRoom];
+        filterRequest[@"name"] = [NSString stringWithFormat:@"%ld",nameForChatRoom];
         
 //        self.HUD.labelText=@"Connecting ...";
         
@@ -972,7 +986,7 @@
         [[AppDelegate sharedinstance].sharedChatInstance connectWithUser:currentUser completion:^(NSError * _Nullable error) {
             NSMutableDictionary *filterRequest = [[NSMutableDictionary alloc] init];
             
-            filterRequest[@"name"] = [NSString stringWithFormat:@"%d",nameForChatRoom];
+            filterRequest[@"name"] = [NSString stringWithFormat:@"%ld",nameForChatRoom];
             
             //        self.HUD.labelText=@"Connecting ...";
             
@@ -1042,7 +1056,7 @@
                 
                 for(QBChatMessage *messageObj in arrCustomMessage ) {
                     
-                    JSQMessage *message = [[JSQMessage alloc] initWithSenderId:[NSString stringWithFormat:@"%d",messageObj.senderID]
+                    JSQMessage *message = [[JSQMessage alloc] initWithSenderId:[NSString stringWithFormat:@"%ld",messageObj.senderID]
                                                              senderDisplayName:@""
                                                                           date:messageObj.dateSent
                                                                           text:messageObj.text];
@@ -1102,7 +1116,7 @@
             
             for(QBChatMessage *messageObj in arrCustomMessage ) {
                 
-                JSQMessage *message = [[JSQMessage alloc] initWithSenderId:[NSString stringWithFormat:@"%d",messageObj.senderID]
+                JSQMessage *message = [[JSQMessage alloc] initWithSenderId:[NSString stringWithFormat:@"%ld",messageObj.senderID]
                                                          senderDisplayName:@""
                                                                       date:messageObj.dateSent
                                                                       text:messageObj.text];
@@ -1120,7 +1134,7 @@
 
 - (void) chatRoomDidReceiveMessage:(QBChatMessage *)messageObj fromDialogId:(NSString *)dialogId{
     
-    JSQMessage *message = [[JSQMessage alloc] initWithSenderId:[NSString stringWithFormat:@"%d",messageObj.senderID]
+    JSQMessage *message = [[JSQMessage alloc] initWithSenderId:[NSString stringWithFormat:@"%ld",messageObj.senderID]
                                              senderDisplayName:@""
                                                           date:messageObj.dateSent
                                                           text:messageObj.text];
@@ -1141,7 +1155,7 @@
     NSString *strDialogId = [messageObj.customParameters objectForKey:@"dialog_id"];
     
     if([customAmoDialog.ID isEqualToString:strDialogId]) {
-        JSQMessage *message = [[JSQMessage alloc] initWithSenderId:[NSString stringWithFormat:@"%d",messageObj.senderID]
+        JSQMessage *message = [[JSQMessage alloc] initWithSenderId:[NSString stringWithFormat:@"%ld",messageObj.senderID]
                                                  senderDisplayName:@""
                                                               date:messageObj.dateSent
                                                               text:messageObj.text];
@@ -1155,9 +1169,9 @@
     else {
      //   [self.inputToolbar.contentView.textView resignFirstResponder];
 
-        NSString *strOtherUserId =[NSString stringWithFormat:@"%d",otherUserObject.userID];
+        NSString *strOtherUserId =[NSString stringWithFormat:@"%ld",otherUserObject.userID];
         
-        NSString *strSenderId =[NSString stringWithFormat:@"%d",messageObj.senderID];
+        NSString *strSenderId =[NSString stringWithFormat:@"%ld",messageObj.senderID];
         
         if(![strSenderId isEqualToString:strOtherUserId]) {
             
@@ -1202,7 +1216,7 @@
 
 - (void)chatDidReceiveSystemMessage:(QBChatMessage *)messageObj
 {
-        JSQMessage *message = [[JSQMessage alloc] initWithSenderId:[NSString stringWithFormat:@"%d",messageObj.senderID]
+        JSQMessage *message = [[JSQMessage alloc] initWithSenderId:[NSString stringWithFormat:@"%ld",messageObj.senderID]
                                                  senderDisplayName:@""
                                                               date:messageObj.dateSent
                                                               text:messageObj.text];
