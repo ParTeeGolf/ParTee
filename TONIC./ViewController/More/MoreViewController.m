@@ -25,7 +25,7 @@
     self.navigationController.navigationBarHidden = YES;
     
     if(isiPhone4) {
-        [scrollViewContainer setContentSize:CGSizeMake(320, 1500)];
+        [scrollViewContainer setContentSize:CGSizeMake(320, 1000)];
 
     }
     else {

@@ -13,14 +13,26 @@
 @interface PurchaseSpecialsViewController : UIViewController <RNGridMenuDelegate,UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout,UITextFieldDelegate> {
     BOOL isFavCourse;
 
+    IBOutlet UIView *narrowlineView2;
+    IBOutlet UIView *narrowLineView1;
+   
     IBOutlet UIImageView *imgViewBg;
     IBOutlet UIImageView *imgViewUser1;
-    IBOutlet UIImageView *imgViewUser2;
+    
     IBOutlet UIScrollView *scrollViewContainer;
 
     int k;
+    IBOutlet UILabel *golfPros;
+    IBOutlet UIView *proBaseView;
+    IBOutlet UIButton *btnNext;
+    IBOutlet UITableView *proTbl;
+    IBOutlet UILabel *teeTimeLbl;
+    IBOutlet UIButton *btnFav;
+    IBOutlet UILabel *phoneLbl;
+    IBOutlet UILabel *amentiesLbl;
     NSArray *arrBgImages,*arrFav;
-
+    IBOutlet UILabel *websiteLbl;
+    
     IBOutlet UILabel *lblMessage;
     
     IBOutlet UIImageView *imgView1;
@@ -48,9 +60,8 @@
     CLLocationCoordinate2D desplaceCoord;
     CLLocationCoordinate2D scrplaceCoord;
     
-    IBOutlet UIButton *btnPlus;
     
-    IBOutlet UIButton *btnInfo;
+    
 
     IBOutlet UIButton *btnRequest;
 
@@ -68,7 +79,7 @@
     
     NSMutableArray *arrAmenities;
     
-    IBOutlet UIButton *btnNext;
+    // IBOutlet UIButton *btnNext;
     IBOutlet UILabel *lblNotFound;
     
     IBOutlet UIView *proView;
@@ -78,15 +89,12 @@
 
     
 }
+@property (strong, nonatomic) IBOutlet UIImageView *keyImg;
 @property (nonatomic, strong) IBOutlet UICollectionView *collectionViewData;
 
 @property (strong, nonatomic) IBOutlet UIButton *btnFavImage;
 
 @property (nonatomic,assign) int status;
-
--(IBAction)viewUser:(id)sender;
-
--(IBAction)selectUser:(id)sender;
 
 -(IBAction)bookingpressed:(id)sender;
 -(IBAction)phonepressed:(id)sender;

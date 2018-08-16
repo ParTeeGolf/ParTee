@@ -12,34 +12,50 @@
 #import "EditProfileViewController.h"
 
 @interface LoginViewController ()
-
+{
+    /********* Mohit Change *******/
+    // This variable used to create view only when viewdidload called for first time only
+    int firstTimeViewLoad;
+     /********* Mohit Change *******/
+}
+@property (nonatomic, strong) UITextField * pwdtxtfld;
+@property (nonatomic, strong) UITextField * mailtxtfld;
+@property (nonatomic, strong) UIScrollView *scrollViewContainer;
 @end
 
 @implementation LoginViewController
-
+@synthesize mailtxtfld;
+@synthesize pwdtxtfld;
+@synthesize scrollViewContainer;
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    
-//    txtEmail.text = @"testreal@demo.com";
-//    txtPwd.text = @"12345678";
+    firstTimeViewLoad = 0;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gotLocationLogin) name:@"gotLocationLogin" object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(manualAdd) name:@"manualAdd" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(manualAdd) name:@"manualAdd" object:nil];  
+   
+}
 
-
+-(void) viewWillAppear:(BOOL)animated {
     
-    NSArray *fields = @[ txtEmail,txtPwd];
+    
+    if (firstTimeViewLoad == 0) {
+        [self createViewProgrammatically];
+    }
+    
+    
+    NSArray *fields = @[ mailtxtfld,pwdtxtfld];
     
     [self setKeyboardControls:[[BSKeyboardControls alloc] initWithFields:fields]];
     [self.keyboardControls setDelegate:self];
-
     
-    if(isiPhone4) {
-        [scrollViewContainer setContentSize:CGSizeMake(320, 750)];
-     
-    }
+    
+//    if(isiPhone4) {
+//        [scrollViewContainer setContentSize:CGSizeMake(320, 750)];
+//        
+//    }
     
     BOOL isFirstTime = [[NSUserDefaults standardUserDefaults] boolForKey:kIsFirstTime];
     
@@ -75,7 +91,7 @@
             page3.bgImage = [UIImage imageNamed:@"Slide 3_4s"];
             page4.bgImage = [UIImage imageNamed:@"Slide 4_4s"];
             page5.bgImage = [UIImage imageNamed:@"Silde 5_4s"];
-
+            
         }
         else {
             page1.bgImage = [UIImage imageNamed:@"Slide 1"];
@@ -83,7 +99,7 @@
             page3.bgImage = [UIImage imageNamed:@"Slide 3"];
             page4.bgImage = [UIImage imageNamed:@"Slide 4"];
             page5.bgImage = [UIImage imageNamed:@"Silde 5"];
-
+            
         }
         
         EAIntroView *intro = [[EAIntroView alloc] initWithFrame:self.view.bounds andPages:@[page1,page2,page3,page4,page5]];
@@ -98,9 +114,7 @@
         [[NSUserDefaults standardUserDefaults] synchronize];
         
     }
-}
-
--(void) viewWillAppear:(BOOL)animated {
+    
     [AppDelegate sharedinstance].currentScreen = kScreenLogin;
 
     self.navigationController.navigationBarHidden=YES;
@@ -151,9 +165,195 @@
     }
 }
 
+#pragma mark createViewProgrammatically
+/************* MohitChange ************/
+
+-(void)createViewProgrammatically {
+    
+    
+    firstTimeViewLoad = 1;
+    
+    // set background image
+    UIImageView *backgroundImgView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    backgroundImgView.image = [UIImage imageNamed:@"background.png"];
+    [self.view addSubview:backgroundImgView];
+    
+    // create scrollview in order to manage keybord
+    scrollViewContainer = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    scrollViewContainer.backgroundColor = [UIColor clearColor];
+    [self.view addSubview:scrollViewContainer];
+    
+    // create upperbaseview that will contain keyimage and login label on it
+    UIView *upperBaseView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 216)];
+    upperBaseView.backgroundColor = [UIColor clearColor];
+    [scrollViewContainer addSubview:upperBaseView];
+    
+    UIImageView *keyImgView = [[UIImageView alloc]initWithFrame:CGRectMake((self.view.frame.size.width - 60)/2, 60, 60, 102)];
+    keyImgView.image = [UIImage imageNamed:@"Plain White Tee.png"];
+    [upperBaseView addSubview:keyImgView];
+    
+    UILabel *loginLbl = [[UILabel alloc]initWithFrame:CGRectMake((self.view.frame.size.width  - 106 )/2,keyImgView.frame.size.height + keyImgView.frame.origin.y , 106, 54)];
+    loginLbl.text = @"Login";
+    loginLbl.textAlignment = NSTextAlignmentCenter;
+    loginLbl.textColor = [UIColor whiteColor];
+    loginLbl.font = [UIFont fontWithName:@"Oswald-Regular" size:30];
+    [upperBaseView addSubview:loginLbl];
+    
+    // create lowerbaseview that contain email and password textfield and forgot password button and also crate signup button
+    UIView *lowerBaseView = [[UIView alloc]initWithFrame:CGRectMake(0, 250, self.view.frame.size.width, (self.view.frame.size.height - 250))];
+    lowerBaseView.backgroundColor = [UIColor whiteColor];
+    [scrollViewContainer addSubview:lowerBaseView];
+    
+    /************ email BaseView  *************/
+    UIView *emailTxtFldBaseView = [[UIView alloc]initWithFrame:CGRectMake(50, 40, self.view.frame.size.width - 100, 60)];
+    emailTxtFldBaseView.backgroundColor = [UIColor clearColor];
+    [lowerBaseView addSubview:emailTxtFldBaseView];
+    
+    UIImageView *mailIconImg = [[UIImageView alloc]initWithFrame:CGRectMake(16, (emailTxtFldBaseView.frame.size.height - 11)/2, 15, 11)];
+    mailIconImg.image = [UIImage imageNamed:@"ico-mail.png"];
+    [emailTxtFldBaseView addSubview:mailIconImg];
+    
+    mailtxtfld = [[UITextField alloc]initWithFrame:CGRectMake(46, 14, emailTxtFldBaseView.frame.size.width - 60, 21)];
+    mailtxtfld.delegate = self;
+    mailtxtfld.placeholder = @"Enter your email";
+    mailtxtfld.font = [UIFont fontWithName:@"Montserrat-Regular" size:12];
+    mailtxtfld.keyboardType = UIKeyboardTypeEmailAddress;
+    [emailTxtFldBaseView addSubview:mailtxtfld];
+    
+    UIView *narrowLineView = [[UIView alloc]initWithFrame:CGRectMake(46, 42,emailTxtFldBaseView.frame.size.width - 60 , 0.5)];
+    narrowLineView.backgroundColor = [UIColor grayColor];
+    [emailTxtFldBaseView addSubview:narrowLineView];
+    
+    /************ PassWord BaseView  *************/
+    
+    UIView *pawdTxtFldBaseView = [[UIView alloc]initWithFrame:CGRectMake(50, emailTxtFldBaseView.frame.size.height + emailTxtFldBaseView.frame.origin.y, self.view.frame.size.width - 100, 60)];
+    pawdTxtFldBaseView.backgroundColor = [UIColor clearColor];
+    [lowerBaseView addSubview:pawdTxtFldBaseView];
+    
+    UIImageView *pawdIconImg = [[UIImageView alloc]initWithFrame:CGRectMake(16, (emailTxtFldBaseView.frame.size.height - 11)/2, 15, 11)];
+    pawdIconImg.image = [UIImage imageNamed:@"ico-pwd.png"];
+    [pawdTxtFldBaseView addSubview:pawdIconImg];
+    
+    pwdtxtfld = [[UITextField alloc]initWithFrame:CGRectMake(46, 14, pawdTxtFldBaseView.frame.size.width - 60, 21)];
+    pwdtxtfld.delegate = self;
+    pwdtxtfld.secureTextEntry = true;
+    pwdtxtfld.placeholder = @"Enter your password";
+    pwdtxtfld.font = [UIFont fontWithName:@"Montserrat-Regular" size:12];
+    pwdtxtfld.keyboardType = UIKeyboardTypeEmailAddress;
+    [pawdTxtFldBaseView addSubview:pwdtxtfld];
+    
+    UIView *narrowLineView2 = [[UIView alloc]initWithFrame:CGRectMake(46, 42,pawdTxtFldBaseView.frame.size.width - 60 , 0.5)];
+    narrowLineView2.backgroundColor = [UIColor grayColor];
+    [pawdTxtFldBaseView addSubview:narrowLineView2];
+    /************ PassWord BaseView  *************/
+    
+    // create orimageview
+    UIImageView *signinImgView = [[UIImageView alloc]initWithFrame:CGRectMake(50,pawdTxtFldBaseView.frame.size.height + pawdTxtFldBaseView.frame.origin.y , lowerBaseView.frame.size.width - 100, 46)];
+    signinImgView.image = [UIImage imageNamed:@"roundrect.png"];
+    [lowerBaseView addSubview:signinImgView];
+    
+    // create signin button
+    UIButton *signInBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    signInBtn.frame = CGRectMake(50,pawdTxtFldBaseView.frame.size.height + pawdTxtFldBaseView.frame.origin.y , lowerBaseView.frame.size.width - 100, 46);
+    [signInBtn addTarget:self action:@selector(LoginBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [signInBtn setTitle:@"SIGN IN" forState:UIControlStateNormal];
+    [signInBtn.titleLabel setFont: [UIFont fontWithName:@"Oswald-Regular" size:17]];
+    [signInBtn setTintColor:[UIColor whiteColor]];
+    signInBtn.titleLabel.textColor = [UIColor whiteColor];
+    signInBtn.backgroundColor = [UIColor clearColor];
+    [lowerBaseView addSubview:signInBtn];
+    
+    
+    // create frogot password button
+    UIButton *forgotPassbtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    forgotPassbtn.frame = CGRectMake(lowerBaseView.frame.size.width - 50 - 120, signInBtn.frame.size.height + signInBtn.frame.origin.y + 4, 120, 21);
+    forgotPassbtn.backgroundColor = [UIColor clearColor];
+    forgotPassbtn.titleLabel.textColor = [UIColor grayColor];
+    forgotPassbtn.tintColor = [UIColor grayColor];
+    forgotPassbtn.titleLabel.textAlignment = NSTextAlignmentRight;
+    [forgotPassbtn setTitle:@"Forgot Password?" forState:UIControlStateNormal];
+    forgotPassbtn.titleLabel.font = [UIFont fontWithName:@"Oswald-Regular" size:17];
+    [forgotPassbtn addTarget:self action:@selector(forgotBtnTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [lowerBaseView addSubview:forgotPassbtn];
+    
+    
+    UIView *narrowLineBaseview = [[UIView alloc]initWithFrame:CGRectMake(lowerBaseView.frame.size.width - 50 - 117, forgotPassbtn.frame.size.height + forgotPassbtn.frame.origin.y, 110, 0.5)];
+    narrowLineBaseview.backgroundColor = [UIColor grayColor];
+    [lowerBaseView addSubview:narrowLineBaseview];
+    
+    
+    UIImageView *orImgView = [[UIImageView alloc]initWithFrame:CGRectMake(50,signInBtn.frame.size.height + signInBtn.frame.origin.y + 33 , lowerBaseView.frame.size.width - 100, 35)];
+    orImgView.image = [UIImage imageNamed:@"OR-1.png"];
+    [lowerBaseView addSubview:orImgView];
+    
+    
+    UIImageView *createAccountImgView = [[UIImageView alloc]initWithFrame:CGRectMake(50,orImgView.frame.size.height + orImgView.frame.origin.y + 17 , lowerBaseView.frame.size.width - 100, 46)];
+    createAccountImgView.image = [UIImage imageNamed:@"roundrect.png"];
+    [lowerBaseView addSubview:createAccountImgView];
+    
+     // create signup button
+    UIButton *createAccountBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    createAccountBtn.frame = CGRectMake(50,orImgView.frame.size.height + orImgView.frame.origin.y + 17 , lowerBaseView.frame.size.width - 100, 46);
+    [createAccountBtn addTarget:self action:@selector(createAccountBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [createAccountBtn setTitle:@"CREATE AN ACCOUNT" forState:UIControlStateNormal];
+    createAccountBtn.titleLabel.textColor = [UIColor whiteColor];
+    [createAccountBtn setTintColor:[UIColor whiteColor]];
+    
+    createAccountBtn.titleLabel.font =  [UIFont fontWithName:@"Oswald-Regular" size:17];
+    createAccountBtn.backgroundColor = [UIColor clearColor];
+    [lowerBaseView addSubview:createAccountBtn];
+    
+    // manage ui according to device
+    if (isiPhone6Plus) {
+        lowerBaseView.frame = CGRectMake(0, self.view.frame.size.height - 440, self.view.frame.size.width, 440);
+        
+    }else if (isiPhone5) {
+        lowerBaseView.frame = CGRectMake(0, self.view.frame.size.height - 360, self.view.frame.size.width, 360);
+        
+    }else if (isiPhone4) {
+        
+        lowerBaseView.frame = CGRectMake(0, self.view.frame.size.height - 320, self.view.frame.size.width, 320);
+        
+        emailTxtFldBaseView.frame = CGRectMake(50, 0, self.view.frame.size.width - 100, 60);
+        pawdTxtFldBaseView.frame = CGRectMake(50, emailTxtFldBaseView.frame.size.height + emailTxtFldBaseView.frame.origin.y, self.view.frame.size.width - 100, 60);
+        signinImgView.frame = CGRectMake(50,pawdTxtFldBaseView.frame.size.height + pawdTxtFldBaseView.frame.origin.y , lowerBaseView.frame.size.width - 100, 46);
+        
+        signInBtn.frame = CGRectMake(50,pawdTxtFldBaseView.frame.size.height + pawdTxtFldBaseView.frame.origin.y , lowerBaseView.frame.size.width - 100, 46);
+        forgotPassbtn.frame = CGRectMake(lowerBaseView.frame.size.width - 50 - 120, signInBtn.frame.size.height + signInBtn.frame.origin.y + 4, 120, 21);
+        narrowLineBaseview.frame = CGRectMake(lowerBaseView.frame.size.width - 50 - 117, forgotPassbtn.frame.size.height + forgotPassbtn.frame.origin.y, 110, 0.5);
+        orImgView.frame = CGRectMake(50,signInBtn.frame.size.height + signInBtn.frame.origin.y + 33 , lowerBaseView.frame.size.width - 100, 35);
+        createAccountImgView.frame = CGRectMake(50,orImgView.frame.size.height + orImgView.frame.origin.y + 17 , lowerBaseView.frame.size.width - 100, 46);
+        createAccountBtn.frame = CGRectMake(50,orImgView.frame.size.height + orImgView.frame.origin.y + 17 , lowerBaseView.frame.size.width - 100, 46);
+        
+        
+    }else if (isiPhone6) {
+        lowerBaseView.frame = CGRectMake(0, self.view.frame.size.height - 380, self.view.frame.size.width, 350);
+        
+    }else {
+        lowerBaseView.frame = CGRectMake(0, self.view.frame.size.height - 440, self.view.frame.size.width, 440);
+        
+    }
+    
+    upperBaseView.frame = CGRectMake(0, 0, self.view.frame.size.width,self.view.frame.size.height - lowerBaseView.frame.size.height );
+    keyImgView.frame = CGRectMake((self.view.frame.size.width - 60)/2, (upperBaseView.frame.size.height - 156)/2, 60, 102);
+    loginLbl.frame = CGRectMake((self.view.frame.size.width  - 106 )/2,keyImgView.frame.size.height + keyImgView.frame.origin.y , 106, 54);
+    scrollViewContainer.contentSize = CGSizeMake(self.view.frame.size.width, lowerBaseView.frame.size.height + lowerBaseView.frame.origin.y);
+    
+    // manage ui for ipad aswell as iphone 4.
+    if (isiPhone4) {
+        
+        keyImgView.frame = CGRectMake((self.view.frame.size.width - 50)/2, 20, 50, 86);
+        loginLbl.frame = CGRectMake((self.view.frame.size.width  - 106 )/2,keyImgView.frame.size.height + keyImgView.frame.origin.y , 106, 44);
+        
+        scrollViewContainer.contentSize = CGSizeMake(self.view.frame.size.width, lowerBaseView.frame.size.height + lowerBaseView.frame.origin.y);
+    }
+    
+}
+/************* MohitChange ************/
+
 -(BOOL) validateData {
     
-    if([[[AppDelegate sharedinstance] nullcheck:txtEmail.text] length]==0) {
+    if([[[AppDelegate sharedinstance] nullcheck:mailtxtfld.text] length]==0) {
         [[AppDelegate sharedinstance] displayMessage:@"Please fill all the details"];
         return NO;
     }
@@ -163,14 +363,14 @@
     NSString *regex = @"[^@]+@[A-Za-z0-9.-]+\\.[A-Za-z]+";
     NSPredicate *emailPredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
  
-    if (![emailPredicate evaluateWithObject:txtEmail.text]){
+    if (![emailPredicate evaluateWithObject:mailtxtfld.text]){
         errorMessage = @"Please enter a valid email address";
         
         [[AppDelegate sharedinstance] displayMessage:errorMessage];
         return NO;
     }
     
-    if([[[AppDelegate sharedinstance] nullcheck:txtPwd.text] length]==0) {
+    if([[[AppDelegate sharedinstance] nullcheck:pwdtxtfld.text] length]==0) {
         [[AppDelegate sharedinstance] displayMessage:@"Please fill all the details"];
         return NO;
     }
@@ -185,66 +385,66 @@
 
 //-----------------------------------------------------------------------
 
-- (IBAction)action_Login:(id)sender {
+-(void)LoginBtnPressed:(id)sender {
     
     if(![[AppDelegate sharedinstance] connected]) {
         [[AppDelegate sharedinstance] displayServerFailureMessage];
         return;
     }
     
-
     
-        // Normal login
+    
+    // Normal login
+    
+    bool readyToProceed = [self validateData];
+    
+    if(readyToProceed)
+    {
         
-        bool readyToProceed = [self validateData];
+        strlat = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlat];
+        strlat = [[AppDelegate sharedinstance] nullcheck:strlat];
         
-        if(readyToProceed)
+        strlong = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlong];
+        strlong = [[AppDelegate sharedinstance] nullcheck:strlong];
+        
+        if([strlat length]==0)
         {
+            // Show 2 options to get location
             
-            strlat = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlat];
-            strlat = [[AppDelegate sharedinstance] nullcheck:strlat];
+            UIAlertController * alert = [UIAlertController
+                                         alertControllerWithTitle:@"Location will only be used when app is opened"
+                                         message:@"ParTee needs location access to show near by courses and golfers"
+                                         preferredStyle:UIAlertControllerStyleAlert];
             
-            strlong = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlong];
-            strlong = [[AppDelegate sharedinstance] nullcheck:strlong];
             
-            if([strlat length]==0)
-            {
-                // Show 2 options to get location
-                
-                UIAlertController * alert = [UIAlertController
-                                             alertControllerWithTitle:@"Location will only be used when app is opened"
-                                             message:@"ParTee needs location access to show near by courses and golfers"
-                                             preferredStyle:UIAlertControllerStyleAlert];
-                
-                
-                
-                UIAlertAction* autoButton = [UIAlertAction
-                                             actionWithTitle:@"Detect automatically"
+            
+            UIAlertAction* autoButton = [UIAlertAction
+                                         actionWithTitle:@"Detect automatically"
+                                         style:UIAlertActionStyleDefault
+                                         handler:^(UIAlertAction * action) {
+                                             [[AppDelegate sharedinstance] locationInit];
+                                         }];
+            
+            UIAlertAction* manuallyButton = [UIAlertAction
+                                             actionWithTitle:@"Add manually"
                                              style:UIAlertActionStyleDefault
                                              handler:^(UIAlertAction * action) {
-                                                 [[AppDelegate sharedinstance] locationInit];
+                                                 [self manualAdd];
                                              }];
-                
-                UIAlertAction* manuallyButton = [UIAlertAction
-                                                 actionWithTitle:@"Add manually"
-                                                 style:UIAlertActionStyleDefault
-                                                 handler:^(UIAlertAction * action) {
-                                                     [self manualAdd];
-                                                 }];
-                
-                [alert addAction:autoButton];
-                [alert addAction:manuallyButton];
-                
-                [self presentViewController:alert animated:YES completion:nil];
-                
-            }
-            else
-            {
-                [self login];
-                
-            }
-
+            
+            [alert addAction:autoButton];
+            [alert addAction:manuallyButton];
+            
+            [self presentViewController:alert animated:YES completion:nil];
+            
         }
+        else
+        {
+            [self login];
+            
+        }
+        
+    }
     
 }
 
@@ -252,10 +452,11 @@
      
         [[AppDelegate sharedinstance] showLoader];
         
-        [QBRequest logInWithUserEmail:txtEmail.text password:txtPwd.text successBlock:^(QBResponse *response, QBUUser *user) {
+        [QBRequest logInWithUserEmail:mailtxtfld.text password:pwdtxtfld.text successBlock:^(QBResponse *response, QBUUser *user) {
             
-            [[AppDelegate sharedinstance] setStringObj:txtEmail.text forKey:kuserEmail];
-            [[AppDelegate sharedinstance] setStringObj:txtPwd.text forKey:kuserPassword];
+            NSString *email = user.email;
+            [[AppDelegate sharedinstance] setStringObj:email forKey:kuserEmail];
+            [[AppDelegate sharedinstance] setStringObj:pwdtxtfld.text forKey:kuserPassword];
             
             NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
             [getRequest setObject:[[AppDelegate sharedinstance] getCurrentUserEmail] forKey:@"userEmail"];
@@ -312,8 +513,8 @@
                 [dictUserDetails setObject:[[AppDelegate sharedinstance] nullcheck:[object.fields  objectForKey:@"userPicBase"]] forKey:@"userPicBase"];
 
                 [dictUserDetails setObject:userFullMode forKey:@"userFullMode"];
-                
-                
+               
+        
                 [dictUserDetails setObject:[object.fields objectForKey:@"userPurchasedConnects"]forKey:@"userPurchasedConnects"];
                 [dictUserDetails setObject:[object.fields objectForKey:@"userFreeConnects"]forKey:@"userFreeConnects"];
                 
@@ -410,11 +611,19 @@
      {
          if([objects count] == 0)
          {
+             /********** MohitChange *************/
+             
+//             NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
+//             [getRequest setObject: @"Default" forKey:@"SearchType"];
+             
              NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
-             [getRequest setObject: @"Default" forKey:@"SearchType"];
+             [getRequest setObject: @"User" forKey:@"Default"];
+        
+            /********** MohitChange *************/
              
              [QBRequest objectsWithClassName:@"UserSearch" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page)
               {
+                  
                   QBCOCustomObject *defaultObject = objects[0];
                   defaultObject.parentID = userObject.ID;
                   [defaultObject.fields setObject:searchType forKey:@"SearchType"];
@@ -498,7 +707,7 @@
 
 //-----------------------------------------------------------------------
 
-- (IBAction)action_CreateAccount:(id)sender  {
+-(void)createAccountBtnPressed:(UIButton *)sender {
     if(![[AppDelegate sharedinstance] connected]) {
         [[AppDelegate sharedinstance] displayServerFailureMessage];
         return;
@@ -506,13 +715,12 @@
     
     RegisterViewController *viewController =[[RegisterViewController alloc] initWithNibName:@"RegisterViewController" bundle:nil];
     
-      [self.navigationController pushViewController:viewController animated:YES];
+    [self.navigationController pushViewController:viewController animated:YES];
     
 }
 
 //-----------------------------------------------------------------------
-
-- (IBAction)action_ForgotPassword:(id)sender {
+-(void)forgotBtnTapped:(UIButton *)sender {
     
     if(![[AppDelegate sharedinstance] connected]) {
         [[AppDelegate sharedinstance] displayServerFailureMessage];
@@ -533,67 +741,67 @@
     
     
     UIAlertAction* okButton = [UIAlertAction
-                                 actionWithTitle:@"Ok"
-                                 style:UIAlertActionStyleDefault
-                                 handler:^(UIAlertAction * action) {
-                                     NSString *email = [alert textFields][0].text;
-                                     NSCharacterSet *whitespace = [NSCharacterSet whitespaceAndNewlineCharacterSet];
-                                     NSString *trimmed = [email stringByTrimmingCharactersInSet:whitespace];
-                                     NSString *regex = @"[^@]+@[A-Za-z0-9.-]+\\.[A-Za-z]+";
-                                     NSPredicate *emailPredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
-                                     
-                                     
-                                     if([trimmed length]==0 || ![emailPredicate evaluateWithObject:trimmed])
-                                     {
-                                         UIAlertController * alert = [UIAlertController
-                                                                      alertControllerWithTitle:kAppName
-                                                                      message:@"Please enter a valid email address"
-                                                                      preferredStyle:UIAlertControllerStyleAlert];
-                                         UIAlertAction* okButton = [UIAlertAction
-                                                                        actionWithTitle:@"OK"
-                                                                        style:UIAlertActionStyleDefault
-                                                                        handler:^(UIAlertAction * action) {
-                                                                            
-                                                                        }];
-                                         
-                                         [alert addAction:okButton];
-                                         
-                                         [self presentViewController:alert animated:YES completion:nil];
-                                         return;
-                                     }
-                                     else
-                                     {
-
-                                             
-                                             [[AppDelegate sharedinstance] showLoader];
-                                             
-                                             // Reset User's password with email
-                                             [QBRequest resetUserPasswordWithEmail:trimmed successBlock:^(QBResponse *response) {
-                                                 // Reset was successful
-                                                 
-                                                 [[AppDelegate sharedinstance] hideLoader];
-                                                 
-                                                 [[AppDelegate sharedinstance] displayMessage:@"Password reset instructions has been mailed."];
-                                                 
-                                             } errorBlock:^(QBResponse *response) {
-                                                 // Error
-                                                 [[AppDelegate sharedinstance] hideLoader];
-                                                 
-                                                 if([response status]==404) {
-                                                     
-                                                     [[AppDelegate sharedinstance] displayMessage:@"Email not registered"];
-                                                 }
-                                             }];
-                                         
-                                     }
-                                 }];
+                               actionWithTitle:@"Ok"
+                               style:UIAlertActionStyleDefault
+                               handler:^(UIAlertAction * action) {
+                                   NSString *email = [alert textFields][0].text;
+                                   NSCharacterSet *whitespace = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+                                   NSString *trimmed = [email stringByTrimmingCharactersInSet:whitespace];
+                                   NSString *regex = @"[^@]+@[A-Za-z0-9.-]+\\.[A-Za-z]+";
+                                   NSPredicate *emailPredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
+                                   
+                                   
+                                   if([trimmed length]==0 || ![emailPredicate evaluateWithObject:trimmed])
+                                   {
+                                       UIAlertController * alert = [UIAlertController
+                                                                    alertControllerWithTitle:kAppName
+                                                                    message:@"Please enter a valid email address"
+                                                                    preferredStyle:UIAlertControllerStyleAlert];
+                                       UIAlertAction* okButton = [UIAlertAction
+                                                                  actionWithTitle:@"OK"
+                                                                  style:UIAlertActionStyleDefault
+                                                                  handler:^(UIAlertAction * action) {
+                                                                      
+                                                                  }];
+                                       
+                                       [alert addAction:okButton];
+                                       
+                                       [self presentViewController:alert animated:YES completion:nil];
+                                       return;
+                                   }
+                                   else
+                                   {
+                                       
+                                       
+                                       [[AppDelegate sharedinstance] showLoader];
+                                       
+                                       // Reset User's password with email
+                                       [QBRequest resetUserPasswordWithEmail:trimmed successBlock:^(QBResponse *response) {
+                                           // Reset was successful
+                                           
+                                           [[AppDelegate sharedinstance] hideLoader];
+                                           
+                                           [[AppDelegate sharedinstance] displayMessage:@"Password reset instructions has been mailed."];
+                                           
+                                       } errorBlock:^(QBResponse *response) {
+                                           // Error
+                                           [[AppDelegate sharedinstance] hideLoader];
+                                           
+                                           if([response status]==404) {
+                                               
+                                               [[AppDelegate sharedinstance] displayMessage:@"Email not registered"];
+                                           }
+                                       }];
+                                       
+                                   }
+                               }];
     
     UIAlertAction* cancelButton = [UIAlertAction
-                                     actionWithTitle:@"Cancel"
-                                     style:UIAlertActionStyleDefault
-                                     handler:^(UIAlertAction * action) {
+                                   actionWithTitle:@"Cancel"
+                                   style:UIAlertActionStyleDefault
+                                   handler:^(UIAlertAction * action) {
                                        
-                                     }];
+                                   }];
     
     [alert addAction:okButton];
     [alert addAction:cancelButton];
@@ -656,7 +864,7 @@
             [UIView beginAnimations:nil context:NULL];
             [UIView setAnimationBeginsFromCurrentState:YES];
             [UIView setAnimationDuration:.5];
-            [scrollViewContainer setContentOffset:CGPointMake(0, field.center.y+120)animated:NO];
+           [scrollViewContainer setContentOffset:CGPointMake(0, field.center.y+120)animated:NO];
             [UIView commitAnimations];
             
         }
@@ -685,7 +893,7 @@
                 [UIView beginAnimations:nil context:NULL];
                 [UIView setAnimationBeginsFromCurrentState:YES];
                 [UIView setAnimationDuration:.5];
-                [scrollViewContainer setContentOffset:CGPointMake(0, 0) animated:NO];
+            [scrollViewContainer setContentOffset:CGPointMake(0, 0) animated:NO];
                 [UIView commitAnimations];
                 
             }
@@ -755,7 +963,7 @@
             [UIView beginAnimations:nil context:NULL];
             [UIView setAnimationBeginsFromCurrentState:YES];
             [UIView setAnimationDuration:.5];
-            [scrollViewContainer setContentOffset:CGPointMake(0, textField.center.y+20)animated:NO];
+           [scrollViewContainer setContentOffset:CGPointMake(0, textField.center.y+20)animated:NO];
             [UIView commitAnimations];
         
             [self.keyboardControls setActiveField:textField];

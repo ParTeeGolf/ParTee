@@ -48,8 +48,10 @@
 
 }
 
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self updateViewConstarints];
 
   //[self sampleFillUser];
     [btnCheckmark setTag:200];
@@ -60,7 +62,6 @@
     [self.view addSubview:self.HUD];
     [[AppDelegate sharedinstance] hideLoader];
     
-    [scrollViewContainer setContentSize:CGSizeMake(320, 1300)];
 
     [txtName setTag:101];
     [txtEmail setTag:102];
@@ -120,7 +121,52 @@
     
     [self getLocationDataFromServer];
 }
-
+#pragma mark- updateViewConstarintd
+// updateViewConstarintd according to device
+/********** Mohit Change  *********/
+-(void)updateViewConstarints {
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    CGFloat screenHeight = screenRect.size.height;
+    CGFloat screenWidth = screenRect.size.width;
+    
+    scrollViewContainer.frame = CGRectMake(scrollViewContainer.frame.origin.x, scrollViewContainer.frame.origin.y, screenWidth, screenHeight);
+    
+    imgViewProfilePic.frame =  CGRectMake((screenWidth - 95 )/2, 20, 95, 95);
+    cameraBtn.frame = CGRectMake((screenWidth - 95 )/2, 20, 95, 95);
+    segmentGender.frame = CGRectMake((screenWidth - 222)/2, imgViewProfilePic.frame.origin.y + imgViewProfilePic.frame.size.height + 18, 222, 28);
+    nameBaseView.frame = CGRectMake((screenWidth - 286)/2, nameBaseView.frame.origin.y, 286, 43);
+    mailBaseView.frame = CGRectMake((screenWidth - 286)/2, mailBaseView.frame.origin.y, 286, 43);
+    pwdBaseView.frame = CGRectMake((screenWidth - 286)/2, pwdBaseView.frame.origin.y, 286, 60);
+    dobBaseView.frame = CGRectMake((screenWidth - 286)/2, dobBaseView.frame.origin.y, 286, 60);
+    stateBaseView.frame = CGRectMake((screenWidth - 286)/2, stateBaseView.frame.origin.y, 286, 60);
+    cityBaseView.frame = CGRectMake((screenWidth - 286)/2, cityBaseView.frame.origin.y, 286, 60);
+    homeCourseBaseView.frame = CGRectMake((screenWidth - 286)/2, homeCourseBaseView.frame.origin.y, 286, 60);
+    zipCodeBaseView.frame = CGRectMake((screenWidth - 286)/2, zipCodeBaseView.frame.origin.y, 286, 60);
+    handicapBaseView.frame = CGRectMake((screenWidth - 286)/2, handicapBaseView.frame.origin.y, 286, 60);
+    aboutBaseView.frame = CGRectMake((screenWidth - 286)/2, aboutBaseView.frame.origin.y, 286, 60);
+    saveBaseVieqw.frame = CGRectMake(0, saveBaseVieqw.frame.origin.y, screenWidth, 60);
+    btnCheckmark.frame = CGRectMake(aboutBaseView.frame.origin.x + 19 , btnCheckmark.frame.origin.y, 20, 20);
+    btnCheckBig.frame = CGRectMake(btnCheckmark.frame.origin.x - 11, btnCheckBig.frame.origin.y, 34, 35);
+    agreeBtn.frame = CGRectMake(btnCheckBig.frame.origin.x + 34 + 5, agreeBtn.frame.origin.y, 239, 25);
+    privacyBtn.frame = CGRectMake(btnCheckBig.frame.origin.x + 34 + 5,privacyBtn.frame.origin.y , 239, 20);
+    
+    scrollViewContainer.contentSize = CGSizeMake(screenWidth, saveBaseVieqw.frame.origin.y + saveBaseVieqw.frame.size.height + 200 );
+    doneBtnImg.frame = CGRectMake((screenWidth - 273 )/2, doneBtnImg.frame.origin.y, 273, 46);
+    DoneBtn.frame = CGRectMake((screenWidth - 273 )/2, DoneBtn.frame.origin.y, 273, 46);
+    
+    if (screenWidth == 375) {
+        narrowLineView1.frame = CGRectMake(114 + 34 , narrowLineView1.frame.origin.y, 119, 1);
+        narrowLineView2.frame = CGRectMake( 5 + btnCheckBig.frame.origin.x + btnCheckBig.frame.size.width , narrowLineView2.frame.origin.y, narrowLineView2.frame.size.width, 1);
+    }else if (screenWidth == 414) {
+        narrowLineView1.frame = CGRectMake(114 + 34 , narrowLineView1.frame.origin.y, 119, 1);
+        narrowLineView2.frame = CGRectMake( 5 + btnCheckBig.frame.origin.x + btnCheckBig.frame.size.width , narrowLineView2.frame.origin.y, narrowLineView2.frame.size.width, 1);
+    }else if (screenWidth == 320) {
+        narrowLineView1.frame = CGRectMake(114 + 5 , narrowLineView1.frame.origin.y, 119, 1);
+        narrowLineView2.frame = CGRectMake( 5 + btnCheckBig.frame.origin.x + btnCheckBig.frame.size.width , narrowLineView2.frame.origin.y, narrowLineView2.frame.size.width, 1);
+    }
+    
+    
+}
 -(void) getLocationDataFromServer {
     
     [[AppDelegate sharedinstance] showLoader];
@@ -422,6 +468,8 @@
     }
     else if(age>59) {
         stringAgeRange=@"5";
+    }else {
+         stringAgeRange=@"0";
     }
     
     NSString *stringGender;
@@ -1129,7 +1177,10 @@
                 
                 [[AppDelegate sharedinstance] setStringObj:@"0" forKey:@"userPurchasedConnects"];
                 [[AppDelegate sharedinstance] setStringObj:@"10" forKey:@"userFreeConnects"];
-                
+ /********** MohitChange *************/
+                [localObject.fields setObject:@"0" forKey:@"userPurchasedConnects"];
+                [localObject.fields setObject:@"10" forKey:@"userFreeConnects"];
+  /********** MohitChange *************/
                 [localObject.fields setObject:@"1" forKey:@"userPush"];
                 [localObject.fields setObject:@"0" forKey:@"userFullMode"];
                 [localObject.fields setObject:@"0" forKey:@"userNumberOfBlocks"];

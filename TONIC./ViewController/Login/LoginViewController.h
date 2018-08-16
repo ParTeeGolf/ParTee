@@ -15,18 +15,14 @@
 
 @interface LoginViewController : UIViewController <GMSAutocompleteViewControllerDelegate,EAIntroDelegate,BSKeyboardControlsDelegate,UITextFieldDelegate> {
     
-    IBOutlet UITextField *txtEmail;
-    IBOutlet UITextField *txtPwd;
+ 
     NSString *strlat;
     NSString *strlong;
     
-    IBOutlet UIScrollView *scrollViewContainer;
+   // UIScrollView *scrollViewContainer;
     QBCOCustomObject *object;
-
-    IBOutlet UIButton *btnLogin;
-    IBOutlet UIButton *btnCreateAccount;
-    IBOutlet UIButton *btnForgotPwd;
     
+   
     int autocompletePlaceStatus;
 }
 

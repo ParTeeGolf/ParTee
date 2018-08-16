@@ -56,7 +56,6 @@
 		3D30D8F81D58A8D300D4286B /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D30D8F71D58A8D300D4286B /* Roboto-Medium.ttf */; };
 		3D30D8FC1D58A9D000D4286B /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D30D8FB1D58A9D000D4286B /* Roboto-Regular.ttf */; };
 		3D30D9011D58AD0400D4286B /* PurchaseSpecialsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D30D8FF1D58AD0400D4286B /* PurchaseSpecialsViewController.m */; };
-		3D30D9021D58AD0400D4286B /* PurchaseSpecialsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D30D9001D58AD0400D4286B /* PurchaseSpecialsViewController.xib */; };
 		3D30D9051D58AD9900D4286B /* Placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D30D9031D58AD9900D4286B /* Placeholder.png */; };
 		3D30D9061D58AD9900D4286B /* Placeholder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D30D9041D58AD9900D4286B /* Placeholder@2x.png */; };
 		3D30D9171D58B0E900D4286B /* PurchasedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D30D9151D58B0E900D4286B /* PurchasedViewController.m */; };
@@ -91,7 +90,6 @@
 		3D42BDFD1EAB1EE800203FD9 /* roundrect.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D42BDFC1EAB1EE800203FD9 /* roundrect.png */; };
 		3D4FFFD31EB077C200850358 /* ico-settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D4FFFD21EB077C200850358 /* ico-settings.png */; };
 		3D514D3D1F3EB8EA008DD014 /* No_Image_Available.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D514D3C1F3EB8EA008DD014 /* No_Image_Available.png */; };
-		3D514D3F1F3EC102008DD014 /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3D514D3E1F3EC102008DD014 /* GoogleMaps.bundle */; };
 		3D514D481F3EC5D4008DD014 /* type-1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D514D401F3EC5D4008DD014 /* type-1@2x.png */; };
 		3D514D491F3EC5D4008DD014 /* type-2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D514D411F3EC5D4008DD014 /* type-2@2x.png */; };
 		3D514D4A1F3EC5D4008DD014 /* type-5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D514D421F3EC5D4008DD014 /* type-5@2x.png */; };
@@ -202,7 +200,6 @@
 		3D707B331D56D7A200591BF6 /* UIWebView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D707AFA1D56D7A200591BF6 /* UIWebView+AFNetworking.m */; };
 		3D707B3D1D56D8D000591BF6 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D707B3C1D56D8D000591BF6 /* Default-568h@2x.png */; };
 		3D707B421D56D99900591BF6 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D707B401D56D99900591BF6 /* LoginViewController.m */; };
-		3D707B431D56D99900591BF6 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D707B411D56D99900591BF6 /* LoginViewController.xib */; };
 		3D707B861D56DC7C00591BF6 /* SFCompactDisplay-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D707B541D56DC7C00591BF6 /* SFCompactDisplay-Black.ttf */; };
 		3D707B871D56DC7C00591BF6 /* SFCompactDisplay-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D707B551D56DC7C00591BF6 /* SFCompactDisplay-Bold.ttf */; };
 		3D707B881D56DC7C00591BF6 /* SFCompactDisplay-Heavy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D707B561D56DC7C00591BF6 /* SFCompactDisplay-Heavy.ttf */; };
@@ -335,8 +332,6 @@
 		3D8FD0351F30F13E0028F8AB /* GoogleMapsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D8FD0311F30F13E0028F8AB /* GoogleMapsCore.framework */; };
 		3D8FD0361F30F13E0028F8AB /* GooglePlacePicker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D8FD0321F30F13E0028F8AB /* GooglePlacePicker.framework */; };
 		3D8FD0371F30F13E0028F8AB /* GooglePlaces.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D8FD0331F30F13E0028F8AB /* GooglePlaces.framework */; };
-		3D8FD0411F30F2440028F8AB /* GooglePlaces.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3D8FD0401F30F2440028F8AB /* GooglePlaces.bundle */; };
-		3D8FD0431F30F24B0028F8AB /* GooglePlacePicker.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3D8FD0421F30F24B0028F8AB /* GooglePlacePicker.bundle */; };
 		3D8FD0461F30F2920028F8AB /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D8FD0451F30F2920028F8AB /* CoreText.framework */; };
 		3D8FD0481F30F2980028F8AB /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D8FD0471F30F2980028F8AB /* GLKit.framework */; };
 		3D8FD04A1F30F29D0028F8AB /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D8FD0491F30F29D0028F8AB /* ImageIO.framework */; };
@@ -596,6 +591,11 @@
 		3DFF3C061F404FC9003B51DE /* CourseCellTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DFF3C011F404FC9003B51DE /* CourseCellTableViewCell.xib */; };
 		3DFF3C071F404FC9003B51DE /* CoursePreferencesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFF3C031F404FC9003B51DE /* CoursePreferencesViewController.m */; };
 		3DFF3C081F404FC9003B51DE /* CoursePreferencesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DFF3C041F404FC9003B51DE /* CoursePreferencesViewController.xib */; };
+		84192958211C79F100F86829 /* PurchaseSpecialsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84192957211C79F100F86829 /* PurchaseSpecialsViewController.xib */; };
+		848F8D7821145FE600013263 /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 848F8D7721145FE400013263 /* GoogleMaps.bundle */; };
+		84BEFDAF2119F28F003240E4 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84BEFDAE2119F28F003240E4 /* LoginViewController.xib */; };
+		84BEFDB12119F90D003240E4 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84BEFDB02119F90D003240E4 /* Launch Screen.storyboard */; };
+		84BEFDB32119FA42003240E4 /* LaunchImages.png in Resources */ = {isa = PBXBuildFile; fileRef = 84BEFDB22119FA41003240E4 /* LaunchImages.png */; };
 		8A535C251F63743A0063B813 /* image-placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = 8A535C241F63743A0063B813 /* image-placeholder.png */; };
 		8A535C291F637FF40063B813 /* CoursePhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A535C271F637FF40063B813 /* CoursePhotoViewController.m */; };
 		8A535C2A1F637FF40063B813 /* CoursePhotoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A535C281F637FF40063B813 /* CoursePhotoViewController.xib */; };
@@ -668,7 +668,6 @@
 		3D30D8FB1D58A9D000D4286B /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
 		3D30D8FE1D58AD0400D4286B /* PurchaseSpecialsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PurchaseSpecialsViewController.h; sourceTree = "<group>"; };
 		3D30D8FF1D58AD0400D4286B /* PurchaseSpecialsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PurchaseSpecialsViewController.m; sourceTree = "<group>"; };
-		3D30D9001D58AD0400D4286B /* PurchaseSpecialsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PurchaseSpecialsViewController.xib; sourceTree = "<group>"; };
 		3D30D9031D58AD9900D4286B /* Placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Placeholder.png; sourceTree = "<group>"; };
 		3D30D9041D58AD9900D4286B /* Placeholder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Placeholder@2x.png"; sourceTree = "<group>"; };
 		3D30D9141D58B0E900D4286B /* PurchasedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PurchasedViewController.h; sourceTree = "<group>"; };
@@ -706,7 +705,6 @@
 		3D42BDFC1EAB1EE800203FD9 /* roundrect.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = roundrect.png; sourceTree = "<group>"; };
 		3D4FFFD21EB077C200850358 /* ico-settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ico-settings.png"; sourceTree = "<group>"; };
 		3D514D3C1F3EB8EA008DD014 /* No_Image_Available.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = No_Image_Available.png; sourceTree = "<group>"; };
-		3D514D3E1F3EC102008DD014 /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GoogleMaps.bundle; path = ../../../../../GoogleMaps/GoogleMaps/TodoApp/GoogleMaps.framework/Versions/A/Resources/GoogleMaps.bundle; sourceTree = "<group>"; };
 		3D514D401F3EC5D4008DD014 /* type-1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "type-1@2x.png"; sourceTree = "<group>"; };
 		3D514D411F3EC5D4008DD014 /* type-2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "type-2@2x.png"; sourceTree = "<group>"; };
 		3D514D421F3EC5D4008DD014 /* type-5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "type-5@2x.png"; sourceTree = "<group>"; };
@@ -915,7 +913,6 @@
 		3D707B3C1D56D8D000591BF6 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		3D707B3F1D56D99900591BF6 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		3D707B401D56D99900591BF6 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
-		3D707B411D56D99900591BF6 /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
 		3D707B541D56DC7C00591BF6 /* SFCompactDisplay-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFCompactDisplay-Black.ttf"; sourceTree = "<group>"; };
 		3D707B551D56DC7C00591BF6 /* SFCompactDisplay-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFCompactDisplay-Bold.ttf"; sourceTree = "<group>"; };
 		3D707B561D56DC7C00591BF6 /* SFCompactDisplay-Heavy.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFCompactDisplay-Heavy.ttf"; sourceTree = "<group>"; };
@@ -1055,8 +1052,6 @@
 		3D8FD0311F30F13E0028F8AB /* GoogleMapsCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMapsCore.framework; sourceTree = "<group>"; };
 		3D8FD0321F30F13E0028F8AB /* GooglePlacePicker.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GooglePlacePicker.framework; sourceTree = "<group>"; };
 		3D8FD0331F30F13E0028F8AB /* GooglePlaces.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GooglePlaces.framework; sourceTree = "<group>"; };
-		3D8FD0401F30F2440028F8AB /* GooglePlaces.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GooglePlaces.bundle; path = ../../../../../GoogleMaps/GoogleMaps/TodoApp/GooglePlaces.framework/Versions/A/Resources/GooglePlaces.bundle; sourceTree = "<group>"; };
-		3D8FD0421F30F24B0028F8AB /* GooglePlacePicker.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GooglePlacePicker.bundle; path = ../../../../../GoogleMaps/GoogleMaps/TodoApp/GooglePlacePicker.framework/Versions/A/Resources/GooglePlacePicker.bundle; sourceTree = "<group>"; };
 		3D8FD0451F30F2920028F8AB /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		3D8FD0471F30F2980028F8AB /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		3D8FD0491F30F29D0028F8AB /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
@@ -1388,6 +1383,11 @@
 		3DFF3C021F404FC9003B51DE /* CoursePreferencesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoursePreferencesViewController.h; sourceTree = "<group>"; };
 		3DFF3C031F404FC9003B51DE /* CoursePreferencesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoursePreferencesViewController.m; sourceTree = "<group>"; };
 		3DFF3C041F404FC9003B51DE /* CoursePreferencesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CoursePreferencesViewController.xib; sourceTree = "<group>"; };
+		84192957211C79F100F86829 /* PurchaseSpecialsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PurchaseSpecialsViewController.xib; sourceTree = "<group>"; };
+		848F8D7721145FE400013263 /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GoogleMaps.bundle; path = GoogleMaps.framework/Versions/A/Resources/GoogleMaps.bundle; sourceTree = SOURCE_ROOT; };
+		84BEFDAE2119F28F003240E4 /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
+		84BEFDB02119F90D003240E4 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		84BEFDB22119FA41003240E4 /* LaunchImages.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LaunchImages.png; sourceTree = "<group>"; };
 		8A535C241F63743A0063B813 /* image-placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "image-placeholder.png"; sourceTree = "<group>"; };
 		8A535C261F637FF40063B813 /* CoursePhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoursePhotoViewController.h; sourceTree = "<group>"; };
 		8A535C271F637FF40063B813 /* CoursePhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoursePhotoViewController.m; sourceTree = "<group>"; };
@@ -1551,7 +1551,7 @@
 				8A535C321F650AF50063B813 /* cell_ViewPro.xib */,
 				3D30D8FE1D58AD0400D4286B /* PurchaseSpecialsViewController.h */,
 				3D30D8FF1D58AD0400D4286B /* PurchaseSpecialsViewController.m */,
-				3D30D9001D58AD0400D4286B /* PurchaseSpecialsViewController.xib */,
+				84192957211C79F100F86829 /* PurchaseSpecialsViewController.xib */,
 				3D1AF1231D71B64B005EEAE7 /* CVCell.h */,
 				3D1AF1241D71B64B005EEAE7 /* CVCell.m */,
 				3D1AF1251D71B64B005EEAE7 /* CVCell.xib */,
@@ -1729,6 +1729,8 @@
 		3D707A501D56D57300591BF6 = {
 			isa = PBXGroup;
 			children = (
+				84BEFDB02119F90D003240E4 /* Launch Screen.storyboard */,
+				84BEFDB22119FA41003240E4 /* LaunchImages.png */,
 				3D8318351EE9926200747A34 /* Fabric.framework */,
 				3D8318361EE9926200747A34 /* Crashlytics.framework */,
 				3D707A791D56D70A00591BF6 /* PrefixHeader.pch */,
@@ -1980,7 +1982,7 @@
 			children = (
 				3D707B3F1D56D99900591BF6 /* LoginViewController.h */,
 				3D707B401D56D99900591BF6 /* LoginViewController.m */,
-				3D707B411D56D99900591BF6 /* LoginViewController.xib */,
+				84BEFDAE2119F28F003240E4 /* LoginViewController.xib */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -1988,9 +1990,7 @@
 		3D707B521D56DC7C00591BF6 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				3D514D3E1F3EC102008DD014 /* GoogleMaps.bundle */,
-				3D8FD0421F30F24B0028F8AB /* GooglePlacePicker.bundle */,
-				3D8FD0401F30F2440028F8AB /* GooglePlaces.bundle */,
+				848F8D7721145FE400013263 /* GoogleMaps.bundle */,
 				3D42BDD11EAB111000203FD9 /* Font-Partee */,
 				3D9543C81EAA4829006573BE /* images-partee */,
 				3D707BD01D56E24400591BF6 /* PDF */,
@@ -2864,7 +2864,7 @@
 				TargetAttributes = {
 					3D707A581D56D57300591BF6 = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = VVNGPSU68X;
+						DevelopmentTeam = 5TY53JR767;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -2945,6 +2945,7 @@
 				3D1363B31D5999A400E20297 /* profile-bg.png in Resources */,
 				3D76D8DF1D66ED69006D543F /* PDFViewController.xib in Resources */,
 				3D68DF271EADF7C000511062 /* EditProfileViewController.xib in Resources */,
+				848F8D7821145FE600013263 /* GoogleMaps.bundle in Resources */,
 				3DD40A251F246A3E005B68D4 /* MoreViewController.xib in Resources */,
 				3D707B951D56DC7C00591BF6 /* SFCompactText-Medium.ttf in Resources */,
 				3D92C89B1D5B5D55005C8CAE /* typing@3x.png in Resources */,
@@ -2952,9 +2953,11 @@
 				3DA1388D1F3DBACF0000189A /* Golf Pro@2x.png in Resources */,
 				3D707B961D56DC7C00591BF6 /* SFCompactText-MediumItalic.ttf in Resources */,
 				3DBF15CA1EAB7EAC00D92C2B /* user.png in Resources */,
+				84BEFDB32119FA42003240E4 /* LaunchImages.png in Resources */,
 				3D514D481F3EC5D4008DD014 /* type-1@2x.png in Resources */,
 				3DBF15C11EAB631D00D92C2B /* ico-bday.png in Resources */,
 				3D92C87A1D5B5D55005C8CAE /* bubble_min_tailless.png in Resources */,
+				84192958211C79F100F86829 /* PurchaseSpecialsViewController.xib in Resources */,
 				3DC65E761D574D63008A0ADC /* Male User@2x.png in Resources */,
 				3D42BDFD1EAB1EE800203FD9 /* roundrect.png in Resources */,
 				3DFF3C061F404FC9003B51DE /* CourseCellTableViewCell.xib in Resources */,
@@ -2987,7 +2990,6 @@
 				3D707BA31D56DC7C00591BF6 /* SFUIDisplay-Ultralight.ttf in Resources */,
 				3D0D939B1EAEF6BA007A8C8C /* bg-profile.png in Resources */,
 				3D30D9261D58B1FA00D4286B /* Clock.png in Resources */,
-				3D514D3F1F3EC102008DD014 /* GoogleMaps.bundle in Resources */,
 				8A535C341F650AF50063B813 /* cell_ViewPro.xib in Resources */,
 				3DA138C81F3E0E950000189A /* ic_thumbnail.png in Resources */,
 				3D87C5901EB4440700CC362C /* guestfemale.png in Resources */,
@@ -3056,6 +3058,7 @@
 				3D15C4471F2B52AE0001EBC3 /* Silde 5_4s.png in Resources */,
 				3D8173561F1F61F40095EDC7 /* connect-1.png in Resources */,
 				3D0D939C1EAEF6BA007A8C8C /* decoration-star.png in Resources */,
+				84BEFDAF2119F28F003240E4 /* LoginViewController.xib in Resources */,
 				3DC65E941D57658F008A0ADC /* dot-active@2x.png in Resources */,
 				3D15C44C1F2B52AE0001EBC3 /* Silde 5.png in Resources */,
 				3D92C8931D5B5D55005C8CAE /* play.png in Resources */,
@@ -3092,7 +3095,6 @@
 				3D9CF8891F2C4FFD00811D34 /* homecourse.png in Resources */,
 				3D81734B1F1F5E8E0095EDC7 /* 4_glow_effects_golf_ball_symbol04.png in Resources */,
 				3D707BA81D56DC7C00591BF6 /* SFUIText-Light.ttf in Resources */,
-				3D8FD0431F30F24B0028F8AB /* GooglePlacePicker.bundle in Resources */,
 				3D92C81D1D5B5B24005C8CAE /* JSQMessagesViewController.xib in Resources */,
 				3DA138A81F3DBACF0000189A /* WiFi@2x.png in Resources */,
 				3DC65EAB1D57972C008A0ADC /* Banner bg.png in Resources */,
@@ -3153,6 +3155,7 @@
 				3D9F54871ED5C79700CEE90C /* iaprect4.png in Resources */,
 				3D0D939F1EAEFFF2007A8C8C /* montserrat-light.ttf in Resources */,
 				3D92C8361D5B5B24005C8CAE /* JSQMessagesCollectionViewCellOutgoing.xib in Resources */,
+				84BEFDB12119F90D003240E4 /* Launch Screen.storyboard in Resources */,
 				3D9F54861ED5C79700CEE90C /* iaprect3.png in Resources */,
 				3D30D9271D58B1FA00D4286B /* Clock@2x.png in Resources */,
 				3D0D93971EAEF21F007A8C8C /* PreviewProfileViewController.xib in Resources */,
@@ -3168,13 +3171,11 @@
 				3DC65E7C1D5764AA008A0ADC /* MyMatchesViewController.xib in Resources */,
 				3DA42E611F225C3F0018C31D /* Plain White TeeMini.png in Resources */,
 				3D92C88C1D5B5D55005C8CAE /* icon - Back.png in Resources */,
-				3D30D9021D58AD0400D4286B /* PurchaseSpecialsViewController.xib in Resources */,
 				3D707C0F1D56FD2D00591BF6 /* Tonic.png in Resources */,
 				3DE895A11E2FCF34002D686D /* unspecified.png in Resources */,
 				3D95D52B1F1E37E80038DFD7 /* noti-icon.png in Resources */,
 				3D9F54841ED5C79700CEE90C /* iaprect1.png in Resources */,
 				3D7851741D5A03C100D80A67 /* Bubble2@2x.png in Resources */,
-				3D707B431D56D99900591BF6 /* LoginViewController.xib in Resources */,
 				3D707B991D56DC7C00591BF6 /* SFCompactText-Semibold.ttf in Resources */,
 				3DBF15C21EAB631D00D92C2B /* ico-checkmark.png in Resources */,
 				3D707B891D56DC7C00591BF6 /* SFCompactDisplay-Light.ttf in Resources */,
@@ -3276,7 +3277,6 @@
 				3DA1388A1F3DBACF0000189A /* Eco-Friendly@2x.png in Resources */,
 				3D707BD41D56E24400591BF6 /* Terms and Conditions.pdf in Resources */,
 				3DA138A11F3DBACF0000189A /* Television@2x.png in Resources */,
-				3D8FD0411F30F2440028F8AB /* GooglePlaces.bundle in Resources */,
 				3D514D4D1F3EC5D4008DD014 /* type-8@2x.png in Resources */,
 				3D143E401F2A2EA700D98C98 /* currentPageDot@2x.png in Resources */,
 				3D707BB51D56DC7C00591BF6 /* Tonic-TM.png in Resources */,
@@ -3600,8 +3600,9 @@
 				CODE_SIGN_ENTITLEMENTS = ParTee.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Robert Quick (9DPAJZ53GL)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COMPRESS_PNG_FILES = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = VVNGPSU68X;
+				DEVELOPMENT_TEAM = 5TY53JR767;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3623,10 +3624,11 @@
 					"$(inherited)",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.app.parteegolf;
+				PRODUCT_BUNDLE_IDENTIFIER = com.appcoda.iCloudDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				STRIP_PNG_TEXT = NO;
 				VALID_ARCHS = "armv7 armv7s arm64";
 			};
 			name = Debug;
@@ -3638,8 +3640,9 @@
 				CODE_SIGN_ENTITLEMENTS = ParTee.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: ParTee, Inc. (VVNGPSU68X)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COMPRESS_PNG_FILES = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = VVNGPSU68X;
+				DEVELOPMENT_TEAM = 5TY53JR767;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3661,10 +3664,11 @@
 					"$(inherited)",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.app.parteegolf;
+				PRODUCT_BUNDLE_IDENTIFIER = com.appcoda.iCloudDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				STRIP_PNG_TEXT = NO;
 				VALID_ARCHS = "armv7 armv7s arm64";
 			};
 			name = Release;

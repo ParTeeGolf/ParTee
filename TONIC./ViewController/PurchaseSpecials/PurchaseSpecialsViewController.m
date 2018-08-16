@@ -20,7 +20,17 @@
 #define kIndexPhoto 4
 
 @interface PurchaseSpecialsViewController ()
-
+{
+     UIImageView *imgViewUser2;
+     UIButton *btnPlus;
+     UIButton *btnInfo;
+     UIButton *btnSelectUser;
+     UIButton *btnViewUser;
+    /********* Mohit Change *******/
+    // This variable used to create view only when viewdidload called for first time only
+    int firstTimeViewLoad;
+    /********* Mohit Change *******/
+}
 @end
 
 @implementation PurchaseSpecialsViewController
@@ -31,6 +41,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    firstTimeViewLoad = 0;
     
     arrAmenities = [[NSMutableArray alloc] init];
     
@@ -57,8 +68,67 @@
     
 }
 
+#pragma mark- update views programmaticallyy
+
+//update views according to device that have been created using xib
+/************* MohitChange ************/
+-(void)updateConstarintsProgrammatically {
+    CGFloat width = self.view.frame.size.width;
+   
+    firstTimeViewLoad = 1;
+    imgViewUser1.frame = CGRectMake(34, 23, 70, 70);
+    _keyImg.frame = CGRectMake((width - 40 )/2,23, 40, 68);
+
+    
+    imgViewUser2 = [[UIImageView alloc]initWithFrame:CGRectMake(width - 37 - 70, 23, 70, 70)];
+    imgViewUser2.image = [UIImage imageNamed:@"Placeholder.png"];
+    [scrollViewContainer addSubview:imgViewUser2];
+    
+    btnPlus = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    btnPlus.frame = CGRectMake(17.5 , 17.5, 35, 35);
+    [btnPlus setBackgroundImage:[UIImage imageNamed:@"Plusadd.png"] forState:UIControlStateNormal];
+    [imgViewUser2 addSubview:btnPlus];
+    
+    btnInfo = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    btnInfo.frame = CGRectMake(width - 20 - 30, 15, 30, 30);
+    [btnInfo setBackgroundImage:[UIImage imageNamed:@"info"] forState:UIControlStateNormal];
+    btnInfo.hidden = true;
+    [scrollViewContainer addSubview:btnInfo];
+    
+    btnViewUser = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+     btnViewUser.frame = CGRectMake(width - 26 - 88, 15, 88, 88);
+    [btnViewUser addTarget:self action:@selector(viewUser:) forControlEvents:UIControlEventTouchUpInside];
+    [scrollViewContainer addSubview:btnViewUser];
+   
+    btnSelectUser = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+     btnSelectUser.frame = CGRectMake(width - 20 - 94, 23, 94, 78);
+    [btnSelectUser addTarget:self action:@selector(selectUser:) forControlEvents:UIControlEventTouchUpInside];
+    [scrollViewContainer addSubview:btnSelectUser];
+    
+    
+    imageUrl.frame = CGRectMake(0,120 , width, 180);
+    narrowLineView1.frame = CGRectMake(0, 120, width, 180);
+    lblName.frame = CGRectMake(5, 221, width - 10, 54);
+    lblAddress.frame = CGRectMake(5, 253, width - 10, 46);
+    btnFav.frame = CGRectMake(width - 62, 129, 51, 62);
+    btnFavImage.frame = CGRectMake(width - 8 - 27, 156, 27, 27);
+    narrowlineView2.frame = CGRectMake(0, narrowlineView2.frame.origin.y, width, narrowlineView2.frame.size.height);
+    
+    lblWebsite.frame = CGRectMake(lblWebsite.frame.origin.x, lblWebsite.frame.origin.y, width - (lblWebsite.frame.origin.x), lblWebsite.frame.size.height);
+    lblContactNum.frame = CGRectMake(lblContactNum.frame.origin.x, lblContactNum.frame.origin.y, width - (lblContactNum.frame.origin.x), lblContactNum.frame.size.height);
+    lblbooking.frame = CGRectMake(lblbooking.frame.origin.x, lblbooking.frame.origin.y, width - (lblbooking.frame.origin.x), lblbooking.frame.size.height);
+    golfPros.frame = CGRectMake(golfPros.frame.origin.x, golfPros.frame.origin.y, width - (golfPros.frame.origin.x), golfPros.frame.size.height);
+    proBaseView.frame = CGRectMake(proBaseView.frame.origin.x, proBaseView.frame.origin.y, width, proBaseView.frame.size.height);
+    proTbl.frame = CGRectMake(proTbl.frame.origin.x, proTbl.frame.origin.y, width, proTbl.frame.size.height);
+    collectionViewData.frame = CGRectMake(collectionViewData.frame.origin.x, collectionViewData.frame.origin.y, width, collectionViewData.frame.size.height);
+    
+    
+}
+
+/************* MohitChange ************/
 -(void) viewWillAppear:(BOOL)animated {
     
+   
     if(status==1)
     {
         QBCOCustomObject *obj = courseObject;
@@ -317,7 +387,12 @@
     NSMutableDictionary *dictUserData = [[[NSUserDefaults standardUserDefaults] objectForKey:kuserData] mutableCopy];
     NSString *userImageUrl = [NSString stringWithFormat:@"%@", [dictUserData objectForKey:@"userPicBase"]];
     [ imgViewUser1 sd_setImageWithURL:[NSURL URLWithString:userImageUrl ] placeholderImage:[UIImage imageNamed:@"user"]];
-
+ 
+    /******* Mohit Change ********/
+    if (firstTimeViewLoad == 0) {
+         [self updateConstarintsProgrammatically];
+    }
+    /******* Mohit Change ********/
   }
 
  
@@ -534,7 +609,7 @@
 
 //-----------------------------------------------------------------------
 
--(IBAction)viewUser:(id)sender {
+-(void)viewUser:(id)sender {
     
     PreviewProfileViewController *viewController;
     viewController    = [[PreviewProfileViewController alloc] initWithNibName:@"PreviewProfileViewController" bundle:nil];
@@ -606,7 +681,7 @@
     }
 }
 
--(IBAction)selectUser:(id)sender {
+-(void)selectUser:(id)sender {
     
     if(status == 5) {
         PreviewProfileViewController *viewController;
@@ -692,7 +767,7 @@
     NSMutableDictionary *dictUserData = [[[NSUserDefaults standardUserDefaults] objectForKey:kuserData] mutableCopy];
     
     // FROM MY, send request
-    
+  
     QBCOCustomObject *obj = [AppDelegate sharedinstance].delegateShareObject;
     
     QBCOCustomObject *object = [QBCOCustomObject customObject];
@@ -700,7 +775,12 @@
     
     // Object fields
     [object.fields setObject:[[AppDelegate sharedinstance] getCurrentUserEmail] forKey:@"courseSenderID"];
-    [object.fields setObject:[obj.fields objectForKey:@"userEmail"] forKey:@"courseReceiverID"];
+    /********** MohitChange *************/
+
+   // [object.fields setObject:[obj.fields objectForKey:@"userEmail"] forKey:@"courseReceiverID"];
+    [object.fields setObject:@"TEStValue" forKey:@"courseReceiverID"];
+    
+     /********** MohitChange *************/
     [object.fields setObject:@"4" forKey:@"courseStatus"];
     [object.fields setObject:courseObject.ID forKey:@"courseId"];
 

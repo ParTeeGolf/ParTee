@@ -39,6 +39,8 @@ int courseOption;
     
     [super viewDidLoad];
     
+   
+    
     shouldLoadNext=YES;
     
     
@@ -142,6 +144,8 @@ int courseOption;
         [btnBack setHidden:YES];
         [btnMenu setHidden:NO];
     }
+    
+     lblNotAvailable.frame = CGRectMake((self.view.frame.size.width - lblNotAvailable.frame.size.width )/2, (self.view.frame.size.height - lblNotAvailable.frame.size.height )/2, lblNotAvailable.frame.size.width, lblNotAvailable.frame.size.height);
 }
 
 -(void) presentAd {

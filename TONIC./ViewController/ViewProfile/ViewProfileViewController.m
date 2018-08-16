@@ -27,9 +27,7 @@
     if(isiPhone4) {
         [scrollViewContainer setContentSize:CGSizeMake(320, 750)];
     }
-    
-
-    
+  
     [self getMutualFriendCount];
 
     self.HUD = [[MBProgressHUD alloc] initWithView:self.view];

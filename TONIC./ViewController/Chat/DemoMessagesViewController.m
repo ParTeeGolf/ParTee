@@ -105,8 +105,7 @@
     if (![NSUserDefaults outgoingAvatarSetting]) {
         self.collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero;
     }
-    
-    
+   
     self.showLoadEarlierMessagesHeader = NO;
 
 //    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage jsq_defaultTypingIndicatorImage]
@@ -156,6 +155,10 @@
 
 -(void) customchanges {
     
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    CGFloat screenWidth = screenRect.size.width;
+    
+    
     UIFont *font = [UIFont fontWithName:@"Montserrat-Regular" size:15];
     UIFont *font1 = [UIFont fontWithName:@"Oswald-Regular" size:22];
 
@@ -168,41 +171,49 @@
     self.collectionView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"listBackground"]];
 
     
-    UINavigationBar *navbar = [[UINavigationBar alloc]initWithFrame:CGRectMake(0, 0, 320, 60)];
-    // [navbar setTranslucent:YES];
+//    UINavigationBar *navbar = [[UINavigationBar alloc]initWithFrame:CGRectMake(0, 0, screenWidth, 70)];
+//    // [navbar setTranslucent:YES];
+//
+//    //do something like background color, title, etc you self
+//    [navbar setBackgroundColor:[UIColor colorWithRed:0.000 green:0.655 blue:0.176 alpha:1.00]];
+//   [navbar setBarTintColor:[UIColor colorWithRed:0.000 green:0.655 blue:0.176 alpha:1.00]];
     
-    //do something like background color, title, etc you self
-    [navbar setBackgroundColor:[UIColor redColor]];
-    [navbar setBarTintColor:[UIColor colorWithRed:0.000 green:0.655 blue:0.176 alpha:1.00]];
+    /********** Mohit Change *********/
+    /**************** Add navigation base View Programmatically *********/
+    UIView *navBaseView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, screenWidth, 70)];
+    navBaseView.backgroundColor = [UIColor colorWithRed:0.000 green:0.655 blue:0.176 alpha:1.00];
+    /**************** Add navigation base View Programmatically *********/
     
     UIButton * customButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [customButton setBackgroundImage:[UIImage imageNamed:@"ico-back"] forState:UIControlStateNormal];
     customButton.titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:11.0f];
     [customButton.layer setMasksToBounds:YES];
-    customButton.frame=CGRectMake(15, 30, 11, 20);
+    customButton.frame=CGRectMake(15, 40, 11, 20);
     [customButton addTarget:self action:@selector(closePressed:) forControlEvents:UIControlEventTouchUpInside];
-    [navbar addSubview:customButton];
+    [navBaseView addSubview:customButton];
     
     UIButton * customButton1 = [UIButton buttonWithType:UIButtonTypeCustom];
     [customButton1.layer setMasksToBounds:YES];
-    customButton1.frame=CGRectMake(0, 20, 49, 39);
+    customButton1.frame=CGRectMake(0, 30, 49, 39);
     [customButton1 addTarget:self action:@selector(closePressed:) forControlEvents:UIControlEventTouchUpInside];
-    [navbar addSubview:customButton1];
+    [navBaseView addSubview:customButton1];
     
-    UILabel *lbl = [[UILabel alloc] initWithFrame:CGRectMake(0, 20, 320, 40)];
+    UILabel *lbl = [[UILabel alloc] initWithFrame:CGRectMake((screenWidth - 200)/2, 30, 200, 40)];
     [lbl setFont:font1];
     [lbl setTextAlignment:NSTextAlignmentCenter];
     [lbl setBackgroundColor:[UIColor clearColor]];
     [lbl setText:[otherUserObject.fields objectForKey:@"userDisplayName"]];
     [lbl setTextColor:[UIColor whiteColor]];
-    [navbar addSubview:lbl];
+    [navBaseView addSubview:lbl];
     
-    [self.view addSubview:navbar];
+    [self.view addSubview:navBaseView];
     
-    [self.view bringSubviewToFront:navbar];
+   // [self.view bringSubviewToFront:navbar];
     
-    self.additionalContentInset = UIEdgeInsetsMake(40, 0, 0, 0);
+   self.additionalContentInset = UIEdgeInsetsMake(40, 0, 0, 0);
 
+    self.inputToolbar.frame = CGRectMake(self.inputToolbar.frame.origin.x, self.inputToolbar.frame.origin.y - 20, self.inputToolbar.frame.size.width, self.inputToolbar.frame.size.height + 20);
+  
 }
 
 -(void) viewDidDisappear:(BOOL)animated {

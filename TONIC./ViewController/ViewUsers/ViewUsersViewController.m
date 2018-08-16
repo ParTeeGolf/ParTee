@@ -133,6 +133,8 @@
         lblTitle.text = [self IsPro] ? @"Pros" : @"Golfers";
         [self getAllUsers];
     }
+    
+    lblNotAvailable.frame = CGRectMake((self.view.frame.size.width - lblNotAvailable.frame.size.width )/2, (self.view.frame.size.height - lblNotAvailable.frame.size.height )/2, lblNotAvailable.frame.size.width, lblNotAvailable.frame.size.height);
 }
 
 -(void) refreshdialogs {
@@ -451,7 +453,7 @@
     NSString *strType = [dictUserSearchData  objectForKey:@"Type"] ;
     
     if([strType length] != 0 && ![strType isEqualToString:@"All"]) {
-        [getRequest setObject: strType forKey:@"userFullMode"];
+       [getRequest setObject: strType forKey:@"userFullMode"];
         
     }
     
@@ -580,8 +582,7 @@
         
         NSLog(@"Response error: %@", [response.error description]);
     }];
-    
-    
+
 }
 
 
@@ -727,35 +728,35 @@
         int totalAvailableConnects = weeklyConnects + userPurchasedConnects;
         
         if(totalAvailableConnects<1) {
-        
+
             // Show pop up to buy more or upgrade
-            
+
             UIAlertController * alert = [UIAlertController
                                          alertControllerWithTitle:@"PURCHASE CONNECTS"
                                          message:@"Sorry, you have no CONNECTS available to send request.\nDo you want to buy them?"
                                          preferredStyle:UIAlertControllerStyleAlert];
-            
-            
-            
+
+
+
             UIAlertAction* yesButton = [UIAlertAction
                                         actionWithTitle:@"YES"
                                         style:UIAlertActionStyleDefault
                                         handler:^(UIAlertAction * action) {
                                             //Handle your yes please button action here
                                         }];
-            
+
             UIAlertAction* noButton = [UIAlertAction
                                        actionWithTitle:@"NO"
                                        style:UIAlertActionStyleDefault
                                        handler:^(UIAlertAction * action) {
-                                         
+
                                        }];
-            
+
             [alert addAction:yesButton];
             [alert addAction:noButton];
-            
+
             [self presentViewController:alert animated:YES completion:nil];
-            
+
             
             return;
         }
@@ -1064,7 +1065,8 @@
             
         }];
         
-        [cell.proIcon setImage:[UIImage imageWithData:[[AppDelegate sharedinstance] getProIcons:cell.proType.text]]];
+        UIImage *proIconImg =[UIImage imageWithData:[[AppDelegate sharedinstance] getProIcons:cell.proType.text]];
+        [cell.proIcon setImage:proIconImg];
         [cell.proIcon setContentMode:UIViewContentModeScaleAspectFill];
         [cell.proIcon setShowActivityIndicatorView:NO];
         

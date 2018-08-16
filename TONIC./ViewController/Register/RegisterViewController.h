@@ -55,10 +55,30 @@
     IBOutlet UIButton *btnBack;
     NSString *strImgURLBase;
 
+    IBOutlet UIButton *DoneBtn;
+    IBOutlet UIImageView *doneBtnImg;
     int pickerOption;
     
     IBOutlet UIButton *btnCheckmark;
 
+    IBOutlet UIView *narrowLineView2;
+    IBOutlet UIView *narrowLineView1;
+    IBOutlet UIButton *btnCheckBig;
+    IBOutlet UIButton *checkMarkBtn;
+    IBOutlet UIButton *privacyBtn;
+    IBOutlet UIButton *agreeBtn;
+    IBOutlet UIView *saveBaseVieqw;
+    IBOutlet UIView *aboutBaseView;
+    IBOutlet UIView *handicapBaseView;
+    IBOutlet UIView *zipCodeBaseView;
+    IBOutlet UIView *homeCourseBaseView;
+    IBOutlet UIView *cityBaseView;
+    IBOutlet UIView *stateBaseView;
+    IBOutlet UIView *dobBaseView;
+    IBOutlet UIView *pwdBaseView;
+    IBOutlet UIView *mailBaseView;
+    IBOutlet UIView *nameBaseView;
+    IBOutlet UIButton *cameraBtn;
 }
 @property (strong, nonatomic) MBProgressHUD *HUD;
 

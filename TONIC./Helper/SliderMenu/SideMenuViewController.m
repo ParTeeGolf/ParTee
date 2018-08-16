@@ -64,6 +64,13 @@ long currentTag = 1;
 
 -(void) viewWillAppear:(BOOL)animated {
     [[UIApplication sharedApplication]setStatusBarHidden:NO];
+    
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    CGFloat screenHeight = screenRect.size.height;
+    
+    scrollViewContainer.frame = CGRectMake(0, 0, self.view.frame.size.width, screenHeight);
+    self.view.frame = CGRectMake(0, 0, screenRect.size.width, screenHeight);
+    tblView.frame = CGRectMake(0, tblView.frame.origin.y, screenRect.size.width, screenHeight);
 }
 
 -(void) refreshContent {

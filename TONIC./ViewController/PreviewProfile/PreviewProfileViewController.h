@@ -13,6 +13,8 @@
 @interface PreviewProfileViewController : UIViewController <UIActionSheetDelegate> {
     NSArray *arrConnections;
 
+    IBOutlet UIButton *CourseBtn;
+    IBOutlet UIImageView *dimpleImg;
     IBOutlet UILabel *lblName;
     IBOutlet UILabel *lblLoc;
     IBOutlet UILabel *lblHandicap;

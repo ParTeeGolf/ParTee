@@ -23,8 +23,11 @@
 @implementation SettingsMainVC
 @synthesize cameFromScreen;
 
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self updateConstraints];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshContent" object:nil];
 
     if([[AppDelegate sharedinstance].strisDevelopment isEqualToString:@"1"]) {
@@ -46,7 +49,7 @@
     
     
     if(isiPhone4) {
-        [scrollViewContainer setContentSize:CGSizeMake(320, 1050)];
+        [scrollViewContainer setContentSize:CGSizeMake(320, 784)];
     }
     else {
         [scrollViewContainer setContentSize:CGSizeMake(320, 784)];
@@ -56,7 +59,81 @@
     
    [self bindData];
 }
+#pragma mark updateConstarints
+/************* MohitChange ************/
 
+// Update view frame according to device
+
+-(void)updateConstraints {
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    CGFloat height = screenRect.size.height;
+    CGFloat width = screenRect.size.width;
+    
+    settingBaseView.frame = CGRectMake(0, 0,width , settingBaseView.frame.size.height);
+    settinglbl.frame = CGRectMake(15, 12, 214, 40);
+    notificationBaseView.frame = CGRectMake(0, notificationBaseView.frame.origin.y, width, 44);
+    notificationNarrowLineView.frame = CGRectMake(10, notificationNarrowLineView.frame.origin.y, width - 20, notificationNarrowLineView.frame.size.height);
+    btnPush.frame = CGRectMake(width - 40 - 15, btnPush.frame.origin.y, 40, btnPush.frame.size.height);
+    notificationBtn.frame = CGRectMake(16, notificationBtn.frame.origin.y, width - 16, notificationBtn.frame.size.height);
+    
+    restorePurchaseBaseView.frame = CGRectMake(0, restorePurchaseBaseView.frame.origin.y, width, 44);
+    restorePurchaseNarrowLineView.frame = CGRectMake(10, notificationNarrowLineView.frame.origin.y, width - 20, restorePurchaseNarrowLineView.frame.size.height);
+    restorePurchaseNextbtn.frame = CGRectMake(width - 16 - 18, restorePurchaseNextbtn.frame.origin.y, 18, restorePurchaseNextbtn.frame.size.height);
+    restorePurchaseBtn.frame = CGRectMake(16, restorePurchaseBtn.frame.origin.y, width - 16, restorePurchaseBtn.frame.size.height);
+    
+    changePassBaseView.frame = CGRectMake(0, changePassBaseView.frame.origin.y, width, 44);
+    changePassNarrowLineView.frame = CGRectMake(10, changePassNarrowLineView.frame.origin.y, width - 20, changePassNarrowLineView.frame.size.height);
+    changePassNextBtn.frame = CGRectMake(width - 16 - 18, changePassNextBtn.frame.origin.y, 18, changePassNextBtn.frame.size.height);
+    changePassBtn.frame = CGRectMake(16, changePassBtn.frame.origin.y, width - 16, changePassBtn.frame.size.height);
+    
+    supportBaseView.frame = CGRectMake(0, supportBaseView.frame.origin.y, width, supportBaseView.frame.size.height);
+    
+    walkThroughBaseView.frame = CGRectMake(0, walkThroughBaseView.frame.origin.y, width, 44);
+    walktroughNarrowLineView.frame = CGRectMake(10, walktroughNarrowLineView.frame.origin.y, width - 20, walktroughNarrowLineView.frame.size.height);
+    walkthroughNextBtn.frame = CGRectMake(width - 16 - 18, walkthroughNextBtn.frame.origin.y, 18, walkthroughNextBtn.frame.size.height);
+    walkthroughBtn.frame = CGRectMake(16, walkthroughBtn.frame.origin.y, width - 16, walkthroughBtn.frame.size.height);
+    
+    shareBaseview.frame = CGRectMake(0, shareBaseview.frame.origin.y, width, 44);
+    shareNarrowLineView.frame = CGRectMake(10, shareNarrowLineView.frame.origin.y, width - 20, shareNarrowLineView.frame.size.height);
+    shareBtn.frame = CGRectMake(width - 16 - 18, shareBtn.frame.origin.y, 18, walkthroughNextBtn.frame.size.height);
+    shareBtnp.frame = CGRectMake(16, shareBtnp.frame.origin.y, width - 16, shareBtnp.frame.size.height);
+    
+    rateBaseView.frame = CGRectMake(0, rateBaseView.frame.origin.y, width, 44);
+    rateNarrowLineView.frame = CGRectMake(10, rateNarrowLineView.frame.origin.y, width - 20, rateNarrowLineView.frame.size.height);
+    rateNextBtn.frame = CGRectMake(width - 16 - 18, rateNextBtn.frame.origin.y, 18, rateNextBtn.frame.size.height);
+    rateBtn.frame = CGRectMake(16, rateBtn.frame.origin.y, width - 16, rateBtn.frame.size.height);
+    
+    feedbackBaseview.frame = CGRectMake(0, feedbackBaseview.frame.origin.y, width, 44);
+    feedbackNarrowlineView.frame = CGRectMake(10, feedbackNarrowlineView.frame.origin.y, width - 20, feedbackNarrowlineView.frame.size.height);
+    feedBackNextBtn.frame = CGRectMake(width - 16 - 18, feedBackNextBtn.frame.origin.y, 18, feedBackNextBtn.frame.size.height);
+    feedBackBtn.frame = CGRectMake(16, feedBackBtn.frame.origin.y, width - 16, feedBackBtn.frame.size.height);
+    
+    faqBaseView.frame = CGRectMake(0, faqBaseView.frame.origin.y, width, 44);
+    faqNarrowLineVeiw.frame = CGRectMake(10, faqNarrowLineVeiw.frame.origin.y, width - 20, faqNarrowLineVeiw.frame.size.height);
+    faqBtn.frame = CGRectMake(width - 16 - 18, faqBtn.frame.origin.y, 18, faqBtn.frame.size.height);
+    faqBtnUp.frame = CGRectMake(16, faqBtnUp.frame.origin.y, width - 16, faqBtnUp.frame.size.height);
+    
+    termsUseBaseView.frame = CGRectMake(0, termsUseBaseView.frame.origin.y, width, 44);
+    tacNarrowLineView.frame = CGRectMake(10, tacNarrowLineView.frame.origin.y, width - 20, tacNarrowLineView.frame.size.height);
+    tAcNextBtn.frame = CGRectMake(width - 16 - 18, tAcNextBtn.frame.origin.y, 18, tAcNextBtn.frame.size.height);
+    tAcBtn.frame = CGRectMake(16, tAcBtn.frame.origin.y, width - 16, tAcBtn.frame.size.height);
+    
+    privacyPolicyBaseVieqw.frame = CGRectMake(0, privacyPolicyBaseVieqw.frame.origin.y, width, 44);
+    privacyPolicyNarrowView.frame = CGRectMake(10, privacyPolicyNarrowView.frame.origin.y, width - 20, privacyPolicyNarrowView.frame.size.height);
+    privacyNextBtn.frame = CGRectMake(width - 16 - 18, privacyNextBtn.frame.origin.y, 18, privacyNextBtn.frame.size.height);
+    privacyBTn.frame = CGRectMake(16, privacyBTn.frame.origin.y, width - 16, privacyBTn.frame.size.height);
+    
+    VersionBaseView.frame = CGRectMake(0, VersionBaseView.frame.origin.y, width, 44);
+    versionNarrowView.frame = CGRectMake(10, versionNarrowView.frame.origin.y, width - 20, versionNarrowView.frame.size.height);
+    versionNextLbl.frame = CGRectMake(width - 18 - 31, versionNextLbl.frame.origin.y, 31, versionNextLbl.frame.size.height);
+    versionBtn.frame = CGRectMake(16, versionBtn.frame.origin.y, width - 16, versionBtn.frame.size.height);
+    
+    supportLbl.frame = CGRectMake(supportLbl.frame.origin.x, supportLbl.frame.origin.y, supportLbl.frame.size.width, supportLbl.frame.size.height);
+    
+    logoutBTn.frame = CGRectMake(0, logoutBTn.frame.origin.y, width, logoutBTn.frame.size.height);
+    LogoutLbl.frame = CGRectMake(0, LogoutLbl.frame.origin.y, width, LogoutLbl.frame.size.height);
+    
+}
 -(void) viewWillAppear:(BOOL)animated {
     
     self.navigationController.navigationBarHidden = YES;
