@@ -123,7 +123,7 @@
 }
 #pragma mark- updateViewConstarintd
 // updateViewConstarintd according to device
-/********** Mohit Change  *********/
+
 -(void)updateViewConstarints {
     CGRect screenRect = [[UIScreen mainScreen] bounds];
     CGFloat screenHeight = screenRect.size.height;
@@ -1177,10 +1177,10 @@
                 
                 [[AppDelegate sharedinstance] setStringObj:@"0" forKey:@"userPurchasedConnects"];
                 [[AppDelegate sharedinstance] setStringObj:@"10" forKey:@"userFreeConnects"];
- /********** MohitChange *************/
+ /********** ChetuChange *************/
                 [localObject.fields setObject:@"0" forKey:@"userPurchasedConnects"];
                 [localObject.fields setObject:@"10" forKey:@"userFreeConnects"];
-  /********** MohitChange *************/
+  /********** ChetuChange *************/
                 [localObject.fields setObject:@"1" forKey:@"userPush"];
                 [localObject.fields setObject:@"0" forKey:@"userFullMode"];
                 [localObject.fields setObject:@"0" forKey:@"userNumberOfBlocks"];
@@ -1199,7 +1199,8 @@
                 [localObject.fields setObject:[NSNumber numberWithInteger:1] forKey:@"user_type"];
                 
                 [localObject.fields setObject:txtHomeCourse.text forKey:@"home_coursename"];
-                
+               
+                [localObject.fields setObject:[NSNumber numberWithInteger:0] forKey:@"UserRole"];
                 strHomeCourseID = [self getHomeCourseIdFromName:txtHomeCourse.text];
                 [localObject.fields setObject:strHomeCourseID forKey:@"home_course_id"];
                 

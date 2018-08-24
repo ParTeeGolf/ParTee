@@ -60,7 +60,6 @@
    [self bindData];
 }
 #pragma mark updateConstarints
-/************* MohitChange ************/
 
 // Update view frame according to device
 

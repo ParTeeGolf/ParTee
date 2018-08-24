@@ -321,10 +321,10 @@
         arrData=[objects mutableCopy];
         for(int i=0;i<[objects count];i++) {
             QBCOCustomObject *obj = [arrData objectAtIndex:i];
-            /********** MohitChange *************/
+            /********** ChetuChange *************/
             NSString *strState = [obj.fields objectForKey:@"userState"];
             NSString *strCity = [obj.fields objectForKey:@"userCity"];
-             /********** MohitChange *************/
+             /********** ChetuChange *************/
             NSArray *cityState = @[strCity, strState];
             
             if(![arrStateList containsObject:strState])
@@ -680,11 +680,11 @@
     [QBRequest updateObject:object successBlock:^(QBResponse *response, QBCOCustomObject *object) {
         
         // object updated
-     /********** MohitChange *************/
+     /********** ChetuChange *************/
      //   NSMutableDictionary *dictUserData = [[[NSUserDefaults standardUserDefaults] objectForKey:searchType ] mutableCopy];
         
         NSMutableDictionary *dictUserData = [[NSMutableDictionary alloc]init];
-   /********** MohitChange *************/
+   /********** ChetuChange *************/
         [dictUserData setObject:[Gender componentsJoinedByString:@","] forKey:@"Gender"];
         
         [dictUserData setObject:[txtCity.text componentsSeparatedByString: @","] forKey:@"City"];

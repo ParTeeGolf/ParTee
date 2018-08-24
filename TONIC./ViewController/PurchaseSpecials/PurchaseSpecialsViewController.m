@@ -26,10 +26,10 @@
      UIButton *btnInfo;
      UIButton *btnSelectUser;
      UIButton *btnViewUser;
-    /********* Mohit Change *******/
+    /********* Chetu Change *******/
     // This variable used to create view only when viewdidload called for first time only
     int firstTimeViewLoad;
-    /********* Mohit Change *******/
+    /********* Chetu Change *******/
 }
 @end
 
@@ -71,7 +71,6 @@
 #pragma mark- update views programmaticallyy
 
 //update views according to device that have been created using xib
-/************* MohitChange ************/
 -(void)updateConstarintsProgrammatically {
     CGFloat width = self.view.frame.size.width;
    
@@ -125,7 +124,6 @@
     
 }
 
-/************* MohitChange ************/
 -(void) viewWillAppear:(BOOL)animated {
     
    
@@ -388,11 +386,11 @@
     NSString *userImageUrl = [NSString stringWithFormat:@"%@", [dictUserData objectForKey:@"userPicBase"]];
     [ imgViewUser1 sd_setImageWithURL:[NSURL URLWithString:userImageUrl ] placeholderImage:[UIImage imageNamed:@"user"]];
  
-    /******* Mohit Change ********/
+    /******* Chetu Change ********/
     if (firstTimeViewLoad == 0) {
          [self updateConstarintsProgrammatically];
     }
-    /******* Mohit Change ********/
+    /******* Chetu Change ********/
   }
 
  
@@ -775,12 +773,12 @@
     
     // Object fields
     [object.fields setObject:[[AppDelegate sharedinstance] getCurrentUserEmail] forKey:@"courseSenderID"];
-    /********** MohitChange *************/
+    /********** ChetuChange *************/
 
    // [object.fields setObject:[obj.fields objectForKey:@"userEmail"] forKey:@"courseReceiverID"];
     [object.fields setObject:@"TEStValue" forKey:@"courseReceiverID"];
     
-     /********** MohitChange *************/
+     /********** ChetuChange *************/
     [object.fields setObject:@"4" forKey:@"courseStatus"];
     [object.fields setObject:courseObject.ID forKey:@"courseId"];
 

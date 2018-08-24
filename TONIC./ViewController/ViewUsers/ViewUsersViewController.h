@@ -37,7 +37,6 @@
     int _currentDialog;
     
     BOOL shouldLoadNext;
-    IBOutlet UISegmentedControl *segmentGender;
     IBOutlet UILabel *lblNotAvailable;
     NSString *strIsMyMatches;
     IBOutlet UILabel *lblTitle;
@@ -45,6 +44,7 @@
     IBOutlet UIButton *btnSettingsSmall;
     IBOutlet UIButton *btnSettingsBig;
     
+    IBOutlet UISegmentedControl *segmentControll;
     CLLocationCoordinate2D desplaceCoord;
     CLLocationCoordinate2D scrplaceCoord;
     

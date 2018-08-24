@@ -17,7 +17,12 @@
 #define kdialogLimit 100
 
 @interface ViewUsersViewController ()
-
+{
+    /************* ChetuChange *********/
+    // this string used to find nearMe segment control is selected or not.
+    NSString *nearMe;
+    /************* ChetuChange *********/
+}
 @end
 
 @implementation ViewUsersViewController
@@ -32,6 +37,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+   
+   
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadusers) name:@"reloadusers" object:nil];
   
 
@@ -72,6 +79,8 @@
 }
 
 -(void) viewWillAppear:(BOOL)animated {
+
+      
     _currentPage=0;
     
     arrData = [[NSMutableArray alloc] init];
@@ -133,8 +142,28 @@
         lblTitle.text = [self IsPro] ? @"Pros" : @"Golfers";
         [self getAllUsers];
     }
-    
+   /************ ChetuChange *************/
     lblNotAvailable.frame = CGRectMake((self.view.frame.size.width - lblNotAvailable.frame.size.width )/2, (self.view.frame.size.height - lblNotAvailable.frame.size.height )/2, lblNotAvailable.frame.size.width, lblNotAvailable.frame.size.height);
+    nearMe = @"NO";
+    segmentControll.selectedSegmentIndex = 0;
+    /************ ChetuChange *************/
+}
+- (IBAction)segmentChanged:(id)sender {
+    
+    UISegmentedControl *segmentedControl = (UISegmentedControl *) sender;
+    NSInteger selectedSegment = segmentedControl.selectedSegmentIndex;
+    
+    int selectedSeg = (int)selectedSegment;
+    
+    if (selectedSeg == 0) {
+         nearMe = @"NO";
+    }else {
+         nearMe = @"YES";
+    }
+     arrConnections = [[NSMutableArray alloc] init];
+    [self getAllUsers];
+    
+    
 }
 
 -(void) refreshdialogs {
@@ -370,7 +399,8 @@
         [arrTemp addObject:strUserEmail];
         
         arrConnections = [arrTemp mutableCopy];
-        
+        [tblList setContentOffset:tblList.contentOffset animated:NO];
+        arrData = [[NSMutableArray alloc] init];
         [self getPagedUsers:0];
         
     } errorBlock:^(QBResponse *response) {
@@ -413,10 +443,12 @@
         lowerlimit = [[splitAge objectAtIndex: 0] intValue] - 1;
         upperlimit = [[splitAge objectAtIndex: 1] intValue] + 1;
         
-        
+      /************* ChetuChange ***********/
         if(lowerlimit>0) {
-            [getRequest setObject:[NSNumber numberWithInteger:upperlimit] forKey:@"userAge[lt]"];
-            [getRequest setObject:[NSNumber numberWithInteger:lowerlimit] forKey:@"userAge[gt]"];
+         //   [getRequest setObject:[NSNumber numberWithInteger:upperlimit] forKey:@"userAge[lt]"];
+        //    [getRequest setObject:[NSNumber numberWithInteger:lowerlimit] forKey:@"userAge[gt]"];
+            
+        /************* ChetuChange ***********/
         }
     }
     
@@ -444,8 +476,11 @@
         {
             [handicapArr addObject:@"N/A"];
         }
+      
         [getRequest setObject:handicapArr forKey:@"userHandicap[in]"];
         [getRequest setObject:@"userHandicap" forKey:@"sort_asc"];
+        
+        
         
     }
     
@@ -473,13 +508,23 @@
         if(![strinterested_in_home_course isEqualToString:@"All"])
             [getRequest setObject:strinterested_in_home_course forKey:@"home_coursename[in]"];
     }
-    
+  /************* ChetuChange ***********/
     NSString *role = [self IsPro] ? @"1" : @"0";
+ 
     
     [getRequest setObject:role forKey:@"UserRole"];
+     /************* ChetuChange ***********/
     
     NSString *strinterested_in_location =[[AppDelegate sharedinstance] nullcheck:[dictUserSearchData objectForKey:@"Location"]];
+   /************ ChetuChange  ************/
     
+    // This will find the users within 15 mile range if user select nearme option from segment control.
+    if ([nearMe isEqualToString: @"YES"]) {
+        strinterested_in_location = @"15";
+    }else {
+        
+    }
+    /************ ChetuChange  ************/
     if([strinterested_in_location length]>0) {
         
         if(![strinterested_in_location isEqualToString:@"150"]) {

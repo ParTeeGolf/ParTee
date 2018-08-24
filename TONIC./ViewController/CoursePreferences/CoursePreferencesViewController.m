@@ -697,9 +697,31 @@
             [tempArraySelcted removeObject:str];
         }
         else {
-            [ObjCirCell.selectbtnimg setImage:[UIImage imageNamed:@"blue_chk.png"] forState:UIControlStateNormal];
             
-            [tempArraySelcted addObject:str];
+            if (tempArraySelcted.count > 10) {
+                UIAlertController * alert = [UIAlertController
+                                             alertControllerWithTitle:kAppName
+                                             message:@"Maximum "
+                                             preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction* yesButton = [UIAlertAction
+                                            actionWithTitle:@"Yes"
+                                            style:UIAlertActionStyleDefault
+                                            handler:^(UIAlertAction * action) {
+                                                [self savesettings];
+                                            }];
+                
+               
+                
+                [alert addAction:yesButton];
+                
+                [self presentViewController:alert animated:YES completion:nil];
+                
+            }else {
+                [ObjCirCell.selectbtnimg setImage:[UIImage imageNamed:@"blue_chk.png"] forState:UIControlStateNormal];
+                
+                [tempArraySelcted addObject:str];
+            }
+            
         }
     }
     
@@ -713,9 +735,15 @@
             [tempArraySelcted removeObject:str];
         }
         else {
-            [ObjCirCell.selectbtnimg setImage:[UIImage imageNamed:@"blue_chk.png"] forState:UIControlStateNormal];
             
-            [tempArraySelcted addObject:str];
+            if (tempArraySelcted.count > 10) {
+                
+            }else {
+                [ObjCirCell.selectbtnimg setImage:[UIImage imageNamed:@"blue_chk.png"] forState:UIControlStateNormal];
+                
+                [tempArraySelcted addObject:str];
+            }
+           
         }
         
     }

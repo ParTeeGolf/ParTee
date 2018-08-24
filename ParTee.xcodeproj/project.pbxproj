@@ -592,6 +592,8 @@
 		3DFF3C071F404FC9003B51DE /* CoursePreferencesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFF3C031F404FC9003B51DE /* CoursePreferencesViewController.m */; };
 		3DFF3C081F404FC9003B51DE /* CoursePreferencesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DFF3C041F404FC9003B51DE /* CoursePreferencesViewController.xib */; };
 		84192958211C79F100F86829 /* PurchaseSpecialsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84192957211C79F100F86829 /* PurchaseSpecialsViewController.xib */; };
+		8487A93621300F9700E4C38E /* EventViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8487A93421300F9700E4C38E /* EventViewController.m */; };
+		8487A93721300F9700E4C38E /* EventViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8487A93521300F9700E4C38E /* EventViewController.xib */; };
 		848F8D7821145FE600013263 /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 848F8D7721145FE400013263 /* GoogleMaps.bundle */; };
 		84BEFDAF2119F28F003240E4 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84BEFDAE2119F28F003240E4 /* LoginViewController.xib */; };
 		84BEFDB12119F90D003240E4 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84BEFDB02119F90D003240E4 /* Launch Screen.storyboard */; };
@@ -1384,6 +1386,11 @@
 		3DFF3C031F404FC9003B51DE /* CoursePreferencesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoursePreferencesViewController.m; sourceTree = "<group>"; };
 		3DFF3C041F404FC9003B51DE /* CoursePreferencesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CoursePreferencesViewController.xib; sourceTree = "<group>"; };
 		84192957211C79F100F86829 /* PurchaseSpecialsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PurchaseSpecialsViewController.xib; sourceTree = "<group>"; };
+		841E605D212F081000E5894C /* LocalizedString.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocalizedString.h; sourceTree = "<group>"; };
+		844F444C212B0E4E00BDEF6A /* Constant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constant.h; sourceTree = "<group>"; };
+		8487A93321300F9700E4C38E /* EventViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EventViewController.h; sourceTree = "<group>"; };
+		8487A93421300F9700E4C38E /* EventViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EventViewController.m; sourceTree = "<group>"; };
+		8487A93521300F9700E4C38E /* EventViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventViewController.xib; sourceTree = "<group>"; };
 		848F8D7721145FE400013263 /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GoogleMaps.bundle; path = GoogleMaps.framework/Versions/A/Resources/GoogleMaps.bundle; sourceTree = SOURCE_ROOT; };
 		84BEFDAE2119F28F003240E4 /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
 		84BEFDB02119F90D003240E4 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
@@ -1760,6 +1767,7 @@
 			children = (
 				3D9F54881ED5E1BF00CEE90C /* ParTee.entitlements */,
 				3D28E5791D98A92100A89227 /* TONIC..entitlements */,
+				844F444B212B0E2E00BDEF6A /* ConstantFile */,
 				3D707B521D56DC7C00591BF6 /* Resources */,
 				3D707A771D56D6E200591BF6 /* Helper */,
 				3D707A731D56D6CA00591BF6 /* ViewController */,
@@ -1784,6 +1792,7 @@
 		3D707A731D56D6CA00591BF6 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				8487A92921300E6800E4C38E /* Event */,
 				3DFF3BFE1F404FC9003B51DE /* CoursePreferences */,
 				3DA138C11F3E0C860000189A /* Map */,
 				3D707B3E1D56D99900591BF6 /* Login */,
@@ -2832,6 +2841,26 @@
 			path = CoursePreferences;
 			sourceTree = "<group>";
 		};
+		844F444B212B0E2E00BDEF6A /* ConstantFile */ = {
+			isa = PBXGroup;
+			children = (
+				841E605D212F081000E5894C /* LocalizedString.h */,
+				844F444C212B0E4E00BDEF6A /* Constant.h */,
+			);
+			name = ConstantFile;
+			path = TONIC./ConstantFile;
+			sourceTree = SOURCE_ROOT;
+		};
+		8487A92921300E6800E4C38E /* Event */ = {
+			isa = PBXGroup;
+			children = (
+				8487A93321300F9700E4C38E /* EventViewController.h */,
+				8487A93421300F9700E4C38E /* EventViewController.m */,
+				8487A93521300F9700E4C38E /* EventViewController.xib */,
+			);
+			path = Event;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -3192,6 +3221,7 @@
 				3D707BA61D56DC7C00591BF6 /* SFUIText-Heavy.ttf in Resources */,
 				3D707B9B1D56DC7C00591BF6 /* SFUIDisplay-Black.ttf in Resources */,
 				3D1363AF1D59838800E20297 /* ViewProfileViewController.xib in Resources */,
+				8487A93721300F9700E4C38E /* EventViewController.xib in Resources */,
 				3D707BB31D56DC7C00591BF6 /* start2.png in Resources */,
 				3D15C4501F2B52AE0001EBC3 /* Slide 4.png in Resources */,
 				3D42BDF11EAB111000203FD9 /* Oswald-ExtraLight.ttf in Resources */,
@@ -3333,6 +3363,7 @@
 				3D65B5C91F1D0D8C00852FD9 /* DGActivityIndicatorLineScalePulseOutRapidAnimation.m in Sources */,
 				8A535C2E1F6382E40063B813 /* cell_ViewPhoto.m in Sources */,
 				3D707B041D56D7A200591BF6 /* BSKeyboardControls.m in Sources */,
+				8487A93621300F9700E4C38E /* EventViewController.m in Sources */,
 				3D92C8381D5B5B24005C8CAE /* JSQMessagesInputToolbar.m in Sources */,
 				3D92C8261D5B5B24005C8CAE /* JSQMessagesCollectionViewFlowLayoutInvalidationContext.m in Sources */,
 				3D707B121D56D7A200591BF6 /* SBJsonWriter.m in Sources */,

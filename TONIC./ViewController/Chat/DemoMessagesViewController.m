@@ -178,7 +178,7 @@
 //    [navbar setBackgroundColor:[UIColor colorWithRed:0.000 green:0.655 blue:0.176 alpha:1.00]];
 //   [navbar setBarTintColor:[UIColor colorWithRed:0.000 green:0.655 blue:0.176 alpha:1.00]];
     
-    /********** Mohit Change *********/
+ 
     /**************** Add navigation base View Programmatically *********/
     UIView *navBaseView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, screenWidth, 70)];
     navBaseView.backgroundColor = [UIColor colorWithRed:0.000 green:0.655 blue:0.176 alpha:1.00];

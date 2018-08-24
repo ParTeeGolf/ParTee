@@ -46,8 +46,9 @@
                                 <color key="shadowColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <size key="shadowOffset" width="1" height="1"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="cottonwood hills golf" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nhL-h2-He1">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="cottonwood hills golf" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nhL-h2-He1">
                                 <rect key="frame" x="0.0" y="128" width="320" height="38"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="20"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -102,7 +103,6 @@
                         <color key="backgroundColor" red="0.23137254901960785" green="0.23137254901960785" blue="0.23921568627450979" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="HtY-5L-Kfu" secondAttribute="trailing" id="00q-qQ-ijF"/>
-                            <constraint firstItem="nhL-h2-He1" firstAttribute="top" secondItem="Ou5-sm-API" secondAttribute="bottom" constant="66" id="4fV-bC-kqk"/>
                             <constraint firstItem="HtY-5L-Kfu" firstAttribute="top" secondItem="GWM-EU-NXd" secondAttribute="bottom" constant="8" symbolic="YES" id="9Yq-8h-ZQY"/>
                             <constraint firstItem="kDx-xu-Gan" firstAttribute="top" secondItem="rU9-se-Iub" secondAttribute="top" id="Aq2-6e-OHu"/>
                             <constraint firstItem="HtY-5L-Kfu" firstAttribute="leading" secondItem="rJ8-81-bsz" secondAttribute="leading" id="Bej-6d-pzQ"/>
@@ -114,14 +114,11 @@
                             <constraint firstItem="Cf6-1M-S0b" firstAttribute="top" secondItem="rJ8-81-bsz" secondAttribute="top" constant="22" id="Soo-eq-Lia"/>
                             <constraint firstItem="rU9-se-Iub" firstAttribute="top" secondItem="rJ8-81-bsz" secondAttribute="top" id="VCc-jU-jWL"/>
                             <constraint firstItem="GWM-EU-NXd" firstAttribute="top" secondItem="Ou5-sm-API" secondAttribute="bottom" constant="94" id="XKy-AH-e1r"/>
-                            <constraint firstItem="nhL-h2-He1" firstAttribute="leading" secondItem="rJ8-81-bsz" secondAttribute="leading" id="czq-kC-6n7"/>
                             <constraint firstItem="GWM-EU-NXd" firstAttribute="leading" secondItem="rJ8-81-bsz" secondAttribute="leading" id="dtd-96-TmY"/>
                             <constraint firstAttribute="bottom" secondItem="HtY-5L-Kfu" secondAttribute="bottom" id="egT-AI-lOp"/>
-                            <constraint firstItem="HtY-5L-Kfu" firstAttribute="top" secondItem="nhL-h2-He1" secondAttribute="bottom" constant="14" id="hfA-uj-6YA"/>
                             <constraint firstItem="HtY-5L-Kfu" firstAttribute="top" secondItem="kDx-xu-Gan" secondAttribute="bottom" id="iPw-v5-Fjm"/>
                             <constraint firstAttribute="trailing" secondItem="kDx-xu-Gan" secondAttribute="trailing" id="nFV-Zq-QR6"/>
                             <constraint firstAttribute="trailing" secondItem="GWM-EU-NXd" secondAttribute="trailing" id="oWQ-sH-CqW"/>
-                            <constraint firstAttribute="trailing" secondItem="nhL-h2-He1" secondAttribute="trailing" id="oxs-KP-dQV"/>
                         </constraints>
                     </view>
                 </subviews>

@@ -19,7 +19,7 @@
 #import "LoginViewController.h"
 #import "ConnectssViewController.h"
 #import "EditProfileViewController.h"
-
+#import "EventViewController.h"
 #import "InviteViewController.h"
 #import "ViewUsersViewController.h"
 
@@ -57,7 +57,7 @@ long currentTag = 1;
     [imgViewPic.layer setMasksToBounds:YES];
     [imgViewPic.layer setBorderColor:[UIColor whiteColor].CGColor];
     
-    numOfRows=11;
+    numOfRows=13;
     
     [tblView reloadData];
 }
@@ -93,7 +93,7 @@ long currentTag = 1;
         [imgViewPic sd_setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:[UIImage imageNamed:@"user"]];
     
     
-    numOfRows=11;
+    numOfRows=13;
     
      [tblView reloadData];
     
@@ -148,7 +148,7 @@ long currentTag = 1;
 }
 
 -(void) ComingSoon  {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:kAppName message:@"Feature Coming Soon!" delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:kAppName message:@"This Feature Coming Soon!" delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
     alert.tag=121;
     [alert show];
     
@@ -190,13 +190,13 @@ long currentTag = 1;
     switch(indexPath.row)
     {
         case 0:
-            return collapseRow ? 52.0 : 25.0;
+            return collapseRow ? 52.0 : 30.0;
             break;
         case 1:
         case 2:
         case 3:
         case 4:
-            return collapseRow ? 0 : 25.0;
+            return collapseRow ? 0 : 30.0;
             break;
             
     }
@@ -215,7 +215,10 @@ long currentTag = 1;
     [btnImage addTarget:self action:@selector(ComingSoon) forControlEvents:UIControlEventTouchUpInside];
     UIImage *image = [UIImage imageNamed:@"info-filled.png"];
     [btnImage setImage:image forState:UIControlStateNormal];
-    [btnImage setTintColor:[UIColor redColor]];
+    /************ ChetuChange *************/
+  //  [btnImage setTintColor:[UIColor redColor]];
+    [btnImage setTintColor:[UIColor greenColor]];
+     /************ ChetuChange *************/
     
     btnImage.hidden = hideButton;
     btnImage.tag = tag;
@@ -235,8 +238,9 @@ long currentTag = 1;
     
     tblView.separatorColor=[UIColor clearColor];
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
-    
     cell.backgroundColor = [UIColor clearColor];
+    
+  
  
     switch(indexPath.row)
     {
@@ -250,10 +254,20 @@ long currentTag = 1;
         case 2:
             cell.lbl_Name.text = @"\tINVITATIONS";
             cell.hidden = hideCell;
+            if(![self.view viewWithTag:2])
+                
+            {
+                [cell.contentView addSubview: [self ComingSoonButton:cell.frame.origin.x originY:cell.frame.origin.y hideButton:false tag:2]];
+            }
             break;
         case 3:
             cell.lbl_Name.text = @"\tTEE TIMES";
             cell.hidden = hideCell;
+            if(![self.view viewWithTag:3])
+                
+            {
+                [cell.contentView addSubview: [self ComingSoonButton:cell.frame.origin.x originY:cell.frame.origin.y hideButton:false tag:3]];
+            }
             break;
         case 4:
             cell.lbl_Name.text = @"\tEVENTS";
@@ -274,16 +288,15 @@ long currentTag = 1;
            cell.lbl_Name.text = @"PROS";
             break;
         case 8:
-            cell.lbl_Name.text = @"PARTEE LINE BLOG";
-            if(![self.view viewWithTag:8])
-                
-            {
-                [cell.contentView addSubview: [self ComingSoonButton:cell.frame.origin.x originY:cell.frame.origin.y hideButton:false tag:8]];
-            }
-
+            cell.lbl_Name.text = @"EVENTS";
+//            if(![self.view viewWithTag:8])
+//
+//            {
+//                [cell.contentView addSubview: [self ComingSoonButton:cell.frame.origin.x originY:cell.frame.origin.y hideButton:false tag:8]];
+//            }
             break;
         case 9:
-            cell.lbl_Name.text = @"30 SECOND LESSONS";
+            cell.lbl_Name.text = @"PARTEE LINE BLOG";
             if(![self.view viewWithTag:9])
                 
             {
@@ -292,6 +305,24 @@ long currentTag = 1;
 
             break;
         case 10:
+            cell.lbl_Name.text = @"30 SECOND LESSONS";
+            if(![self.view viewWithTag:10])
+                
+            {
+                [cell.contentView addSubview: [self ComingSoonButton:cell.frame.origin.x originY:cell.frame.origin.y hideButton:false tag:10]];
+            }
+
+            break;
+        case 11:
+            cell.lbl_Name.text = @"PARTEE PARTNERS";
+            if(![self.view viewWithTag:11])
+                
+            {
+                [cell.contentView addSubview: [self ComingSoonButton:cell.frame.origin.x originY:cell.frame.origin.y hideButton:false tag:11]];
+            }
+            
+            break;
+        case 12:
             cell.lbl_Name.text = @"";
             if(![self.view viewWithTag:101])
                 
@@ -350,12 +381,14 @@ long currentTag = 1;
             [AppDelegate sharedinstance].strIsMyMatches=@"1";
             break;
         case 2:
-            viewController    = [[InviteViewController alloc] initWithNibName:@"InviteViewController" bundle:nil];
-            ((InviteViewController*)viewController).strIsConnInvite=@"1";
+//            viewController    = [[InviteViewController alloc] initWithNibName:@"InviteViewController" bundle:nil];
+//            ((InviteViewController*)viewController).strIsConnInvite=@"1";
+             [self ComingSoon];
             break;
         case 3:
-            viewController    = [[SpecialsViewController alloc] initWithNibName:@"SpecialsViewController" bundle:nil];
-            ((SpecialsViewController*)viewController).strIsMyCourses=@"1";
+//            viewController    = [[SpecialsViewController alloc] initWithNibName:@"SpecialsViewController" bundle:nil];
+//            ((SpecialsViewController*)viewController).strIsMyCourses=@"1";
+            [self ComingSoon];
             break;
         case 4:
             [self ComingSoon];
@@ -378,10 +411,16 @@ long currentTag = 1;
             [AppDelegate sharedinstance].strIsMyMatches=@"0";
             break;
         case 8:
-            [self ComingSoon];
+            viewController    = [[EventViewController alloc] initWithNibName:@"EventViewController" bundle:nil];
             break;
         case 9:
            [self ComingSoon];
+            break;
+        case 10:
+            [self ComingSoon];
+            break;
+        case 11:
+            [self ComingSoon];
             break;
             
             

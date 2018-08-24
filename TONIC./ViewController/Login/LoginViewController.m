@@ -13,10 +13,10 @@
 
 @interface LoginViewController ()
 {
-    /********* Mohit Change *******/
+    /********* Chetu Change *******/
     // This variable used to create view only when viewdidload called for first time only
     int firstTimeViewLoad;
-     /********* Mohit Change *******/
+     /********* Chetu Change *******/
 }
 @property (nonatomic, strong) UITextField * pwdtxtfld;
 @property (nonatomic, strong) UITextField * mailtxtfld;
@@ -166,7 +166,6 @@
 }
 
 #pragma mark createViewProgrammatically
-/************* MohitChange ************/
 
 -(void)createViewProgrammatically {
     
@@ -349,7 +348,6 @@
     }
     
 }
-/************* MohitChange ************/
 
 -(BOOL) validateData {
     
@@ -611,7 +609,7 @@
      {
          if([objects count] == 0)
          {
-             /********** MohitChange *************/
+             /********** ChetuChange *************/
              
 //             NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
 //             [getRequest setObject: @"Default" forKey:@"SearchType"];
@@ -619,7 +617,7 @@
              NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
              [getRequest setObject: @"User" forKey:@"Default"];
         
-            /********** MohitChange *************/
+            /********** ChetuChange *************/
              
              [QBRequest objectsWithClassName:@"UserSearch" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page)
               {

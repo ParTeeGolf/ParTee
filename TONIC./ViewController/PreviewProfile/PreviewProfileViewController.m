@@ -71,7 +71,6 @@
     }
 }
 #pragma mark updateConstarints
-/************* MohitChange ************/
 
 // Update view frame according to device
 -(void)updateConstarints {
@@ -400,12 +399,12 @@
         object.className = @"UserConnections";
         
         // Object fields
-     /********** MohitChange not only comment due to crash here *************/
+     /********** ChetuChange not only comment due to crash here *************/
     
         [object.fields setObject:[[AppDelegate sharedinstance] getCurrentUserEmail] forKey:@"connSenderID"];
         [object.fields setObject:[obj.fields objectForKey:@"userEmail"] forKey:@"connReceiverID"];
         [object.fields setObject:@"1" forKey:@"connStatus"];
-    /********** MohitChange not only comment due to crash here *************/
+    /********** ChetuChange not only comment due to crash here *************/
         [[AppDelegate sharedinstance] showLoader];
         
         [QBRequest createObject:object successBlock:^(QBResponse *response, QBCOCustomObject *object) {

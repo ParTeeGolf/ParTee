@@ -7,6 +7,7 @@
 
 #import "MapViewController.h"
 #import "PurchaseSpecialsViewController.h"
+#import <MapKit/MapKit.h>
 
 #define kLimit @"100"
 
@@ -30,15 +31,19 @@
     
     [super viewDidLoad];
     
+    imgviewLoc.layer.masksToBounds = YES;
+    imgviewLoc.layer.cornerRadius = 25.0;
+    imgviewLoc.layer.cornerRadius = 25.0;
+    
     self.navigationController.navigationBarHidden = YES;
     
     [indicatorLocImage setHidden:YES];
     path = [GMSMutablePath path];
     
     arrData = [[NSMutableArray alloc] init];
-
+    
     self.automaticallyAdjustsScrollViewInsets = NO;
-
+    
     [[AppDelegate sharedinstance] showLoader];
     
     mapView.myLocationEnabled = NO;
@@ -59,7 +64,7 @@
 }
 
 -(void) gotLocationFromMain {
-    int n=arrCourseData.count;
+    int n = arrCourseData.count;
     
     if([arrCourseData count]>50) {
         n=50;
@@ -139,15 +144,15 @@
         dictCourseMapData = [arrCourseData objectAtIndex:0];
         GMSCoordinateBounds *bounds = [[GMSCoordinateBounds alloc] initWithPath:path];
         [mapView animateWithCameraUpdate:[GMSCameraUpdate fitBounds:bounds]];
-         [self gotLocation];
+        [self gotLocation];
     }
-
+    
 }
 
 -(void) gotLocation {
     
     NSArray *arrCoord = [dictCourseMapData.fields objectForKey:@"coordinates"];
-
+    
     if([arrCoord count]>0) {
         NSString *strPinType =[[AppDelegate sharedinstance] nullcheck: [dictCourseMapData.fields objectForKey:@"pin_type"]];
         
@@ -174,29 +179,69 @@
         
         GMSMarker *marker = [GMSMarker markerWithPosition:position];
         
-        marker.icon = [UIImage imageNamed:strPinType];
+        //  marker.icon = [UIImage imageNamed:strPinType];
+        //   marker.icon = [UIImage imageNamed:@"MapProfileIcon"];
         
+        //     UIImage *bottomImage = [UIImage imageNamed:@"AppInfo2"];//background image
+        
+        /************* ChetuChange **************/
+        // Show user profile image at users current location according to requirement
+        // only profile image only if map screen disply it will not display if user come from three dot popup map screen
+        if([strFromScreen isEqualToString:kScreenCoursesSub]) {
+             marker.icon = [UIImage imageNamed:strPinType];
+        }else {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
+                           ^{
+                               
+                               
+                               NSDictionary *dictUserDetails = [[NSUserDefaults standardUserDefaults] objectForKey:kuserData];
+                               NSString *strname = [dictUserDetails objectForKey:@"userPicBase"];
+                               NSURL *urlImg = [NSURL URLWithString:strname];
+                               NSData *imageData = [NSData dataWithContentsOfURL:urlImg];
+                               
+                               //This is your completion handler
+                               dispatch_sync(dispatch_get_main_queue(), ^{
+                                   
+                                   UIImage *bottomImage = [UIImage imageWithData:imageData];
+                                   UIImage *newBottomImage = [self roundedRectImageFromImage:bottomImage size:CGSizeMake(80, 80) withCornerRadius:80];
+                                   UIImage *image       = [UIImage imageNamed:localUserMapProfileBackgrooundIcon]; //foreground image
+                                   
+                                   CGSize newSize = CGSizeMake(150, 150);
+                                   UIGraphicsBeginImageContext( newSize );
+                                   
+                                   // Apply supplied opacity if applicable
+                                   [image drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
+                                   [newBottomImage drawInRect:CGRectMake(36,19,80,80)];
+                                   UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+                                   
+                                   UIGraphicsEndImageContext();
+                                     marker.icon = newImage;
+                                   
+                               });
+                           });
+        }
+        /************* ChetuChange **************/
+      
         marker.title = @"";//[NSString stringWithFormat:@"Marker %i", i];
         marker.appearAnimation = YES;
         marker.flat = YES;
         marker.snippet =  [NSString stringWithFormat:@"%i", 0];
         marker.map = mapView;
-        
-        [path addCoordinate: marker.position];
+     //   [path addCoordinate: marker.position];
         
         strlat = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlat];
         strlat = [[AppDelegate sharedinstance] nullcheck:strlat];
         
         strlong = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlong];
         strlong = [[AppDelegate sharedinstance] nullcheck:strlong];
-
+        
         //Set the lat and long.
         placeCoord.latitude=[strlat doubleValue];
         placeCoord.longitude=[strlong doubleValue];
         
-          CLLocationCoordinate2D myposition = {  placeCoord.latitude, placeCoord.longitude };
+        CLLocationCoordinate2D myposition = {  placeCoord.latitude, placeCoord.longitude };
         scrplaceCoord = myposition;
-
+        
         GMSMarker *mymarker = [GMSMarker markerWithPosition:myposition];
         
         mymarker.icon = [UIImage imageNamed:@"type-my"];
@@ -227,7 +272,7 @@
         [lblAddress setText:str1];
         
         [self drawRoute];
-
+        
         if([strCourseImgUrl length]>0) {
             NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:strCourseImgUrl]];
             
@@ -243,7 +288,7 @@
                                            [indicatorLocImage stopAnimating];
                                            [indicatorLocImage setHidden:YES];
                                            
-
+                                           
                                        }
                                        failure:nil];
         }
@@ -254,12 +299,28 @@
             [imgviewLoc setImage:[UIImage imageNamed:@"ic_thumbnail.png"]];
         }
     }
-    }
+}
+
+-(UIImage*)roundedRectImageFromImage:(UIImage *)image
+                                size:(CGSize)imageSize
+                    withCornerRadius:(float)cornerRadius
+{
+    UIGraphicsBeginImageContextWithOptions(imageSize, NO, 0.0);   //  <= notice 0.0 as third scale parameter. It is important cause default draw scale ≠ 1.0. Try 1.0 - it will draw an ugly image..
+    CGRect bounds=(CGRect){CGPointZero,imageSize};
+    [[UIBezierPath bezierPathWithRoundedRect:bounds
+                                cornerRadius:cornerRadius] addClip];
+    [image drawInRect:bounds];
+    UIImage *finalImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return finalImage;
+}
+
 
 -(IBAction)navigate:(id)sender {
     
     if([strFromScreen isEqualToString:kScreenCoursesMain]) {
-
+        
         PurchaseSpecialsViewController *viewController;
         viewController    = [[PurchaseSpecialsViewController alloc] initWithNibName:@"PurchaseSpecialsViewController" bundle:nil];
         viewController.status=1;
@@ -267,7 +328,7 @@
         [self.navigationController pushViewController:viewController animated:YES];
     }
     else      if([strFromScreen isEqualToString:kScreenCoursesSub])
-        {
+    {
         PurchaseSpecialsViewController *viewController;
         viewController    = [[PurchaseSpecialsViewController alloc] initWithNibName:@"PurchaseSpecialsViewController" bundle:nil];
         
@@ -280,16 +341,16 @@
     
 }
 
-    
--(IBAction)showcurrentlocation:(id)sender {
 
+-(IBAction)showcurrentlocation:(id)sender {
+    
     GMSCoordinateBounds *bounds = [[GMSCoordinateBounds alloc] initWithPath:path];
     [mapView animateWithCameraUpdate:[GMSCameraUpdate fitBounds:bounds]];
     
-//    GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:scrplaceCoord.latitude
-//                                                            longitude:scrplaceCoord.longitude
-//                                                                 zoom:mapView.camera.zoom];
-//    [mapView animateToCameraPosition:camera];
+    //    GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:scrplaceCoord.latitude
+    //                                                            longitude:scrplaceCoord.longitude
+    //                                                                 zoom:mapView.camera.zoom];
+    //    [mapView animateToCameraPosition:camera];
     
 }
 
@@ -303,7 +364,7 @@
         
         [indicatorLocImage startAnimating];
         [indicatorLocImage setHidden:NO];
-    
+        
         NSString *strCourseName = [dictCourseMapData.fields objectForKey:@"Name"];
         NSString *strCourseImgUrl = [[AppDelegate sharedinstance] nullcheck:[dictCourseMapData.fields objectForKey:@"ImageUrl"]];
         
@@ -358,7 +419,7 @@
     }
     
     if([strFromScreen isEqualToString:kScreenCoursesMain]) {
-
+        
         NSArray *arrCoord = [dictCourseMapData.fields objectForKey:@"coordinates"];
         strlat = [arrCoord objectAtIndex:1];
         strlat = [[AppDelegate sharedinstance] nullcheck:strlat];
@@ -374,7 +435,7 @@
         placeCoord.longitude=[strlong doubleValue];
         
         desplaceCoord = placeCoord;
-
+        
         strlat = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlat];
         strlat = [[AppDelegate sharedinstance] nullcheck:strlat];
         
@@ -449,5 +510,5 @@
     
 }
 
-    
+
 @end

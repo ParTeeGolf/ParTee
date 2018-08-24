@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -18,24 +18,42 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="182.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <view alpha="0.85000002384185791" contentMode="scaleToFill" id="rJ8-81-bsz">
+                    <view alpha="0.85000002384185791" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rJ8-81-bsz">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="182"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="course.png" id="kDx-xu-Gan">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="course.png" translatesAutoresizingMaskIntoConstraints="NO" id="kDx-xu-Gan">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="180"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="180" id="n25-cN-weu"/>
+                                </constraints>
                             </imageView>
-                            <view contentMode="scaleToFill" misplaced="YES" id="HtY-5L-Kfu">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HtY-5L-Kfu">
                                 <rect key="frame" x="0.0" y="180" width="320" height="2"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="2" id="ZSv-An-oJ8"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="0.23137254901960785" green="0.23137254901960785" blue="0.23921568627450979" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="HtY-5L-Kfu" firstAttribute="leading" secondItem="rJ8-81-bsz" secondAttribute="leading" id="4dN-XB-3SJ"/>
+                            <constraint firstItem="HtY-5L-Kfu" firstAttribute="top" secondItem="kDx-xu-Gan" secondAttribute="bottom" id="IVv-V5-yA7"/>
+                            <constraint firstAttribute="trailing" secondItem="kDx-xu-Gan" secondAttribute="trailing" id="KYc-YM-PXX"/>
+                            <constraint firstItem="kDx-xu-Gan" firstAttribute="top" secondItem="rJ8-81-bsz" secondAttribute="top" id="OoS-K0-VOc"/>
+                            <constraint firstAttribute="trailing" secondItem="HtY-5L-Kfu" secondAttribute="trailing" id="WJm-oA-hbr"/>
+                            <constraint firstAttribute="bottom" secondItem="HtY-5L-Kfu" secondAttribute="bottom" id="f7Z-M1-h5u"/>
+                            <constraint firstItem="HtY-5L-Kfu" firstAttribute="top" secondItem="kDx-xu-Gan" secondAttribute="bottom" id="neb-Qv-ddG"/>
+                            <constraint firstItem="kDx-xu-Gan" firstAttribute="leading" secondItem="rJ8-81-bsz" secondAttribute="leading" id="scb-B1-1D2"/>
+                        </constraints>
                     </view>
                 </subviews>
                 <color key="backgroundColor" red="0.23137254900000001" green="0.23137254900000001" blue="0.23921568630000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="rJ8-81-bsz" secondAttribute="trailing" id="SVp-Jr-xB1"/>
+                    <constraint firstItem="rJ8-81-bsz" firstAttribute="leading" secondItem="Q6L-ee-NyL" secondAttribute="leading" id="bX7-J6-yMp"/>
+                    <constraint firstItem="rJ8-81-bsz" firstAttribute="top" secondItem="Q6L-ee-NyL" secondAttribute="top" id="sCz-32-RkB"/>
+                </constraints>
             </tableViewCellContentView>
             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
             <connections>
@@ -47,9 +65,4 @@
     <resources>
         <image name="course.png" width="1080" height="720"/>
     </resources>
-    <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedStatusBarMetrics key="statusBar"/>
-        <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4_7.fullscreen"/>
-    </simulatedMetricsContainer>
 </document>

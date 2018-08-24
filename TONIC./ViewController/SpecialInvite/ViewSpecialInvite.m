@@ -158,11 +158,11 @@
 
 
 - (IBAction) donePressed:(id)sender  {
- /********** MohitChange *************/
+ /********** ChetuChange *************/
  //   if([arrSelected count]>0 || arrData.count==0) {
     
     if([arrSelected count]>0) {
-/********** MohitChange *************/
+/********** ChetuChange *************/
         [AppDelegate sharedinstance].delegateShareObject = [arrSelected objectAtIndex:0];
       // [self dismissViewControllerAnimated:YES completion:nil];
         [self.navigationController popViewControllerAnimated:YES];
