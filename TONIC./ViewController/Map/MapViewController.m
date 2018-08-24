@@ -54,7 +54,7 @@
     [indicatorLocImage setHidden:NO];
     
     if([strFromScreen isEqualToString:kScreenCoursesMain]) {
-        
+       
         [self gotLocationFromMain];
     }
     else {
@@ -99,18 +99,35 @@
             desplaceCoord = placeCoord;
             
             CLLocationCoordinate2D position = {  placeCoord.latitude, placeCoord.longitude };
-            
-            GMSMarker *marker = [GMSMarker markerWithPosition:position];
-            
-            marker.icon = [UIImage imageNamed:strPinType];
-            
-            marker.title = @"";//[NSString stringWithFormat:@"Marker %i", i];
-            marker.appearAnimation = YES;
-            marker.flat = YES;
-            marker.snippet =  [NSString stringWithFormat:@"%i", i];
-            marker.map = mapView;
-            
-            [path addCoordinate: marker.position];
+           
+            if([strFromScreen isEqualToString:kScreenCoursesMain]) {
+//                GMSMarker *marker = [GMSMarker markerWithPosition:position];
+//                
+//                marker.icon = [UIImage imageNamed:strPinType];
+//                
+//                marker.title = @"";//[NSString stringWithFormat:@"Marker %i", i];
+//                marker.appearAnimation = YES;
+//                marker.flat = YES;
+//                marker.snippet =  [NSString stringWithFormat:@"%i", i];
+//                marker.map = mapView;
+//                
+//                [path addCoordinate: marker.position];
+               
+            }
+            else {
+                GMSMarker *marker = [GMSMarker markerWithPosition:position];
+                
+                marker.icon = [UIImage imageNamed:strPinType];
+                
+                marker.title = @"";//[NSString stringWithFormat:@"Marker %i", i];
+                marker.appearAnimation = YES;
+                marker.flat = YES;
+                marker.snippet =  [NSString stringWithFormat:@"%i", i];
+                marker.map = mapView;
+                
+                [path addCoordinate: marker.position];
+            }
+           
             
             strlat = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlat];
             strlat = [[AppDelegate sharedinstance] nullcheck:strlat];
@@ -126,15 +143,15 @@
             scrplaceCoord = myposition;
             
             GMSMarker *mymarker = [GMSMarker markerWithPosition:myposition];
-            
+
             mymarker.icon = [UIImage imageNamed:@"type-my"];
-            
+
             mymarker.title = @"";//[NSString stringWithFormat:@"Marker %i", i];
             mymarker.appearAnimation = YES;
             mymarker.flat = YES;
             mymarker.snippet =  [NSString stringWithFormat:@"%i", 0];
             mymarker.map = mapView;
-            
+
             [path addCoordinate: mymarker.position];
             
         }
@@ -190,6 +207,7 @@
         if([strFromScreen isEqualToString:kScreenCoursesSub]) {
              marker.icon = [UIImage imageNamed:strPinType];
         }else {
+              [[AppDelegate sharedinstance] showLoader];
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
                            ^{
                                
@@ -216,18 +234,18 @@
                                    
                                    UIGraphicsEndImageContext();
                                      marker.icon = newImage;
-                                   
+                                   [[AppDelegate sharedinstance] hideLoader];
                                });
                            });
         }
         /************* ChetuChange **************/
-      
+        
         marker.title = @"";//[NSString stringWithFormat:@"Marker %i", i];
         marker.appearAnimation = YES;
         marker.flat = YES;
         marker.snippet =  [NSString stringWithFormat:@"%i", 0];
         marker.map = mapView;
-     //   [path addCoordinate: marker.position];
+        [path addCoordinate: marker.position];
         
         strlat = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlat];
         strlat = [[AppDelegate sharedinstance] nullcheck:strlat];
@@ -465,9 +483,16 @@
       parameters:nil
          success:^(AFHTTPRequestOperation *operation, id responseObject) {
              //do stuff
-             
-             [[AppDelegate sharedinstance] hideLoader];
-             
+             if([strFromScreen isEqualToString:kScreenCoursesMain]) {
+                 
+                
+             }
+             else {
+                 
+                 [[AppDelegate sharedinstance] hideLoader];
+                 
+             }
+       
              NSDictionary *json = (NSDictionary * ) responseObject;
              
              NSArray *routesArray = [json objectForKey:@"routes"];

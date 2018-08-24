@@ -96,9 +96,15 @@
 #define kCourseFilterData @"kCourseFilterData"
 
 /************ MapStirng *********/
-#define localFontNameHelveticaNeue @"Request Timed Out"
-#define localLoadPreviousRecordBtnTitle @"<<"
-#define localLoadNextRecordBtnTitle @">>"
-#define localUserMapProfileBackgrooundIcon @"MapProfileIcon"
+#define kFontNameHelveticaNeue @"Request Timed Out"
+#define kLoadPreviousRecordBtnTitle @"<<"
+#define kLoadNextRecordBtnTitle @">>"
+#define kUserMapProfileBackgrooundIcon @"MapProfileIcon"
 /************ MapStirng *********/
+
+/************ Courses Search Screen *********/
+#define kMaxTenAmentiesSelectAlertTitle @"Maximum 10 Amenties you can select."
+#define kMaxTenCitiesSelectAlertTitle @"Maximum 10 Cities you can select."
+#define kOkAlertBtnTitle @"OK"
+/************ Courses Search Screen *********/
 #endif /* LocalizedString_h */
