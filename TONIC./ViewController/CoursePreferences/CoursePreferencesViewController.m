@@ -699,7 +699,7 @@
         else {
             /**************** Chetu Change ************/
             if (tempArraySelcted.count > 10) {
-               
+                [self showAlert:kMaxTenCitiesSelectAlertTitle];
                 
             }else {
                 [ObjCirCell.selectbtnimg setImage:[UIImage imageNamed:@"blue_chk.png"] forState:UIControlStateNormal];
@@ -722,7 +722,7 @@
         else {
             
             if (tempArraySelcted.count > 10) {
-                
+                 [self showAlert:kMaxTenAmentiesSelectAlertTitle];
             }else {
                 [ObjCirCell.selectbtnimg setImage:[UIImage imageNamed:@"blue_chk.png"] forState:UIControlStateNormal];
                 
