@@ -148,6 +148,16 @@
     segmentControll.selectedSegmentIndex = 0;
     /************ ChetuChange *************/
 }
+
+#pragma mark - Load Next 25 Golfers
+
+- (IBAction)loadNextGolfers:(id)sender {
+}
+
+#pragma mark - Load Previous 25 Golfers
+
+- (IBAction)loadPrevGolfers:(id)sender {
+}
 - (IBAction)segmentChanged:(id)sender {
     
     UISegmentedControl *segmentedControl = (UISegmentedControl *) sender;

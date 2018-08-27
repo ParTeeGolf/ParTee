@@ -48,7 +48,7 @@
     
     mapView.myLocationEnabled = NO;
     mapView.delegate = self;
-    mapView.settings.myLocationButton = NO;
+         mapView.settings.myLocationButton = NO;
     
     [indicatorLocImage startAnimating];
     [indicatorLocImage setHidden:NO];
@@ -222,7 +222,7 @@
                                    
                                    UIImage *bottomImage = [UIImage imageWithData:imageData];
                                    UIImage *newBottomImage = [self roundedRectImageFromImage:bottomImage size:CGSizeMake(80, 80) withCornerRadius:80];
-                                   UIImage *image       = [UIImage imageNamed:localUserMapProfileBackgrooundIcon]; //foreground image
+                                   UIImage *image       = [UIImage imageNamed:kUserMapProfileBackgrooundIcon]; //foreground image
                                    
                                    CGSize newSize = CGSizeMake(150, 150);
                                    UIGraphicsBeginImageContext( newSize );

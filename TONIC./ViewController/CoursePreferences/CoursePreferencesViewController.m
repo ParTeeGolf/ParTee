@@ -548,20 +548,46 @@
 }
 
 //-----------------------------------------------------------------------
-
+#pragma mark - Reset Search parameters
 -(IBAction)resetFilters:(id)sender {
+   
     
-    [txtType setText:@"All"];
-    [txtCourseName setText:@"All"];
-    [txtCity setText:@"All"];
-    [txtState setText:@"All"];
-    [txtCourseZipcode setText:@"All"];
-    [txtAmenities setText:@"Any"];
-    [lblDistanceValue setText:@"∞"];
-    myObSliderOutlet.value=150;
+    UIAlertController * alert = [UIAlertController
+                                 alertControllerWithTitle:kAppName
+                                 message:kClearSearchAlertTitle
+                                 preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction* yesBtn = [UIAlertAction
+                               actionWithTitle:kYesAlertBtnTitle
+                               style:UIAlertActionStyleDefault
+                               handler:^(UIAlertAction * action) {
+                                   
+                                   [txtType setText:@"All"];
+                                   [txtCourseName setText:@"All"];
+                                   [txtCity setText:@"All"];
+                                   [txtState setText:@"All"];
+                                   [txtCourseZipcode setText:@"All"];
+                                   [txtAmenities setText:@"Any"];
+                                   [lblDistanceValue setText:@"∞"];
+                                   myObSliderOutlet.value=150;
+                                   
+                                   strPush=@"0";
+                                   [btnPush  setBackgroundImage:[UIImage imageNamed:@"toggleOff"] forState:UIControlStateNormal];
+                                   
+                               }];
     
-    strPush=@"0";
-    [btnPush  setBackgroundImage:[UIImage imageNamed:@"toggleOff"] forState:UIControlStateNormal];
+    UIAlertAction* noBtn = [UIAlertAction
+                                actionWithTitle:kNoAlertBtnTitle
+                                style:UIAlertActionStyleDefault
+                                handler:^(UIAlertAction * action) {
+                                    
+                                }];
+    
+    [alert addAction:yesBtn];
+    [alert addAction:noBtn];
+    [self presentViewController:alert animated:YES completion:nil];
+    
+    
+  
 
     //[self savesettings];
 }
@@ -698,7 +724,7 @@
         }
         else {
             /**************** Chetu Change ************/
-            if (tempArraySelcted.count > 10) {
+            if (tempArraySelcted.count >= 10) {
                 [self showAlert:kMaxTenCitiesSelectAlertTitle];
                 
             }else {
@@ -721,7 +747,7 @@
         }
         else {
             
-            if (tempArraySelcted.count > 10) {
+            if (tempArraySelcted.count >= 10) {
                  [self showAlert:kMaxTenAmentiesSelectAlertTitle];
             }else {
                 [ObjCirCell.selectbtnimg setImage:[UIImage imageNamed:@"blue_chk.png"] forState:UIControlStateNormal];
@@ -763,7 +789,10 @@
     
    [tblMembers reloadData];
 }
+
+#pragma mark - Show alert With Title
 /************* ChetuChange ************/
+// Alert used while user select cities and amenties more than 10.
 -(void)showAlert:(NSString *)titleStr
 {
     UIAlertController * alert = [UIAlertController

@@ -112,8 +112,8 @@ int courseOption;
     
     // create previous button
     loadPrevRecordBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 50, loadRecordBaseView.frame.size.height)];
-    [loadPrevRecordBtn setTitle:localLoadPreviousRecordBtnTitle forState:UIControlStateNormal];
-    loadPrevRecordBtn.titleLabel.font = [UIFont fontWithName:localFontNameHelveticaNeue size:25];
+    [loadPrevRecordBtn setTitle:kLoadPreviousRecordBtnTitle forState:UIControlStateNormal];
+    loadPrevRecordBtn.titleLabel.font = [UIFont fontWithName:kFontNameHelveticaNeue size:25];
     loadPrevRecordBtn.tintColor = [UIColor whiteColor];
     [loadPrevRecordBtn addTarget:self action:@selector(loadPrevRecordBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
     [loadRecordBaseView addSubview:loadPrevRecordBtn];
@@ -122,15 +122,15 @@ int courseOption;
     recordLbl = [[UILabel alloc]initWithFrame:CGRectMake(loadPrevRecordBtn.frame.size.width + loadPrevRecordBtn.frame.origin.x, 0, 200,loadRecordBaseView.frame.size.height)];
     recordLbl.text = @"1 - 25";
     recordLbl.textAlignment = NSTextAlignmentCenter;
-    recordLbl.font = [UIFont fontWithName:localFontNameHelveticaNeue size:25];
+    recordLbl.font = [UIFont fontWithName:kFontNameHelveticaNeue size:25];
     recordLbl.textColor = [UIColor whiteColor];
     [loadRecordBaseView addSubview:recordLbl];
     
     // create next button to fetch next 25 records of courses
     loadNextRecordBtn = [[UIButton alloc]initWithFrame:CGRectMake(250, 0, 50, loadRecordBaseView.frame.size.height)];
-    [loadNextRecordBtn setTitle:localLoadNextRecordBtnTitle forState:UIControlStateNormal];
+    [loadNextRecordBtn setTitle:kLoadNextRecordBtnTitle forState:UIControlStateNormal];
     loadNextRecordBtn.tintColor = [UIColor whiteColor];
-    loadNextRecordBtn.titleLabel.font = [UIFont fontWithName:localFontNameHelveticaNeue size:25];
+    loadNextRecordBtn.titleLabel.font = [UIFont fontWithName:kFontNameHelveticaNeue size:25];
     [loadNextRecordBtn addTarget:self action:@selector(loadNextRecordBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
     [loadRecordBaseView addSubview:loadNextRecordBtn];
     

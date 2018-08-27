@@ -308,14 +308,13 @@
                                 <constraint firstItem="E0N-oA-UE0" firstAttribute="leading" secondItem="0vZ-C7-rkg" secondAttribute="leading" constant="16" id="v2j-dW-eZT"/>
                             </constraints>
                         </view>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uwy-G5-UYq" userLabel="zipcode">
-                            <rect key="frame" x="0.0" y="135" width="320" height="44"/>
+                        <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uwy-G5-UYq" userLabel="zipcode">
+                            <rect key="frame" x="0.0" y="135" width="320" height="0.0"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OKJ-Bz-oGI">
-                                    <rect key="frame" x="16" y="1" width="113" height="39"/>
+                                    <rect key="frame" x="16" y="8" width="113" height="32"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="113" id="52D-as-MD4"/>
-                                        <constraint firstAttribute="height" constant="39" id="vxx-NN-Kdh"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="16"/>
                                     <state key="normal" title="ZIPCODE">
@@ -325,9 +324,6 @@
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HDf-FM-dNO">
                                     <rect key="frame" x="0.0" y="41" width="320" height="1"/>
                                     <color key="backgroundColor" red="0.91372549020000005" green="0.91372549020000005" blue="0.91372549020000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="1" id="b5W-Mb-oyp"/>
-                                    </constraints>
                                 </view>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZvZ-xN-jIg">
                                     <rect key="frame" x="8" y="0.0" width="312" height="40"/>
@@ -352,13 +348,10 @@
                                     </connections>
                                 </textField>
                             </subviews>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="backgroundColor" red="1" green="0.11350149129999999" blue="0.1521360561" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
+                                <constraint firstAttribute="bottom" secondItem="HDf-FM-dNO" secondAttribute="bottom" constant="-42" id="20g-wI-ndW"/>
                                 <constraint firstItem="ZvZ-xN-jIg" firstAttribute="top" secondItem="uwy-G5-UYq" secondAttribute="top" id="3v6-lE-cq1"/>
-                                <constraint firstItem="OKJ-Bz-oGI" firstAttribute="top" secondItem="uwy-G5-UYq" secondAttribute="top" constant="1" id="4Uw-gA-ITu"/>
-                                <constraint firstItem="HDf-FM-dNO" firstAttribute="top" secondItem="OKJ-Bz-oGI" secondAttribute="bottom" constant="1" id="Hre-iD-AVe"/>
-                                <constraint firstAttribute="height" constant="44" id="I0r-zF-lQq"/>
-                                <constraint firstAttribute="bottom" secondItem="HDf-FM-dNO" secondAttribute="bottom" constant="2" id="Mld-WX-lhE"/>
                                 <constraint firstAttribute="trailing" secondItem="ZvZ-xN-jIg" secondAttribute="trailing" id="P03-Wf-Om8"/>
                                 <constraint firstItem="HDf-FM-dNO" firstAttribute="leading" secondItem="uwy-G5-UYq" secondAttribute="leading" id="R7p-1K-anf"/>
                                 <constraint firstItem="ZvZ-xN-jIg" firstAttribute="leading" secondItem="uwy-G5-UYq" secondAttribute="leading" constant="8" id="Xg1-n6-oeb"/>
@@ -372,7 +365,7 @@
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gUg-Dg-qQR" userLabel="type">
-                            <rect key="frame" x="0.0" y="180" width="320" height="44"/>
+                            <rect key="frame" x="0.0" y="136" width="320" height="44"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sBM-iW-IdM">
                                     <rect key="frame" x="0.0" y="41" width="320" height="1"/>
@@ -425,7 +418,7 @@
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LMp-vq-crM" userLabel="amenities">
-                            <rect key="frame" x="0.0" y="224" width="320" height="44"/>
+                            <rect key="frame" x="0.0" y="180" width="320" height="44"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="U5o-6k-5wJ">
                                     <rect key="frame" x="0.0" y="41" width="320" height="1"/>
@@ -478,7 +471,7 @@
                             </constraints>
                         </view>
                         <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="V4X-Ly-I6T" userLabel="fav">
-                            <rect key="frame" x="0.0" y="269" width="320" height="44"/>
+                            <rect key="frame" x="0.0" y="225" width="320" height="44"/>
                             <subviews>
                                 <view alpha="0.10000000149011612" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NMu-Ie-foL">
                                     <rect key="frame" x="0.0" y="41" width="320" height="1"/>
@@ -521,7 +514,7 @@
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4oP-JN-gug" userLabel="LOCATION">
-                            <rect key="frame" x="0.0" y="311" width="320" height="81"/>
+                            <rect key="frame" x="0.0" y="267" width="320" height="81"/>
                             <subviews>
                                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5a4-hY-994">
                                     <rect key="frame" x="0.0" y="41" width="320" height="1"/>
@@ -600,7 +593,7 @@
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="q2k-nH-8od" userLabel="Save">
-                            <rect key="frame" x="0.0" y="417" width="320" height="46"/>
+                            <rect key="frame" x="0.0" y="373" width="320" height="46"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JWy-e9-Aol">
                                     <rect key="frame" x="23" y="0.0" width="273" height="46"/>
@@ -608,8 +601,8 @@
                                     <constraints>
                                         <constraint firstAttribute="height" constant="46" id="Qg9-4h-MpA"/>
                                     </constraints>
-                                    <fontDescription key="fontDescription" name="Oswald-Bold" family="Oswald" pointSize="12"/>
-                                    <state key="normal" title="SAVE">
+                                    <fontDescription key="fontDescription" name="Oswald-Bold" family="Oswald" pointSize="16"/>
+                                    <state key="normal" title="Save and Search">
                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
                                     <connections>
@@ -658,6 +651,7 @@
                         <constraint firstItem="Q5g-gm-dvd" firstAttribute="leading" secondItem="bdf-ef-81q" secondAttribute="leading" id="qyS-OV-inL"/>
                         <constraint firstItem="0vZ-C7-rkg" firstAttribute="top" secondItem="Q5g-gm-dvd" secondAttribute="bottom" constant="1" id="rYq-xt-w7N"/>
                         <constraint firstItem="Q5g-gm-dvd" firstAttribute="top" secondItem="bdf-ef-81q" secondAttribute="top" constant="46" id="rmP-fQ-yq7"/>
+                        <constraint firstItem="uwy-G5-UYq" firstAttribute="bottom" secondItem="0vZ-C7-rkg" secondAttribute="bottom" id="sVq-du-nTl"/>
                         <constraint firstItem="V4X-Ly-I6T" firstAttribute="top" secondItem="LMp-vq-crM" secondAttribute="bottom" constant="1" id="tFv-im-Y0b"/>
                         <constraint firstItem="q2k-nH-8od" firstAttribute="top" secondItem="4oP-JN-gug" secondAttribute="bottom" constant="25" id="to3-Qx-6zh"/>
                         <constraint firstItem="uwy-G5-UYq" firstAttribute="leading" secondItem="bdf-ef-81q" secondAttribute="leading" id="vaA-J0-nQJ"/>

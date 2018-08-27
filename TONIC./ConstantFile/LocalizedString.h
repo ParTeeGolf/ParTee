@@ -105,6 +105,13 @@
 /************ Courses Search Screen *********/
 #define kMaxTenAmentiesSelectAlertTitle @"Maximum 10 Amenties you can select."
 #define kMaxTenCitiesSelectAlertTitle @"Maximum 10 Cities you can select."
-#define kOkAlertBtnTitle @"OK"
+#define kClearSearchAlertTitle @"Clear Search Parameters?"
 /************ Courses Search Screen *********/
+
+/******** Alert Titles *************/
+#define kOkAlertBtnTitle @"OK"
+#define kYesAlertBtnTitle @"Yes"
+#define kNoAlertBtnTitle @"No"
+/******** Alert Titles *************/
+
 #endif /* LocalizedString_h */
