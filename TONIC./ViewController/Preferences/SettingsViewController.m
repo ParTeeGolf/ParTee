@@ -100,6 +100,8 @@
     myObSliderOutlet.value =0;
     
    [self bindData];
+    
+    scrollViewContainer.contentSize = CGSizeMake(self.view.frame.size.width,1200 );
 }
 
 -(void) viewWillAppear:(BOOL)animated {
@@ -215,15 +217,21 @@
          }
          
          object = objects[0];
+    
          NSString *strLocation = [[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"Location"]];
          
-         if([strLocation length]==0 || myObSliderOutlet.value>149) {
+         NSString *searchType = [self IsPro] ? kuserSearchPro : kuserSearchUser;
+         
+         NSMutableDictionary *dictUserSearchData = [[[NSUserDefaults standardUserDefaults] objectForKey:searchType] mutableCopy];
+         NSString *strinterested_in_location =[[AppDelegate sharedinstance] nullcheck:[dictUserSearchData objectForKey:@"Location"]];
+
+         if([strinterested_in_location length]==0 || myObSliderOutlet.value>149) {
              
              [lblDistanceValue setText:@"∞"];
              myObSliderOutlet.value = 150;
          }
          else {
-             myObSliderOutlet.value = [strLocation integerValue];
+             myObSliderOutlet.value = [strinterested_in_location integerValue];
              
              [lblDistanceValue setText:[NSString stringWithFormat:@"%d mi.",(int)myObSliderOutlet.value]];
          }
@@ -240,9 +248,9 @@
              [Gender addObject:@"female"];
          }
          
-         maleImage = [Gender containsObject:@"male"] ? @"guestmale" : @"guestmalefilled";
+         maleImage = [Gender containsObject:@"male"] ? @"guestmalefilled" : @"guestmale";
          
-         femaleImage = [Gender containsObject:@"female"] ? @"guestfemale" : @"guestfemalefilled";
+         femaleImage = [Gender containsObject:@"female"] ? @"guestfemalefilled" : @"guestfemale";
          
          [btnMale setImage:[UIImage imageNamed:maleImage] forState:UIControlStateNormal];
          [btnFemale setImage:[UIImage imageNamed:femaleImage] forState:UIControlStateNormal];
@@ -363,11 +371,15 @@
         [Gender addObject:@"male"];
     }
     
-    NSString *icon = [Gender containsObject:@"male"] ? @"guestmale" : @"guestmalefilled";
+    NSString *icon = [Gender containsObject:@"male"] ? @"guestmalefilled" : @"guestmale";
 
     [btnMale setImage:[UIImage imageNamed:icon] forState:UIControlStateNormal];
     [btnMale setImage:[UIImage imageNamed:icon] forState:UIControlStateSelected];
     [btnMale setImage:[UIImage imageNamed:icon] forState:UIControlStateHighlighted];
+}
+- (IBAction)nameBtnTapped:(id)sender {
+}
+- (IBAction)photoSegAction:(id)sender {
 }
 
 -(IBAction)femaleTapped:(id)sender
@@ -381,7 +393,7 @@
         [Gender addObject:@"female"];
     }
     
-    NSString *icon = [Gender containsObject:@"female"] ? @"guestfemale" : @"guestfemalefilled";
+    NSString *icon = [Gender containsObject:@"female"] ? @"guestfemalefilled" : @"guestfemale";
 
     [btnFemale setImage:[UIImage imageNamed:icon] forState:UIControlStateNormal];
     [btnFemale setImage:[UIImage imageNamed:icon] forState:UIControlStateSelected];
@@ -661,6 +673,7 @@
     [object.fields setObject:txtState.text forKey:@"State"];
     [object.fields setObject:txtCourse.text forKey:@"Name"];
     [object.fields setObject:txtAge.text  forKey:@"Age"];
+    [object.fields setObject:nameTxtFld.text forKey:@"Golfers_name"];
     [object.fields setObject:txtType.text  forKey:@"Type"];
     
     NSString *strIntHandicap = [txtHandicap.text stringByAppendingString:[NSString stringWithFormat:@":%ld",(long)btnNA.selectedSegmentIndex]];
@@ -690,7 +703,7 @@
         [dictUserData setObject:[txtCity.text componentsSeparatedByString: @","] forKey:@"City"];
         [dictUserData setObject:txtState.text forKey:@"State"];
         [dictUserData setObject:txtCourse.text forKey:@"Name"];
-
+        [dictUserData setObject:nameTxtFld.text forKey:@"Golfers_name"];
         [dictUserData setObject:txtAge.text forKey:@"Age"];
         [dictUserData setObject:txtType.text forKey:@"Type"];
         [dictUserData setObject: strIntHandicap forKey:@"Handicap"];

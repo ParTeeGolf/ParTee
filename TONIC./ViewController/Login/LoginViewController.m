@@ -663,6 +663,7 @@
          [dictUserDetails setObject:[[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"Type"]] forKey:@"Type"];
          [dictUserDetails setObject:[[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"ZipCode"]] forKey:@"ZipCode"];
          [dictUserDetails setObject:[[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"State"]] forKey:@"State"];
+         [dictUserDetails setObject:[[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"Golfers_name"]] forKey:@"Golfers_name"];
          
          NSString *strinterested_in_Handicap =[[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"Handicap"]];
          

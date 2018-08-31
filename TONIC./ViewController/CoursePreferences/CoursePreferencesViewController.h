@@ -44,7 +44,6 @@
     IBOutlet UITextField *txtType;
     IBOutlet UITextField *txtCourse;
     IBOutlet UITextField *txtState;
-    
     IBOutlet UITextField *txtCourseName;
     IBOutlet UITextField *txtCourseZipcode;
     IBOutlet UITextField *txtAmenities;

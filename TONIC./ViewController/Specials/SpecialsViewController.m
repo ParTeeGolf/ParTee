@@ -35,9 +35,10 @@ int courseOption;
     /********** ChetuChange ************/
 }
 /*********** ChetuChnage ************/
-@property (strong, nonatomic) UIButton *loadPrevRecordBtn;
+@property (strong, nonatomic) UIButton *fetchPrevRecordBtn;
 @property (strong, nonatomic) UILabel  *recordLbl;
-@property (strong, nonatomic) UIButton *loadNextRecordBtn;
+@property (strong, nonatomic) UIButton *fetchNextRecordBtn;
+@property (strong, nonatomic) UIButton *fecthInitialRecordBtn;
 /*********** ChetuChnage ************/
 @end
 
@@ -45,9 +46,10 @@ int courseOption;
 @synthesize status;
 @synthesize strIsMyCourses;
 /*********** ChetuChnage ************/
-@synthesize loadPrevRecordBtn;
+@synthesize fetchPrevRecordBtn;
 @synthesize recordLbl;
-@synthesize loadNextRecordBtn;
+@synthesize fetchNextRecordBtn;
+@synthesize fecthInitialRecordBtn;
 /*********** ChetuChnage ************/
 
 
@@ -57,6 +59,7 @@ int courseOption;
     shouldLoadNext=YES;
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshContent" object:nil];
+    
     /*********** ChetuChange ***********/
     segmentMode=0;
     searchImgView.hidden = true;
@@ -84,7 +87,7 @@ int courseOption;
     
     [[NSUserDefaults standardUserDefaults] setObject:dictcoursePreferencesData forKey:kcoursePreferencesData];
     [[NSUserDefaults standardUserDefaults] synchronize];
-    
+     [tblList setContentOffset:tblList.contentOffset animated:NO];
     [tblList reloadData];
     
     if(isiPhone4) {
@@ -92,74 +95,126 @@ int courseOption;
         [tblList setFrame:CGRectMake(tblList.frame.origin.x, tblList.frame.origin.y, tblList.frame.size.width, tblList.frame.size.height-88)];
     }
     
-    [self createLoadRecordBaseView];
+    [self createRecordBaseView];
     
     
 }
 
 #pragma mark - Create Record Base View
 // Create Record baseView prograrmmatically
--(void)createLoadRecordBaseView {
+-(void)createRecordBaseView {
     
     // get device size
     CGRect screenRect = [[UIScreen mainScreen] bounds];
     CGFloat screenWidth = screenRect.size.width;
     
     // create baseview for previous, next and lable
-    UIView *loadRecordBaseView = [[UIView alloc]initWithFrame:CGRectMake((screenWidth - 300 )/2, 0, 300, loadRecordBaseV.frame.size.height)];
+    UIView *loadRecordBaseView = [[UIView alloc]initWithFrame:CGRectMake((screenWidth - 250 )/2, 0, 250, loadRecordBaseV.frame.size.height)];
     loadRecordBaseView.backgroundColor = [UIColor clearColor];
     [loadRecordBaseV addSubview:loadRecordBaseView];
     
     // create previous button
-    loadPrevRecordBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 50, loadRecordBaseView.frame.size.height)];
-    [loadPrevRecordBtn setTitle:kLoadPreviousRecordBtnTitle forState:UIControlStateNormal];
-    loadPrevRecordBtn.titleLabel.font = [UIFont fontWithName:kFontNameHelveticaNeue size:25];
-    loadPrevRecordBtn.tintColor = [UIColor whiteColor];
-    [loadPrevRecordBtn addTarget:self action:@selector(loadPrevRecordBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
-    [loadRecordBaseView addSubview:loadPrevRecordBtn];
+    fetchPrevRecordBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 50, loadRecordBaseView.frame.size.height)];
+    [fetchPrevRecordBtn setTitle:kFetchPreviousRecordBtnTitle forState:UIControlStateNormal];
+    fetchPrevRecordBtn.titleLabel.font = [UIFont fontWithName:kFontNameHelveticaNeue size:25];
+ //   [fetchPrevRecordBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+    fetchPrevRecordBtn.titleLabel.textAlignment = NSTextAlignmentLeft;
+    [fetchPrevRecordBtn addTarget:self action:@selector(fetchPrevRecordBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [loadRecordBaseView addSubview:fetchPrevRecordBtn];
     
     // create record label
-    recordLbl = [[UILabel alloc]initWithFrame:CGRectMake(loadPrevRecordBtn.frame.size.width + loadPrevRecordBtn.frame.origin.x, 0, 200,loadRecordBaseView.frame.size.height)];
-    recordLbl.text = @"1 - 25";
+    recordLbl = [[UILabel alloc]initWithFrame:CGRectMake(fetchPrevRecordBtn.frame.size.width + fetchPrevRecordBtn.frame.origin.x, 0, 150,loadRecordBaseView.frame.size.height)];
+//    recordLbl.text = @"1 - 25";
+    recordLbl.adjustsFontSizeToFitWidth = YES;
     recordLbl.textAlignment = NSTextAlignmentCenter;
-    recordLbl.font = [UIFont fontWithName:kFontNameHelveticaNeue size:25];
+    recordLbl.font = [UIFont fontWithName:kFontNameHelveticaNeue size:17];
     recordLbl.textColor = [UIColor whiteColor];
     [loadRecordBaseView addSubview:recordLbl];
     
     // create next button to fetch next 25 records of courses
-    loadNextRecordBtn = [[UIButton alloc]initWithFrame:CGRectMake(250, 0, 50, loadRecordBaseView.frame.size.height)];
-    [loadNextRecordBtn setTitle:kLoadNextRecordBtnTitle forState:UIControlStateNormal];
-    loadNextRecordBtn.tintColor = [UIColor whiteColor];
-    loadNextRecordBtn.titleLabel.font = [UIFont fontWithName:kFontNameHelveticaNeue size:25];
-    [loadNextRecordBtn addTarget:self action:@selector(loadNextRecordBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
-    [loadRecordBaseView addSubview:loadNextRecordBtn];
+    fetchNextRecordBtn = [[UIButton alloc]initWithFrame:CGRectMake(recordLbl.frame.size.width + recordLbl.frame.origin.x, 0, 50, loadRecordBaseView.frame.size.height)];
+    [fetchNextRecordBtn setTitle:kFetchNextRecordBtnTitle forState:UIControlStateNormal];
+    [fetchNextRecordBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    fetchNextRecordBtn.titleLabel.font = [UIFont fontWithName:kFontNameHelveticaNeue size:25];
+    fetchNextRecordBtn.titleLabel.textAlignment = NSTextAlignmentRight;
+    [fetchNextRecordBtn addTarget:self action:@selector(fetchNextRecordBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [loadRecordBaseView addSubview:fetchNextRecordBtn];
     
     loadRecordBaseV.backgroundColor = [UIColor colorWithRed:0.000 green:0.655 blue:0.176 alpha:1.00];
+    
+    // create previous button
+    fecthInitialRecordBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, loadRecordBaseView.frame.origin.x, loadRecordBaseView.frame.size.height)];
+    [fecthInitialRecordBtn setTitle:kFetchInitialRecordBtnTitle forState:UIControlStateNormal];
+    fecthInitialRecordBtn.titleLabel.font = [UIFont fontWithName:kFontNameHelveticaNeue size:25];
+ //   [fecthInitialRecordBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+    fecthInitialRecordBtn.titleLabel.textAlignment = NSTextAlignmentLeft;
+    [fecthInitialRecordBtn addTarget:self action:@selector(fetchInitialRecordBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [loadRecordBaseV addSubview:fecthInitialRecordBtn];
+   
+    fetchPrevRecordBtn.hidden = true;
+    fecthInitialRecordBtn.hidden = true;
 }
 
 /************* ChetuChange ***********/
+
+#pragma mark - load Initial 25 Records
+// Load Initial 25 records
+
+-(void)fetchInitialRecordBtnPressed:(id)sender
+{
+    // load Initial 25 records if current page is not 0
+    
+    if (_currentPage == 0) {
+        
+    }else {
+//         [fetchPrevRecordBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+//         [fecthInitialRecordBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+        fetchPrevRecordBtn.hidden = true;
+        fecthInitialRecordBtn.hidden = true;
+        _currentPage=0;
+        shouldLoadNext = YES;
+        [self getCoursesRecordCount];
+    }
+  
+   
+}
+
 #pragma mark - load Prev 25 Records
 // Load previous 25 records
 
--(void)loadPrevRecordBtnPressed:(id)sender
+-(void)fetchPrevRecordBtnPressed:(id)sender
 {
     // load previous 25 records if current page is not 0
     if (_currentPage > 0) {
         _currentPage--;
         [self getCoursesRecordCount];
         
+        if (_currentPage == 0) {
+//            [fetchPrevRecordBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+//            [fecthInitialRecordBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+            fetchPrevRecordBtn.hidden = true;
+            fecthInitialRecordBtn.hidden = true;
+        }
+        
     }
 }
 #pragma mark - load Next 25 Records
 // Load Next 25 records
 
--(void)loadNextRecordBtnPressed:(id)sender
+-(void)fetchNextRecordBtnPressed:(id)sender
 {
     // load next 25 records if current page is not 0
     if(shouldLoadNext) {
         _currentPage++;
         
         [self getCoursesRecordCount];
+        
+        if (_currentPage != 0) {
+//            [fetchPrevRecordBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//            [fecthInitialRecordBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            fetchPrevRecordBtn.hidden = false;
+            fecthInitialRecordBtn.hidden = false;
+        }
     }
 }
 /*********** ChetuChnage ************/
@@ -250,6 +305,9 @@ int courseOption;
         btnSearchSmall.hidden = false;
         
     }
+    
+    fetchPrevRecordBtn.hidden = true;
+    fecthInitialRecordBtn.hidden = true;
     lblNotAvailable.frame = CGRectMake((self.view.frame.size.width - lblNotAvailable.frame.size.width )/2, (self.view.frame.size.height - lblNotAvailable.frame.size.height )/2, lblNotAvailable.frame.size.width, lblNotAvailable.frame.size.height);
 }
 -(void)getCoursesRecordCount
@@ -594,6 +652,7 @@ int courseOption;
         
         if([objects count]>=[kLimit integerValue]) {
             shouldLoadNext = YES;
+            fetchNextRecordBtn.hidden = false;
             
             //            NSMutableArray *arrTemp = [[NSMutableArray alloc] init];
             //
@@ -616,6 +675,7 @@ int courseOption;
         }
         else {
             shouldLoadNext=NO;
+              fetchNextRecordBtn.hidden = true;
             //            NSMutableArray *arrTemp = [[NSMutableArray alloc] init];
             //
             //            for(QBCOCustomObject *obj in objects) {
@@ -670,6 +730,7 @@ int courseOption;
                 recordLbl.text = recordcountStr;
             }
         }
+         [tblList setContentOffset:tblList.contentOffset animated:NO];
         [tblList reloadData];
         
     } errorBlock:^(QBResponse *response) {
@@ -739,6 +800,7 @@ int courseOption;
             
             arrData = [objects mutableCopy];
             
+            [tblList setContentOffset:tblList.contentOffset animated:NO];
             [tblList reloadData];
             
         } errorBlock:^(QBResponse *response) {
@@ -779,6 +841,7 @@ int courseOption;
     /*********** ChetuChange **********/
     
     // remove elements from array when segment change. we meed to remove previous segment courses from array and load for new segment.
+    [tblList setContentOffset:tblList.contentOffset animated:NO];
     [arrData removeAllObjects];
     courseOption = (int)selectedSegment;
     shouldLoadNext = NO;
@@ -1418,6 +1481,7 @@ int courseOption;
         }
         else {
             [[AppDelegate sharedinstance] hideLoader];
+             [tblList setContentOffset:tblList.contentOffset animated:NO];
             [tblList reloadData];
         }
         

@@ -15,10 +15,12 @@
     IBOutlet UIButton *btnMale;
     IBOutlet UIButton *btnFemale;
 
+    IBOutlet UITextField *nameTxtFld;
     IBOutlet UIButton *btnPush;
     QBCOCustomObject *object;
     NSArray *arrData;
 
+    IBOutlet UISegmentedControl *photGraphSeg;
     NSArray *arrTypeList;
     NSMutableArray *arrAgeList;
     NSMutableArray *arrHandicapList;
@@ -30,7 +32,9 @@
 
     NSMutableArray *tempArraySelcted,*userIdArray,*arrNetworkSelected;
     IBOutlet UITableView *tblNetwork,*tblMembers;
-
+    
+    
+    
     NSMutableArray *arrStateList;
     NSMutableArray *arrHomeCourseList;
 

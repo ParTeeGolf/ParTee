@@ -95,10 +95,15 @@
 #define kcoursePreferencesData @"coursePreferencesData"
 #define kCourseFilterData @"kCourseFilterData"
 
-/************ MapStirng *********/
+
+/************ Courses Screen **********/
 #define kFontNameHelveticaNeue @"Request Timed Out"
-#define kLoadPreviousRecordBtnTitle @"<<"
-#define kLoadNextRecordBtnTitle @">>"
+#define kFetchPreviousRecordBtnTitle @"PREV"
+#define kFetchNextRecordBtnTitle @"NEXT"
+#define kFetchInitialRecordBtnTitle @"  <<  "
+/************ Courses Screen **********/
+ 
+/************ MapStirng *********/
 #define kUserMapProfileBackgrooundIcon @"MapProfileIcon"
 /************ MapStirng *********/
 
@@ -106,6 +111,10 @@
 #define kMaxTenAmentiesSelectAlertTitle @"Maximum 10 Amenties you can select."
 #define kMaxTenCitiesSelectAlertTitle @"Maximum 10 Cities you can select."
 #define kClearSearchAlertTitle @"Clear Search Parameters?"
+#define kBackBtnAlertTitle @"What would you like to do?"
+#define kBackSaveSearchBtnAlertTitle @"Save and Search"
+#define kBackStartOverBtnAlertTitle @"Start Over"
+
 /************ Courses Search Screen *********/
 
 /******** Alert Titles *************/

@@ -55,6 +55,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *reocrdDisplyLbl;
 @property (strong, nonatomic) IBOutlet UITableView *tblList;
 @property (strong, nonatomic) NSString *strIsMyMatches;
+@property (strong, nonatomic) IBOutlet UIView *fecthNextPrevRecordsBaseVIew;
 @property BOOL IsPro;
 
 @end

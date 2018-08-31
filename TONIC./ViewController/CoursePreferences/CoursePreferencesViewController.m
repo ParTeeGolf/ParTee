@@ -296,24 +296,36 @@
 - (IBAction)action_Menu:(id)sender{
     UIAlertController * alert = [UIAlertController
                                  alertControllerWithTitle:kAppName
-                                 message:@"Do you want to save preferences?"
+                                 message:kBackBtnAlertTitle
                                  preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction* yesButton = [UIAlertAction
-                               actionWithTitle:@"Yes"
+    UIAlertAction* saveSearchButton = [UIAlertAction
+                               actionWithTitle:kBackSaveSearchBtnAlertTitle
                                style:UIAlertActionStyleDefault
                                handler:^(UIAlertAction * action) {
                                    [self savesettings];
                                }];
     
-    UIAlertAction* noButton = [UIAlertAction
-                                actionWithTitle:@"No"
+    UIAlertAction* startOverButton = [UIAlertAction
+                                actionWithTitle:kBackStartOverBtnAlertTitle
                                 style:UIAlertActionStyleDefault
                                 handler:^(UIAlertAction * action) {
-                                    [self.navigationController popViewControllerAnimated:YES];
+                                    
+                                    [txtType setText:@"All"];
+                                    [txtCourseName setText:@"All"];
+                                    [txtCity setText:@"All"];
+                                    [txtState setText:@"All"];
+                                    [txtCourseZipcode setText:@"All"];
+                                    [txtAmenities setText:@"Any"];
+                                    [lblDistanceValue setText:@"∞"];
+                                    myObSliderOutlet.value=150;
+                                    
+                                    strPush=@"0";
+                                    [self savesettings];
+                                 //   [self.navigationController popViewControllerAnimated:YES];
                                 }];
     
-    [alert addAction:yesButton];
-    [alert addAction:noButton];
+    [alert addAction:saveSearchButton];
+    [alert addAction:startOverButton];
     
     [self presentViewController:alert animated:YES completion:nil];
 

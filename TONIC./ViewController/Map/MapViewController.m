@@ -219,9 +219,10 @@
                                
                                //This is your completion handler
                                dispatch_sync(dispatch_get_main_queue(), ^{
-                                   
-                                   UIImage *bottomImage = [UIImage imageWithData:imageData];
-                                   UIImage *newBottomImage = [self roundedRectImageFromImage:bottomImage size:CGSizeMake(80, 80) withCornerRadius:80];
+                           
+                                 
+                                   UIImage *newBottomImage = [UIImage imageWithData:imageData];
+                                    UIImage *bottomImage = [self roundedRectImageFromImage:newBottomImage size:CGSizeMake(100, 100) withCornerRadius:100];
                                    UIImage *image       = [UIImage imageNamed:kUserMapProfileBackgrooundIcon]; //foreground image
                                    
                                    CGSize newSize = CGSizeMake(150, 150);
@@ -229,7 +230,7 @@
                                    
                                    // Apply supplied opacity if applicable
                                    [image drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
-                                   [newBottomImage drawInRect:CGRectMake(36,19,80,80)];
+                                   [bottomImage drawInRect:CGRectMake(30,10,100,100)];
                                    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
                                    
                                    UIGraphicsEndImageContext();
