@@ -123,4 +123,9 @@
 #define kNoAlertBtnTitle @"No"
 /******** Alert Titles *************/
 
+/*************** Golfers Search Screen *********/
+#define kFeatureSoonAlertTitle @"This Feature Coming Soon!"
+/*************** Golfers Search Screen *********/
+
+
 #endif /* LocalizedString_h */

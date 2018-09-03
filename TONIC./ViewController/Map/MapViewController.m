@@ -222,7 +222,7 @@
                            
                                  
                                    UIImage *newBottomImage = [UIImage imageWithData:imageData];
-                                    UIImage *bottomImage = [self roundedRectImageFromImage:newBottomImage size:CGSizeMake(100, 100) withCornerRadius:100];
+                                    UIImage *bottomImage = [self roundedRectImageFromImage:newBottomImage size:CGSizeMake(70.8, 70.8) withCornerRadius:70.8];
                                    UIImage *image       = [UIImage imageNamed:kUserMapProfileBackgrooundIcon]; //foreground image
                                    
                                    CGSize newSize = CGSizeMake(150, 150);
@@ -230,7 +230,7 @@
                                    
                                    // Apply supplied opacity if applicable
                                    [image drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
-                                   [bottomImage drawInRect:CGRectMake(30,10,100,100)];
+                                   [bottomImage drawInRect:CGRectMake(40.5,7.6,70.8,70.8)];
                                    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
                                    
                                    UIGraphicsEndImageContext();

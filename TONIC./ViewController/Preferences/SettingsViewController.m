@@ -142,8 +142,14 @@
             
             lblTitle.text = ![self IsPro] ? @"Search Golfers" : @"Search Pros";
             
-            [HandicapView setHidden:[self IsPro]];
+             [HandicapView setHidden:[self IsPro]];
+             [locationBaseView setHidden:[self IsPro]];
+             [photoGraphBaseView setHidden:[self IsPro]];
             
+            BOOL isPro = [self IsPro];
+            if (isPro) {
+                saveBaseViewConstraints.constant = -150;
+            }
             
             [self bindSearchData:object searchType:@"User"];
             [self bindSearchData:object searchType:@"Pro"];
@@ -264,7 +270,7 @@
          NSString *strAge = [[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"Age"]];
          NSString *strType = [[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"Type"]];
          NSString *strHandicap = [[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"Handicap"]];
-         
+         NSString *strGolferName = [[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"Golfers_name"]];
          
          if([strCity length]==0) {
              [txtCity setText:@"All"];
@@ -273,6 +279,7 @@
          else {
              [txtCity setText:strCity];
          }
+         
          
          if([strState length]==0) {
              [txtState setText:@"All"];
@@ -313,6 +320,16 @@
          }
          
          [txtHandicap setText:strHandicap];
+         
+         
+         if([strGolferName length]==0) {
+             [nameTxtFld setText:@"All"];
+             
+         }
+         else {
+             [nameTxtFld setText:strGolferName];
+         }
+         
      }
                          errorBlock:^(QBResponse *response) {
                              // error handling
@@ -379,8 +396,11 @@
 }
 - (IBAction)nameBtnTapped:(id)sender {
 }
-- (IBAction)photoSegAction:(id)sender {
+
+#pragma mark - Photograph Switch Changed
+- (IBAction)switchPhotoGraphChanged:(id)sender {
 }
+
 
 -(IBAction)femaleTapped:(id)sender
 {
@@ -465,10 +485,55 @@
         
     if([cameFromScreen isEqualToString:kScreenViewUsers]) {
         
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:kAppName message:@"Do you want to save preferences?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
-        alert.tag=121;
-        [alert show];
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:kAppName message:@"Do you want to save preferences?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+//        alert.tag=121;
+//        [alert show];
         
+        [nameTxtFld setText:nameTxtFld.text];
+        [nameTxtFld resignFirstResponder];
+        UIAlertController * alert = [UIAlertController
+                                     alertControllerWithTitle:kAppName
+                                     message:kBackBtnAlertTitle
+                                     preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction* saveSearchButton = [UIAlertAction
+                                           actionWithTitle:kBackSaveSearchBtnAlertTitle
+                                           style:UIAlertActionStyleDefault
+                                           handler:^(UIAlertAction * action) {
+                                               [self savesettings];
+                                           }];
+        
+        UIAlertAction* startOverButton = [UIAlertAction
+                                          actionWithTitle:kBackStartOverBtnAlertTitle
+                                          style:UIAlertActionStyleDefault
+                                          handler:^(UIAlertAction * action) {
+                                              
+                                              [Gender removeAllObjects];
+                                              [Gender addObject:@"male"];
+                                              [Gender addObject:@"female"];
+                                              [btnMale setImage:[UIImage imageNamed:@"guestmalefilled"] forState:UIControlStateNormal];
+                                              [btnFemale setImage:[UIImage imageNamed:@"guestfemalefilled"] forState:UIControlStateNormal];
+                                              
+                                              [txtType setText:@"All"];
+                                              [txtAge setText:@"18-100"];
+                                              [txtCity setText:@"All"];
+                                              [txtState setText:@"All"];
+                                              [txtCourse setText:@"All"];
+                                              [lblDistanceValue setText:@"∞"];
+                                              [nameTxtFld setText:@"All"];
+                                              myObSliderOutlet.value=150;
+                                              
+                                              [txtHandicap setText:@"-40 - 5"];
+                                              btnNA.selectedSegmentIndex = 0;
+                                              [self savesettings];
+                                              //   [self.navigationController popViewControllerAnimated:YES];
+                                          }];
+        
+        [alert addAction:saveSearchButton];
+        [alert addAction:startOverButton];
+        
+        [self presentViewController:alert animated:YES completion:nil];
+        
+      
         
     }
     else {
@@ -581,14 +646,42 @@
 //-----------------------------------------------------------------------
 
 -(IBAction) typeTapped:(id)sender {
-    
+
+    /*********** ChetuChange ********/
+/*
     [viewTable setHidden:NO];
     [viewToolbar setHidden:NO];
     buttonTapped = kButtonType;
     [self changeData];
 
+  */
+    
+    // Show alert with title "Feature Comming Soon"
+    [self ComingSoon];
+     /*********** ChetuChange ********/
 }
 
+
+#pragma mark - Feature Comming Soon Alert
+
+-(void) ComingSoon  {
+    
+    UIAlertController * alert = [UIAlertController
+                                 alertControllerWithTitle:kAppName
+                                 message:kFeatureSoonAlertTitle
+                                 preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction* okBtn = [UIAlertAction
+                            actionWithTitle:kOkAlertBtnTitle
+                            style:UIAlertActionStyleDefault
+                            handler:^(UIAlertAction * action) {
+                                
+                            }];
+    
+    [alert addAction:okBtn];
+    [self presentViewController:alert animated:YES completion:nil];
+    
+    
+}
 -(IBAction) changePwdTapped:(id)sender {
     
     if(![[AppDelegate sharedinstance] connected]) {
@@ -845,22 +938,51 @@
 
 -(IBAction)resetFilters:(id)sender
 {
-    [Gender removeAllObjects];
-    [Gender addObject:@"male"];
-    [Gender addObject:@"female"];
-    [btnMale setImage:[UIImage imageNamed:@"guestmalefilled"] forState:UIControlStateNormal];
-    [btnFemale setImage:[UIImage imageNamed:@"guestfemalefilled"] forState:UIControlStateNormal];
     
-    [txtType setText:@"All"];
-    [txtAge setText:@"18-100"];
-    [txtCity setText:@"All"];
-    [txtState setText:@"All"];
-    [txtCourse setText:@"All"];
-    [lblDistanceValue setText:@"∞"];
-    myObSliderOutlet.value=150;
+    [nameTxtFld setText:nameTxtFld.text];
+    [nameTxtFld resignFirstResponder];
     
-    [txtHandicap setText:@"-40 - 5"];
-    btnNA.selectedSegmentIndex = 0;
+    UIAlertController * alert = [UIAlertController
+                                 alertControllerWithTitle:kAppName
+                                 message:kClearSearchAlertTitle
+                                 preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction* yesBtn = [UIAlertAction
+                             actionWithTitle:kYesAlertBtnTitle
+                             style:UIAlertActionStyleDefault
+                             handler:^(UIAlertAction * action) {
+                                 
+                                 [Gender removeAllObjects];
+                                 [Gender addObject:@"male"];
+                                 [Gender addObject:@"female"];
+                                 [btnMale setImage:[UIImage imageNamed:@"guestmalefilled"] forState:UIControlStateNormal];
+                                 [btnFemale setImage:[UIImage imageNamed:@"guestfemalefilled"] forState:UIControlStateNormal];
+                                 
+                                 [txtType setText:@"All"];
+                                 [txtAge setText:@"18-100"];
+                                 [txtCity setText:@"All"];
+                                 [txtState setText:@"All"];
+                                 [txtCourse setText:@"All"];
+                                 [lblDistanceValue setText:@"∞"];
+                                 [nameTxtFld resignFirstResponder];
+                                 [nameTxtFld setText:nameTxtFld.text];
+                                 [nameTxtFld setText:@"All"];
+                                 myObSliderOutlet.value=150;
+                                 
+                                 [txtHandicap setText:@"-40 - 5"];
+                                 btnNA.selectedSegmentIndex = 0;
+                                 
+                             }];
+    
+    UIAlertAction* noBtn = [UIAlertAction
+                            actionWithTitle:kNoAlertBtnTitle
+                            style:UIAlertActionStyleDefault
+                            handler:^(UIAlertAction * action) {
+                                
+                            }];
+    
+    [alert addAction:yesBtn];
+    [alert addAction:noBtn];
+    [self presentViewController:alert animated:YES completion:nil];
     
 }
 

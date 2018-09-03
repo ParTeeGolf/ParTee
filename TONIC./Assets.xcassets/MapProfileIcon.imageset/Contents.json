@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "mapProfileIcon1.png",
+      "filename" : "ParTee Map Marker 256.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "mapProfileIcon1-1.png",
+      "filename" : "ParTee Map Marker 256-1.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "mapProfileIcon1-2.png",
+      "filename" : "ParTee Map Marker 256-2.png",
       "scale" : "3x"
     }
   ],

@@ -174,7 +174,7 @@
                   moduleName = "ParTee"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/admin/Documents/Projects/Partee-GAMS/ParTee/TONIC./ViewController/PreviewProfile/PreviewProfileViewController.m"
-                  timestampString = "557422868.502512"
+                  timestampString = "557675516.557092"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "682"
@@ -189,7 +189,7 @@
                   moduleName = "ParTee"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/admin/Documents/Projects/Partee-GAMS/ParTee/TONIC./ViewController/PreviewProfile/PreviewProfileViewController.m"
-                  timestampString = "557422868.5065531"
+                  timestampString = "557675516.560578"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "682"
@@ -446,7 +446,7 @@
                   moduleName = "ParTee"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/admin/Documents/Projects/Partee-GAMS/ParTee/TONIC./ViewController/Invite/InviteViewController.m"
-                  timestampString = "557422868.639832"
+                  timestampString = "557675516.671689"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "62"
@@ -461,7 +461,7 @@
                   moduleName = "ParTee"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/admin/Documents/Projects/Partee-GAMS/ParTee/TONIC./ViewController/Invite/InviteViewController.m"
-                  timestampString = "557422868.6439871"
+                  timestampString = "557675516.675132"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "62"
@@ -622,7 +622,7 @@
                   moduleName = "ParTee"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/admin/Documents/Projects/Partee-GAMS/ParTee/TONIC./ViewController/SpecialInvite/ViewSpecialInvite.m"
-                  timestampString = "557422868.721562"
+                  timestampString = "557675516.744634"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "180"
@@ -637,7 +637,7 @@
                   moduleName = "ParTee"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/admin/Documents/Projects/Partee-GAMS/ParTee/TONIC./ViewController/SpecialInvite/ViewSpecialInvite.m"
-                  timestampString = "557422868.725379"
+                  timestampString = "557675516.748288"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "182"
@@ -1054,7 +1054,7 @@
                   moduleName = "ParTee"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/admin/Documents/Projects/Partee-GAMS/ParTee/TONIC./ViewController/Specials/SpecialsViewController.m"
-                  timestampString = "557422868.9310189"
+                  timestampString = "557675516.960999"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "1429"
@@ -1069,7 +1069,7 @@
                   moduleName = "ParTee"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/admin/Documents/Projects/Partee-GAMS/ParTee/TONIC./ViewController/Specials/SpecialsViewController.m"
-                  timestampString = "557422868.935251"
+                  timestampString = "557675516.965175"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "1429"
@@ -1150,7 +1150,7 @@
                   moduleName = "ParTee"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/admin/Documents/Projects/Partee-GAMS/ParTee/TONIC./ViewController/Invite/InviteViewController.m"
-                  timestampString = "557422868.969412"
+                  timestampString = "557675517.002079"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "935"
@@ -1165,7 +1165,7 @@
                   moduleName = "ParTee"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/admin/Documents/Projects/Partee-GAMS/ParTee/TONIC./ViewController/Invite/InviteViewController.m"
-                  timestampString = "557422868.973178"
+                  timestampString = "557675517.006315"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "935"
@@ -1262,7 +1262,7 @@
                   moduleName = "ParTee"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/admin/Documents/Projects/Partee-GAMS/ParTee/TONIC./ViewController/ViewUsers/ViewUsersViewController.m"
-                  timestampString = "557422869.014251"
+                  timestampString = "557675517.052982"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "1060"
@@ -1277,7 +1277,7 @@
                   moduleName = "ParTee"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/admin/Documents/Projects/Partee-GAMS/ParTee/TONIC./ViewController/ViewUsers/ViewUsersViewController.m"
-                  timestampString = "557422869.01775"
+                  timestampString = "557675517.056851"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "1060"
@@ -1292,7 +1292,7 @@
                   moduleName = "ParTee"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/admin/Documents/Projects/Partee-GAMS/ParTee/TONIC./ViewController/ViewUsers/ViewUsersViewController.m"
-                  timestampString = "557422869.021578"
+                  timestampString = "557675517.06153"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "1060"
@@ -1357,7 +1357,7 @@
                   moduleName = "ParTee"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/admin/Documents/Projects/Partee-GAMS/ParTee/TONIC./ViewController/Register/RegisterViewController.m"
-                  timestampString = "557422869.055828"
+                  timestampString = "557675517.098302"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "1226"
@@ -1372,7 +1372,7 @@
                   moduleName = "ParTee"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/admin/Documents/Projects/Partee-GAMS/ParTee/TONIC./ViewController/Register/RegisterViewController.m"
-                  timestampString = "557422869.0592951"
+                  timestampString = "557675517.102999"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "1226"
@@ -1387,7 +1387,7 @@
                   moduleName = "ParTee"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/admin/Documents/Projects/Partee-GAMS/ParTee/TONIC./ViewController/Register/RegisterViewController.m"
-                  timestampString = "557422869.0631011"
+                  timestampString = "557675517.107886"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "1226"
@@ -1724,7 +1724,7 @@
                   moduleName = "ParTee"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/admin/Documents/Projects/Partee-GAMS/ParTee/TONIC./ViewController/ViewUsers/ViewUsersViewController.m"
-                  timestampString = "557422869.367651"
+                  timestampString = "557675517.345629"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "1232"
@@ -1739,7 +1739,7 @@
                   moduleName = "ParTee"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/admin/Documents/Projects/Partee-GAMS/ParTee/TONIC./ViewController/ViewUsers/ViewUsersViewController.m"
-                  timestampString = "557422869.371779"
+                  timestampString = "557675517.350508"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "1232"
@@ -1754,7 +1754,7 @@
                   moduleName = "ParTee"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/admin/Documents/Projects/Partee-GAMS/ParTee/TONIC./ViewController/ViewUsers/ViewUsersViewController.m"
-                  timestampString = "557422869.376007"
+                  timestampString = "557675517.354969"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "1232"
@@ -1867,7 +1867,7 @@
                   moduleName = "ParTee"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/admin/Documents/Projects/Partee-GAMS/ParTee/TONIC./ViewController/Specials/SpecialsViewController.m"
-                  timestampString = "557422869.42816"
+                  timestampString = "557675517.56519"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "1468"
@@ -1882,7 +1882,7 @@
                   moduleName = "ParTee"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/admin/Documents/Projects/Partee-GAMS/ParTee/TONIC./ViewController/Specials/SpecialsViewController.m"
-                  timestampString = "557422869.432193"
+                  timestampString = "557675517.568578"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "1468"
@@ -1897,7 +1897,7 @@
                   moduleName = "ParTee"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/admin/Documents/Projects/Partee-GAMS/ParTee/TONIC./ViewController/Specials/SpecialsViewController.m"
-                  timestampString = "557422869.437367"
+                  timestampString = "557675517.57204"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "1468"
@@ -2074,7 +2074,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TONIC./ViewController/Map/MapViewController.m"
-            timestampString = "557336714.226053"
+            timestampString = "557678464.871945"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "218"
@@ -2090,7 +2090,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TONIC./ViewController/Map/MapViewController.m"
-            timestampString = "557336714.226123"
+            timestampString = "557678464.872022"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "217"
@@ -2106,27 +2106,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TONIC./ViewController/Preferences/SettingsViewController.m"
-            timestampString = "557425496.718969"
+            timestampString = "557678464.872088"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "387"
-            endingLineNumber = "387"
-            landmarkName = "-femaleTapped:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TONIC./ViewController/Preferences/SettingsViewController.m"
-            timestampString = "557425496.719039"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "365"
-            endingLineNumber = "365"
+            startingLineNumber = "382"
+            endingLineNumber = "382"
             landmarkName = "-maleTapped:"
             landmarkType = "7">
          </BreakpointContent>
@@ -2138,11 +2122,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TONIC./ViewController/Preferences/SettingsViewController.m"
-            timestampString = "557425496.719107"
+            timestampString = "557678464.872553"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "155"
-            endingLineNumber = "155"
+            startingLineNumber = "161"
+            endingLineNumber = "161"
             landmarkName = "-bindData"
             landmarkType = "7">
          </BreakpointContent>
@@ -2154,12 +2138,124 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TONIC./ViewController/Preferences/SettingsViewController.m"
-            timestampString = "557425496.719177"
+            timestampString = "557678464.872888"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "374"
-            endingLineNumber = "374"
+            startingLineNumber = "391"
+            endingLineNumber = "391"
             landmarkName = "-maleTapped:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TONIC./ViewController/Preferences/SettingsViewController.m"
+            timestampString = "557678464.873206"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "980"
+            endingLineNumber = "980"
+            landmarkName = "-resetFilters:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TONIC./ViewController/Preferences/SettingsViewController.m"
+            timestampString = "557678464.8735729"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "502"
+            endingLineNumber = "502"
+            landmarkName = "-action_Menu:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TONIC./ViewController/Preferences/SettingsViewController.m"
+            timestampString = "557678464.873896"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "510"
+            endingLineNumber = "510"
+            landmarkName = "-action_Menu:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TONIC./ViewController/Preferences/SettingsViewController.m"
+            timestampString = "557678464.8742059"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "514"
+            endingLineNumber = "514"
+            landmarkName = "-action_Menu:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TONIC./ViewController/Preferences/SettingsViewController.m"
+            timestampString = "557678464.874514"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "769"
+            endingLineNumber = "769"
+            landmarkName = "-savesettings"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TONIC./ViewController/Preferences/SettingsViewController.m"
+            timestampString = "557678464.874823"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "827"
+            endingLineNumber = "827"
+            landmarkName = "-changeData"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TONIC./ViewController/Preferences/SettingsViewController.m"
+            timestampString = "557678464.875127"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "911"
+            endingLineNumber = "911"
+            landmarkName = "-changeData"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

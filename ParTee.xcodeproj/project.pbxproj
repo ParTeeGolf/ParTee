@@ -598,6 +598,8 @@
 		84BEFDAF2119F28F003240E4 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84BEFDAE2119F28F003240E4 /* LoginViewController.xib */; };
 		84BEFDB12119F90D003240E4 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84BEFDB02119F90D003240E4 /* Launch Screen.storyboard */; };
 		84BEFDB32119FA42003240E4 /* LaunchImages.png in Resources */ = {isa = PBXBuildFile; fileRef = 84BEFDB22119FA41003240E4 /* LaunchImages.png */; };
+		84FD50D4213D8D6900EF389F /* EventTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FD50D2213D8D6900EF389F /* EventTableViewCell.m */; };
+		84FD50D5213D8D6900EF389F /* EventTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84FD50D3213D8D6900EF389F /* EventTableViewCell.xib */; };
 		8A535C251F63743A0063B813 /* image-placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = 8A535C241F63743A0063B813 /* image-placeholder.png */; };
 		8A535C291F637FF40063B813 /* CoursePhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A535C271F637FF40063B813 /* CoursePhotoViewController.m */; };
 		8A535C2A1F637FF40063B813 /* CoursePhotoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A535C281F637FF40063B813 /* CoursePhotoViewController.xib */; };
@@ -1395,6 +1397,9 @@
 		84BEFDAE2119F28F003240E4 /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
 		84BEFDB02119F90D003240E4 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		84BEFDB22119FA41003240E4 /* LaunchImages.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LaunchImages.png; sourceTree = "<group>"; };
+		84FD50D1213D8D6900EF389F /* EventTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EventTableViewCell.h; sourceTree = "<group>"; };
+		84FD50D2213D8D6900EF389F /* EventTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EventTableViewCell.m; sourceTree = "<group>"; };
+		84FD50D3213D8D6900EF389F /* EventTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventTableViewCell.xib; sourceTree = "<group>"; };
 		8A535C241F63743A0063B813 /* image-placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "image-placeholder.png"; sourceTree = "<group>"; };
 		8A535C261F637FF40063B813 /* CoursePhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoursePhotoViewController.h; sourceTree = "<group>"; };
 		8A535C271F637FF40063B813 /* CoursePhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoursePhotoViewController.m; sourceTree = "<group>"; };
@@ -2854,11 +2859,22 @@
 		8487A92921300E6800E4C38E /* Event */ = {
 			isa = PBXGroup;
 			children = (
+				84FD50D0213D8A2D00EF389F /* EventCell */,
 				8487A93321300F9700E4C38E /* EventViewController.h */,
 				8487A93421300F9700E4C38E /* EventViewController.m */,
 				8487A93521300F9700E4C38E /* EventViewController.xib */,
 			);
 			path = Event;
+			sourceTree = "<group>";
+		};
+		84FD50D0213D8A2D00EF389F /* EventCell */ = {
+			isa = PBXGroup;
+			children = (
+				84FD50D1213D8D6900EF389F /* EventTableViewCell.h */,
+				84FD50D2213D8D6900EF389F /* EventTableViewCell.m */,
+				84FD50D3213D8D6900EF389F /* EventTableViewCell.xib */,
+			);
+			path = EventCell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -3265,6 +3281,7 @@
 				3D707A691D56D57300591BF6 /* Assets.xcassets in Resources */,
 				3DA138831F3DBACF0000189A /* Club Rental@2x.png in Resources */,
 				3DA138871F3DBACF0000189A /* Dining@2x.png in Resources */,
+				84FD50D5213D8D6900EF389F /* EventTableViewCell.xib in Resources */,
 				3DA138A41F3DBACF0000189A /* Umbrella@2x.png in Resources */,
 				3DA138B41F3DDFBE0000189A /* moreopt@2x.png in Resources */,
 				3D9F54821ED5C79700CEE90C /* iap3.png in Resources */,
@@ -3396,6 +3413,7 @@
 				3D76D8DE1D66ED69006D543F /* PDFViewController.m in Sources */,
 				3D707B241D56D7A200591BF6 /* MFSideMenuContainerViewController.m in Sources */,
 				3D707B1F1D56D7A200591BF6 /* UIImage+MultiFormat.m in Sources */,
+				84FD50D4213D8D6900EF389F /* EventTableViewCell.m in Sources */,
 				3D707AFE1D56D7A200591BF6 /* AFNetworkReachabilityManager.m in Sources */,
 				8A535C291F637FF40063B813 /* CoursePhotoViewController.m in Sources */,
 				3D707B021D56D7A200591BF6 /* AFURLResponseSerialization.m in Sources */,

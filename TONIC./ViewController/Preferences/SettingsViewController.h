@@ -20,7 +20,11 @@
     QBCOCustomObject *object;
     NSArray *arrData;
 
-    IBOutlet UISegmentedControl *photGraphSeg;
+    IBOutlet NSLayoutConstraint *saveBaseViewConstraints;
+    IBOutlet UIView *SaveBaseView;
+    IBOutlet UIView *locationBaseView;
+    IBOutlet UIView *photoGraphBaseView;
+    IBOutlet UISwitch *switchPhotograph;
     NSArray *arrTypeList;
     NSMutableArray *arrAgeList;
     NSMutableArray *arrHandicapList;
