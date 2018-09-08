@@ -23,6 +23,15 @@
 #define kScreenLogin 121
 #define kScreenRegister 122
 
-
-
+/************ Event Screen **********/
+#define kAdvertisementEventNo 5
+#define kEventNoSectionTbl 1
+#define kRemainderValAdvEvent 0
+#define kEventCellSize 150
+#define kIndexFav 0
+#define kIndexInfo 1
+#define kIndexMap 2
+#define kIndexDirection 3
+#define kIndexPhoto 4
+/************ Event Screen **********/
 #endif /* Constant_h */

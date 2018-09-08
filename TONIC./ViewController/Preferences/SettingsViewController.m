@@ -107,6 +107,7 @@
 -(void) viewWillAppear:(BOOL)animated {
     self.menuContainerViewController.panMode = NO;
 
+    
     if([cameFromScreen isEqualToString:kScreenViewUsers]) {
         [btnBack setBackgroundImage:[UIImage imageNamed:@"ico-back"] forState:UIControlStateNormal];
         [btnBack setFrame:CGRectMake(15, 30, 11, 20)];
@@ -149,10 +150,13 @@
             BOOL isPro = [self IsPro];
             if (isPro) {
                 saveBaseViewConstraints.constant = -150;
+                [self bindSearchData:object searchType:@"Pro"];
+            }else {
+               [self bindSearchData:object searchType:@"User"];
             }
             
-            [self bindSearchData:object searchType:@"User"];
-            [self bindSearchData:object searchType:@"Pro"];
+            
+          
             
 
             
@@ -310,13 +314,15 @@
          if([strHandicap length]==0)
          {
              strHandicap = @"-40 - 5";
-             [btnNA setSelectedSegmentIndex:0];
+             [switchHandicap setOn:NO animated:YES];
+           //  [btnNA setSelectedSegmentIndex:0];
          }
          else
          {
              NSArray* splitHandicap = [strHandicap componentsSeparatedByString: @":"];
              strHandicap = [splitHandicap objectAtIndex: 0];
-             btnNA.selectedSegmentIndex = [[splitHandicap objectAtIndex: 1] intValue];
+      //        btnNA.selectedSegmentIndex = [[splitHandicap objectAtIndex: 1] intValue];
+              [switchHandicap setOn:[[splitHandicap objectAtIndex: 1] intValue] animated:YES];
          }
          
          [txtHandicap setText:strHandicap];
@@ -523,7 +529,8 @@
                                               myObSliderOutlet.value=150;
                                               
                                               [txtHandicap setText:@"-40 - 5"];
-                                              btnNA.selectedSegmentIndex = 0;
+                                    //          btnNA.selectedSegmentIndex = 0;
+                                               [switchHandicap setOn:NO animated:YES];
                                               [self savesettings];
                                               //   [self.navigationController popViewControllerAnimated:YES];
                                           }];
@@ -622,6 +629,8 @@
 
 }
 
+#pragma mark - Handicap Switch Action
+
 -(IBAction) handicapTapped:(id)sender {
     [viewToolbar setHidden:NO];
     [viewTable setHidden:YES];
@@ -644,7 +653,7 @@
 }
 
 //-----------------------------------------------------------------------
-
+#pragma mark - type Button Action
 -(IBAction) typeTapped:(id)sender {
 
     /*********** ChetuChange ********/
@@ -661,6 +670,12 @@
      /*********** ChetuChange ********/
 }
 
+#pragma mark - photgraph Button Action
+
+- (IBAction)btnPhotographAction:(id)sender {
+    
+     [self ComingSoon];
+}
 
 #pragma mark - Feature Comming Soon Alert
 
@@ -769,8 +784,8 @@
     [object.fields setObject:nameTxtFld.text forKey:@"Golfers_name"];
     [object.fields setObject:txtType.text  forKey:@"Type"];
     
-    NSString *strIntHandicap = [txtHandicap.text stringByAppendingString:[NSString stringWithFormat:@":%ld",(long)btnNA.selectedSegmentIndex]];
-    
+ //   NSString *strIntHandicap = [txtHandicap.text stringByAppendingString:[NSString stringWithFormat:@":%ld",(long)btnNA.selectedSegmentIndex]];
+    NSString *strIntHandicap = [txtHandicap.text stringByAppendingString:[NSString stringWithFormat:@":%ld",(long)switchHandicap.isOn]];
     [object.fields setObject:strIntHandicap forKey:@"Handicap"];
     [object.fields setObject:[txtCity.text componentsSeparatedByString: @","] forKey:@"City"];
     [object.fields setObject:[NSString stringWithFormat:@"%d",(int)myObSliderOutlet.value] forKey:@"Location"];
@@ -969,8 +984,8 @@
                                  myObSliderOutlet.value=150;
                                  
                                  [txtHandicap setText:@"-40 - 5"];
-                                 btnNA.selectedSegmentIndex = 0;
-                                 
+                            //     btnNA.selectedSegmentIndex = 0;
+                                 [switchHandicap setOn:NO animated:YES];
                              }];
     
     UIAlertAction* noBtn = [UIAlertAction

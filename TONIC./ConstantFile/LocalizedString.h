@@ -127,5 +127,17 @@
 #define kFeatureSoonAlertTitle @"This Feature Coming Soon!"
 /*************** Golfers Search Screen *********/
 
+/**************** Event Sccreen ***********/
+#define kAdEventlblTxt @"Advertisment Event"
+#define kEventCellName @"EventTableViewCell"
+#define kEventTblName @"CourseEvents"
+#define kEventLimitParam @"limit"
+#define kEventSkipParam @"skip"
+#define kEventCellImgUrl @"ImageUrl"
+#define kEventCellDefaultImg @"imgplaceholder.jpg"
+#define kEventDateFormatOriginal @"yyyy-MM-dd'T'HH:mm:ss'Z'"
+#define kEventDateFormatFinal  @"dd-MMM-yyyy"
+
+/**************** Event Sccreen ***********/
 
 #endif /* LocalizedString_h */

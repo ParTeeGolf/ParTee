@@ -653,47 +653,10 @@ int courseOption;
         if([objects count]>=[kLimit integerValue]) {
             shouldLoadNext = YES;
             fetchNextRecordBtn.hidden = false;
-            
-            //            NSMutableArray *arrTemp = [[NSMutableArray alloc] init];
-            //
-            //            for(QBCOCustomObject *obj in objects) {
-            //
-            //                [obj.fields setObject:@"4" forKey:@"Order"];
-            //                [arrTemp addObject:obj];
-            //            }
-            //
-            //            [QBRequest updateObjects:arrTemp className:@"GolfCourses" successBlock:^(QBResponse *response, NSArray *objects, NSArray *notFoundObjectsIds) {
-            //
-            //                [tblList reloadData];
-            //
-            //                // response processing
-            //            } errorBlock:^(QBResponse *error) {
-            //                // error handling
-            //                NSLog(@"Response error: %@", [response.error description]);
-            //            }];
-            
         }
         else {
             shouldLoadNext=NO;
               fetchNextRecordBtn.hidden = true;
-            //            NSMutableArray *arrTemp = [[NSMutableArray alloc] init];
-            //
-            //            for(QBCOCustomObject *obj in objects) {
-            //
-            //                [obj.fields setObject:@"4" forKey:@"Order"];
-            //                [arrTemp addObject:obj];
-            //            }
-            //
-            //            [QBRequest updateObjects:arrTemp className:@"GolfCourses" successBlock:^(QBResponse *response, NSArray *objects, NSArray *notFoundObjectsIds) {
-            //
-            //                [tblList reloadData];
-            //
-            //                // response processing
-            //            } errorBlock:^(QBResponse *error) {
-            //                // error handling
-            //                NSLog(@"Response error: %@", [response.error description]);
-            //            }];
-            
         }
         if (shouldLoadNext) {
             
@@ -836,6 +799,7 @@ int courseOption;
 //-----------------------------------------------------------------------
 
 - (IBAction)segmentSwitch:(id)sender {
+  
     UISegmentedControl *segmentedControl = (UISegmentedControl *) sender;
     NSInteger selectedSegment = segmentedControl.selectedSegmentIndex;
     /*********** ChetuChange **********/

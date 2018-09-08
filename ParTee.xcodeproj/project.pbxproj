@@ -598,6 +598,9 @@
 		84BEFDAF2119F28F003240E4 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84BEFDAE2119F28F003240E4 /* LoginViewController.xib */; };
 		84BEFDB12119F90D003240E4 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84BEFDB02119F90D003240E4 /* Launch Screen.storyboard */; };
 		84BEFDB32119FA42003240E4 /* LaunchImages.png in Resources */ = {isa = PBXBuildFile; fileRef = 84BEFDB22119FA41003240E4 /* LaunchImages.png */; };
+		84E2304F2143DFE700E51483 /* EventPreferncesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E2304D2143DFE700E51483 /* EventPreferncesViewController.m */; };
+		84E230502143DFE700E51483 /* EventPreferncesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84E2304E2143DFE700E51483 /* EventPreferncesViewController.xib */; };
+		84F94FD92142A1D900D96D6A /* CommonMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = 84F94FD82142A1D900D96D6A /* CommonMethods.m */; };
 		84FD50D4213D8D6900EF389F /* EventTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FD50D2213D8D6900EF389F /* EventTableViewCell.m */; };
 		84FD50D5213D8D6900EF389F /* EventTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84FD50D3213D8D6900EF389F /* EventTableViewCell.xib */; };
 		8A535C251F63743A0063B813 /* image-placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = 8A535C241F63743A0063B813 /* image-placeholder.png */; };
@@ -1397,6 +1400,11 @@
 		84BEFDAE2119F28F003240E4 /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
 		84BEFDB02119F90D003240E4 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		84BEFDB22119FA41003240E4 /* LaunchImages.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LaunchImages.png; sourceTree = "<group>"; };
+		84E2304C2143DFE700E51483 /* EventPreferncesViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EventPreferncesViewController.h; sourceTree = "<group>"; };
+		84E2304D2143DFE700E51483 /* EventPreferncesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EventPreferncesViewController.m; sourceTree = "<group>"; };
+		84E2304E2143DFE700E51483 /* EventPreferncesViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventPreferncesViewController.xib; sourceTree = "<group>"; };
+		84F94FD72142A1D900D96D6A /* CommonMethods.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CommonMethods.h; path = TONIC./Helper/CommonMethods/CommonMethods.h; sourceTree = SOURCE_ROOT; };
+		84F94FD82142A1D900D96D6A /* CommonMethods.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = CommonMethods.m; path = TONIC./Helper/CommonMethods/CommonMethods.m; sourceTree = SOURCE_ROOT; };
 		84FD50D1213D8D6900EF389F /* EventTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EventTableViewCell.h; sourceTree = "<group>"; };
 		84FD50D2213D8D6900EF389F /* EventTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EventTableViewCell.m; sourceTree = "<group>"; };
 		84FD50D3213D8D6900EF389F /* EventTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventTableViewCell.xib; sourceTree = "<group>"; };
@@ -1826,6 +1834,7 @@
 		3D707A771D56D6E200591BF6 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
+				84F94FD62142A19F00D96D6A /* CommonMethods */,
 				3DA137D91F3DB41E0000189A /* RNGridMenu */,
 				3D3F11901F307B6C00DE428E /* Harpy */,
 				3D3205011F2E0A4A008DE028 /* OBSlider */,
@@ -2859,12 +2868,32 @@
 		8487A92921300E6800E4C38E /* Event */ = {
 			isa = PBXGroup;
 			children = (
+				84E2304B2143DFBB00E51483 /* EventPreferences */,
 				84FD50D0213D8A2D00EF389F /* EventCell */,
 				8487A93321300F9700E4C38E /* EventViewController.h */,
 				8487A93421300F9700E4C38E /* EventViewController.m */,
 				8487A93521300F9700E4C38E /* EventViewController.xib */,
 			);
 			path = Event;
+			sourceTree = "<group>";
+		};
+		84E2304B2143DFBB00E51483 /* EventPreferences */ = {
+			isa = PBXGroup;
+			children = (
+				84E2304C2143DFE700E51483 /* EventPreferncesViewController.h */,
+				84E2304D2143DFE700E51483 /* EventPreferncesViewController.m */,
+				84E2304E2143DFE700E51483 /* EventPreferncesViewController.xib */,
+			);
+			path = EventPreferences;
+			sourceTree = "<group>";
+		};
+		84F94FD62142A19F00D96D6A /* CommonMethods */ = {
+			isa = PBXGroup;
+			children = (
+				84F94FD72142A1D900D96D6A /* CommonMethods.h */,
+				84F94FD82142A1D900D96D6A /* CommonMethods.m */,
+			);
+			path = CommonMethods;
 			sourceTree = "<group>";
 		};
 		84FD50D0213D8A2D00EF389F /* EventCell */ = {
@@ -3102,6 +3131,7 @@
 				3D514D491F3EC5D4008DD014 /* type-2@2x.png in Resources */,
 				3D15C4471F2B52AE0001EBC3 /* Silde 5_4s.png in Resources */,
 				3D8173561F1F61F40095EDC7 /* connect-1.png in Resources */,
+				84E230502143DFE700E51483 /* EventPreferncesViewController.xib in Resources */,
 				3D0D939C1EAEF6BA007A8C8C /* decoration-star.png in Resources */,
 				84BEFDAF2119F28F003240E4 /* LoginViewController.xib in Resources */,
 				3DC65E941D57658F008A0ADC /* dot-active@2x.png in Resources */,
@@ -3409,6 +3439,7 @@
 				3D707B0F1D56D7A200591BF6 /* SBJSON.m in Sources */,
 				3D92C89F1D5B6BF5005C8CAE /* DemoMessagesViewController.m in Sources */,
 				3D65B5B71F1D0D8C00852FD9 /* DGActivityIndicatorBallGridPulseAnimation.m in Sources */,
+				84E2304F2143DFE700E51483 /* EventPreferncesViewController.m in Sources */,
 				3D707AFC1D56D7A200591BF6 /* AFHTTPRequestOperationManager.m in Sources */,
 				3D76D8DE1D66ED69006D543F /* PDFViewController.m in Sources */,
 				3D707B241D56D7A200591BF6 /* MFSideMenuContainerViewController.m in Sources */,
@@ -3468,6 +3499,7 @@
 				3D6C18661D66AAFE00F87998 /* cell_Invite.m in Sources */,
 				3DAABBA21F24EAD00009E6C7 /* EAIntroView.m in Sources */,
 				3D92C8221D5B5B24005C8CAE /* JSQMessagesToolbarButtonFactory.m in Sources */,
+				84F94FD92142A1D900D96D6A /* CommonMethods.m in Sources */,
 				3D707B0C1D56D7A200591BF6 /* JSONKit.m in Sources */,
 				3D65B5CE1F1D0D8C00852FD9 /* DGActivityIndicatorThreeDotsAnimation.m in Sources */,
 				3D65B5B81F1D0D8C00852FD9 /* DGActivityIndicatorBallPulseAnimation.m in Sources */,

@@ -381,9 +381,9 @@ long currentTag = 1;
             [AppDelegate sharedinstance].strIsMyMatches=@"1";
             break;
         case 2:
-//            viewController    = [[InviteViewController alloc] initWithNibName:@"InviteViewController" bundle:nil];
-//            ((InviteViewController*)viewController).strIsConnInvite=@"1";
-             [self ComingSoon];
+            viewController    = [[InviteViewController alloc] initWithNibName:@"InviteViewController" bundle:nil];
+            ((InviteViewController*)viewController).strIsConnInvite=@"1";
+         //    [self ComingSoon];
             break;
         case 3:
 //            viewController    = [[SpecialsViewController alloc] initWithNibName:@"SpecialsViewController" bundle:nil];

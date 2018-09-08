@@ -29,6 +29,7 @@
 #import <GoogleMaps/GoogleMaps.h>
 #import "LocalizedString.h"
 #import "Constant.h"
+#import "CommonMethods.h"
 #define kGOOGLE_API_KEY @"AIzaSyCfwNjY_fTIqkQSD3VjNWhXAE8YgDVKYNU"
 
 

@@ -377,21 +377,25 @@
     NSMutableDictionary *dictLocalUserData = [[[NSUserDefaults standardUserDefaults] objectForKey:kuserData] mutableCopy];
     __block int weeklyConnects = [[dictLocalUserData objectForKey:@"userFreeConnects"] integerValue];
     __block  int userPurchasedConnects = [[dictLocalUserData objectForKey:@"userPurchasedConnects"] integerValue];
+ 
+    /************* ChetuChange *************/
     
-    if(![[dictLocalUserData objectForKey:@"userFullMode"] isEqualToString:@"1"]){
-        
-        int totalAvailableConnects = weeklyConnects + userPurchasedConnects;
-        
-        if(totalAvailableConnects<1) {
-            
-            // Show pop up to buy more or upgrade
-            
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"PURCHASE CONNECTS" message:@"Sorry, you have no CONNECTS available to send request.\nDo you want to buy them?" delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
-            alert.tag=121;
-            [alert show];
-            return;
-        }
-    }
+//    if(![[dictLocalUserData objectForKey:@"userFullMode"] isEqualToString:@"1"]){
+//
+//        int totalAvailableConnects = weeklyConnects + userPurchasedConnects;
+//
+//        if(totalAvailableConnects<1) {
+//
+//            // Show pop up to buy more or upgrade
+//
+//            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"PURCHASE CONNECTS" message:@"Sorry, you have no CONNECTS available to send request.\nDo you want to buy them?" delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
+//            alert.tag=121;
+//            [alert show];
+//            return;
+//        }
+//    }
+//
+     /************* ChetuChange *************/
     
         QBCOCustomObject *obj = dictUserData;//[arrData objectAtIndex:indexPath.row];
         

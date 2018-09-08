@@ -9,5 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface EventTableViewCell : UITableViewCell
-
+@property (strong, nonatomic) IBOutlet UIButton *BtnFav;
+@property (strong, nonatomic) IBOutlet UILabel *lblDate;
+@property (strong, nonatomic) IBOutlet UIImageView *imgEvent;
+-(void)setDataFromQbObj:(QBCOCustomObject *)obj;
 @end

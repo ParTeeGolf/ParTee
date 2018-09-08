@@ -44,6 +44,7 @@
 
     IBOutlet UIScrollView *scrollViewContainer;
 
+    IBOutlet UISwitch *switchHandicap;
     IBOutlet UITextField *txtCity;
     IBOutlet UITextField *txtAge;
     IBOutlet UITextField *txtType;
@@ -52,8 +53,11 @@
     IBOutlet UITextField *txtHandicap;
     IBOutlet UIPickerView *pickerView;
     IBOutlet UIView *minMaxView;
+    /*********** ChetuChange **********/
+    // Hide handicap segment as per suggestion after change to switch
+   //  IBOutlet UISegmentedControl *btnNA;
+    /*********** ChetuChange **********/
     IBOutlet UISegmentedControl *minMax;
-    IBOutlet UISegmentedControl *btnNA;
     
     IBOutlet UIView *HandicapView;
 

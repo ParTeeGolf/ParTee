@@ -41,8 +41,11 @@
     NSString *strIsMyMatches;
     IBOutlet UILabel *lblTitle;
     
+    IBOutlet NSLayoutConstraint *nextPrevBaseViewHeightConstraints;
     IBOutlet UIButton *btnSettingsSmall;
     IBOutlet UIButton *btnSettingsBig;
+    
+    IBOutlet UIImageView *searchImgView;
     
     IBOutlet UISegmentedControl *segmentControll;
     CLLocationCoordinate2D desplaceCoord;

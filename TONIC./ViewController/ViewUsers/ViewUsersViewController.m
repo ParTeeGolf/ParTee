@@ -23,6 +23,7 @@
     NSString *nearMe;
    //  contain all golfers count available on Quickblox table
     int coursesCount;
+    UIView *loadRecordBaseView;
     
     /************* ChetuChange *********/
 }
@@ -61,7 +62,6 @@
     [AppDelegate sharedinstance].arrContactListIDs = [[NSMutableArray alloc] init];
     [AppDelegate sharedinstance].arrSharedOnlineUsers = [[NSMutableArray alloc] init];
     
-    [lblNotAvailable setHidden:YES];
     
     arrData = [[NSMutableArray alloc] init];
     arrDialogData = [[NSMutableArray alloc] init];
@@ -111,6 +111,12 @@
    
     [AppDelegate sharedinstance].strIsChatConnected = @"0";
     if([strIsMyMatches isEqualToString:@"1"]) {
+        nextPrevBaseViewHeightConstraints.constant = 0;
+        loadRecordBaseView.hidden = true;
+        searchImgView.hidden = true;
+        btnSettingsBig.hidden = true;
+        btnSettingsSmall.hidden = true;
+        
         [AppDelegate sharedinstance].currentScreen = kScreenusers;
 
         [AppDelegate sharedinstance].strIsMyMatches = @"1";
@@ -164,6 +170,8 @@
     lblNotAvailable.frame = CGRectMake((self.view.frame.size.width - lblNotAvailable.frame.size.width )/2, (self.view.frame.size.height - lblNotAvailable.frame.size.height )/2, lblNotAvailable.frame.size.width, lblNotAvailable.frame.size.height);
     nearMe = @"NO";
     segmentControll.selectedSegmentIndex = 0;
+    fetchPrevRecordBtn.hidden = true;
+    fecthInitialRecordBtn.hidden = true;
     /************ ChetuChange *************/
     
 }
@@ -176,7 +184,7 @@
     CGFloat screenWidth = screenRect.size.width;
     
     // create baseview for previous, next and lable
-    UIView *loadRecordBaseView = [[UIView alloc]initWithFrame:CGRectMake((screenWidth - 250 )/2, 0, 250, fecthNextPrevRecordsBaseVIew.frame.size.height)];
+    loadRecordBaseView = [[UIView alloc]initWithFrame:CGRectMake((screenWidth - 250 )/2, 0, 250, fecthNextPrevRecordsBaseVIew.frame.size.height)];
     loadRecordBaseView.backgroundColor = [UIColor clearColor];
     [fecthNextPrevRecordsBaseVIew addSubview:loadRecordBaseView];
     
@@ -572,12 +580,7 @@
     
     NSMutableDictionary *dictUserSearchData = [[[NSUserDefaults standardUserDefaults] objectForKey:searchType] mutableCopy];
     
-    NSString *strGolfer_name = [dictUserSearchData  objectForKey:@"Golfers_name"];
-    
-    if(![strGolfer_name isEqualToString:@"All"])
-    {
-        [getRequest setObject: strGolfer_name forKey:@"userDisplayName[ctn]"];
-    }
+   
     // Age condition
     NSString *strAge = [dictUserSearchData objectForKey:@"Age"];
     
@@ -646,6 +649,15 @@
     if(![strState isEqualToString:@"All"] && [strState length] != 0)
         [getRequest setObject:strState forKey:@"userState[in]"];
     
+    
+    NSString *strGolfer_name = [[AppDelegate sharedinstance] nullcheck:[dictUserSearchData objectForKey:@"Golfers_name"]];
+    
+    if(![strGolfer_name isEqualToString:@"All"] && [strGolfer_name length] != 0)
+    {
+        [getRequest setObject: strGolfer_name forKey:@"userDisplayName[ctn]"];
+    }
+    
+    
     NSArray *arrCity = [dictUserSearchData objectForKey:@"City"];
     
     if(![arrCity containsObject:@"All"] && [arrCity count] != 0)
@@ -706,8 +718,8 @@
     {
         [getRequest setObject:strGender forKey:@"userGender[in]"];
     }
-    
-    
+  
+ 
     if(![self IsPro])
     {
         [getRequest setObject:[[arrConnections valueForKey:@"description"] componentsJoinedByString:@","] forKey:@"userEmail[nin]"];
@@ -786,14 +798,6 @@
     
     NSMutableDictionary *dictUserSearchData = [[[NSUserDefaults standardUserDefaults] objectForKey:searchType] mutableCopy];
     
-    
-   NSString *strGolfer_name = [dictUserSearchData  objectForKey:@"Golfers_name"];
-  
-    if(![strGolfer_name isEqualToString:@"All"])
-    {
-        [getRequest setObject: strGolfer_name forKey:@"userDisplayName[ctn]"];
-    }
-    
     // Age condition
     NSString *strAge = [dictUserSearchData objectForKey:@"Age"];
     
@@ -861,6 +865,12 @@
     
     if(![strState isEqualToString:@"All"] && [strState length] != 0)
         [getRequest setObject:strState forKey:@"userState[in]"];
+    
+    NSString *strGolfer_name = [[AppDelegate sharedinstance] nullcheck:[dictUserSearchData objectForKey:@"Golfers_name"]];
+    
+    if(![strGolfer_name isEqualToString:@"All"] && [strGolfer_name length] != 0)
+        [getRequest setObject: strGolfer_name forKey:@"userDisplayName[ctn]"];
+
     
     NSArray *arrCity = [dictUserSearchData objectForKey:@"City"];
     
@@ -1172,53 +1182,58 @@
         
         return;
     }
-    
-    // Show pop up to buy more or upgrade
+
 
     NSMutableDictionary *dictUserData = [[[NSUserDefaults standardUserDefaults] objectForKey:kuserData] mutableCopy];
-
-    if(![[dictUserData objectForKey:@"userFullMode"] isEqualToString:@"1"]){
-        
-        int weeklyConnects = [[dictUserData objectForKey:@"userFreeConnects"] intValue];
-        int userPurchasedConnects = [[dictUserData objectForKey:@"userPurchasedConnects"] intValue];
-        
-        int totalAvailableConnects = weeklyConnects + userPurchasedConnects;
-        
-        if(totalAvailableConnects<1) {
-
-            // Show pop up to buy more or upgrade
-
-            UIAlertController * alert = [UIAlertController
-                                         alertControllerWithTitle:@"PURCHASE CONNECTS"
-                                         message:@"Sorry, you have no CONNECTS available to send request.\nDo you want to buy them?"
-                                         preferredStyle:UIAlertControllerStyleAlert];
-
-
-
-            UIAlertAction* yesButton = [UIAlertAction
-                                        actionWithTitle:@"YES"
-                                        style:UIAlertActionStyleDefault
-                                        handler:^(UIAlertAction * action) {
-                                            //Handle your yes please button action here
-                                        }];
-
-            UIAlertAction* noButton = [UIAlertAction
-                                       actionWithTitle:@"NO"
-                                       style:UIAlertActionStyleDefault
-                                       handler:^(UIAlertAction * action) {
-
-                                       }];
-
-            [alert addAction:yesButton];
-            [alert addAction:noButton];
-
-            [self presentViewController:alert animated:YES completion:nil];
-
-            
-            return;
-        }
-    }
+   
+    /*********** ChetuChange *************/
+// Commented to remove the functionality for purchase connects throughout the application
     
+    // Show pop up to buy more or upgrade
+    
+//    if(![[dictUserData objectForKey:@"userFullMode"] isEqualToString:@"1"]){
+//
+//        int weeklyConnects = [[dictUserData objectForKey:@"userFreeConnects"] intValue];
+//        int userPurchasedConnects = [[dictUserData objectForKey:@"userPurchasedConnects"] intValue];
+//
+//        int totalAvailableConnects = weeklyConnects + userPurchasedConnects;
+//
+//        if(totalAvailableConnects<1) {
+//
+//            // Show pop up to buy more or upgrade
+//
+//            UIAlertController * alert = [UIAlertController
+//                                         alertControllerWithTitle:@"PURCHASE CONNECTS"
+//                                         message:@"Sorry, you have no CONNECTS available to send request.\nDo you want to buy them?"
+//                                         preferredStyle:UIAlertControllerStyleAlert];
+//
+//
+//
+//            UIAlertAction* yesButton = [UIAlertAction
+//                                        actionWithTitle:@"YES"
+//                                        style:UIAlertActionStyleDefault
+//                                        handler:^(UIAlertAction * action) {
+//                                            //Handle your yes please button action here
+//                                        }];
+//
+//            UIAlertAction* noButton = [UIAlertAction
+//                                       actionWithTitle:@"NO"
+//                                       style:UIAlertActionStyleDefault
+//                                       handler:^(UIAlertAction * action) {
+//
+//                                       }];
+//
+//            [alert addAction:yesButton];
+//            [alert addAction:noButton];
+//
+//            [self presentViewController:alert animated:YES completion:nil];
+//
+//
+//            return;
+//        }
+//    }
+    
+    /*********** ChetuChange *************/
     QBCOCustomObject *object = [QBCOCustomObject customObject];
     object.className = @"UserConnections";
     

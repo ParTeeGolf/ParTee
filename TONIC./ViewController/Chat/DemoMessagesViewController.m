@@ -566,41 +566,41 @@
         }];
 
     
-//        if(cntMessage%1==0) {
-//            // Check in background, user block/remove from my match status
-//            
-//            [QBRequest objectWithClassName:@"UserConnections" ID:objToUpdate.ID successBlock:^(QBResponse *response, QBCOCustomObject *object) {
-//                // do something with retrieved object
-//                
-//                NSString *strConnStatus = [object.fields objectForKey:@"connStatus"];
-//                
-//                if(![strConnStatus isEqualToString:@"2"]) {
-//                    
-//                    [AppDelegate sharedinstance].isBlocked=YES;
-//                    
-//                    NSString *strMessage = [NSString stringWithFormat:@"Message could not be send.\n%@ has removed you from MY MATCHES",self.title];
-//                    [[AppDelegate sharedinstance] displayMessage:strMessage];
-//                    
-//                    [self dismissViewControllerAnimated:YES completion:^{
-//                        
-//                    }];
-//                    return ;
-//                }
-//                
-//                
-//            } errorBlock:^(QBResponse *response) {
-//                // error handling
-//                NSLog(@"Response error: %@", [response.error description]);
-//            }];
-//        }
+        if(cntMessage%1==0) {
+            // Check in background, user block/remove from my match status
+            
+            [QBRequest objectWithClassName:@"UserConnections" ID:objToUpdate.ID successBlock:^(QBResponse *response, QBCOCustomObject *object) {
+                // do something with retrieved object
+                
+                NSString *strConnStatus = [object.fields objectForKey:@"connStatus"];
+                
+                if(![strConnStatus isEqualToString:@"2"]) {
+                    
+                    [AppDelegate sharedinstance].isBlocked=YES;
+                    
+                    NSString *strMessage = [NSString stringWithFormat:@"Message could not be send.\n%@ has removed you from MY MATCHES",self.title];
+                    [[AppDelegate sharedinstance] displayMessage:strMessage];
+                    
+                    [self dismissViewControllerAnimated:YES completion:^{
+                        
+                    }];
+                    return ;
+                }
+                
+                
+            } errorBlock:^(QBResponse *response) {
+                // error handling
+                NSLog(@"Response error: %@", [response.error description]);
+            }];
+        }
 
     
-//    [dialog joinWithCompletionBlock:^(NSError * _Nullable error) {
-//
-//     
-//    }];
+    [dialog joinWithCompletionBlock:^(NSError * _Nullable error) {
 
-  //  [self sendCustomMessage];
+     
+    }];
+
+    [self sendCustomMessage];
 }
 
 - (void)didPressAccessoryButton:(UIButton *)sender

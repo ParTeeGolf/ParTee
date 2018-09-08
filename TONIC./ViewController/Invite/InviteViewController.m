@@ -409,30 +409,33 @@
         // Show pop up to buy more or upgrade
         
         NSMutableDictionary *dictUserData = [[[NSUserDefaults standardUserDefaults] objectForKey:kuserData] mutableCopy];
-        
-        if(![[dictUserData objectForKey:@"userFullMode"] isEqualToString:@"1"]){
-            
-            NSString *struserWeeklyConnects =  [dictUserData objectForKey:@"userFreeConnects"];
-            NSString *struserPurchasedConnects =  [dictUserData objectForKey:@"userPurchasedConnects"];
-            
-            int weeklyConnects = [struserWeeklyConnects integerValue];
-            int userPurchasedConnects = [struserPurchasedConnects integerValue];
-            
-            int totalAvailableConnects = weeklyConnects + userPurchasedConnects;
-            
-            if(totalAvailableConnects<1) {
-                
-                // Show pop up to buy more or upgrade
-                
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"PURCHASE CONNECTS" message:@"Sorry, you have no CONNECTS available to accept request.\nDo you want to buy them?" delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
-                alert.tag=121;
-                [alert show];
-                return;
-            }
-        }
-        
+ 
+        /************ ChetuChange ************/
+//        if(![[dictUserData objectForKey:@"userFullMode"] isEqualToString:@"1"]){
+//
+//            NSString *struserWeeklyConnects =  [dictUserData objectForKey:@"userFreeConnects"];
+//            NSString *struserPurchasedConnects =  [dictUserData objectForKey:@"userPurchasedConnects"];
+//
+//            int weeklyConnects = [struserWeeklyConnects integerValue];
+//            int userPurchasedConnects = [struserPurchasedConnects integerValue];
+//
+//            int totalAvailableConnects = weeklyConnects + userPurchasedConnects;
+//
+//            if(totalAvailableConnects<1) {
+//
+//                // Show pop up to buy more or upgrade
+//
+//                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"PURCHASE CONNECTS" message:@"Sorry, you have no CONNECTS available to accept request.\nDo you want to buy them?" delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
+//                alert.tag=121;
+//                [alert show];
+//                return;
+//            }
+//        }
+//
         // When a match is done,  decrease 1 connect
         
+        
+        /************ ChetuChange ************/
         // Connnections
         NSString *strOtherUserId = [obj.fields objectForKey:@"userEmail"];
         

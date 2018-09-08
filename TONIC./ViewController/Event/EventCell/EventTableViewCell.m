@@ -14,6 +14,12 @@
     [super awakeFromNib];
     // Initialization code
 }
+-(void)setDataFromQbObj:(QBCOCustomObject *)obj {
+  
+    [self.imgEvent setShowActivityIndicatorView:YES];
+    [self.imgEvent setIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    [self.imgEvent sd_setImageWithURL:[NSURL URLWithString:[obj.fields objectForKey:kEventCellImgUrl]] placeholderImage:[UIImage imageNamed:kEventCellDefaultImg]];
+}
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
