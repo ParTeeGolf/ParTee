@@ -16,29 +16,46 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+   
 }
+
+/**
+ @Description
+ * This Method save all the data provided by the user in order to search the event  and also save into user default data and popup this controller after that it will filter out the event based on perfernces set by the user.
+ * @author Chetu India
+ * @param sender  the object on which action is perofrmed.
+ * @return void nothing will return by this method.
+ */
+#pragma mark- Save And search Action
 - (IBAction)btnSaveAndSearchAction:(id)sender {
 }
+/**
+ @Description
+ * This Method pop this controller after shown the popup that have two button yes or No. If user press yes the event will be filter out based on preferences while if user pressed no then all events will be shown in event screen.
+ * @author Chetu India
+ * @param sender  the object on which action is perofrmed.
+ * @return void nothing will return by this method.
+ */
+#pragma mark- Back button Action
 - (IBAction)btnBackAction:(id)sender {
       [self.navigationController popViewControllerAnimated:YES];
 }
+/**
+ @Description
+ * This Method clears all the parameters to initial value and also ask first to clear parameters through popup or alert.
+ * @author Chetu India
+ * @param sender  the object on which action is perofrmed.
+ * @return void nothing will return by this method.
+ */
+#pragma mark- Clear search action
 - (IBAction)BtnClearSearchAction:(id)sender {
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+   
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

@@ -1223,7 +1223,6 @@
 		3D9F547D1ED5C79700CEE90C /* iaprect2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iaprect2.png; sourceTree = "<group>"; };
 		3D9F547E1ED5C79700CEE90C /* iaprect3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iaprect3.png; sourceTree = "<group>"; };
 		3D9F547F1ED5C79700CEE90C /* iaprect4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iaprect4.png; sourceTree = "<group>"; };
-		3D9F54881ED5E1BF00CEE90C /* ParTee.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ParTee.entitlements; sourceTree = SOURCE_ROOT; };
 		3DA137E01F3DB4760000189A /* RNGridMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNGridMenu.h; sourceTree = "<group>"; };
 		3DA137E11F3DB4760000189A /* RNGridMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNGridMenu.m; sourceTree = "<group>"; };
 		3DA138451F3DB7A70000189A /* right-arr@2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "right-arr@2.png"; sourceTree = "<group>"; };
@@ -1392,6 +1391,7 @@
 		3DFF3C041F404FC9003B51DE /* CoursePreferencesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CoursePreferencesViewController.xib; sourceTree = "<group>"; };
 		84192957211C79F100F86829 /* PurchaseSpecialsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PurchaseSpecialsViewController.xib; sourceTree = "<group>"; };
 		841E605D212F081000E5894C /* LocalizedString.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocalizedString.h; sourceTree = "<group>"; };
+		843395D321467DAB00ADC73D /* ParTee.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = ParTee.entitlements; sourceTree = SOURCE_ROOT; };
 		844F444C212B0E4E00BDEF6A /* Constant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constant.h; sourceTree = "<group>"; };
 		8487A93321300F9700E4C38E /* EventViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EventViewController.h; sourceTree = "<group>"; };
 		8487A93421300F9700E4C38E /* EventViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EventViewController.m; sourceTree = "<group>"; };
@@ -1778,7 +1778,7 @@
 		3D707A5B1D56D57300591BF6 /* ParTee */ = {
 			isa = PBXGroup;
 			children = (
-				3D9F54881ED5E1BF00CEE90C /* ParTee.entitlements */,
+				843395D321467DAB00ADC73D /* ParTee.entitlements */,
 				3D28E5791D98A92100A89227 /* TONIC..entitlements */,
 				844F444B212B0E2E00BDEF6A /* ConstantFile */,
 				3D707B521D56DC7C00591BF6 /* Resources */,
@@ -2252,8 +2252,8 @@
 			isa = PBXGroup;
 			children = (
 				3D8651601D65F34A0097C096 /* ViewUsersViewController.h */,
-				3D8651611D65F34A0097C096 /* ViewUsersViewController.m */,
 				3D8651621D65F34A0097C096 /* ViewUsersViewController.xib */,
+				3D8651611D65F34A0097C096 /* ViewUsersViewController.m */,
 				3D8651651D65F5110097C096 /* cell_ViewUsers.h */,
 				3D8651661D65F5110097C096 /* cell_ViewUsers.m */,
 				3D8651671D65F5110097C096 /* cell_ViewUsers.xib */,
@@ -2939,13 +2939,10 @@
 					3D707A581D56D57300591BF6 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = 5TY53JR767;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
-								enabled = 1;
-							};
-							com.apple.InAppPurchase = {
-								enabled = 1;
+								enabled = 0;
 							};
 							com.apple.Keychain = {
 								enabled = 0;
@@ -3679,8 +3676,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ParTee.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Robert Quick (9DPAJZ53GL)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				COMPRESS_PNG_FILES = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5TY53JR767;
@@ -3705,10 +3703,10 @@
 					"$(inherited)",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.appcoda.iCloudDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.verifyme.VerifyMeAuthenticator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "36d4966b-af40-42a0-a7ba-591cfc8b7d35";
+				PROVISIONING_PROFILE_SPECIFIER = VerifyMeAuthDev;
 				STRIP_PNG_TEXT = NO;
 				VALID_ARCHS = "armv7 armv7s arm64";
 			};
@@ -3719,8 +3717,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ParTee.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: ParTee, Inc. (VVNGPSU68X)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				COMPRESS_PNG_FILES = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5TY53JR767;
@@ -3745,10 +3744,10 @@
 					"$(inherited)",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.appcoda.iCloudDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.verifyme.VerifyMeAuthenticator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "d9558fcb-e263-4613-b20e-1548bba4aaa1";
+				PROVISIONING_PROFILE_SPECIFIER = VerifyMeDistAppStore;
 				STRIP_PNG_TEXT = NO;
 				VALID_ARCHS = "armv7 armv7s arm64";
 			};

@@ -161,24 +161,29 @@
         }
     }
     else if(autocompletePlaceStatus==2)  {
-        [self login];
+        [self loginTemp];
     }
 }
 
-#pragma mark createViewProgrammatically
+#pragma mark create View
 
 -(void)createViewProgrammatically {
     
     
     firstTimeViewLoad = 1;
     
+    // get device size
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    CGFloat screenWidth = screenRect.size.width;
+    CGFloat screenHeight = screenRect.size.height;
+    
     // set background image
-    UIImageView *backgroundImgView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    UIImageView *backgroundImgView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, screenWidth, screenHeight)];
     backgroundImgView.image = [UIImage imageNamed:@"background.png"];
     [self.view addSubview:backgroundImgView];
     
     // create scrollview in order to manage keybord
-    scrollViewContainer = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    scrollViewContainer = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, screenWidth, screenHeight)];
     scrollViewContainer.backgroundColor = [UIColor clearColor];
     [self.view addSubview:scrollViewContainer];
     
@@ -199,7 +204,7 @@
     [upperBaseView addSubview:loginLbl];
     
     // create lowerbaseview that contain email and password textfield and forgot password button and also crate signup button
-    UIView *lowerBaseView = [[UIView alloc]initWithFrame:CGRectMake(0, 250, self.view.frame.size.width, (self.view.frame.size.height - 250))];
+    UIView *lowerBaseView = [[UIView alloc]initWithFrame:CGRectMake(0, 216, self.view.frame.size.width, (screenHeight - 216))];
     lowerBaseView.backgroundColor = [UIColor whiteColor];
     [scrollViewContainer addSubview:lowerBaseView];
     
@@ -304,7 +309,7 @@
     
     // manage ui according to device
     if (isiPhone6Plus) {
-        lowerBaseView.frame = CGRectMake(0, self.view.frame.size.height - 440, self.view.frame.size.width, 440);
+        lowerBaseView.frame = CGRectMake(0, self.view.frame.size.height - 400, self.view.frame.size.width, 400);
         
     }else if (isiPhone5) {
         lowerBaseView.frame = CGRectMake(0, self.view.frame.size.height - 360, self.view.frame.size.width, 360);
@@ -323,10 +328,8 @@
         orImgView.frame = CGRectMake(50,signInBtn.frame.size.height + signInBtn.frame.origin.y + 33 , lowerBaseView.frame.size.width - 100, 35);
         createAccountImgView.frame = CGRectMake(50,orImgView.frame.size.height + orImgView.frame.origin.y + 17 , lowerBaseView.frame.size.width - 100, 46);
         createAccountBtn.frame = CGRectMake(50,orImgView.frame.size.height + orImgView.frame.origin.y + 17 , lowerBaseView.frame.size.width - 100, 46);
-        
-        
     }else if (isiPhone6) {
-        lowerBaseView.frame = CGRectMake(0, self.view.frame.size.height - 380, self.view.frame.size.width, 350);
+        lowerBaseView.frame = CGRectMake(0, self.view.frame.size.height - 380, self.view.frame.size.width, 380);
         
     }else {
         lowerBaseView.frame = CGRectMake(0, self.view.frame.size.height - 440, self.view.frame.size.width, 440);
@@ -438,7 +441,7 @@
         }
         else
         {
-            [self login];
+            [self loginTemp];
             
         }
         
@@ -446,7 +449,7 @@
     
 }
 
- -(void) login {
+ -(void) loginTemp {
      
         [[AppDelegate sharedinstance] showLoader];
         
@@ -962,7 +965,7 @@
             [UIView beginAnimations:nil context:NULL];
             [UIView setAnimationBeginsFromCurrentState:YES];
             [UIView setAnimationDuration:.5];
-           [scrollViewContainer setContentOffset:CGPointMake(0, textField.center.y+20)animated:NO];
+           [scrollViewContainer setContentOffset:CGPointMake(0, textField.center.y+60)animated:NO];
             [UIView commitAnimations];
         
             [self.keyboardControls setActiveField:textField];
@@ -995,7 +998,7 @@
     strlong = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlong];
     strlong = [[AppDelegate sharedinstance] nullcheck:strlong];
     
-    [self login];
+  //  [self loginTemp];
 }
 
 //-----------------------------------------------------------------------
@@ -1021,7 +1024,7 @@ didAutocompleteWithPlace:(GMSPlace *)place {
     
 
     
-    [self login];
+    [self loginTemp];
 
    // [self dismissViewControllerAnimated:YES completion:nil];
     

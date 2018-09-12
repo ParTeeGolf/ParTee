@@ -33,5 +33,6 @@
 #define kIndexMap 2
 #define kIndexDirection 3
 #define kIndexPhoto 4
+#define kZeroValue 0
 /************ Event Screen **********/
 #endif /* Constant_h */

@@ -22,6 +22,8 @@
 #define isiPhone5  ([[UIScreen mainScreen] bounds].size.height == 568)?TRUE:FALSE
 #define isiPhone6  ([[UIScreen mainScreen] bounds].size.height == 667)?TRUE:FALSE
 #define isiPhone6Plus  ([[UIScreen mainScreen] bounds].size.height == 736)?TRUE:FALSE
+#define adColor [UIColor colorWithRed:0.7020 green:0.9176 blue:0.7922 alpha:1.0]
+#define infoPopupColor [UIColor colorWithRed:0.8392 green:0.8549 blue:0.8471 alpha:1.0]
 
 #define IPAD     UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad
 #define  kAudioFileName @"1.1"
@@ -137,7 +139,50 @@
 #define kEventCellDefaultImg @"imgplaceholder.jpg"
 #define kEventDateFormatOriginal @"yyyy-MM-dd'T'HH:mm:ss'Z'"
 #define kEventDateFormatFinal  @"dd-MMM-yyyy"
-
-/**************** Event Sccreen ***********/
+#define kEventLimit @"10"
+#define kEmptyStr @""
+#define kEventTrue @"true"
+#define kEventFeatured @"featured"
+#define kEventOrder @"order"
+#define kEventSortAsc @"sort_asc"
+#define kEventCordNear @"coordinates[near]"
+#define kEventFavIn @"userFavID[in]"
+#define kEventSortAsc @"sort_asc"
+#define kEventSortAsc @"sort_asc"
+#define kEventCount @"count"
+#define kEventOneStr @"1"
+#define kEventFavID @"userFavID"
+#define kEventMarkUnFav @"Mark Unfavorite"
+#define kEventMarkFav @"Mark Favorite"
+#define kEventFavImg @"fav.png"
+#define kEventUnFavImg @"unfav"
+#define kEventFavTitle @"Your Favorite"
+#define kEventInfoTitle @"Information"
+#define kEventMapTitle @"On Map"
+#define kEventDir @"Directions"
+#define kEventInfoFilledImg @"info-filled"
+#define kEventMapImg @"viewmap"
+#define kEventDirImg @"direction"
+#define kEventCord @"coordinates"
+#define kEventCourseId @"eventCourseID"
+#define kEventIdIn @"ID[in]"
+#define kEventID @"ID"
+#define kEventGolfCourse @"GolfCourses"
+#define kEventMapVc @"MapViewController"
+#define kEventNoCourseAv @"No courses available"
+#define kEventDescParam @"Description"
+#define kEventTitleParam @"Title"
+#define kEventStartDate @"StartDate"
+#define kEventEndDateParam @"EndDate"
+#define kEventNoInfoAvailTitle @"No information available"
+#define kEventAd @"AdEvent"
+#define kEventPrefVc @"EventPreferncesViewController"
+#define kEventContact @"ContactNumber"
+#define kEventAddParam @"Address"
+#define kEventAdvTitle @"AdTitle"
+#define kEventAdDesc @"AdDesc"
+#define kEventAdWebSite @"AdWebsite"
+#define kEventWebsiteParam @"Website"
+/**************** Event Screen ***********/
 
 #endif /* LocalizedString_h */

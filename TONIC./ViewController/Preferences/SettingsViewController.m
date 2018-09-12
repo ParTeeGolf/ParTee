@@ -36,6 +36,22 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    if ([CLLocationManager locationServicesEnabled]){
+        
+        NSLog(@"Location Services Enabled");
+        
+        if ([CLLocationManager authorizationStatus]==kCLAuthorizationStatusDenied){
+      UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"App Permission Denied"
+                                               message:@"To re-enable, please go to Settings and turn on Location Service for this app."
+                                              delegate:nil
+                                     cancelButtonTitle:@"OK"
+                                     otherButtonTitles:nil];
+            [alert show];
+        }
+    }
+   
+    
+    
     UIImage *thumb = [UIImage imageNamed:@"filledcircle"];
     [myObSliderOutlet setThumbImage:thumb forState:UIControlStateNormal];
     [myObSliderOutlet setThumbImage:thumb forState:UIControlStateHighlighted];
@@ -102,6 +118,8 @@
    [self bindData];
     
     scrollViewContainer.contentSize = CGSizeMake(self.view.frame.size.width,1200 );
+     
+    
 }
 
 -(void) viewWillAppear:(BOOL)animated {
@@ -132,7 +150,7 @@
         // checking user there in custom user table or not.
         arrData=objects;
         
-        [[AppDelegate sharedinstance] hideLoader];
+      //  [[AppDelegate sharedinstance] hideLoader];
         
         if([objects count]>0) {
             
@@ -155,11 +173,7 @@
                [self bindSearchData:object searchType:@"User"];
             }
             
-            
-          
-            
-
-            
+        
         }
         else {
             [btnMale setImage:[UIImage imageNamed:@"guestmale"] forState:UIControlStateNormal];
@@ -194,6 +208,8 @@
     
     [QBRequest objectsWithClassName:@"UserSearch" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page)
      {
+         
+         [[AppDelegate sharedinstance] hideLoader];
          if([objects count] == 0)
          {
              NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
@@ -203,7 +219,7 @@
               {
                   QBCOCustomObject *defaultObject = objects[0];
                   defaultObject.parentID = userObject.ID;
-                  [defaultObject.fields setObject:@"User" forKey:@"SearchType"];
+                  [defaultObject.fields setObject:searchType forKey:@"SearchType"];
                   
                   [QBRequest createObject:defaultObject successBlock:^(QBResponse *response, QBCOCustomObject *newObject)
                    {
@@ -346,8 +362,10 @@
 }
 
 -(void) getLocationDataFromServer {
+   
+     // [[AppDelegate sharedinstance] showLoader];
     [QBRequest objectsWithClassName:@"UserInfo" extendedRequest:nil successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
-        
+        [[AppDelegate sharedinstance] hideLoader];
         NSLog(@"Entries %lu",(unsigned long)page.totalEntries);
         arrData=[objects mutableCopy];
         for(int i=0;i<[objects count];i++) {
@@ -401,8 +419,21 @@
     [btnMale setImage:[UIImage imageNamed:icon] forState:UIControlStateHighlighted];
 }
 - (IBAction)nameBtnTapped:(id)sender {
+    [nameTxtFld becomeFirstResponder];
 }
-
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    
+    int tagvalue = (int)textField.tag;
+    if (tagvalue == 1) {
+         [textField resignFirstResponder];
+        if ([textField.text isEqualToString:@""]) {
+            nameTxtFld.text = @"All";
+        }
+    }
+   
+    return YES;
+}
 #pragma mark - Photograph Switch Changed
 - (IBAction)switchPhotoGraphChanged:(id)sender {
 }

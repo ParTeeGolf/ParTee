@@ -85,7 +85,7 @@
 @property (nonatomic,strong) QBCOCustomObject *delegateShareObject;
 
 @property (nonatomic,strong) QBChatDialog *dialog;
-
+@property (nonatomic,strong) NSString *courseOptionSelected;
 - (void)saveImage : (UIImage*)img withName : (NSString*)name;
 - (UIImage*)getImage : (NSString*)name;
 -(BOOL) isUserLogIn;

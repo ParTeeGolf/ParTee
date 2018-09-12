@@ -2,9 +2,10 @@
 //  CommonMethods.m
 //  ParTee
 //
-//  Created by Admin on 07/09/18.
+//  Created by Chetu India on 07/09/18.
 //  Copyright © 2018 Hooda. All rights reserved.
-//
+// This file conatin all the methods that we used in the code for common use.
+
 
 #import "CommonMethods.h"
 
@@ -34,17 +35,16 @@
 
 /**
  @Description
- * This Method used to get the height of any object like uilabel, uitextview etc.
+ * This Method using to convert the date string from one format to another format.
  * @author Chetu India
- * @param text string that will display on object
- * @param font using for text on object
- * @param width of the object like textview or uilabel
- * @return CGFloat height of the object that needs to display text on object according to text string, font and also width of the object
+ * @param dateStr is the date to be converted in string format.
+ * @param originalFormat fromat of date in which it is converting from.
+ * @param finalFormat fromat of date in which it is converted to.
+ * @return NSString Date in string format after converted into the final format
  */
 
 +(NSString *)convertDateToAnotherFormat:(NSString *)dateStr originalFormat:(NSString *)originalFormat finalFormat:(NSString *)finalFormat
 {
-  //  2018-10-29T15:23:00Z
     
   //  First initialize the formatter with the appropriate format to parse the source string
     
@@ -59,9 +59,20 @@
     NSString *convertFormatDateStr = [formatter stringFromDate:date];
     return convertFormatDateStr;
 }
+/**
+ @Description
+ * This Method used to validate the string provided is a valid email or not.
+ * @author Chetu India
+ * @param email string to be validate wheather it is valid email string or not.
+ * @param (BOOL) return true if string provided is a valid email string while it will return false if it is not valid string provided.
+ */
+
 + (BOOL)validateEmailWithString:(NSString*)email
 {
+    
+    // Regular expression to verify that a string provided is a valid email or not.
     NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
+    // Predicates are logical conditions, which you can use to filter collections of objects.
     NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
     return [emailTest evaluateWithObject:email];
 }

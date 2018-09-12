@@ -9,8 +9,12 @@
 #import <UIKit/UIKit.h>
 
 @interface EventTableViewCell : UITableViewCell
+// Outlet for Three dot favourite button
 @property (strong, nonatomic) IBOutlet UIButton *BtnFav;
+// Outlet for Date label that we need to show on cell with start and end date of event.
 @property (strong, nonatomic) IBOutlet UILabel *lblDate;
+// outlet for image of the event available in event table on quickblox.
 @property (strong, nonatomic) IBOutlet UIImageView *imgEvent;
+//This Method set the data from QBCOCustomObject in cell.
 -(void)setDataFromQbObj:(QBCOCustomObject *)obj;
 @end

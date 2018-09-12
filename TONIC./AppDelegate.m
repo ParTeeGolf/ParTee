@@ -179,6 +179,7 @@ static AppDelegate *delegate;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
+    _courseOptionSelected = @"0";
     strcustomnotificationtimer=@"1";
     [GMSPlacesClient provideAPIKey:kGOOGLE_API_KEY];
     [GMSServices provideAPIKey:kGOOGLE_API_KEY];
@@ -236,7 +237,7 @@ static AppDelegate *delegate;
     	[[Harpy sharedInstance] setAlertType:HarpyAlertTypeForce];
     [self temp];
     
-  //  [self locationInit];
+    [self locationInit];
     
     [OneSignal initWithLaunchOptions:launchOptions appId:@"c064a937-b4df-4551-aa4e-e31eeba49d23" handleNotificationReceived:^(OSNotification *notification) {
         NSLog(@"Received Notification - %@", notification.payload.notificationID);
@@ -329,27 +330,28 @@ static AppDelegate *delegate;
     locationManager.delegate = self;
     locationManager.distanceFilter = kCLDistanceFilterNone;
     locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-
-    if (![CLLocationManager locationServicesEnabled])
-        {
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Location Services Disabled!"
-                                                                message:@"Please enable Location Based Services to show near by courses and golfers!"
-                                                               delegate:self
-                                                      cancelButtonTitle:@"Settings"
-                                                      otherButtonTitles:@"Cancel", nil];
-            
-            alertView.tag = 100;
-            [alertView show];
-
-        }
-    else {
-        if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0) {
-            [self.locationManager requestWhenInUseAuthorization];
-            
-            [self checkLocationStatus];
-        }
-        
-    }
+   
+      
+   
+    
+     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0) {
+           [locationManager requestWhenInUseAuthorization];
+     }else {
+         if (![CLLocationManager locationServicesEnabled])
+         {
+             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Location Services Disabled!"
+                                                                 message:@"Please enable Location Based Services to show near by courses and golfers!"
+                                                                delegate:self
+                                                       cancelButtonTitle:@"Settings"
+                                                       otherButtonTitles:@"Cancel", nil];
+             
+             alertView.tag = 100;
+               [alertView show];
+             
+         }
+     }
+     [locationManager startUpdatingLocation];
+   
     
 }
 
@@ -411,7 +413,7 @@ static AppDelegate *delegate;
 }
 
 -(void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error{
-    [self checkLocationStatus];
+  //   [self checkLocationStatus];
 }
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex

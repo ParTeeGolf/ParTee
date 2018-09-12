@@ -55,6 +55,8 @@ int courseOption;
 
 - (void)viewDidLoad {
     
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    delegate.courseOptionSelected = @"0";
     [super viewDidLoad];
     shouldLoadNext=YES;
     
@@ -223,9 +225,18 @@ int courseOption;
     self.menuContainerViewController.panMode=YES;
     
     [[AppDelegate sharedinstance] showLoader];
-    arrData = [[NSMutableArray alloc] init];
+ 
     
     _currentPage=0;
+//    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+//    NSString *strCourseOptionSelected =  delegate.courseOptionSelected;
+//    if ([strCourseOptionSelected isEqualToString:@"0"]) {
+//           arrData = [[NSMutableArray alloc] init];
+//    }else if ([strCourseOptionSelected isEqualToString:@"3"]) {
+//          //   arrData = [[NSMutableArray alloc] init];
+//        
+//    }
+    segmentSpecials.selectedSegmentIndex = courseOption;
     shouldLoadNext = YES;
     
     [AppDelegate sharedinstance].strIsChatConnected = @"0";
@@ -297,7 +308,7 @@ int courseOption;
         btnSearchBig.hidden = true;
         btnSearchSmall.hidden = true;
         
-    }else if (courseOption == 1) {
+    }else {
         loadRecordBaseV.hidden = false;
         recordLoadBaseViewHeightConst.constant = 30;
         searchImgView.hidden = false;
@@ -496,11 +507,11 @@ int courseOption;
     
     /*********** ChetuChange **********/
     // allocate array only if we need add more elements in array for featured courses
-    if (courseOption == 0) {
-        
-    }else {
-        arrData = [[NSMutableArray alloc] init];
-    }
+//    if (courseOption == 0) {
+//
+//    }else {
+//        arrData = [[NSMutableArray alloc] init];
+//    }
     
     /*********** ChetuChange **********/
     NSMutableDictionary *dictUserData = [[[NSUserDefaults standardUserDefaults] objectForKey:kuserData] mutableCopy];
@@ -635,7 +646,7 @@ int courseOption;
     [QBRequest objectsWithClassName:@"GolfCourses" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
         
         NSLog(@"Entries %lu",(unsigned long)page.totalEntries);
-        
+        arrData = [[NSMutableArray alloc] init];
         [[AppDelegate sharedinstance] hideLoader];
         
         [arrData addObjectsFromArray:[objects mutableCopy]];
@@ -803,10 +814,10 @@ int courseOption;
     UISegmentedControl *segmentedControl = (UISegmentedControl *) sender;
     NSInteger selectedSegment = segmentedControl.selectedSegmentIndex;
     /*********** ChetuChange **********/
-    
+     [tblList setContentOffset:tblList.contentOffset animated:NO];
     // remove elements from array when segment change. we meed to remove previous segment courses from array and load for new segment.
     [tblList setContentOffset:tblList.contentOffset animated:NO];
-    [arrData removeAllObjects];
+//    [arrData removeAllObjects];
     courseOption = (int)selectedSegment;
     shouldLoadNext = NO;
     _currentPage = 0;
@@ -847,7 +858,7 @@ int courseOption;
 -(IBAction) segmentChanged :(UISegmentedControl*) sender {
     
     fromSegment=1;
-    
+   
     if(sender.selectedSegmentIndex==0) {
         //  My Specials
         segmentMode=0;
@@ -873,6 +884,8 @@ int courseOption;
     MapViewController *obj = [[MapViewController alloc] initWithNibName:@"MapViewController" bundle:nil];
     obj.arrCourseData = arrData;
     obj.strFromScreen = @"1";
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    delegate.courseOptionSelected = @"3";
     [self.navigationController pushViewController:obj animated:YES];
     
 }

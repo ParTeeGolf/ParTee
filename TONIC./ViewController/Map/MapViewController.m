@@ -205,7 +205,39 @@
         // Show user profile image at users current location according to requirement
         // only profile image only if map screen disply it will not display if user come from three dot popup map screen
         if([strFromScreen isEqualToString:kScreenCoursesSub]) {
-             marker.icon = [UIImage imageNamed:strPinType];
+      //       marker.icon = [UIImage imageNamed:strPinType];
+            [[AppDelegate sharedinstance] showLoader];
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
+                           ^{
+                               
+                               
+                               NSDictionary *dictUserDetails = [[NSUserDefaults standardUserDefaults] objectForKey:kuserData];
+                               NSString *strname = [dictUserDetails objectForKey:@"userPicBase"];
+                               NSURL *urlImg = [NSURL URLWithString:strname];
+                               NSData *imageData = [NSData dataWithContentsOfURL:urlImg];
+                               
+                               //This is your completion handler
+                               dispatch_sync(dispatch_get_main_queue(), ^{
+                                   
+                                   
+                                   UIImage *newBottomImage = [UIImage imageWithData:imageData];
+                                   UIImage *bottomImage = [self roundedRectImageFromImage:newBottomImage size:CGSizeMake(70.8, 70.8) withCornerRadius:70.8];
+                                   UIImage *image       = [UIImage imageNamed:kUserMapProfileBackgrooundIcon]; //foreground image
+                                   
+                                   CGSize newSize = CGSizeMake(150, 150);
+                                   UIGraphicsBeginImageContext( newSize );
+                                   
+                                   // Apply supplied opacity if applicable
+                                   [image drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
+                                   [bottomImage drawInRect:CGRectMake(40.5,7.6,70.8,70.8)];
+                                   UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+                                   
+                                   UIGraphicsEndImageContext();
+                                   marker.icon = newImage;
+                                   [[AppDelegate sharedinstance] hideLoader];
+                               });
+                           });
+            
         }else {
               [[AppDelegate sharedinstance] showLoader];
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),

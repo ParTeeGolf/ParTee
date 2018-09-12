@@ -71,6 +71,10 @@ long currentTag = 1;
     scrollViewContainer.frame = CGRectMake(0, 0, self.view.frame.size.width, screenHeight);
     self.view.frame = CGRectMake(0, 0, screenRect.size.width, screenHeight);
     tblView.frame = CGRectMake(0, tblView.frame.origin.y, screenRect.size.width, screenHeight);
+    
+//    scrollViewContainer.backgroundColor = [UIColor redColor];
+//    self.view.backgroundColor = [UIColor greenColor];
+//    tblView.backgroundColor = [UIColor yellowColor];
 }
 
 -(void) refreshContent {
@@ -373,6 +377,17 @@ long currentTag = 1;
         case 0:
             collapseRow = !collapseRow;
             hideCell = !hideCell;
+            if (collapseRow) {
+                if (isiPhone4) {
+                    [scrollViewContainer setContentSize:CGSizeMake(320, 750)];
+                }else{
+                    [scrollViewContainer setContentSize:CGSizeMake(320, self.view.frame.size.height)];
+                }
+               
+            }else{
+              [scrollViewContainer setContentSize:CGSizeMake(320, 750)];
+            }
+           
             [tblView reloadData];
             break;
         case 1:

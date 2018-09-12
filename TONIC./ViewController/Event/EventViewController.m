@@ -11,35 +11,50 @@
 #import "MapViewController.h"
 #import <MessageUI/MFMailComposeViewController.h>
 #import "EventPreferncesViewController.h"
-#define kLimit @"25"
 
 @interface EventViewController ()<RNGridMenuDelegate, MFMailComposeViewControllerDelegate>
 {
+    // conatin current page number for records.
     int currentPage;
+    // conatin value for which three dot popup to be shown.
     NSInteger selectedRow;
+    // Contain event object for which three dot pop up to be shown.
     QBCOCustomObject *sharedobj;
-    BOOL isFavCourse;
-    int courseOption;
+    // valirable used wheather event is favourite for user or not.
+    BOOL isFavEvent;
+    // contain selected segment control option value means which segment is selected for now
+    int eventOption;
+    // This will contain object from course table on which particular event will happen for which event user want to get information like map, direction, information like adreess, website link, contact no to course.
     QBCOCustomObject *objEventGolfCourse;
-    
+    QBCOCustomObject *objAdvEvent;
+    /**************** Long latitude details of course to which user want get information aboiut event  ************/
     CLLocationCoordinate2D desplaceCoord;
     CLLocationCoordinate2D scrplaceCoord;
     NSString *strlat;
     NSString *strlong;
+    /**************** Long latitude details of course to which user want get information aboiut event  ************/
+    // This contain used what option is selected by the user from three dot popup.
     NSString *favInfoMapDirStr;
+    // varibale that holds value wheather records left to be shown.
     BOOL shouldLoadNext;
+    // conatin all events count for prefernces selected by the user.
     int eventCount;
     
 }
 // This array contain events details fetched from the quickblox table.
 @property (nonatomic, strong) NSMutableArray *arrEventsData;
+// button that will load prev records from table and will show in table.
 @property (strong, nonatomic) UIButton *fetchPrevRecordBtn;
+// this will show the total number of records and current records showing in screen.
 @property (strong, nonatomic) UILabel  *recordLbl;
+// button that will load Next klimit records from table and will show in table.
 @property (strong, nonatomic) UIButton *fetchNextRecordBtn;
+// button that will load first klimit records from table and will show in table.
 @property (strong, nonatomic) UIButton *fecthInitialRecordBtn;
 @end
 
 @implementation EventViewController
+/*********** Syntesize property *********/
 @synthesize arrEventsData;
 @synthesize lblNothingFound;
 @synthesize eventTblView;
@@ -47,12 +62,14 @@
 @synthesize recordLbl;
 @synthesize fetchNextRecordBtn;
 @synthesize fecthInitialRecordBtn;
+/*********** Syntesize property *********/
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    favInfoMapDirStr = @"";
+    // set empty string because here user not selected any option from three dot popup.
+    favInfoMapDirStr = kEmptyStr;
     // courseOption set selected segment to all events
-    courseOption = 3;
+    eventOption = 3;
     _segmentControl.selectedSegmentIndex = 3;
     
     // Initialize eventDetails Array
@@ -67,51 +84,70 @@
     // hide nextPrevBaseView
     viewNextPrevHeightConstraints.constant = 30;
     _nextPrevRecordBaseView.hidden = false;
+    
+    // set the border color
+     viewInfoBase.layer.borderWidth = 3.0;
+    viewInfoBase.layer.borderColor = [UIColor blackColor].CGColor;
+     btnCloseAdv.layer.borderWidth = 2.0;
+    btnCloseAdv.layer.borderColor = [UIColor blackColor].CGColor;
+   btnWebsiteAdv.layer.borderWidth = 2.0;
+    btnWebsiteAdv.layer.borderColor = [UIColor blackColor].CGColor;
+   
+     
+    // hide all the cells that are not using from the tableview.
     eventTblView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     [self createRecordBaseView];
-    
+    viewAdvertiseInfoPopup.backgroundColor = adColor;
+    viewInfoBase.backgroundColor = infoPopupColor;
 }
 
 -(void)viewWillAppear:(BOOL)animated {
     
-    // Call getEventDetails method to fetch event details
+    // hide info popup
     viewBlurInfo.hidden = true;
     viewInfoBase.hidden = true;
+    // courseOption set selected segment to all events
     currentPage=0;
-    courseOption = 3;
-    _segmentControl.selectedSegmentIndex = courseOption;
+    eventOption = 3;
+    _segmentControl.selectedSegmentIndex = eventOption;
     shouldLoadNext = YES;
     fetchPrevRecordBtn.hidden = true;
     fecthInitialRecordBtn.hidden = true;
+    // Call getEventDetails method to fetch event details
     [self getEventRecordsCount];
 }
 
 
 #pragma mark - Create Record Base View
-// Create Record baseView prograrmmatically
+/**
+ @Description
+ * Create next prev << baseView prograrmmatically
+ * @author Chetu India
+ * @return void nothing will return by this method.
+ */
+
 -(void)createRecordBaseView {
+    
     
     // get device size
     CGRect screenRect = [[UIScreen mainScreen] bounds];
     CGFloat screenWidth = screenRect.size.width;
     
     // create baseview for previous, next and lable
-    UIView *loadRecordBaseView = [[UIView alloc]initWithFrame:CGRectMake((screenWidth - 250 )/2, 0, 250, _nextPrevRecordBaseView.frame.size.height)];
+    UIView *loadRecordBaseView = [[UIView alloc]initWithFrame:CGRectMake((screenWidth - 250 )/2, kZeroValue, 250, _nextPrevRecordBaseView.frame.size.height)];
     loadRecordBaseView.backgroundColor = [UIColor clearColor];
     [_nextPrevRecordBaseView addSubview:loadRecordBaseView];
     
     // create previous button
-    fetchPrevRecordBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 50, loadRecordBaseView.frame.size.height)];
+    fetchPrevRecordBtn = [[UIButton alloc]initWithFrame:CGRectMake(kZeroValue, kZeroValue, 50, loadRecordBaseView.frame.size.height)];
     [fetchPrevRecordBtn setTitle:kFetchPreviousRecordBtnTitle forState:UIControlStateNormal];
     fetchPrevRecordBtn.titleLabel.font = [UIFont fontWithName:kFontNameHelveticaNeue size:25];
-    //   [fetchPrevRecordBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
     fetchPrevRecordBtn.titleLabel.textAlignment = NSTextAlignmentLeft;
     [fetchPrevRecordBtn addTarget:self action:@selector(fetchPrevRecordBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
     [loadRecordBaseView addSubview:fetchPrevRecordBtn];
     
     // create record label
-    recordLbl = [[UILabel alloc]initWithFrame:CGRectMake(fetchPrevRecordBtn.frame.size.width + fetchPrevRecordBtn.frame.origin.x, 0, 150,loadRecordBaseView.frame.size.height)];
-    //    recordLbl.text = @"1 - 25";
+    recordLbl = [[UILabel alloc]initWithFrame:CGRectMake(fetchPrevRecordBtn.frame.size.width + fetchPrevRecordBtn.frame.origin.x, kZeroValue, 150,loadRecordBaseView.frame.size.height)];
     recordLbl.adjustsFontSizeToFitWidth = YES;
     recordLbl.textAlignment = NSTextAlignmentCenter;
     recordLbl.font = [UIFont fontWithName:kFontNameHelveticaNeue size:17];
@@ -130,10 +166,9 @@
     _nextPrevRecordBaseView.backgroundColor = [UIColor colorWithRed:0.000 green:0.655 blue:0.176 alpha:1.00];
     
     // create previous button
-    fecthInitialRecordBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, loadRecordBaseView.frame.origin.x, loadRecordBaseView.frame.size.height)];
+    fecthInitialRecordBtn = [[UIButton alloc]initWithFrame:CGRectMake(kZeroValue, kZeroValue, loadRecordBaseView.frame.origin.x, loadRecordBaseView.frame.size.height)];
     [fecthInitialRecordBtn setTitle:kFetchInitialRecordBtnTitle forState:UIControlStateNormal];
     fecthInitialRecordBtn.titleLabel.font = [UIFont fontWithName:kFontNameHelveticaNeue size:25];
-    //   [fecthInitialRecordBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
     fecthInitialRecordBtn.titleLabel.textAlignment = NSTextAlignmentLeft;
     [fecthInitialRecordBtn addTarget:self action:@selector(fetchInitialRecordBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
     [_nextPrevRecordBaseView addSubview:fecthInitialRecordBtn];
@@ -141,21 +176,26 @@
     fetchPrevRecordBtn.hidden = true;
     fecthInitialRecordBtn.hidden = true;
 }
+
 #pragma mark - load Initial 25 Records
-// Load Initial 25 records
+/**
+ @Description
+ * This method will fetch first klimit event records from the event table on quickblox and show on event screen.
+ * @author Chetu India
+ * @param sender << button
+ * @return void nothing will return by this method.
+ */
 
 -(void)fetchInitialRecordBtnPressed:(id)sender
 {
     // load Initial 25 records if current page is not 0
     
-    if (currentPage == 0) {
+    if (currentPage == kZeroValue) {
         
     }else {
-        //         [fetchPrevRecordBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
-        //         [fecthInitialRecordBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
         fetchPrevRecordBtn.hidden = true;
         fecthInitialRecordBtn.hidden = true;
-        currentPage=0;
+        currentPage = kZeroValue;
         shouldLoadNext = YES;
         [self getEventRecordsCount];
     }
@@ -164,18 +204,21 @@
 }
 
 #pragma mark - load Prev 25 Records
-// Load previous 25 records
-
+/**
+ @Description
+ * This method will fetch previous klimit event records from the event table on quickblox and show on event screen.
+ * @author Chetu India
+ * @param sender PREV button
+ * @return void nothing will return by this method.
+ */
 -(void)fetchPrevRecordBtnPressed:(id)sender
 {
     // load previous 25 records if current page is not 0
-    if (currentPage > 0) {
+    if (currentPage > kZeroValue) {
         currentPage--;
         [self getEventRecordsCount];
         
-        if (currentPage == 0) {
-            //            [fetchPrevRecordBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
-            //            [fecthInitialRecordBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+        if (currentPage == kZeroValue) {
             fetchPrevRecordBtn.hidden = true;
             fecthInitialRecordBtn.hidden = true;
         }
@@ -183,7 +226,13 @@
     }
 }
 #pragma mark - load Next 25 Records
-// Load Next 25 records
+/**
+ @Description
+ * This method will fetch Next klimit event records from the event table on quickblox and show on event screen.
+ * @author Chetu India
+ * @param sender NEXT button
+ * @return void nothing will return by this method.
+ */
 
 -(void)fetchNextRecordBtnPressed:(id)sender
 {
@@ -193,23 +242,26 @@
         
         [self getEventRecordsCount];
         
-        if (currentPage != 0) {
-            //            [fetchPrevRecordBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-            //            [fecthInitialRecordBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        if (currentPage != kZeroValue) {
             fetchPrevRecordBtn.hidden = false;
             fecthInitialRecordBtn.hidden = false;
         }
     }
 }
-
+/**
+ @Description
+ * This method will count the events available in event table on quickblox based on parameters such as featured events, favourite, all, near me events.
+ * @author Chetu India
+ * @return void nothing will return by this method.
+ */
 -(void)getEventRecordsCount
 {
     
-     [[AppDelegate sharedinstance] showLoader];
+    [[AppDelegate sharedinstance] showLoader];
     
     NSMutableDictionary *getRequestObjectCount = [NSMutableDictionary dictionary];
-    [getRequestObjectCount setObject:kLimit forKey:kEventLimitParam];
-    NSString *strPage = [NSString stringWithFormat:@"%d",[kLimit intValue] * currentPage];
+    [getRequestObjectCount setObject:kEventLimit forKey:kEventLimitParam];
+    NSString *strPage = [NSString stringWithFormat:@"%d",[kEventLimit intValue] * currentPage];
     
     [getRequestObjectCount setObject:strPage forKey:kEventSkipParam];
     NSString *strCurrentUserID = [[AppDelegate sharedinstance] getCurrentUserId];
@@ -228,67 +280,68 @@
     
     NSString *strFilterDistance;
     
-    switch(courseOption)
+    switch(eventOption)
     {
         case 0:
-            [getRequestObjectCount setObject: @"true" forKey:@"featured"];
-            [getRequestObjectCount setObject: @"order" forKey:@"sort_asc"];
+            [getRequestObjectCount setObject: kEventTrue forKey:kEventFeatured];
+            [getRequestObjectCount setObject: kEventOrder forKey:kEventSortAsc];
             break;
         case 1:
             strFilterDistance = [NSString stringWithFormat:@"%f,%f;%f",[strlong floatValue],[strlat floatValue],10.6f];
-            [getRequestObjectCount setObject:strFilterDistance forKey:@"coordinates[near]"];
+            [getRequestObjectCount setObject:strFilterDistance forKey:kEventCordNear];
             break;
         case 2:
-            [getRequestObjectCount setObject: strCurrentUserID forKey:@"userFavID[in]"];
+            [getRequestObjectCount setObject: strCurrentUserID forKey:kEventFavIn];
             break;
         case 3:
             break;
+    }
+    
+    [getRequestObjectCount setObject:kEventOneStr forKey:kEventCount];
+    
+    [QBRequest countObjectsWithClassName:kEventTblName extendedRequest:getRequestObjectCount successBlock:^(QBResponse * _Nonnull response, NSUInteger count) {
+        
+        NSLog(@"%lu",(unsigned long)count);
+        eventCount = (int)count;
+        NSString *recordcountStr;
+        
+        if (shouldLoadNext) {
             
-    }
-    
-     [getRequestObjectCount setObject:@"1" forKey:@"count"];
-    
-[QBRequest countObjectsWithClassName:kEventTblName extendedRequest:getRequestObjectCount successBlock:^(QBResponse * _Nonnull response, NSUInteger count) {
-    
-    NSLog(@"%lu",(unsigned long)count);
-    eventCount = (int)count;
-    NSString *recordcountStr;
-    
-    if (shouldLoadNext) {
-        
-    }else {
-        if (eventCount == 0) {
-            recordcountStr = [NSString stringWithFormat:@"0 - 0 (%d)", eventCount];
-        }else if (eventCount < 25) {
-            recordcountStr = [NSString stringWithFormat:@"1 - %d (%d)", eventCount, eventCount];
         }else {
-            recordcountStr = [NSString stringWithFormat:@"1 - %@ (%d)", kLimit, eventCount];
+            if (eventCount == 0) {
+                recordcountStr = [NSString stringWithFormat:@"0 - 0 (%d)", eventCount];
+            }else if (eventCount < 25) {
+                recordcountStr = [NSString stringWithFormat:@"1 - %d (%d)", eventCount, eventCount];
+            }else {
+                recordcountStr = [NSString stringWithFormat:@"1 - %@ (%d)", kEventLimit, eventCount];
+            }
+            
+            recordLbl.text = recordcountStr;
         }
-        
-        recordLbl.text = recordcountStr;
-    }
         [self getEventDetails];
+        
+    } errorBlock:^(QBResponse *response) {
+        [[AppDelegate sharedinstance] hideLoader];
+        
+        NSLog(@"Response error: %@", [response.error description]);
+    }];
     
-} errorBlock:^(QBResponse *response) {
-    [[AppDelegate sharedinstance] hideLoader];
-    
-    NSLog(@"Response error: %@", [response.error description]);
-}];
-
 }
 #pragma mark- Get Event Details
-/*
- @Description:  It will fetch first klimit records from Event table and also add the details to eventTableArray
+/**
+ @Description
+ * This will fetch the event details based on parameters provided by the user and also show these events on screen.
+ * @author Chetu India
+ * @return void nothing will return by this method.
  */
 -(void) getEventDetails
 {
-  //  [[AppDelegate sharedinstance] showLoader];
     
     // Create dictionary for parameters to filter out the records from Course Events table on quickblox
     
     NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
-    [getRequest setObject:kLimit forKey:kEventLimitParam];
-    NSString *strPage = [NSString stringWithFormat:@"%d",[kLimit intValue] * currentPage];
+    [getRequest setObject:kEventLimit forKey:kEventLimitParam];
+    NSString *strPage = [NSString stringWithFormat:@"%d",[kEventLimit intValue] * currentPage];
     
     [getRequest setObject:strPage forKey:kEventSkipParam];
     NSString *strCurrentUserID = [[AppDelegate sharedinstance] getCurrentUserId];
@@ -307,18 +360,18 @@
     
     NSString *strFilterDistance;
     
-    switch(courseOption)
+    switch(eventOption)
     {
         case 0:
-            [getRequest setObject: @"true" forKey:@"featured"];
-            [getRequest setObject: @"order" forKey:@"sort_asc"];
+            [getRequest setObject: kEventTrue forKey:kEventFeatured];
+            [getRequest setObject: kEventOrder forKey:kEventSortAsc];
             break;
         case 1:
             strFilterDistance = [NSString stringWithFormat:@"%f,%f;%f",[strlong floatValue],[strlat floatValue],10.6f];
-            [getRequest setObject:strFilterDistance forKey:@"coordinates[near]"];
+            [getRequest setObject:strFilterDistance forKey:kEventCordNear];
             break;
         case 2:
-            [getRequest setObject: strCurrentUserID forKey:@"userFavID[in]"];
+            [getRequest setObject: strCurrentUserID forKey:kEventFavIn];
             break;
         case 3:
             break;
@@ -341,7 +394,7 @@
             [eventTblView setHidden:NO];
             
         }
-          NSString *strPage = [NSString stringWithFormat:@"%d",[kLimit intValue] * currentPage];
+        NSString *strPage = [NSString stringWithFormat:@"%d",[kEventLimit intValue] * currentPage];
         int totalFetchedEvents = [strPage intValue];
         totalFetchedEvents = totalFetchedEvents + (int)[objects count];
         
@@ -353,21 +406,11 @@
             fetchNextRecordBtn.hidden = true;
         }
         
-//        if([objects count]>=[kLimit integerValue]) {
-//            shouldLoadNext = YES;
-//            fetchNextRecordBtn.hidden = false;
-//        }
-//        else {
-//            shouldLoadNext=NO;
-//            fetchNextRecordBtn.hidden = true;
-//        }
-        
-        
         if (shouldLoadNext) {
             
             NSString *recordcountStr;
             
-            NSString *strPage = [NSString stringWithFormat:@"%d",[kLimit intValue] * currentPage];
+            NSString *strPage = [NSString stringWithFormat:@"%d",[kEventLimit intValue] * currentPage];
             int noOfRecords = (int)objects.count;
             int skipRecords = [strPage intValue];
             if (skipRecords != 0) {
@@ -384,10 +427,10 @@
             
             
         }else {
-            NSString *strPage = [NSString stringWithFormat:@"%d",[kLimit intValue] * currentPage];
+            NSString *strPage = [NSString stringWithFormat:@"%d",[kEventLimit intValue] * currentPage];
             int skipRecords = [strPage intValue];
             int diffLastRecords = eventCount - skipRecords;
-            if (diffLastRecords <= [kLimit intValue]) {
+            if (diffLastRecords <= [kEventLimit intValue]) {
                 NSString *recordcountStr;
                 if (skipRecords == 0 && eventCount == 0) {
                 }else {
@@ -412,30 +455,47 @@
     
 }
 #pragma mark - SideMenuBtnAction
+/**
+ @Description
+ * This method will toggle left side menu to select other option from the side menu list.
+ * @author Chetu India
+ * @param sender sideMenu button avilable on navigation bar.
+ * @return void nothing will return by this method.
+ */
 - (IBAction)sideMenuAction:(id)sender {
     [self.menuContainerViewController toggleLeftSideMenuCompletion:^{
         
     }];
 }
 #pragma mark - MapScreenSideMenuAction
+/**
+ @Description
+ * This method will redirect the user to map screen that will show the users current loaction and path between users location and event location and also will show the users profle picture in partee icon.
+ * @author Chetu India
+ * @param sender is map side menu button available on top navigation bar.
+ */
 - (IBAction)mapSideMenuAction:(id)sender {
     
     favInfoMapDirStr = @"MAPSIDE";
     [self getEventCourseDetails:@""];
-
+    
 }
 #pragma mark - SegmentChangedAction
-
+/**
+ @Description
+ * This method called when user change the segmnent control option from favourite, all, nearme, featured events.
+ * @author Chetu India
+ * @param segment option available on segment control.
+ */
 - (IBAction)segmentChangedAction:(id)sender {
     
     UISegmentedControl *segmentedControl = (UISegmentedControl *) sender;
     NSInteger selectedSegment = segmentedControl.selectedSegmentIndex;
-    /*********** ChetuChange **********/
     
     // remove elements from array when segment change. we meed to remove previous segment courses from array and load for new segment.
     [eventTblView setContentOffset:eventTblView.contentOffset animated:NO];
     [arrEventsData removeAllObjects];
-    courseOption = (int)selectedSegment;
+    eventOption = (int)selectedSegment;
     shouldLoadNext = NO;
     currentPage = 0;
     fetchPrevRecordBtn.hidden = true;
@@ -445,13 +505,26 @@
     [self getEventRecordsCount];
 }
 #pragma mark - SearchEventAction
+/**
+ @Description
+ * This will redirect the users to event preferences screen from where user can set the parameters to filter out the events according to their need.
+ * @author Chetu India
+ * @param search button vailable on right bottom corner.
+ * @return void nothing will return by this method.
+ */
 - (IBAction)searchBottomBtnAction:(id)sender {
-   
-    EventPreferncesViewController *obj = [[EventPreferncesViewController alloc] initWithNibName:@"EventPreferncesViewController" bundle:nil];
     
+    EventPreferncesViewController *obj = [[EventPreferncesViewController alloc] initWithNibName:kEventPrefVc bundle:nil];
     [self.navigationController pushViewController:obj animated:YES];
 }
 #pragma mark- Favourite button tapped
+/**
+ @Description
+ * This method will show the grid menu popup having favourite, info, direction, map options.
+ * @author Chetu India
+ * @param btnFav this three dot button available on each events displaying on screen.
+ * @return void nothing will return by this method.
+ */
 -(void)btnFavTapped:(UIButton *)sender
 {
     CGPoint center= sender.center;
@@ -463,70 +536,181 @@
     int rowno = (int)selectedRow;
     rowno = rowno + 1;
     int val = rowno  % kAdvertisementEventNo;
-     if (val == kRemainderValAdvEvent) {
-       //   [self showGrid];
-     }else {
-         
-         int totalAdvEventsCount = (int)selectedRow;
-         totalAdvEventsCount = totalAdvEventsCount / kAdvertisementEventNo;
-         int totalEventRecords = (int)indexPath.row - totalAdvEventsCount;
+    if (val == kRemainderValAdvEvent) {
+           [self showAdvertPopup];
+    }else {
         
-         
-         QBCOCustomObject *obj  = [arrEventsData objectAtIndex:totalEventRecords];
-         
-         sharedobj = obj;
-         
-         NSMutableArray *arr = [[obj.fields objectForKey:@"userFavID"] mutableCopy];
-         
-         if(!arr || arr.count==0)
-             arr = [[NSMutableArray alloc] init];
-         
-         NSString *strCurrentUserID = [[AppDelegate sharedinstance] getCurrentUserId];
-         
-         if([arr containsObject:strCurrentUserID]) {
-             // it is fav
-             isFavCourse=YES;
-         }
-         else {
-             isFavCourse=NO;
-         }
-         
-         [self showGrid];
-     }
+        int totalAdvEventsCount = (int)selectedRow;
+        totalAdvEventsCount = totalAdvEventsCount / kAdvertisementEventNo;
+        int totalEventRecords = (int)indexPath.row - totalAdvEventsCount;
+        
+        
+        QBCOCustomObject *obj  = [arrEventsData objectAtIndex:totalEventRecords];
+        
+        sharedobj = obj;
+        
+        NSMutableArray *arr = [[obj.fields objectForKey:kEventFavID] mutableCopy];
+        
+        if(!arr || arr.count==0)
+            arr = [[NSMutableArray alloc] init];
+        
+        NSString *strCurrentUserID = [[AppDelegate sharedinstance] getCurrentUserId];
+        
+        if([arr containsObject:strCurrentUserID]) {
+            // it is fav
+            isFavEvent=YES;
+        }
+        else {
+            isFavEvent=NO;
+        }
+        
+        [self showGrid];
+    }
     
-  
+    
 }
 
+#pragma mark- showAdvertPopup
+/**
+ @Description
+ * This method will show advertisement popup having information about advertisement event.
+ * @author Chetu India
+ * @return void nothing will return by this method.
+ */
+- (void)showAdvertPopup {
+    
+    int rowno = (int)selectedRow;
+    rowno = rowno + 1;
+    int val = rowno  / kAdvertisementEventNo;
+    val = val - 1;
+    int itemsAvailable = (int)[arrEventsData count];
+    int repeatValue = kAdvertisementEventNo - 1;
+    int maxLimitAdEvent = itemsAvailable / repeatValue;
+    int previousLoadedEvents = (currentPage * maxLimitAdEvent) + val;
+    NSString *skipElement = [NSString stringWithFormat:@"%d",previousLoadedEvents];
+    NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
+    [getRequest setObject:skipElement forKey:kEventSkipParam];
+    [getRequest setObject:kEventOneStr forKey:kEventLimitParam];
+    [[AppDelegate sharedinstance] showLoader];
+    
+    [QBRequest objectsWithClassName:kEventAd extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
+ 
+        objAdvEvent = [objects objectAtIndex:0];
+       NSString *eventTitleStr = [[AppDelegate sharedinstance] nullcheck:[objAdvEvent.fields objectForKey:kEventAdvTitle]];
+        lblAdvTitle.text = eventTitleStr;
+         NSString *eventDescStr = [[AppDelegate sharedinstance] nullcheck:[objAdvEvent.fields objectForKey:kEventAdDesc]];
+        txtViewAdvdesc.text = eventDescStr;
+        CGFloat heightDescTextview  =  [CommonMethods heightForText:eventDescStr withFont:[UIFont systemFontOfSize:17] andWidth:txtViewAdvdesc.frame.size.width];
+        viewBlurInfo.hidden = false;
+        viewAdvertiseInfoPopup.hidden = false;
+        viewInfoBase.hidden = true;
+         txtViewAdvdesc.editable = false;
+        if (heightDescTextview >= 300) {
+            heightDescTextview = 300;
+            txtViewAdvdesc.scrollEnabled = true;
+        }else {
+            txtViewAdvdesc.scrollEnabled = false;
+        }
+        constraintHeightTxtViewAdvDesc.constant = heightDescTextview + 230;
+        NSLog(@"Entries %lu",(unsigned long)page.totalEntries);
+
+        [[AppDelegate sharedinstance] hideLoader];
+
+    } errorBlock:^(QBResponse *response) {
+        // error handling
+        [[AppDelegate sharedinstance] hideLoader];
+
+        NSLog(@"Response error: %@", [response.error description]);
+    }];
+}
+#pragma mark- showGrid
+/**
+ @Description
+ * This method will show balck popup having faourite, direction, info, map option when user will tap on three dot popup.
+ * @author Chetu India
+ * @return void nothing will return by this method.
+ */
 - (void)showGrid {
     NSInteger numberOfOptions = 4;
     NSArray *items;
-    /*********** ChetuChange ******/
     
     //  Chnage the title of favorite button
-    NSString *favoriteTitle = isFavCourse==YES ? @"Mark Unfavorite" : @"Mark Favorite";
+    NSString *favoriteTitle = isFavEvent==YES ? kEventMarkUnFav : kEventMarkFav;
     
     //  NSString *favoriteTitle = @"Your favorite";
-    NSString *favImgStr = @"";
-    if ([favoriteTitle isEqualToString: @"Mark Unfavorite"]) {
-        favImgStr = @"fav.png";
+    NSString *favImgStr = kEmptyStr;
+    if ([favoriteTitle isEqualToString: kEventMarkUnFav]) {
+        favImgStr = kEventFavImg;
     }else {
-        favImgStr = @"unfav";
+        favImgStr = kEventUnFavImg;
     }
+    
     items= @[
-             [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:favImgStr] title:@"Your Favorite"],
-             [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:@"info-filled"] title:@"Information"],
-             [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:@"viewmap"] title:@"On Map"],
-             [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:@"direction"] title:@"Directions"]
+             [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:favImgStr] title:kEventFavTitle],
+             [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:kEventInfoFilledImg] title:kEventInfoTitle],
+             [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:kEventMapImg] title:kEventMapTitle],
+             [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:kEventDirImg] title:kEventDir]
              ];
     
-    /*********** ChetuChange ******/
     
     RNGridMenu *av = [[RNGridMenu alloc] initWithItems:[items subarrayWithRange:NSMakeRange(0, numberOfOptions)]];
     av.delegate = self;
     av.bounces = YES;
     [av showInViewController:self center:CGPointMake(self.view.bounds.size.width/2.f, self.view.bounds.size.height/2.f)];
 }
+#pragma mark- Btn Adv Website Action
+/**
+ @Description
+ * This method will redirect the user to website linked to str
+ * @author Chetu India
+ */
+- (IBAction)btnWebsiteAdvAction:(id)sender {
+     NSString *eventAdvWebsite = [[AppDelegate sharedinstance] nullcheck:[objAdvEvent.fields objectForKey:kEventAdWebSite]];
+    [self redirectToWebSite:eventAdvWebsite];
+}
+#pragma mark- Open Website Url
+/**
+ @Description
+ * This method will redirect the user to website linked to str
+ * @param str url to be redirected
+ * @author Chetu India
+ * @return void nothing will return by this method.
+ */
+-(void)redirectToWebSite:(NSString *)str
+{
+    if( [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:str]]) {
+        
+        UIApplication *application = [UIApplication sharedApplication];
+        [application openURL:[NSURL URLWithString: str] options:@{} completionHandler:nil];
+        viewBlurInfo.hidden = true;
+        viewAdvertiseInfoPopup.hidden = true;
+        viewInfoBase.hidden = true;
+    }else {
+        NSLog(@"Error");
+        viewInfoBase.hidden = true;
+        viewAdvertiseInfoPopup.hidden = true;
+        viewBlurInfo.hidden = true;
+    }
+}
 
+#pragma mark- Btn Close Adv Action
+
+- (IBAction)btnCloseAdvAction:(id)sender {
+    viewBlurInfo.hidden = true;
+    viewAdvertiseInfoPopup.hidden = true;
+    viewInfoBase.hidden = true;
+}
+
+#pragma mark- grid Delegate
+/**
+ @Description
+ * This is the delagate method of grid menu it will called when user select any options from grid popup.
+ * @author Chetu India
+ * @param gridMenu
+ * @param item option selected from the grid.
+ * @param itemIndex is the number to identify which options user seelcted from the grid,
+ * @return void nothing will return by this method.
+ */
 - (void)gridMenu:(RNGridMenu *)gridMenu willDismissWithSelectedItem:(RNGridMenuItem *)item atIndex:(NSInteger)itemIndex {
     NSLog(@"Dismissed with item %ld: %@", (long)itemIndex, item.title);
     
@@ -545,19 +729,32 @@
             [self actionDirectionTapped];
             break;
         case kIndexPhoto:
-        //    [self actionPhoto];
+            //    [self actionPhoto];
             break;
     }
 }
+#pragma mark- Map Btn Popup
+/**
+ @Description
+ * This method will fetch event details for the event that was selected by the user from poopup and redirect the user to map screen.
+ * @author Chetu India
+ * @return void nothing will return by this method.
+ */
 -(void) actionMap {
     
     favInfoMapDirStr = @"MAP";
     QBCOCustomObject *obj = [arrEventsData objectAtIndex:selectedRow];
-    NSString *eventCourseId = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"eventCourseID"]];
+    NSString *eventCourseId = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:kEventCourseId]];
     [self getEventCourseDetails:eventCourseId];
     
 }
-
+#pragma mark- Dir Btn Popup
+/**
+ @Description
+ * This method will fetch event details for the event that was selected by the user from poopup and redirect the user to map screen.
+ * @author Chetu India
+ * @return void nothing will return by this method.
+ */
 -(void ) actionDirectionTapped {
     
     favInfoMapDirStr = @"DIR";
@@ -567,9 +764,15 @@
     
 }
 
+/**
+ @Description
+ * This method will fetch event details for the event that was selected by the user from poopup and redirect the user to map screen.
+ * @author Chetu India
+ * @return void nothing will return by this method.
+ */
 -(void)directionAction
 {
-    NSArray *arrCoord = [objEventGolfCourse.fields objectForKey:@"coordinates"];
+    NSArray *arrCoord = [objEventGolfCourse.fields objectForKey:kEventCord];
     
     strlat = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlat];
     strlat = [[AppDelegate sharedinstance] nullcheck:strlat];
@@ -603,137 +806,151 @@
         
     }
     
-    //    NSString *googleMapUrlString = [NSString stringWithFormat:@"http://maps.google.com/?saddr=%f,%f&daddr=%f,%f", scrplaceCoord.latitude, scrplaceCoord.longitude, desplaceCoord.latitude, desplaceCoord.longitude];
     
     NSString *googleMapUrlString = [NSString stringWithFormat:@"http://maps.apple.com/?saddr=%f,%f&daddr=%f,%f", scrplaceCoord.latitude, scrplaceCoord.longitude, desplaceCoord.latitude, desplaceCoord.longitude];
     
-    
-    //     NSString *strPlaceName = @"Batumi+Botanical+Garden";
-    //
-    //    NSString *googleMapUrlString = [NSString stringWithFormat:@"https://www.google.com/maps/place/%@",strPlaceName];
-    
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:googleMapUrlString] options:[[NSDictionary alloc] init] completionHandler:nil];
 }
-
+#pragma mark- Get Event Details
+/**
+ @Description
+ * This will fetch the details of event based on golf course ID.
+ * @author Chetu India
+ * @param eventCourseId is the course id of which details need to fetch from quickblox table.
+ * @return void nothing will return by this method.
+ */
 -(void)getEventCourseDetails:(NSString *)eventCourseId {
     
     
     NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
-    
-  
-   
-    [getRequest setObject:@"0" forKey:@"skip"];
+    [getRequest setObject:@"0" forKey:kEventSkipParam];
     if ([favInfoMapDirStr isEqualToString:@"MAPSIDE"]) {
-    
-        NSString *allEventsCourseId = @"";
+        
+        NSString *allEventsCourseId = kEmptyStr;
         
         for (QBCOCustomObject *obj in arrEventsData) {
-             NSString *strDesc = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"eventCourseID"]];
-            if ([allEventsCourseId isEqualToString:@""]) {
-                 allEventsCourseId = strDesc;
+            NSString *strDesc = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:kEventCourseId]];
+            if ([allEventsCourseId isEqualToString:kEmptyStr]) {
+                allEventsCourseId = strDesc;
             }else {
-               allEventsCourseId = [NSString stringWithFormat:@"%@,%@",strDesc,allEventsCourseId];
+                allEventsCourseId = [NSString stringWithFormat:@"%@,%@",strDesc,allEventsCourseId];
             }
-           
+            
         }
-       int totalEvents = (int)[arrEventsData count];
+        int totalEvents = (int)[arrEventsData count];
         NSString *totalEventsCount = [NSString stringWithFormat:@"%d", totalEvents];
-          [getRequest setObject:totalEventsCount forKey:@"limit"];
-        [getRequest setObject:allEventsCourseId forKey:@"ID[in]"];
+        [getRequest setObject:totalEventsCount forKey:kEventLimitParam];
+        [getRequest setObject:allEventsCourseId forKey:kEventIdIn];
     }else {
-       [getRequest setObject:@"1" forKey:@"limit"];
-       [getRequest setObject:eventCourseId forKey:@"ID"];
+        
+        [getRequest setObject:kEventOneStr forKey:kEventLimitParam];
+        [getRequest setObject:eventCourseId forKey:kEventID];
     }
+    
     
     [[AppDelegate sharedinstance] showLoader];
     
-        [QBRequest objectsWithClassName:@"GolfCourses" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
-            
-            if ( [favInfoMapDirStr isEqualToString:@"INFO"]) {
-                 objEventGolfCourse = [objects objectAtIndex:0];
-                favInfoMapDirStr= @"";
-                NSString *addStr = [[AppDelegate sharedinstance] nullcheck:[objEventGolfCourse.fields objectForKey:@"Address"]];
-                lblAddressEventInfo.text = addStr;
-            }else if ([favInfoMapDirStr isEqualToString:@"MAP"]) {
-                 objEventGolfCourse = [objects objectAtIndex:0];
-                 favInfoMapDirStr= @"";
-                MapViewController *mapVC = [[MapViewController alloc] initWithNibName:@"MapViewController" bundle:nil];
-                mapVC.dictCourseMapData = objEventGolfCourse;
-                mapVC.strFromScreen = @"2";
-                [self.navigationController pushViewController:mapVC animated:YES];
-                
-            }else if ([favInfoMapDirStr isEqualToString:@"DIR"]){
-                 objEventGolfCourse = [objects objectAtIndex:0];
-                 favInfoMapDirStr= @"";
-                [self directionAction];
-            }else if ([favInfoMapDirStr isEqualToString:@"MAPSIDE"]) {
-                
-                NSMutableArray *allEventCourseEvents = [[NSMutableArray alloc]init];
-                [allEventCourseEvents addObjectsFromArray:[objects mutableCopy]];
-                 if([allEventCourseEvents count]==0) {
-                 
-                 [[AppDelegate sharedinstance] displayMessage:@"No courses available"];
-                 return;
-                 }
-                 
-                 MapViewController *obj = [[MapViewController alloc] initWithNibName:@"MapViewController" bundle:nil];
-                 obj.arrCourseData = allEventCourseEvents;
-                 obj.strFromScreen = @"1";
-                 [self.navigationController pushViewController:obj animated:YES];
-                 
-                
-            }
-           
-            
-            [[AppDelegate sharedinstance] hideLoader];
-            
-          
-        } errorBlock:^(QBResponse *response) {
-            // error handling
-            [[AppDelegate sharedinstance] hideLoader];
-            
-            NSLog(@"Response error: %@", [response.error description]);
-        }];
+    [QBRequest objectsWithClassName:kEventGolfCourse extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
         
-    }
-
+        if ( [favInfoMapDirStr isEqualToString:@"INFO"]) {
+            objEventGolfCourse = [objects objectAtIndex:0];
+            favInfoMapDirStr= kEmptyStr;
+            NSString *addStr = [[AppDelegate sharedinstance] nullcheck:[objEventGolfCourse.fields objectForKey:kEventAddParam]];
+            lblAddressEventInfo.text = addStr;
+        }else if ([favInfoMapDirStr isEqualToString:@"MAP"]) {
+            objEventGolfCourse = [objects objectAtIndex:0];
+            favInfoMapDirStr= kEmptyStr;
+            MapViewController *mapVC = [[MapViewController alloc] initWithNibName:kEventMapVc bundle:nil];
+            mapVC.dictCourseMapData = objEventGolfCourse;
+            mapVC.strFromScreen = @"2";
+            [self.navigationController pushViewController:mapVC animated:YES];
+            
+        }else if ([favInfoMapDirStr isEqualToString:@"DIR"]){
+            objEventGolfCourse = [objects objectAtIndex:0];
+            favInfoMapDirStr= kEmptyStr;
+            [self directionAction];
+        }else if ([favInfoMapDirStr isEqualToString:@"MAPSIDE"]) {
+            
+            NSMutableArray *allEventCourseEvents = [[NSMutableArray alloc]init];
+            [allEventCourseEvents addObjectsFromArray:[objects mutableCopy]];
+            if([allEventCourseEvents count]==0) {
+                
+                [[AppDelegate sharedinstance] displayMessage:kEventNoCourseAv];
+                return;
+            }
+            
+            MapViewController *obj = [[MapViewController alloc] initWithNibName:kEventMapVc bundle:nil];
+            obj.arrCourseData = allEventCourseEvents;
+            obj.strFromScreen = kEventOneStr;
+            [self.navigationController pushViewController:obj animated:YES];
+            
+            
+        }
+        
+        
+        [[AppDelegate sharedinstance] hideLoader];
+        
+        
+    } errorBlock:^(QBResponse *response) {
+        // error handling
+        [[AppDelegate sharedinstance] hideLoader];
+        
+        NSLog(@"Response error: %@", [response.error description]);
+    }];
+    
+}
+#pragma mark- Info Btn Popup
+/**
+ @Description
+ * This method set the data on information popup and also fetch details from golfCourses table based on course id which is using as refernce key for event table on quickblox.
+ * @author Chetu India
+ * @return void nothing will return by this method.
+ */
 -(void) actionInfo {
     QBCOCustomObject *obj = [arrEventsData objectAtIndex:selectedRow];
- 
-    NSString *strDesc = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"Description"]];
-    NSString *strEventTitle = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"Title"]];
-     NSString *strStartDate = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"StartDate"]];
-    NSString *eventCourseId = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"eventCourseID"]];
+    
+    
+    NSString *strDesc = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:kEventDescParam]];
+    NSString *strEventTitle = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:kEventTitleParam]];
+    NSString *strStartDate = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:kEventStartDate]];
+    NSString *eventCourseId = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:kEventCourseId]];
     
     NSString *strDate = [CommonMethods convertDateToAnotherFormat:strStartDate originalFormat:kEventDateFormatOriginal finalFormat:kEventDateFormatFinal];
-    NSString *endDate = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"EndDate"]];
+    NSString *endDate = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:kEventEndDateParam]];
     NSString *strEndDate = [CommonMethods convertDateToAnotherFormat:endDate originalFormat:kEventDateFormatOriginal finalFormat:kEventDateFormatFinal];
     NSString *strDateEvent = [NSString stringWithFormat:@"%@ To %@",strDate,strEndDate];
     
     if([strDesc length]>0) {
-       
+        
         textViewEventDescInfo.text = strDesc;
         lblEventTitleInfo.text = strEventTitle;
         lblStartEndDateInfo.text = strDateEvent;
         viewBlurInfo.hidden = false;
         viewInfoBase.hidden = false;
+        viewAdvertiseInfoPopup.hidden = true;
         CGFloat heightDescTextview  =  [CommonMethods heightForText:strDesc withFont:[UIFont systemFontOfSize:16] andWidth:textViewEventDescInfo.frame.size.width];
         textViewEventDescInfo.scrollEnabled = true;
         textViewEventDescInfo.editable = false;
         if (heightDescTextview >= 300) {
-             heightDescTextview = 300;
+            heightDescTextview = 300;
         }
         constraintsInfoBaseViewHeight.constant = heightDescTextview + 327;
     }
     else {
-        [[AppDelegate sharedinstance] displayMessage:@"No information available"];
+        [[AppDelegate sharedinstance] displayMessage:kEventNoInfoAvailTitle];
     }
-
+    
     favInfoMapDirStr = @"INFO";
     [self getEventCourseDetails:eventCourseId];
     
 }
-
+#pragma mark- Fav Btn Action
+/**
+ @Description
+ * This method will make the event as users favourite and reload the tableview as well.
+ * @author Chetu India
+ * @return void nothing will return by this method.
+ */
 
 -(void) actionFav {
     
@@ -744,7 +961,7 @@
     
     QBCOCustomObject *obj = [arrEventsData objectAtIndex:totalEventRecords];
     
-    NSMutableArray *arr = [[obj.fields objectForKey:@"userFavID"] mutableCopy];
+    NSMutableArray *arr = [[obj.fields objectForKey:kEventFavID] mutableCopy];
     
     if(!arr || arr.count==0)
         arr = [[NSMutableArray alloc] init];
@@ -762,11 +979,11 @@
     }
     
     if(!arr || arr.count==0) {
-        [obj.fields setObject:arr forKey:@"userFavID"];
+        [obj.fields setObject:arr forKey:kEventFavID];
         
     }
     else {
-        [obj.fields setObject:arr forKey:@"userFavID"];
+        [obj.fields setObject:arr forKey:kEventFavID];
         
     }
     
@@ -774,9 +991,9 @@
     
     [QBRequest updateObject:obj successBlock:^(QBResponse *response, QBCOCustomObject *object) {
         // object updated
-     
-       [arrEventsData replaceObjectAtIndex:totalEventRecords withObject:obj];
-       
+        
+        [arrEventsData replaceObjectAtIndex:totalEventRecords withObject:obj];
+        
         [[AppDelegate sharedinstance] hideLoader];
         [eventTblView setContentOffset:eventTblView.contentOffset animated:NO];
         [eventTblView reloadData];
@@ -792,17 +1009,31 @@
 }
 
 #pragma mark- Contact Info Action
+/**
+ @Description
+ * This Method will open the dialer if contact is number or if it is valid mail then it will open mailcomposer.
+ * @author Chetu India
+ * @return IBAction nothing will return by this method.
+ */
 - (IBAction)btnInfoContactAction:(id)sender {
     
-     NSString *contactStr = [[AppDelegate sharedinstance] nullcheck:[objEventGolfCourse.fields objectForKey:@"ContactNumber"]];
+    NSString *contactStr = [[AppDelegate sharedinstance] nullcheck:[objEventGolfCourse.fields objectForKey:kEventContact]];
     BOOL validateEmail = [CommonMethods validateEmailWithString:contactStr];
     if (validateEmail) {
         [self sendEmail:contactStr];
     }else{
-       [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel:%@",contactStr]]];
+        UIApplication *application = [UIApplication sharedApplication];
+        [application openURL:[NSURL URLWithString: [NSString stringWithFormat:@"tel:%@",contactStr]] options:@{} completionHandler:nil];
     }
     
 }
+/**
+ @Description
+ * This method open the mail composer if user devices is compatable for mail.
+ * @author Chetu India
+ * @param emailStr string to which mail will send from the user.
+ * @return void nothing will return by this method.
+ */
 -(void)sendEmail:(NSString *)emailStr {
     // From within your active view controller
     if([MFMailComposeViewController canSendMail]) {
@@ -816,32 +1047,37 @@
         [self presentViewController:mailCont animated:YES completion:nil];
     }
 }
-
+/**
+ @Description
+ * Delegate method of mail composer. called while ser tap on cancel, send, dicard mail button.
+ * @author Chetu India
+ * @return void nothing will return by this method.
+ */
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {
     viewInfoBase.hidden = true;
     viewBlurInfo.hidden = true;
     [controller dismissViewControllerAnimated:YES completion:nil];
 }
 #pragma mark- Website Info Action
+/**
+ @Description
+ * This will redirect the user to course website from where he can find the more details about course.
+ * @return IBAction nothing will return by this method.
+ */
 - (IBAction)btnWebsiteInfoAction:(id)sender {
-   
-    NSString *websiteStr = [[AppDelegate sharedinstance] nullcheck:[objEventGolfCourse.fields objectForKey:@"Website"]];
+    
+    NSString *websiteStr = [[AppDelegate sharedinstance] nullcheck:[objEventGolfCourse.fields objectForKey:kEventWebsiteParam]];
     websiteStr = [NSString stringWithFormat:@"http://%@",websiteStr];
- 
-    if( [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:websiteStr]]) {
-         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:websiteStr]];
-        viewBlurInfo.hidden = true;
-        viewInfoBase.hidden = true;
-    }else {
-        NSLog(@"Error");
-        viewInfoBase.hidden = true;
-        viewBlurInfo.hidden = true;
-    }
+    [self redirectToWebSite:websiteStr];
     
-    
-   
 }
 #pragma mark- Close Info Action
+/**
+ @Description
+ * This will hide the information popup shown.
+ * @author Chetu India
+ * @return IBAction nothing will return by this method.
+ */
 - (IBAction)btnCloseInfoAction:(id)sender {
     
     viewBlurInfo.hidden = true;
@@ -888,7 +1124,7 @@
     
     cell = [topLevelObjects objectAtIndex:0];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-   
+    
     // find the indexpath for advertisement event that shows in table
     int rowno = (int)indexPath.row;
     rowno = rowno + 1;
@@ -903,19 +1139,19 @@
         cell.BtnFav.backgroundColor = [UIColor colorWithRed:0.000 green:0.655 blue:0.176 alpha:1.00];
         
     }else {
-       
+        
         int totalAdvEventsCount = (int)indexPath.row;
         totalAdvEventsCount = totalAdvEventsCount / kAdvertisementEventNo;
         int totalEventRecords = (int)indexPath.row - totalAdvEventsCount;
         QBCOCustomObject *obj = [arrEventsData objectAtIndex:totalEventRecords];
-       // Set Data from obj in tableview cell
+        // Set Data from obj in tableview cell
         [cell setDataFromQbObj:obj];
         [cell.BtnFav addTarget:self action:@selector(btnFavTapped:) forControlEvents:UIControlEventTouchUpInside];
         cell.BtnFav.backgroundColor = [UIColor colorWithRed:0.000 green:0.655 blue:0.176 alpha:1.00];
     }
     
     return cell;
-   
+    
 }
 
 #pragma mark - Table view Delegate
