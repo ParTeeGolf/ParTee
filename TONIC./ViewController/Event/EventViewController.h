@@ -32,6 +32,7 @@
     IBOutlet UIButton *btnWebsiteAdv;
     IBOutlet UIButton *btnCloseAdv;
     IBOutlet NSLayoutConstraint *constraintHeightTxtViewAdvDesc;
+    IBOutlet NSLayoutConstraint *infoTitleLblHeightConstarints;
     /************ Advertiesment View Outlets ***********/
 }
 // Evnet table view that will show the list of events.

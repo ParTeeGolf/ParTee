@@ -101,17 +101,7 @@
             CLLocationCoordinate2D position = {  placeCoord.latitude, placeCoord.longitude };
            
             if([strFromScreen isEqualToString:kScreenCoursesMain]) {
-//                GMSMarker *marker = [GMSMarker markerWithPosition:position];
-//                
-//                marker.icon = [UIImage imageNamed:strPinType];
-//                
-//                marker.title = @"";//[NSString stringWithFormat:@"Marker %i", i];
-//                marker.appearAnimation = YES;
-//                marker.flat = YES;
-//                marker.snippet =  [NSString stringWithFormat:@"%i", i];
-//                marker.map = mapView;
-//                
-//                [path addCoordinate: marker.position];
+
                
             }
             else {
@@ -196,21 +186,13 @@
         
         GMSMarker *marker = [GMSMarker markerWithPosition:position];
         
-        //  marker.icon = [UIImage imageNamed:strPinType];
-        //   marker.icon = [UIImage imageNamed:@"MapProfileIcon"];
-        
-        //     UIImage *bottomImage = [UIImage imageNamed:@"AppInfo2"];//background image
-        
-        /************* ChetuChange **************/
         // Show user profile image at users current location according to requirement
         // only profile image only if map screen disply it will not display if user come from three dot popup map screen
         if([strFromScreen isEqualToString:kScreenCoursesSub]) {
-      //       marker.icon = [UIImage imageNamed:strPinType];
             [[AppDelegate sharedinstance] showLoader];
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
                            ^{
-                               
-                               
+                             
                                NSDictionary *dictUserDetails = [[NSUserDefaults standardUserDefaults] objectForKey:kuserData];
                                NSString *strname = [dictUserDetails objectForKey:@"userPicBase"];
                                NSURL *urlImg = [NSURL URLWithString:strname];
@@ -233,8 +215,15 @@
                                    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
                                    
                                    UIGraphicsEndImageContext();
+                                   
+                                   marker.title = @"";//[NSString stringWithFormat:@"Marker %i", i];
+                                   marker.appearAnimation = YES;
+                                   marker.flat = YES;
+                                   marker.snippet =  [NSString stringWithFormat:@"%i", 0];
+                                   marker.map = mapView;
+                                   
                                    marker.icon = newImage;
-                                   [[AppDelegate sharedinstance] hideLoader];
+                                  [[AppDelegate sharedinstance] hideLoader];
                                });
                            });
             
@@ -266,20 +255,21 @@
                                    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
                                    
                                    UIGraphicsEndImageContext();
+                                   
+                                   marker.title = @"";//[NSString stringWithFormat:@"Marker %i", i];
+                                   marker.appearAnimation = YES;
+                                   marker.flat = YES;
+                                   marker.snippet =  [NSString stringWithFormat:@"%i", 0];
+                                   marker.map = mapView;
+                                   
                                      marker.icon = newImage;
                                    [[AppDelegate sharedinstance] hideLoader];
                                });
                            });
         }
-        /************* ChetuChange **************/
         
-        marker.title = @"";//[NSString stringWithFormat:@"Marker %i", i];
-        marker.appearAnimation = YES;
-        marker.flat = YES;
-        marker.snippet =  [NSString stringWithFormat:@"%i", 0];
-        marker.map = mapView;
-        [path addCoordinate: marker.position];
-        
+      
+         [path addCoordinate: marker.position];
         strlat = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlat];
         strlat = [[AppDelegate sharedinstance] nullcheck:strlat];
         
@@ -397,12 +387,6 @@
     
     GMSCoordinateBounds *bounds = [[GMSCoordinateBounds alloc] initWithPath:path];
     [mapView animateWithCameraUpdate:[GMSCameraUpdate fitBounds:bounds]];
-    
-    //    GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:scrplaceCoord.latitude
-    //                                                            longitude:scrplaceCoord.longitude
-    //                                                                 zoom:mapView.camera.zoom];
-    //    [mapView animateToCameraPosition:camera];
-    
 }
 
 - (BOOL) mapView: (GMSMapView *)mapView1 didTapMarker:(GMSMarker *)marker
@@ -516,15 +500,7 @@
       parameters:nil
          success:^(AFHTTPRequestOperation *operation, id responseObject) {
              //do stuff
-             if([strFromScreen isEqualToString:kScreenCoursesMain]) {
-                 
-                
-             }
-             else {
-                 
-                 [[AppDelegate sharedinstance] hideLoader];
-                 
-             }
+           
        
              NSDictionary *json = (NSDictionary * ) responseObject;
              

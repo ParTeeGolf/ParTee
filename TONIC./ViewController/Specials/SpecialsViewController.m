@@ -102,140 +102,21 @@ int courseOption;
     
 }
 
-#pragma mark - Create Record Base View
-// Create Record baseView prograrmmatically
--(void)createRecordBaseView {
-    
-    // get device size
-    CGRect screenRect = [[UIScreen mainScreen] bounds];
-    CGFloat screenWidth = screenRect.size.width;
-    
-    // create baseview for previous, next and lable
-    UIView *loadRecordBaseView = [[UIView alloc]initWithFrame:CGRectMake((screenWidth - 250 )/2, 0, 250, loadRecordBaseV.frame.size.height)];
-    loadRecordBaseView.backgroundColor = [UIColor clearColor];
-    [loadRecordBaseV addSubview:loadRecordBaseView];
-    
-    // create previous button
-    fetchPrevRecordBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 50, loadRecordBaseView.frame.size.height)];
-    [fetchPrevRecordBtn setTitle:kFetchPreviousRecordBtnTitle forState:UIControlStateNormal];
-    fetchPrevRecordBtn.titleLabel.font = [UIFont fontWithName:kFontNameHelveticaNeue size:25];
- //   [fetchPrevRecordBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
-    fetchPrevRecordBtn.titleLabel.textAlignment = NSTextAlignmentLeft;
-    [fetchPrevRecordBtn addTarget:self action:@selector(fetchPrevRecordBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
-    [loadRecordBaseView addSubview:fetchPrevRecordBtn];
-    
-    // create record label
-    recordLbl = [[UILabel alloc]initWithFrame:CGRectMake(fetchPrevRecordBtn.frame.size.width + fetchPrevRecordBtn.frame.origin.x, 0, 150,loadRecordBaseView.frame.size.height)];
-//    recordLbl.text = @"1 - 25";
-    recordLbl.adjustsFontSizeToFitWidth = YES;
-    recordLbl.textAlignment = NSTextAlignmentCenter;
-    recordLbl.font = [UIFont fontWithName:kFontNameHelveticaNeue size:17];
-    recordLbl.textColor = [UIColor whiteColor];
-    [loadRecordBaseView addSubview:recordLbl];
-    
-    // create next button to fetch next 25 records of courses
-    fetchNextRecordBtn = [[UIButton alloc]initWithFrame:CGRectMake(recordLbl.frame.size.width + recordLbl.frame.origin.x, 0, 50, loadRecordBaseView.frame.size.height)];
-    [fetchNextRecordBtn setTitle:kFetchNextRecordBtnTitle forState:UIControlStateNormal];
-    [fetchNextRecordBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    fetchNextRecordBtn.titleLabel.font = [UIFont fontWithName:kFontNameHelveticaNeue size:25];
-    fetchNextRecordBtn.titleLabel.textAlignment = NSTextAlignmentRight;
-    [fetchNextRecordBtn addTarget:self action:@selector(fetchNextRecordBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
-    [loadRecordBaseView addSubview:fetchNextRecordBtn];
-    
-    loadRecordBaseV.backgroundColor = [UIColor colorWithRed:0.000 green:0.655 blue:0.176 alpha:1.00];
-    
-    // create previous button
-    fecthInitialRecordBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, loadRecordBaseView.frame.origin.x, loadRecordBaseView.frame.size.height)];
-    [fecthInitialRecordBtn setTitle:kFetchInitialRecordBtnTitle forState:UIControlStateNormal];
-    fecthInitialRecordBtn.titleLabel.font = [UIFont fontWithName:kFontNameHelveticaNeue size:25];
- //   [fecthInitialRecordBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
-    fecthInitialRecordBtn.titleLabel.textAlignment = NSTextAlignmentLeft;
-    [fecthInitialRecordBtn addTarget:self action:@selector(fetchInitialRecordBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
-    [loadRecordBaseV addSubview:fecthInitialRecordBtn];
-   
-    fetchPrevRecordBtn.hidden = true;
-    fecthInitialRecordBtn.hidden = true;
-}
-
-/************* ChetuChange ***********/
-
-#pragma mark - load Initial 25 Records
-// Load Initial 25 records
-
--(void)fetchInitialRecordBtnPressed:(id)sender
-{
-    // load Initial 25 records if current page is not 0
-    
-    if (_currentPage == 0) {
-        
-    }else {
-//         [fetchPrevRecordBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
-//         [fecthInitialRecordBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
-        fetchPrevRecordBtn.hidden = true;
-        fecthInitialRecordBtn.hidden = true;
-        _currentPage=0;
-        shouldLoadNext = YES;
-        [self getCoursesRecordCount];
-    }
-  
-   
-}
-
-#pragma mark - load Prev 25 Records
-// Load previous 25 records
-
--(void)fetchPrevRecordBtnPressed:(id)sender
-{
-    // load previous 25 records if current page is not 0
-    if (_currentPage > 0) {
-        _currentPage--;
-        [self getCoursesRecordCount];
-        
-        if (_currentPage == 0) {
-//            [fetchPrevRecordBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
-//            [fecthInitialRecordBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
-            fetchPrevRecordBtn.hidden = true;
-            fecthInitialRecordBtn.hidden = true;
-        }
-        
-    }
-}
-#pragma mark - load Next 25 Records
-// Load Next 25 records
-
--(void)fetchNextRecordBtnPressed:(id)sender
-{
-    // load next 25 records if current page is not 0
-    if(shouldLoadNext) {
-        _currentPage++;
-        
-        [self getCoursesRecordCount];
-        
-        if (_currentPage != 0) {
-//            [fetchPrevRecordBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-//            [fecthInitialRecordBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-            fetchPrevRecordBtn.hidden = false;
-            fecthInitialRecordBtn.hidden = false;
-        }
-    }
-}
-/*********** ChetuChnage ************/
-
 -(void) viewWillAppear:(BOOL)animated {
     self.menuContainerViewController.panMode=YES;
     
     [[AppDelegate sharedinstance] showLoader];
- 
+    
     
     _currentPage=0;
-//    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-//    NSString *strCourseOptionSelected =  delegate.courseOptionSelected;
-//    if ([strCourseOptionSelected isEqualToString:@"0"]) {
-//           arrData = [[NSMutableArray alloc] init];
-//    }else if ([strCourseOptionSelected isEqualToString:@"3"]) {
-//          //   arrData = [[NSMutableArray alloc] init];
-//        
-//    }
+    //    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    //    NSString *strCourseOptionSelected =  delegate.courseOptionSelected;
+    //    if ([strCourseOptionSelected isEqualToString:@"0"]) {
+    //           arrData = [[NSMutableArray alloc] init];
+    //    }else if ([strCourseOptionSelected isEqualToString:@"3"]) {
+    //          //   arrData = [[NSMutableArray alloc] init];
+    //
+    //    }
     segmentSpecials.selectedSegmentIndex = courseOption;
     shouldLoadNext = YES;
     
@@ -325,12 +206,6 @@ int courseOption;
 {
     NSMutableDictionary *getRequestObjectCount = [NSMutableDictionary dictionary];
     [getRequestObjectCount setObject:@"1" forKey:@"count"];
-    
-    //    if (courseOption == 0) {
-    //        [getRequestObjectCount setObject:@"100" forKey:@"limit"];
-    //    }else {
-    //        [getRequestObjectCount setObject:kLimit forKey:@"limit"];
-    //    }
     
     [getRequestObjectCount setObject:kLimit forKey:@"limit"];
     NSString *strPage = [NSString stringWithFormat:@"%d",[kLimit intValue] * _currentPage];
@@ -507,11 +382,11 @@ int courseOption;
     
     /*********** ChetuChange **********/
     // allocate array only if we need add more elements in array for featured courses
-//    if (courseOption == 0) {
-//
-//    }else {
-//        arrData = [[NSMutableArray alloc] init];
-//    }
+    //    if (courseOption == 0) {
+    //
+    //    }else {
+    //        arrData = [[NSMutableArray alloc] init];
+    //    }
     
     /*********** ChetuChange **********/
     NSMutableDictionary *dictUserData = [[[NSUserDefaults standardUserDefaults] objectForKey:kuserData] mutableCopy];
@@ -667,7 +542,7 @@ int courseOption;
         }
         else {
             shouldLoadNext=NO;
-              fetchNextRecordBtn.hidden = true;
+            fetchNextRecordBtn.hidden = true;
         }
         if (shouldLoadNext) {
             
@@ -704,7 +579,7 @@ int courseOption;
                 recordLbl.text = recordcountStr;
             }
         }
-         [tblList setContentOffset:tblList.contentOffset animated:NO];
+        [tblList setContentOffset:tblList.contentOffset animated:NO];
         [tblList reloadData];
         
     } errorBlock:^(QBResponse *response) {
@@ -808,6 +683,70 @@ int courseOption;
 }
 
 //-----------------------------------------------------------------------
+
+
+#pragma mark - load Initial 25 Records
+// Load Initial 25 records
+
+-(void)fetchInitialRecordBtnPressed:(id)sender
+{
+    // load Initial 25 records if current page is not 0
+    
+    if (_currentPage == 0) {
+        
+    }else {
+//         [fetchPrevRecordBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+//         [fecthInitialRecordBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+        fetchPrevRecordBtn.hidden = true;
+        fecthInitialRecordBtn.hidden = true;
+        _currentPage=0;
+        shouldLoadNext = YES;
+        [self getCoursesRecordCount];
+    }
+  
+   
+}
+
+#pragma mark - load Prev 25 Records
+// Load previous 25 records
+
+-(void)fetchPrevRecordBtnPressed:(id)sender
+{
+    // load previous 25 records if current page is not 0
+    if (_currentPage > 0) {
+        _currentPage--;
+        [self getCoursesRecordCount];
+        
+        if (_currentPage == 0) {
+//            [fetchPrevRecordBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+//            [fecthInitialRecordBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+            fetchPrevRecordBtn.hidden = true;
+            fecthInitialRecordBtn.hidden = true;
+        }
+        
+    }
+}
+#pragma mark - load Next 25 Records
+// Load Next 25 records
+
+-(void)fetchNextRecordBtnPressed:(id)sender
+{
+    // load next 25 records if current page is not 0
+    if(shouldLoadNext) {
+        _currentPage++;
+        
+        [self getCoursesRecordCount];
+        
+        if (_currentPage != 0) {
+//            [fetchPrevRecordBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//            [fecthInitialRecordBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            fetchPrevRecordBtn.hidden = false;
+            fecthInitialRecordBtn.hidden = false;
+        }
+    }
+}
+
+
 
 - (IBAction)segmentSwitch:(id)sender {
   
@@ -1390,6 +1329,62 @@ int courseOption;
     }
     
 }
+
+#pragma mark - Create Record Base View
+// Create Record baseView prograrmmatically
+-(void)createRecordBaseView {
+    
+    // get device size
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    CGFloat screenWidth = screenRect.size.width;
+    
+    // create baseview for previous, next and lable
+    UIView *loadRecordBaseView = [[UIView alloc]initWithFrame:CGRectMake((screenWidth - 250 )/2, 0, 250, loadRecordBaseV.frame.size.height)];
+    loadRecordBaseView.backgroundColor = [UIColor clearColor];
+    [loadRecordBaseV addSubview:loadRecordBaseView];
+    
+    // create previous button
+    fetchPrevRecordBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 50, loadRecordBaseView.frame.size.height)];
+    [fetchPrevRecordBtn setTitle:kFetchPreviousRecordBtnTitle forState:UIControlStateNormal];
+    fetchPrevRecordBtn.titleLabel.font = [UIFont fontWithName:kFontNameHelveticaNeue size:25];
+    //   [fetchPrevRecordBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+    fetchPrevRecordBtn.titleLabel.textAlignment = NSTextAlignmentLeft;
+    [fetchPrevRecordBtn addTarget:self action:@selector(fetchPrevRecordBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [loadRecordBaseView addSubview:fetchPrevRecordBtn];
+    
+    // create record label
+    recordLbl = [[UILabel alloc]initWithFrame:CGRectMake(fetchPrevRecordBtn.frame.size.width + fetchPrevRecordBtn.frame.origin.x, 0, 150,loadRecordBaseView.frame.size.height)];
+    //    recordLbl.text = @"1 - 25";
+    recordLbl.adjustsFontSizeToFitWidth = YES;
+    recordLbl.textAlignment = NSTextAlignmentCenter;
+    recordLbl.font = [UIFont fontWithName:kFontNameHelveticaNeue size:17];
+    recordLbl.textColor = [UIColor whiteColor];
+    [loadRecordBaseView addSubview:recordLbl];
+    
+    // create next button to fetch next 25 records of courses
+    fetchNextRecordBtn = [[UIButton alloc]initWithFrame:CGRectMake(recordLbl.frame.size.width + recordLbl.frame.origin.x, 0, 50, loadRecordBaseView.frame.size.height)];
+    [fetchNextRecordBtn setTitle:kFetchNextRecordBtnTitle forState:UIControlStateNormal];
+    [fetchNextRecordBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    fetchNextRecordBtn.titleLabel.font = [UIFont fontWithName:kFontNameHelveticaNeue size:25];
+    fetchNextRecordBtn.titleLabel.textAlignment = NSTextAlignmentRight;
+    [fetchNextRecordBtn addTarget:self action:@selector(fetchNextRecordBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [loadRecordBaseView addSubview:fetchNextRecordBtn];
+    
+    loadRecordBaseV.backgroundColor = [UIColor colorWithRed:0.000 green:0.655 blue:0.176 alpha:1.00];
+    
+    // create previous button
+    fecthInitialRecordBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, loadRecordBaseView.frame.origin.x, loadRecordBaseView.frame.size.height)];
+    [fecthInitialRecordBtn setTitle:kFetchInitialRecordBtnTitle forState:UIControlStateNormal];
+    fecthInitialRecordBtn.titleLabel.font = [UIFont fontWithName:kFontNameHelveticaNeue size:25];
+    //   [fecthInitialRecordBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+    fecthInitialRecordBtn.titleLabel.textAlignment = NSTextAlignmentLeft;
+    [fecthInitialRecordBtn addTarget:self action:@selector(fetchInitialRecordBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [loadRecordBaseV addSubview:fecthInitialRecordBtn];
+    
+    fetchPrevRecordBtn.hidden = true;
+    fecthInitialRecordBtn.hidden = true;
+}
+
 
 -(void) actionFav {
     QBCOCustomObject *obj ;

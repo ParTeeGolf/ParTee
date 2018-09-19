@@ -65,6 +65,6 @@
     </objects>
     <resources>
         <image name="course.png" width="1080" height="720"/>
-        <image name="moreopt.png" width="35" height="35"/>
+        <image name="moreopt.png" width="8" height="37"/>
     </resources>
 </document>

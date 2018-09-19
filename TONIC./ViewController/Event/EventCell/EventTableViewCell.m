@@ -29,14 +29,27 @@
  * @return void nothing will return by this method.
  */
 #pragma mark- setDataFromEventObject
--(void)setDataFromQbObj:(QBCOCustomObject *)obj {
+-(void)setEventDataFromQbObj:(QBCOCustomObject *)obj {
   
     [self.imgEvent setShowActivityIndicatorView:YES];
     [self.imgEvent setIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     [self.imgEvent sd_setImageWithURL:[NSURL URLWithString:[obj.fields objectForKey:kEventCellImgUrl]] placeholderImage:[UIImage imageNamed:kEventCellDefaultImg]];
 }
 
-
+/**
+ @Description
+ * This Method set the data from QBCOCustomObject in cell.
+ * @author Chetu India
+ * @param obj is type of QBCOCustomObject that contain all the details about a AdEvent to be showed in event screen. These objects we are getting from AdEvent table on quickblox.
+ * @return void nothing will return by this method.
+ */
+#pragma mark- setDataFromEventObject
+-(void)setAdEventDataFromQbObj:(QBCOCustomObject *)obj {
+    
+    [self.imgEvent setShowActivityIndicatorView:YES];
+    [self.imgEvent setIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    [self.imgEvent sd_setImageWithURL:[NSURL URLWithString:[obj.fields objectForKey:kAdEventCellImgUrl]] placeholderImage:[UIImage imageNamed:kEventCellDefaultImg]];
+}
 /**
  @Description
  * Sets the selected state of the cell, optionally animating the transition between states.

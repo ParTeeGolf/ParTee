@@ -398,7 +398,7 @@ long currentTag = 1;
         case 2:
             viewController    = [[InviteViewController alloc] initWithNibName:@"InviteViewController" bundle:nil];
             ((InviteViewController*)viewController).strIsConnInvite=@"1";
-         //    [self ComingSoon];
+     //        [self ComingSoon];
             break;
         case 3:
 //            viewController    = [[SpecialsViewController alloc] initWithNibName:@"SpecialsViewController" bundle:nil];

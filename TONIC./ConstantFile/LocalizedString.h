@@ -96,6 +96,7 @@
 
 #define kcoursePreferencesData @"coursePreferencesData"
 #define kCourseFilterData @"kCourseFilterData"
+#define kEventPreferencesData @"eventPreferencesData"
 
 
 /************ Courses Screen **********/
@@ -133,13 +134,16 @@
 #define kAdEventlblTxt @"Advertisment Event"
 #define kEventCellName @"EventTableViewCell"
 #define kEventTblName @"CourseEvents"
+#define kAdEventTblName @"AdEvent"
 #define kEventLimitParam @"limit"
 #define kEventSkipParam @"skip"
 #define kEventCellImgUrl @"ImageUrl"
+#define kAdEventCellImgUrl @"AdImageUrl"
 #define kEventCellDefaultImg @"imgplaceholder.jpg"
 #define kEventDateFormatOriginal @"yyyy-MM-dd'T'HH:mm:ss'Z'"
 #define kEventDateFormatFinal  @"dd-MMM-yyyy"
-#define kEventLimit @"10"
+#define kEventLimit @"25"
+#define kAdEventLimit @"100"
 #define kEmptyStr @""
 #define kEventTrue @"true"
 #define kEventFeatured @"featured"
@@ -183,6 +187,31 @@
 #define kEventAdDesc @"AdDesc"
 #define kEventAdWebSite @"AdWebsite"
 #define kEventWebsiteParam @"Website"
+#define kEventState @"event_state"
+#define kEventCity @"event_City"
+#define kEventAll @"All"
+#define kEventTitleName @"event_tiltleName"
+#define kEventDistance @"event_Distance"
+#define kEventFav @"event_isFav"
+#define kEventTitle @"Title[ctn]"
+#define kEventCoordNear @"coordinates[near]"
+#define kEventFavId @"userFavID[in]"
+#define kEventCourseIdIn @"eventCourseID[in]"
 /**************** Event Screen ***********/
+
+/**************** Event Prefernces ***********/
+#define kEventPreFilledCircle @"filledcircle"
+#define kEventPreRefreshContent @"refreshContent"
+#define kEventPreState @"State"
+#define kEventPreCity @"City"
+#define kUserInfoTbl @"UserInfo"
+#define kEventFavId @"userFavID[in]"
+#define kEventPreToggleOff @"toggleOff"
+#define kEventPreToggleOn @"toggleOn"
+#define kEventPreDesc @"description"
+#define kEventPreCourseCell @"CourseCellTableViewCell"
+#define kEventPreBlueChk @"blue_chk.png"
+#define kEventPreUnchecked @"unchecked_circle.png"
+/**************** Event Prefernces ***********/
 
 #endif /* LocalizedString_h */

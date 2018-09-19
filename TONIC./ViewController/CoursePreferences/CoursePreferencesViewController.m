@@ -8,7 +8,6 @@
 #import "SettingsViewController.h"
 #import "HomeViewController.h"
 #import "CoursePreferencesViewController.h"
-
 #import "CourseCellTableViewCell.h"
 
 #define kButtonCity 1
@@ -149,7 +148,7 @@
         // response processing
         
         // checking user there in custom user table or not.
-        arrData=objects;
+        arrData = objects;
         
         [[AppDelegate sharedinstance] hideLoader];
         
@@ -169,7 +168,6 @@
             }
             else {
                 myObSliderOutlet.value = [strLocation integerValue];
-
                 [lblDistanceValue setText:[NSString stringWithFormat:@"%d mi.",(int)myObSliderOutlet.value]];
             }
         
@@ -277,8 +275,7 @@
     if([strPush isEqualToString:@"1"]) {
         strPush=@"0";
         [btnPush  setBackgroundImage:[UIImage imageNamed:@"toggleOff"] forState:UIControlStateNormal];
-        
-        
+      
     }
     else {
         strPush=@"1";
@@ -597,10 +594,6 @@
     [alert addAction:yesBtn];
     [alert addAction:noBtn];
     [self presentViewController:alert animated:YES completion:nil];
-    
-    
-  
-
     //[self savesettings];
 }
 

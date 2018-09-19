@@ -14,35 +14,45 @@
 
 @interface EventViewController ()<RNGridMenuDelegate, MFMailComposeViewControllerDelegate>
 {
+    
+    // Will contain value 0 or 1. 0 means city or state parameters available.
+    int cityStateCourseFilter;
     // conatin current page number for records.
     int currentPage;
-    // conatin value for which three dot popup to be shown.
+    // conatin current page number for advertisement events.
+    int adCurrentPage;
+    // conatin selected row value for which three dot popup to be shown.
     NSInteger selectedRow;
-    // Contain event object for which three dot pop up to be shown.
+    // Contain event object for which three dot pop up to be shown, and also having data about events.
     QBCOCustomObject *sharedobj;
-    // valirable used wheather event is favourite for user or not.
+    // valirable used wheather particulr event is favourite for user or not.
     BOOL isFavEvent;
-    // contain selected segment control option value means which segment is selected for now
+    // contain selected segment control option value means which segment is selected for now by the user.
     int eventOption;
-    // This will contain object from course table on which particular event will happen for which event user want to get information like map, direction, information like adreess, website link, contact no to course.
+    // objects from course table on which particular event will happen for which event user want to get information like map, direction, information like adreess, website link, contact no to course.
     QBCOCustomObject *objEventGolfCourse;
     QBCOCustomObject *objAdvEvent;
-    /**************** Long latitude details of course to which user want get information aboiut event  ************/
+    /**************** Long latitude details of course to which user want get information about event  ************/
     CLLocationCoordinate2D desplaceCoord;
     CLLocationCoordinate2D scrplaceCoord;
     NSString *strlat;
     NSString *strlong;
     /**************** Long latitude details of course to which user want get information aboiut event  ************/
-    // This contain used what option is selected by the user from three dot popup.
+    // string used wheather user redirect to map screen through sidemenu or map option available on three dot popup.
     NSString *favInfoMapDirStr;
-    // varibale that holds value wheather records left to be shown.
+    // varibale that holds value wheather records left to be shown on next page.
     BOOL shouldLoadNext;
     // conatin all events count for prefernces selected by the user.
     int eventCount;
-    
+    // conatin all Adevents count.
+    int totalAdvertEventCount;
+    // having total number of advertisement events that was shown on previous page.
+    int adEventUsedInPage;
 }
 // This array contain events details fetched from the quickblox table.
 @property (nonatomic, strong) NSMutableArray *arrEventsData;
+// This array contain AdEvents details fetched from the quickblox table.
+@property (nonatomic, strong) NSMutableArray *arrAdEventsDetails;
 // button that will load prev records from table and will show in table.
 @property (strong, nonatomic) UIButton *fetchPrevRecordBtn;
 // this will show the total number of records and current records showing in screen.
@@ -51,6 +61,8 @@
 @property (strong, nonatomic) UIButton *fetchNextRecordBtn;
 // button that will load first klimit records from table and will show in table.
 @property (strong, nonatomic) UIButton *fecthInitialRecordBtn;
+// This array contain courses details fetched from the golfcourse table based on city or state preferred by the user to be logged in.
+@property (nonatomic, strong) NSMutableArray *courseDetailsStateCityArr;
 @end
 
 @implementation EventViewController
@@ -62,43 +74,14 @@
 @synthesize recordLbl;
 @synthesize fetchNextRecordBtn;
 @synthesize fecthInitialRecordBtn;
+@synthesize arrAdEventsDetails;
+@synthesize courseDetailsStateCityArr;
 /*********** Syntesize property *********/
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // set empty string because here user not selected any option from three dot popup.
-    favInfoMapDirStr = kEmptyStr;
-    // courseOption set selected segment to all events
-    eventOption = 3;
-    _segmentControl.selectedSegmentIndex = 3;
-    
-    // Initialize eventDetails Array
-    arrEventsData = [[NSMutableArray alloc]init];
-    
-    // Set current page to 0 which will show inital klimit records from the event table
-    currentPage = 0;
-    
-    //    self.eventTblView.hidden = true;
-    self.lblNothingFound.hidden = true;
-    
-    // hide nextPrevBaseView
-    viewNextPrevHeightConstraints.constant = 30;
-    _nextPrevRecordBaseView.hidden = false;
-    
-    // set the border color
-     viewInfoBase.layer.borderWidth = 3.0;
-    viewInfoBase.layer.borderColor = [UIColor blackColor].CGColor;
-     btnCloseAdv.layer.borderWidth = 2.0;
-    btnCloseAdv.layer.borderColor = [UIColor blackColor].CGColor;
-   btnWebsiteAdv.layer.borderWidth = 2.0;
-    btnWebsiteAdv.layer.borderColor = [UIColor blackColor].CGColor;
-   
-     
-    // hide all the cells that are not using from the tableview.
-    eventTblView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    [self initializeDataForScreen];
     [self createRecordBaseView];
-    viewAdvertiseInfoPopup.backgroundColor = adColor;
-    viewInfoBase.backgroundColor = infoPopupColor;
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -107,147 +90,130 @@
     viewBlurInfo.hidden = true;
     viewInfoBase.hidden = true;
     // courseOption set selected segment to all events
-    currentPage=0;
-    eventOption = 3;
+    currentPage = kZeroValue;
+    adCurrentPage = kZeroValue;
+    eventOption = kThreeSegmentOptionValue;
     _segmentControl.selectedSegmentIndex = eventOption;
-    shouldLoadNext = YES;
+    shouldLoadNext = NO;
     fetchPrevRecordBtn.hidden = true;
     fecthInitialRecordBtn.hidden = true;
-    // Call getEventDetails method to fetch event details
-    [self getEventRecordsCount];
+    
+    // Call getAdEventRecordsCount method to fetch Advertisment event details
+    [self getAdEventRecordsCount];
 }
-
-
-#pragma mark - Create Record Base View
+#pragma mark- initialize Data
 /**
  @Description
- * Create next prev << baseView prograrmmatically
+ * This method initialize all the set the initial required values used in this controller.
  * @author Chetu India
  * @return void nothing will return by this method.
  */
-
--(void)createRecordBaseView {
-    
-    
-    // get device size
-    CGRect screenRect = [[UIScreen mainScreen] bounds];
-    CGFloat screenWidth = screenRect.size.width;
-    
-    // create baseview for previous, next and lable
-    UIView *loadRecordBaseView = [[UIView alloc]initWithFrame:CGRectMake((screenWidth - 250 )/2, kZeroValue, 250, _nextPrevRecordBaseView.frame.size.height)];
-    loadRecordBaseView.backgroundColor = [UIColor clearColor];
-    [_nextPrevRecordBaseView addSubview:loadRecordBaseView];
-    
-    // create previous button
-    fetchPrevRecordBtn = [[UIButton alloc]initWithFrame:CGRectMake(kZeroValue, kZeroValue, 50, loadRecordBaseView.frame.size.height)];
-    [fetchPrevRecordBtn setTitle:kFetchPreviousRecordBtnTitle forState:UIControlStateNormal];
-    fetchPrevRecordBtn.titleLabel.font = [UIFont fontWithName:kFontNameHelveticaNeue size:25];
-    fetchPrevRecordBtn.titleLabel.textAlignment = NSTextAlignmentLeft;
-    [fetchPrevRecordBtn addTarget:self action:@selector(fetchPrevRecordBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
-    [loadRecordBaseView addSubview:fetchPrevRecordBtn];
-    
-    // create record label
-    recordLbl = [[UILabel alloc]initWithFrame:CGRectMake(fetchPrevRecordBtn.frame.size.width + fetchPrevRecordBtn.frame.origin.x, kZeroValue, 150,loadRecordBaseView.frame.size.height)];
-    recordLbl.adjustsFontSizeToFitWidth = YES;
-    recordLbl.textAlignment = NSTextAlignmentCenter;
-    recordLbl.font = [UIFont fontWithName:kFontNameHelveticaNeue size:17];
-    recordLbl.textColor = [UIColor whiteColor];
-    [loadRecordBaseView addSubview:recordLbl];
-    
-    // create next button to fetch next 25 records of courses
-    fetchNextRecordBtn = [[UIButton alloc]initWithFrame:CGRectMake(recordLbl.frame.size.width + recordLbl.frame.origin.x, 0, 50, loadRecordBaseView.frame.size.height)];
-    [fetchNextRecordBtn setTitle:kFetchNextRecordBtnTitle forState:UIControlStateNormal];
-    [fetchNextRecordBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    fetchNextRecordBtn.titleLabel.font = [UIFont fontWithName:kFontNameHelveticaNeue size:25];
-    fetchNextRecordBtn.titleLabel.textAlignment = NSTextAlignmentRight;
-    [fetchNextRecordBtn addTarget:self action:@selector(fetchNextRecordBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
-    [loadRecordBaseView addSubview:fetchNextRecordBtn];
-    
-    _nextPrevRecordBaseView.backgroundColor = [UIColor colorWithRed:0.000 green:0.655 blue:0.176 alpha:1.00];
-    
-    // create previous button
-    fecthInitialRecordBtn = [[UIButton alloc]initWithFrame:CGRectMake(kZeroValue, kZeroValue, loadRecordBaseView.frame.origin.x, loadRecordBaseView.frame.size.height)];
-    [fecthInitialRecordBtn setTitle:kFetchInitialRecordBtnTitle forState:UIControlStateNormal];
-    fecthInitialRecordBtn.titleLabel.font = [UIFont fontWithName:kFontNameHelveticaNeue size:25];
-    fecthInitialRecordBtn.titleLabel.textAlignment = NSTextAlignmentLeft;
-    [fecthInitialRecordBtn addTarget:self action:@selector(fetchInitialRecordBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
-    [_nextPrevRecordBaseView addSubview:fecthInitialRecordBtn];
-    
-    fetchPrevRecordBtn.hidden = true;
-    fecthInitialRecordBtn.hidden = true;
-}
-
-#pragma mark - load Initial 25 Records
-/**
- @Description
- * This method will fetch first klimit event records from the event table on quickblox and show on event screen.
- * @author Chetu India
- * @param sender << button
- * @return void nothing will return by this method.
- */
-
--(void)fetchInitialRecordBtnPressed:(id)sender
+-(void)initializeDataForScreen
 {
-    // load Initial 25 records if current page is not 0
-    
-    if (currentPage == kZeroValue) {
-        
-    }else {
-        fetchPrevRecordBtn.hidden = true;
-        fecthInitialRecordBtn.hidden = true;
-        currentPage = kZeroValue;
-        shouldLoadNext = YES;
-        [self getEventRecordsCount];
-    }
-    
-    
+    /******** set Initial values ********/
+    cityStateCourseFilter = kZeroValue;
+    adEventUsedInPage = kZeroValue;
+    favInfoMapDirStr = kEmptyStr;
+    currentPage = kZeroValue;
+    adCurrentPage = kZeroValue;
+    /******** set Initial values ********/
+    eventOption = kThreeSegmentOptionValue;
+    _segmentControl.selectedSegmentIndex = eventOption;
+    self.lblNothingFound.hidden = true;
+    viewNextPrevHeightConstraints.constant = 30;
+    _nextPrevRecordBaseView.hidden = false;
+    viewInfoBase.layer.borderWidth = 3.0;
+    viewInfoBase.layer.borderColor = [UIColor blackColor].CGColor;
+    eventTblView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    viewAdvertiseInfoPopup.opaque = true;
+    viewAdvertiseInfoPopup.layer.cornerRadius = 5.0;
+    viewBlurInfo.alpha = 0.95;
+    viewBlurInfo.backgroundColor = [UIColor blackColor];
+    /************** Initialize array to hold events details for the screen **********/
+    arrAdEventsDetails = [[NSMutableArray alloc]init];
+    arrEventsData = [[NSMutableArray alloc]init];
+    arrAdEventsDetails = [[NSMutableArray alloc]init];
+    courseDetailsStateCityArr = [[NSMutableArray alloc]init];
+    /************** Initialize array to hold events details for the screen **********/
 }
-
-#pragma mark - load Prev 25 Records
+#pragma mark- Get AdEvent Count
 /**
  @Description
- * This method will fetch previous klimit event records from the event table on quickblox and show on event screen.
+ * This method will count the advertisement events available in AdEvent table on quickblox based on parameters such as featured events, favourite, all, near me events.
  * @author Chetu India
- * @param sender PREV button
  * @return void nothing will return by this method.
  */
--(void)fetchPrevRecordBtnPressed:(id)sender
+-(void)getAdEventRecordsCount
 {
-    // load previous 25 records if current page is not 0
-    if (currentPage > kZeroValue) {
-        currentPage--;
-        [self getEventRecordsCount];
+    // show loader
+    [[AppDelegate sharedinstance] showLoader];
+    
+    // Create Dictionary for parameters used to fetch Advertisement records available in the adEvents table on quickblox.
+    NSMutableDictionary *getRequestObjectCount = [NSMutableDictionary dictionary];
+    [getRequestObjectCount setObject:kAdEventLimit forKey:kEventLimitParam];
+    // find out the records thats need to skip based on current page
+    NSString *strPage = [NSString stringWithFormat:@"%d",[kAdEventLimit intValue] * currentPage];
+    [getRequestObjectCount setObject:strPage forKey:kEventSkipParam];
+    // Add parameters for count the records available in the  table.
+    [getRequestObjectCount setObject:kEventOneStr forKey:kEventCount];
+    
+    [QBRequest countObjectsWithClassName:kAdEventTblName extendedRequest:getRequestObjectCount successBlock:^(QBResponse * _Nonnull response, NSUInteger count) {
         
-        if (currentPage == kZeroValue) {
-            fetchPrevRecordBtn.hidden = true;
-            fecthInitialRecordBtn.hidden = true;
+        NSLog(@"%lu",(unsigned long)count);
+        
+        // Total number of advertisment events available in AdEvent table on Quickblox
+        totalAdvertEventCount = (int)count;
+        [self getAdEventDetails];
+        
+    } errorBlock:^(QBResponse *response) {
+        [[AppDelegate sharedinstance] hideLoader];
+        
+        NSLog(@"Response error: %@", [response.error description]);
+    }];
+}
+#pragma mark- Get Event Details
+/**
+ @Description
+ * This will fetch the AdEvent details based on parameters provided by the user.
+ * @author Chetu India
+ * @return void nothing will return by this method.
+ */
+-(void) getAdEventDetails
+{
+    
+    // Create dictionary for parameters to filter out the records from AdEvents table on quickblox
+    
+    NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
+    
+    
+    [getRequest setObject:kAdEventLimit forKey:kEventLimitParam];
+    NSString *strPage = [NSString stringWithFormat:@"%d",[kAdEventLimit intValue] * adCurrentPage];
+    [getRequest setObject:strPage forKey:kEventSkipParam];
+    
+    
+    [QBRequest objectsWithClassName:kAdEventTblName extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
+        
+        NSLog(@"%lu",(unsigned long)objects.count);
+        // Add the Ad Event record details in array.
+        [arrAdEventsDetails addObjectsFromArray:[objects mutableCopy]];
+        
+        // Arrange events randomly in array so that we able to show the advertisement events randomly on screen.
+        for (int x = kZeroValue; x < [arrAdEventsDetails count]; x++) {
+            int randInt = (arc4random() % ([arrAdEventsDetails count] - x)) + x;
+            [arrAdEventsDetails exchangeObjectAtIndex:x withObjectAtIndex:randInt];
         }
         
-    }
-}
-#pragma mark - load Next 25 Records
-/**
- @Description
- * This method will fetch Next klimit event records from the event table on quickblox and show on event screen.
- * @author Chetu India
- * @param sender NEXT button
- * @return void nothing will return by this method.
- */
-
--(void)fetchNextRecordBtnPressed:(id)sender
-{
-    // load next 25 records if current page is not 0
-    if(shouldLoadNext) {
-        currentPage++;
-        
         [self getEventRecordsCount];
         
-        if (currentPage != kZeroValue) {
-            fetchPrevRecordBtn.hidden = false;
-            fecthInitialRecordBtn.hidden = false;
-        }
-    }
+    } errorBlock:^(QBResponse *response) {
+        // error handling
+        [[AppDelegate sharedinstance] hideLoader];
+        
+        NSLog(@"Response error: %@", [response.error description]);
+    }];
+    
 }
+#pragma mark- Get Event Count
 /**
  @Description
  * This method will count the events available in event table on quickblox based on parameters such as featured events, favourite, all, near me events.
@@ -256,10 +222,9 @@
  */
 -(void)getEventRecordsCount
 {
-    
-    [[AppDelegate sharedinstance] showLoader];
-    
+ // Create dictionalry for parameters to filter out the events.
     NSMutableDictionary *getRequestObjectCount = [NSMutableDictionary dictionary];
+    
     [getRequestObjectCount setObject:kEventLimit forKey:kEventLimitParam];
     NSString *strPage = [NSString stringWithFormat:@"%d",[kEventLimit intValue] * currentPage];
     
@@ -278,8 +243,10 @@
     strlong = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlong];
     strlong = [[AppDelegate sharedinstance] nullcheck:strlong];
     
+    NSMutableDictionary *dictcoursePreferencesData;
     NSString *strFilterDistance;
     
+    // Select parameters based on option selected by the user for segment control
     switch(eventOption)
     {
         case 0:
@@ -294,17 +261,119 @@
             [getRequestObjectCount setObject: strCurrentUserID forKey:kEventFavIn];
             break;
         case 3:
+            // Get dictionary of event preferences selected by the user from nsusredefault
+            dictcoursePreferencesData = [[[NSUserDefaults standardUserDefaults] objectForKey:kEventPreferencesData] mutableCopy];
+            if(dictcoursePreferencesData) {
+                // get details from the dictionary
+                NSString *strcf_name = [dictcoursePreferencesData  objectForKey:kEventTitleName];
+                NSString *strcf_distance= [dictcoursePreferencesData  objectForKey:kEventDistance];
+                NSString *strcf_isFav= [dictcoursePreferencesData  objectForKey:kEventFav];
+                
+                if(![strcf_name isEqualToString:kEventAll])
+                {
+                    
+                    [getRequestObjectCount setObject: strcf_name forKey:kEventTitle];
+                }
+                // Convert distance in km into meters.
+                if(![strcf_distance isEqualToString:@"150"]) {
+                    
+                    float val = [strcf_distance floatValue];
+                    float metres = val* 1609.34f;
+                    
+                    NSString *strFilterDistance = [NSString stringWithFormat:@"%f,%f;%f",[strlong floatValue],[strlat floatValue],metres];
+                    
+                    
+                    [getRequestObjectCount setObject:strFilterDistance forKey:kEventCoordNear];
+                    
+                }
+                else {
+                    NSString *strFilterDistance = [NSString stringWithFormat:@"%f,%f;%f",[strlong1 floatValue],[strlat1 floatValue],9999999.f];
+                    
+                    [getRequestObjectCount setObject:strFilterDistance forKey:kEventCoordNear];
+                }
+                
+                if([strcf_isFav isEqualToString:kEventOneStr]) {
+                    //   showOnyFav=YES;
+                    [getRequestObjectCount setObject: strCurrentUserID forKey:kEventFavId];
+                }
+                else {
+                    //   showOnyFav=NO;
+                }
+            }else {
+                NSString *strFilterDistance = [NSString stringWithFormat:@"%f,%f;%f",[strlong1 floatValue],[strlat1 floatValue],9999999.f];
+                
+                [getRequestObjectCount setObject:strFilterDistance forKey:kEventCoordNear];
+            }
             break;
     }
     
     [getRequestObjectCount setObject:kEventOneStr forKey:kEventCount];
+    // If user provide details for city or state then first get the details of course from golf course table and after that get the details of events from event table.
+    if (eventOption == kThreeSegmentOptionValue) {
+        NSString *strcf_state= [dictcoursePreferencesData  objectForKey:kEventState];
+        NSString *strcf_city = [dictcoursePreferencesData  objectForKey:kEventCity];
+        
+        
+        if(![strcf_state isEqualToString:kEventAll]  || ![strcf_city isEqualToString:kEventAll] ) {
+            
+            if (cityStateCourseFilter == kZeroValue) {
+                [self getEventCourseIdBasedOnStateAndCity:strcf_state City:strcf_city];
+            }else if(cityStateCourseFilter == 1) {
+                
+                // get the Courses ID from golf course available filtered based on city and state parameters.
+                NSString *eventIds = @"";
+                for ( QBCOCustomObject *obj in courseDetailsStateCityArr ) {
+                    
+                    NSString *courseId =   (NSString *)obj.ID;
+                    eventIds = [NSString stringWithFormat:@"%@,%@",eventIds, courseId];
+                }
+                [getRequestObjectCount setObject: eventIds forKey:kEventCourseIdIn];
+                cityStateCourseFilter = 0;
+                [self getEventRecordsCount:getRequestObjectCount];
+                
+            }
+            
+        }else {
+            
+            [self getEventRecordsCount:getRequestObjectCount];
+            
+        }
+    }else {
+        [self getEventRecordsCount:getRequestObjectCount];
+    }
+    
+    
+}
+#pragma mark- Get Event Count
+/**
+ @Description
+ * This method will count the events available in event table on quickblox based on parameters such as featured events, favourite, all, near me events.
+ * @author Chetu India
+ * @return void nothing will return by this method.
+ */
+
+-(void)getEventRecordsCount:(NSMutableDictionary *)getRequestObjectCount {
     
     [QBRequest countObjectsWithClassName:kEventTblName extendedRequest:getRequestObjectCount successBlock:^(QBResponse * _Nonnull response, NSUInteger count) {
         
         NSLog(@"%lu",(unsigned long)count);
         eventCount = (int)count;
-        NSString *recordcountStr;
         
+       // get the total number of needed advertisment events so that every 5th events will show as advertisment events on screen.
+        int needAdvEventsCount = eventCount;
+        needAdvEventsCount = needAdvEventsCount / (kAdvertisementEventNo -1);
+        // Compare need Ad Events with available ad events that have been fetched from quickblox. If needed events are more and there are still available records in the table then fetch rest of advertisement events again.
+        if (needAdvEventsCount > (int)[arrAdEventsDetails count] ) {
+            
+            if (totalAdvertEventCount > (int)[arrAdEventsDetails count] ) {
+                adCurrentPage++;
+                [self getAdEventDetails];
+            }
+            
+            
+        }
+        // set the total number available events in label.
+        NSString *recordcountStr;
         if (shouldLoadNext) {
             
         }else {
@@ -318,14 +387,13 @@
             
             recordLbl.text = recordcountStr;
         }
-        [self getEventDetails];
+        [self getEventDetails:getRequestObjectCount];
         
     } errorBlock:^(QBResponse *response) {
         [[AppDelegate sharedinstance] hideLoader];
         
         NSLog(@"Response error: %@", [response.error description]);
     }];
-    
 }
 #pragma mark- Get Event Details
 /**
@@ -334,49 +402,8 @@
  * @author Chetu India
  * @return void nothing will return by this method.
  */
--(void) getEventDetails
+-(void) getEventDetails:(NSMutableDictionary *)getRequest
 {
-    
-    // Create dictionary for parameters to filter out the records from Course Events table on quickblox
-    
-    NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
-    [getRequest setObject:kEventLimit forKey:kEventLimitParam];
-    NSString *strPage = [NSString stringWithFormat:@"%d",[kEventLimit intValue] * currentPage];
-    
-    [getRequest setObject:strPage forKey:kEventSkipParam];
-    NSString *strCurrentUserID = [[AppDelegate sharedinstance] getCurrentUserId];
-    
-    NSString *strlat1 = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlat];
-    strlat1 = [[AppDelegate sharedinstance] nullcheck:strlat1];
-    
-    NSString *strlong1 = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlong];
-    strlong1 = [[AppDelegate sharedinstance] nullcheck:strlong1];
-    
-    strlat = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlat];
-    strlat = [[AppDelegate sharedinstance] nullcheck:strlat];
-    
-    strlong = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlong];
-    strlong = [[AppDelegate sharedinstance] nullcheck:strlong];
-    
-    NSString *strFilterDistance;
-    
-    switch(eventOption)
-    {
-        case 0:
-            [getRequest setObject: kEventTrue forKey:kEventFeatured];
-            [getRequest setObject: kEventOrder forKey:kEventSortAsc];
-            break;
-        case 1:
-            strFilterDistance = [NSString stringWithFormat:@"%f,%f;%f",[strlong floatValue],[strlat floatValue],10.6f];
-            [getRequest setObject:strFilterDistance forKey:kEventCordNear];
-            break;
-        case 2:
-            [getRequest setObject: strCurrentUserID forKey:kEventFavIn];
-            break;
-        case 3:
-            break;
-            
-    }
     
     [QBRequest objectsWithClassName:kEventTblName extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
         
@@ -384,7 +411,7 @@
         arrEventsData = [[NSMutableArray alloc]init];
         
         [arrEventsData addObjectsFromArray:[objects mutableCopy]];
-        
+        // show lbl nothing found if evnets table does not have any events.
         if([arrEventsData count]==0) {
             [lblNothingFound setHidden:NO];
             [eventTblView setHidden:YES];
@@ -394,6 +421,8 @@
             [eventTblView setHidden:NO];
             
         }
+        
+        // show the events number for current pege;.
         NSString *strPage = [NSString stringWithFormat:@"%d",[kEventLimit intValue] * currentPage];
         int totalFetchedEvents = [strPage intValue];
         totalFetchedEvents = totalFetchedEvents + (int)[objects count];
@@ -441,6 +470,8 @@
                 recordLbl.text = recordcountStr;
             }
         }
+        
+        // stop the scrolling of event table.
         [eventTblView setContentOffset:eventTblView.contentOffset animated:NO];
         
         // Reload table view after getting data from quickblox table
@@ -454,6 +485,111 @@
     }];
     
 }
+#pragma mark - Get Course Details City and state
+/**
+ @Description
+ * This method will fetch the golf courses details for city and state.
+ * @author Chetu India
+ * @param sender << button
+ * @return void nothing will return by this method.
+ */
+
+-(void)getEventCourseIdBasedOnStateAndCity:(NSString *)state City:(NSString *)city
+{
+   // create dictionary for golf courses details for city and state.
+    NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
+    [getRequest setObject: state forKey:@"State"];
+    [getRequest setObject: city forKey:@"City[in]"];
+    
+    [QBRequest objectsWithClassName:kEventGolfCourse extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
+        
+        NSLog(@"Entries %lu",(unsigned long)page.totalEntries);
+        courseDetailsStateCityArr = [[NSMutableArray alloc]init];
+        
+        [courseDetailsStateCityArr addObjectsFromArray:[objects mutableCopy]];
+        cityStateCourseFilter = 1;
+        [self getEventRecordsCount];
+        
+    } errorBlock:^(QBResponse *response) {
+        // error handling
+        [[AppDelegate sharedinstance] hideLoader];
+        
+        NSLog(@"Response error: %@", [response.error description]);
+    }];
+    
+}
+#pragma mark - load Initial 25 Records
+/**
+ @Description
+ * This method will fetch first klimit event records from the event table on quickblox and show on event screen.
+ * @author Chetu India
+ * @param sender << button
+ * @return void nothing will return by this method.
+ */
+
+-(void)fetchInitialRecordBtnPressed:(id)sender
+{
+    // load Initial 25 records if current page is not 0
+    if (currentPage == kZeroValue) {
+        
+    }else {
+        fetchPrevRecordBtn.hidden = true;
+        fecthInitialRecordBtn.hidden = true;
+        currentPage = kZeroValue;
+        shouldLoadNext = YES;
+        [[AppDelegate sharedinstance] showLoader];
+        [self getEventRecordsCount];
+    }
+    
+    
+}
+
+#pragma mark - load Prev 25 Records
+/**
+ @Description
+ * This method will fetch previous klimit event records from the event table on quickblox and show on event screen.
+ * @author Chetu India
+ * @param sender PREV button
+ * @return void nothing will return by this method.
+ */
+-(void)fetchPrevRecordBtnPressed:(id)sender
+{
+    // load previous 25 records if current page is not 0
+    if (currentPage > kZeroValue) {
+        currentPage--;
+        [[AppDelegate sharedinstance] showLoader];
+        [self getEventRecordsCount];
+        
+        if (currentPage == kZeroValue) {
+            fetchPrevRecordBtn.hidden = true;
+            fecthInitialRecordBtn.hidden = true;
+        }
+        
+    }
+}
+#pragma mark - load Next 25 Records
+/**
+ @Description
+ * This method will fetch Next klimit event records from the event table on quickblox and show on event screen.
+ * @author Chetu India
+ * @param sender NEXT button
+ * @return void nothing will return by this method.
+ */
+
+-(void)fetchNextRecordBtnPressed:(id)sender
+{
+    // load next 25 records if current page is not 0
+    if(shouldLoadNext) {
+        currentPage++;
+        [[AppDelegate sharedinstance] showLoader];
+        [self getEventRecordsCount];
+        if (currentPage != kZeroValue) {
+            fetchPrevRecordBtn.hidden = false;
+            fecthInitialRecordBtn.hidden = false;
+        }
+    }
+}
+
 #pragma mark - SideMenuBtnAction
 /**
  @Description
@@ -476,6 +612,7 @@
  */
 - (IBAction)mapSideMenuAction:(id)sender {
     
+    // set favInfoMapDirStr to examine wheather user comes to map screen.
     favInfoMapDirStr = @"MAPSIDE";
     [self getEventCourseDetails:@""];
     
@@ -502,6 +639,7 @@
     fecthInitialRecordBtn.hidden = true;
     viewInfoBase.hidden = true;
     viewBlurInfo.hidden = true;
+    [[AppDelegate sharedinstance] showLoader];
     [self getEventRecordsCount];
 }
 #pragma mark - SearchEventAction
@@ -537,14 +675,14 @@
     rowno = rowno + 1;
     int val = rowno  % kAdvertisementEventNo;
     if (val == kRemainderValAdvEvent) {
-           [self showAdvertPopup];
+        [self showAdvertPopup];
     }else {
         
         int totalAdvEventsCount = (int)selectedRow;
         totalAdvEventsCount = totalAdvEventsCount / kAdvertisementEventNo;
         int totalEventRecords = (int)indexPath.row - totalAdvEventsCount;
         
-        
+        selectedRow = totalEventRecords;
         QBCOCustomObject *obj  = [arrEventsData objectAtIndex:totalEventRecords];
         
         sharedobj = obj;
@@ -581,47 +719,28 @@
     
     int rowno = (int)selectedRow;
     rowno = rowno + 1;
-    int val = rowno  / kAdvertisementEventNo;
-    val = val - 1;
-    int itemsAvailable = (int)[arrEventsData count];
-    int repeatValue = kAdvertisementEventNo - 1;
-    int maxLimitAdEvent = itemsAvailable / repeatValue;
-    int previousLoadedEvents = (currentPage * maxLimitAdEvent) + val;
-    NSString *skipElement = [NSString stringWithFormat:@"%d",previousLoadedEvents];
-    NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
-    [getRequest setObject:skipElement forKey:kEventSkipParam];
-    [getRequest setObject:kEventOneStr forKey:kEventLimitParam];
-    [[AppDelegate sharedinstance] showLoader];
+    int selectedAdEventIndex = rowno  / kAdvertisementEventNo;
+    selectedAdEventIndex = selectedAdEventIndex - 1;
+    int maxAdEventPage = [kEventLimit intValue];
+    maxAdEventPage  = maxAdEventPage / (kAdvertisementEventNo - 1);
+    maxAdEventPage = currentPage * maxAdEventPage + selectedAdEventIndex;
     
-    [QBRequest objectsWithClassName:kEventAd extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
- 
-        objAdvEvent = [objects objectAtIndex:0];
-       NSString *eventTitleStr = [[AppDelegate sharedinstance] nullcheck:[objAdvEvent.fields objectForKey:kEventAdvTitle]];
-        lblAdvTitle.text = eventTitleStr;
-         NSString *eventDescStr = [[AppDelegate sharedinstance] nullcheck:[objAdvEvent.fields objectForKey:kEventAdDesc]];
-        txtViewAdvdesc.text = eventDescStr;
-        CGFloat heightDescTextview  =  [CommonMethods heightForText:eventDescStr withFont:[UIFont systemFontOfSize:17] andWidth:txtViewAdvdesc.frame.size.width];
-        viewBlurInfo.hidden = false;
-        viewAdvertiseInfoPopup.hidden = false;
-        viewInfoBase.hidden = true;
-         txtViewAdvdesc.editable = false;
-        if (heightDescTextview >= 300) {
-            heightDescTextview = 300;
-            txtViewAdvdesc.scrollEnabled = true;
-        }else {
-            txtViewAdvdesc.scrollEnabled = false;
-        }
-        constraintHeightTxtViewAdvDesc.constant = heightDescTextview + 230;
-        NSLog(@"Entries %lu",(unsigned long)page.totalEntries);
-
-        [[AppDelegate sharedinstance] hideLoader];
-
-    } errorBlock:^(QBResponse *response) {
-        // error handling
-        [[AppDelegate sharedinstance] hideLoader];
-
-        NSLog(@"Response error: %@", [response.error description]);
-    }];
+    objAdvEvent = [arrAdEventsDetails objectAtIndex:maxAdEventPage];
+    NSString *eventTitleStr = [[AppDelegate sharedinstance] nullcheck:[objAdvEvent.fields objectForKey:kEventAdvTitle]];
+    lblAdvTitle.text = eventTitleStr;
+    NSString *eventDescStr = [[AppDelegate sharedinstance] nullcheck:[objAdvEvent.fields objectForKey:kEventAdDesc]];
+    txtViewAdvdesc.text = eventDescStr;
+    CGFloat heightDescTextview  =  [CommonMethods heightForText:eventDescStr withFont:[UIFont systemFontOfSize:17] andWidth:txtViewAdvdesc.frame.size.width];
+    viewBlurInfo.hidden = false;
+    viewAdvertiseInfoPopup.hidden = false;
+    viewInfoBase.hidden = true;
+    txtViewAdvdesc.editable = false;
+    if (heightDescTextview >= 300) {
+        heightDescTextview = 300;
+    }
+    txtViewAdvdesc.scrollEnabled = true;
+    constraintHeightTxtViewAdvDesc.constant = heightDescTextview + 210;
+    
 }
 #pragma mark- showGrid
 /**
@@ -665,7 +784,7 @@
  * @author Chetu India
  */
 - (IBAction)btnWebsiteAdvAction:(id)sender {
-     NSString *eventAdvWebsite = [[AppDelegate sharedinstance] nullcheck:[objAdvEvent.fields objectForKey:kEventAdWebSite]];
+    NSString *eventAdvWebsite = [[AppDelegate sharedinstance] nullcheck:[objAdvEvent.fields objectForKey:kEventAdWebSite]];
     [self redirectToWebSite:eventAdvWebsite];
 }
 #pragma mark- Open Website Url
@@ -686,7 +805,6 @@
         viewAdvertiseInfoPopup.hidden = true;
         viewInfoBase.hidden = true;
     }else {
-        NSLog(@"Error");
         viewInfoBase.hidden = true;
         viewAdvertiseInfoPopup.hidden = true;
         viewBlurInfo.hidden = true;
@@ -748,7 +866,7 @@
     [self getEventCourseDetails:eventCourseId];
     
 }
-#pragma mark- Dir Btn Popup
+#pragma mark- Diretion Btn Popup
 /**
  @Description
  * This method will fetch event details for the event that was selected by the user from poopup and redirect the user to map screen.
@@ -759,7 +877,7 @@
     
     favInfoMapDirStr = @"DIR";
     QBCOCustomObject *obj = [arrEventsData objectAtIndex:selectedRow];
-    NSString *eventCourseId = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"eventCourseID"]];
+    NSString *eventCourseId = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:kEventCourseId]];
     [self getEventCourseDetails:eventCourseId];
     
 }
@@ -958,9 +1076,7 @@
     int totalAdvEventsCount = (int)selectedRow;
     totalAdvEventsCount = totalAdvEventsCount / kAdvertisementEventNo;
     int totalEventRecords = (int)selectedRow - totalAdvEventsCount;
-    
     QBCOCustomObject *obj = [arrEventsData objectAtIndex:totalEventRecords];
-    
     NSMutableArray *arr = [[obj.fields objectForKey:kEventFavID] mutableCopy];
     
     if(!arr || arr.count==0)
@@ -1027,6 +1143,65 @@
     }
     
 }
+
+#pragma mark - Create Record Base View
+/**
+ @Description
+ * Create next prev << baseView prograrmmatically
+ * @author Chetu India
+ * @return void nothing will return by this method.
+ */
+
+-(void)createRecordBaseView {
+
+    // get device size
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    CGFloat screenWidth = screenRect.size.width;
+    
+    // create baseview for previous, next and lable
+    UIView *loadRecordBaseView = [[UIView alloc]initWithFrame:CGRectMake((screenWidth - 250 )/2, kZeroValue, 250, _nextPrevRecordBaseView.frame.size.height)];
+    loadRecordBaseView.backgroundColor = [UIColor clearColor];
+    [_nextPrevRecordBaseView addSubview:loadRecordBaseView];
+    
+    // create previous button
+    fetchPrevRecordBtn = [[UIButton alloc]initWithFrame:CGRectMake(kZeroValue, kZeroValue, 50, loadRecordBaseView.frame.size.height)];
+    [fetchPrevRecordBtn setTitle:kFetchPreviousRecordBtnTitle forState:UIControlStateNormal];
+    fetchPrevRecordBtn.titleLabel.font = [UIFont fontWithName:kFontNameHelveticaNeue size:25];
+    fetchPrevRecordBtn.titleLabel.textAlignment = NSTextAlignmentLeft;
+    [fetchPrevRecordBtn addTarget:self action:@selector(fetchPrevRecordBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [loadRecordBaseView addSubview:fetchPrevRecordBtn];
+    
+    // create record label
+    recordLbl = [[UILabel alloc]initWithFrame:CGRectMake(fetchPrevRecordBtn.frame.size.width + fetchPrevRecordBtn.frame.origin.x, kZeroValue, 150,loadRecordBaseView.frame.size.height)];
+    recordLbl.adjustsFontSizeToFitWidth = YES;
+    recordLbl.textAlignment = NSTextAlignmentCenter;
+    recordLbl.font = [UIFont fontWithName:kFontNameHelveticaNeue size:17];
+    recordLbl.textColor = [UIColor whiteColor];
+    [loadRecordBaseView addSubview:recordLbl];
+    
+    // create next button to fetch next 25 records of courses
+    fetchNextRecordBtn = [[UIButton alloc]initWithFrame:CGRectMake(recordLbl.frame.size.width + recordLbl.frame.origin.x, 0, 50, loadRecordBaseView.frame.size.height)];
+    [fetchNextRecordBtn setTitle:kFetchNextRecordBtnTitle forState:UIControlStateNormal];
+    [fetchNextRecordBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    fetchNextRecordBtn.titleLabel.font = [UIFont fontWithName:kFontNameHelveticaNeue size:25];
+    fetchNextRecordBtn.titleLabel.textAlignment = NSTextAlignmentRight;
+    [fetchNextRecordBtn addTarget:self action:@selector(fetchNextRecordBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [loadRecordBaseView addSubview:fetchNextRecordBtn];
+    
+    _nextPrevRecordBaseView.backgroundColor = [UIColor colorWithRed:0.000 green:0.655 blue:0.176 alpha:1.00];
+    
+    // create previous button
+    fecthInitialRecordBtn = [[UIButton alloc]initWithFrame:CGRectMake(kZeroValue, kZeroValue, loadRecordBaseView.frame.origin.x, loadRecordBaseView.frame.size.height)];
+    [fecthInitialRecordBtn setTitle:kFetchInitialRecordBtnTitle forState:UIControlStateNormal];
+    fecthInitialRecordBtn.titleLabel.font = [UIFont fontWithName:kFontNameHelveticaNeue size:25];
+    fecthInitialRecordBtn.titleLabel.textAlignment = NSTextAlignmentLeft;
+    [fecthInitialRecordBtn addTarget:self action:@selector(fetchInitialRecordBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [_nextPrevRecordBaseView addSubview:fecthInitialRecordBtn];
+    
+    fetchPrevRecordBtn.hidden = true;
+    fecthInitialRecordBtn.hidden = true;
+}
+
 /**
  @Description
  * This method open the mail composer if user devices is compatable for mail.
@@ -1104,50 +1279,113 @@
 {
     // Getting total number of records to be shown in the event tableview after adding total events available in quickbloax table and number of advertisement event that will be every fith event
     
-    int totalAdvEventsCount = (int)arrEventsData.count;
-    totalAdvEventsCount = totalAdvEventsCount / kAdvertisementEventNo;
-    int totalEventRecords = totalAdvEventsCount + (int)arrEventsData.count;
-    NSInteger totalEventRecordsCount = (NSInteger) totalEventRecords;
-    
-    return totalEventRecordsCount;
+    NSInteger totalNoOfRows = kZeroValue;
+    int requiredAdEvents = eventCount / (kAdvertisementEventNo - 1);
+    if (totalAdvertEventCount >= requiredAdEvents) {
+        int totalAdvEventsCount = (int)arrEventsData.count;
+        totalAdvEventsCount = totalAdvEventsCount / (kAdvertisementEventNo - 1);
+        int totalEventRecords = (int)totalAdvEventsCount + (int)arrEventsData.count;
+        adEventUsedInPage = (int)totalAdvEventsCount;
+        NSInteger totalEventRecordsCount = (NSInteger) totalEventRecords;
+        
+        totalNoOfRows =  totalEventRecordsCount;
+    }else {
+        
+        int limitEvent = [kEventLimit intValue];
+        int maxAdEventPerPage = limitEvent;
+        maxAdEventPerPage  = maxAdEventPerPage / (kAdvertisementEventNo - 1);
+        int usedAdEvent = maxAdEventPerPage * currentPage;
+        
+        int remaingAdEventToShow = totalAdvertEventCount - usedAdEvent;
+        
+        if (remaingAdEventToShow == kZeroValue) {
+            totalNoOfRows = (int)arrEventsData.count;
+            adEventUsedInPage = kZeroValue;
+        }else if (remaingAdEventToShow < kZeroValue) {
+            totalNoOfRows = (int)arrEventsData.count;
+            adEventUsedInPage = kZeroValue;
+        }else {
+            
+            if (maxAdEventPerPage <= remaingAdEventToShow ) {
+                totalNoOfRows = (int)arrEventsData.count +  maxAdEventPerPage;
+                adEventUsedInPage = maxAdEventPerPage;
+            }else {
+                totalNoOfRows = (int)arrEventsData.count +  remaingAdEventToShow;
+                adEventUsedInPage = remaingAdEventToShow;
+            }
+        }
+    }
+    return totalNoOfRows;
     
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
     EventTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kEventCellName];
     NSArray *topLevelObjects;
     
     topLevelObjects = [[NSBundle mainBundle] loadNibNamed:kEventCellName owner:self options:nil];
     // Grab a pointer to the first object (presumably the custom cell, as that's all the XIB should contain).
     
-    cell = [topLevelObjects objectAtIndex:0];
+    cell = [topLevelObjects objectAtIndex:kZeroValue];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
     // find the indexpath for advertisement event that shows in table
     int rowno = (int)indexPath.row;
     rowno = rowno + 1;
-    int val = rowno  % kAdvertisementEventNo;
-    
-    // Condition for advertisement cell or event cell
-    if (val == kRemainderValAdvEvent) {
-        cell.lblDate.text = kAdEventlblTxt;
-        cell.lblDate.hidden = false;
-        cell.lblDate.textColor = [UIColor redColor];
-        [cell.BtnFav addTarget:self action:@selector(btnFavTapped:) forControlEvents:UIControlEventTouchUpInside];
-        cell.BtnFav.backgroundColor = [UIColor colorWithRed:0.000 green:0.655 blue:0.176 alpha:1.00];
+    int remainder = rowno  % kAdvertisementEventNo;
+    int requiredAdEvents = eventCount / (kAdvertisementEventNo - 1);
+    if (totalAdvertEventCount >= requiredAdEvents) {
         
     }else {
-        
         int totalAdvEventsCount = (int)indexPath.row;
+        int limitEvent = [kEventLimit intValue];
+        int maxAdEventPage = limitEvent;
+        maxAdEventPage  = maxAdEventPage / (kAdvertisementEventNo - 1);
+        totalAdvEventsCount = currentPage * (maxAdEventPage + limitEvent) + totalAdvEventsCount;
+        int maxEvent = totalAdvertEventCount * (kAdvertisementEventNo - 1);
+        maxEvent = maxEvent + (kAdvertisementEventNo - 2);
+        int totalAdEventPlusMaxEvent = maxEvent + totalAdvertEventCount;
+        if (totalAdvEventsCount > totalAdEventPlusMaxEvent) {
+            remainder = 6;
+        }
+    }
+    // Condition for advertisement cell
+    if (remainder == kRemainderValAdvEvent) {
+//        cell.lblDate.text = kAdEventlblTxt;
+//        cell.lblDate.hidden = true;
+//        cell.lblDate.textColor = [UIColor redColor];
+        // get the index of the advertisement events
+        int totalAdvEventsCount = (int)indexPath.row;
+        totalAdvEventsCount = totalAdvEventsCount + 1;
         totalAdvEventsCount = totalAdvEventsCount / kAdvertisementEventNo;
-        int totalEventRecords = (int)indexPath.row - totalAdvEventsCount;
-        QBCOCustomObject *obj = [arrEventsData objectAtIndex:totalEventRecords];
+        totalAdvEventsCount = totalAdvEventsCount - 1;
+        int maxAdEventPage = [kEventLimit intValue];
+        maxAdEventPage  = maxAdEventPage / (kAdvertisementEventNo - 1);
+        maxAdEventPage = currentPage * maxAdEventPage + totalAdvEventsCount;
+        QBCOCustomObject *obj = [arrAdEventsDetails objectAtIndex:maxAdEventPage];
         // Set Data from obj in tableview cell
-        [cell setDataFromQbObj:obj];
+        [cell setAdEventDataFromQbObj:obj];
         [cell.BtnFav addTarget:self action:@selector(btnFavTapped:) forControlEvents:UIControlEventTouchUpInside];
-        cell.BtnFav.backgroundColor = [UIColor colorWithRed:0.000 green:0.655 blue:0.176 alpha:1.00];
+    }else {
+        
+        if (remainder == 6) {
+          int indexValue = (int)indexPath.row;
+            indexValue = indexValue - adEventUsedInPage;
+            QBCOCustomObject *obj = [arrEventsData objectAtIndex:indexValue];
+            // Set Data from obj in tableview cell
+            [cell setEventDataFromQbObj:obj];
+            [cell.BtnFav addTarget:self action:@selector(btnFavTapped:) forControlEvents:UIControlEventTouchUpInside];
+        }else {
+            int totalAdvEventsCount = (int)indexPath.row;
+            totalAdvEventsCount = totalAdvEventsCount / (kAdvertisementEventNo);
+            int totalEventRecords = (int)indexPath.row - totalAdvEventsCount;
+            QBCOCustomObject *obj = [arrEventsData objectAtIndex:totalEventRecords];
+            // Set Data from obj in tableview cell
+            [cell setEventDataFromQbObj:obj];
+            [cell.BtnFav addTarget:self action:@selector(btnFavTapped:) forControlEvents:UIControlEventTouchUpInside];
+            
+        }
+        
     }
     
     return cell;

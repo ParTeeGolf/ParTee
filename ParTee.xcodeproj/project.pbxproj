@@ -77,7 +77,6 @@
 		3D3F11941F307B6C00DE428E /* Harpy.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3D3F11911F307B6C00DE428E /* Harpy.bundle */; };
 		3D3F11951F307B6C00DE428E /* Harpy.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D3F11931F307B6C00DE428E /* Harpy.m */; };
 		3D420E131EAE10DF00444136 /* ico-cancel.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D420E111EAE10DF00444136 /* ico-cancel.png */; };
-		3D420E141EAE10DF00444136 /* menu.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D420E121EAE10DF00444136 /* menu.png */; };
 		3D42BDE91EAB111000203FD9 /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D42BDD71EAB111000203FD9 /* Montserrat-Bold.ttf */; };
 		3D42BDEF1EAB111000203FD9 /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D42BDDD1EAB111000203FD9 /* Montserrat-Regular.ttf */; };
 		3D42BDF01EAB111000203FD9 /* Oswald-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D42BDDE1EAB111000203FD9 /* Oswald-Bold.ttf */; };
@@ -281,8 +280,6 @@
 		3D707C081D56FD2D00591BF6 /* Dot-select.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D707BFF1D56FD2D00591BF6 /* Dot-select.png */; };
 		3D707C091D56FD2D00591BF6 /* Dot-select@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D707C001D56FD2D00591BF6 /* Dot-select@2x.png */; };
 		3D707C0A1D56FD2D00591BF6 /* Dot.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D707C011D56FD2D00591BF6 /* Dot.png */; };
-		3D707C0B1D56FD2D00591BF6 /* Menu.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D707C021D56FD2D00591BF6 /* Menu.png */; };
-		3D707C0C1D56FD2D00591BF6 /* Menu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D707C031D56FD2D00591BF6 /* Menu@2x.png */; };
 		3D707C0D1D56FD2D00591BF6 /* Shade.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D707C041D56FD2D00591BF6 /* Shade.png */; };
 		3D707C0E1D56FD2D00591BF6 /* Shade@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D707C051D56FD2D00591BF6 /* Shade@2x.png */; };
 		3D707C0F1D56FD2D00591BF6 /* Tonic.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D707C061D56FD2D00591BF6 /* Tonic.png */; };
@@ -495,7 +492,6 @@
 		3DA138A61F3DBACF0000189A /* Vending Machines@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DA138751F3DBACF0000189A /* Vending Machines@2x.png */; };
 		3DA138A71F3DBACF0000189A /* Webcam@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DA138761F3DBACF0000189A /* Webcam@2x.png */; };
 		3DA138A81F3DBACF0000189A /* WiFi@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DA138771F3DBACF0000189A /* WiFi@2x.png */; };
-		3DA138B41F3DDFBE0000189A /* moreopt@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DA138B31F3DDFBE0000189A /* moreopt@2x.png */; };
 		3DA138BA1F3DDFFF0000189A /* direction.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DA138B51F3DDFFF0000189A /* direction.png */; };
 		3DA138BB1F3DDFFF0000189A /* fav.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DA138B61F3DDFFF0000189A /* fav.png */; };
 		3DA138BC1F3DDFFF0000189A /* info.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DA138B71F3DDFFF0000189A /* info.png */; };
@@ -699,7 +695,6 @@
 		3D3F11921F307B6C00DE428E /* Harpy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Harpy.h; sourceTree = "<group>"; };
 		3D3F11931F307B6C00DE428E /* Harpy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Harpy.m; sourceTree = "<group>"; };
 		3D420E111EAE10DF00444136 /* ico-cancel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ico-cancel.png"; sourceTree = "<group>"; };
-		3D420E121EAE10DF00444136 /* menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu.png; sourceTree = "<group>"; };
 		3D42BDD71EAB111000203FD9 /* Montserrat-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Bold.ttf"; sourceTree = "<group>"; };
 		3D42BDDD1EAB111000203FD9 /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Regular.ttf"; sourceTree = "<group>"; };
 		3D42BDDE1EAB111000203FD9 /* Oswald-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-Bold.ttf"; sourceTree = "<group>"; };
@@ -1002,8 +997,6 @@
 		3D707BFF1D56FD2D00591BF6 /* Dot-select.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Dot-select.png"; sourceTree = "<group>"; };
 		3D707C001D56FD2D00591BF6 /* Dot-select@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Dot-select@2x.png"; sourceTree = "<group>"; };
 		3D707C011D56FD2D00591BF6 /* Dot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Dot.png; sourceTree = "<group>"; };
-		3D707C021D56FD2D00591BF6 /* Menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Menu.png; sourceTree = "<group>"; };
-		3D707C031D56FD2D00591BF6 /* Menu@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Menu@2x.png"; sourceTree = "<group>"; };
 		3D707C041D56FD2D00591BF6 /* Shade.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Shade.png; sourceTree = "<group>"; };
 		3D707C051D56FD2D00591BF6 /* Shade@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Shade@2x.png"; sourceTree = "<group>"; };
 		3D707C061D56FD2D00591BF6 /* Tonic.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Tonic.png; sourceTree = "<group>"; };
@@ -1275,7 +1268,6 @@
 		3DA138751F3DBACF0000189A /* Vending Machines@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Vending Machines@2x.png"; sourceTree = "<group>"; };
 		3DA138761F3DBACF0000189A /* Webcam@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Webcam@2x.png"; sourceTree = "<group>"; };
 		3DA138771F3DBACF0000189A /* WiFi@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "WiFi@2x.png"; sourceTree = "<group>"; };
-		3DA138B31F3DDFBE0000189A /* moreopt@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "moreopt@2x.png"; sourceTree = "<group>"; };
 		3DA138B51F3DDFFF0000189A /* direction.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = direction.png; sourceTree = "<group>"; };
 		3DA138B61F3DDFFF0000189A /* fav.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fav.png; sourceTree = "<group>"; };
 		3DA138B71F3DDFFF0000189A /* info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = info.png; sourceTree = "<group>"; };
@@ -2130,8 +2122,6 @@
 				3DC65E6E1D574D63008A0ADC /* Male User@2x.png */,
 				3DC65E6B1D574D63008A0ADC /* Male User2.png */,
 				3DC65E6C1D574D63008A0ADC /* Male User2@2x.png */,
-				3D707C021D56FD2D00591BF6 /* Menu.png */,
-				3D707C031D56FD2D00591BF6 /* Menu@2x.png */,
 				3D8ABD221DE6A4B6002C738E /* mf.png */,
 				3D8C23E71D6D5F860003A8D2 /* missing-profile-photo.png */,
 				3D30D9031D58AD9900D4286B /* Placeholder.png */,
@@ -2252,8 +2242,8 @@
 			isa = PBXGroup;
 			children = (
 				3D8651601D65F34A0097C096 /* ViewUsersViewController.h */,
-				3D8651621D65F34A0097C096 /* ViewUsersViewController.xib */,
 				3D8651611D65F34A0097C096 /* ViewUsersViewController.m */,
+				3D8651621D65F34A0097C096 /* ViewUsersViewController.xib */,
 				3D8651651D65F5110097C096 /* cell_ViewUsers.h */,
 				3D8651661D65F5110097C096 /* cell_ViewUsers.m */,
 				3D8651671D65F5110097C096 /* cell_ViewUsers.xib */,
@@ -2564,8 +2554,6 @@
 				3D0F3ACB1EB0D6B300327C58 /* listBackground.png */,
 				3D9543CC1EAA493B006573BE /* logo.png */,
 				3DA138CB1F3E2E2D0000189A /* mappin */,
-				3D420E121EAE10DF00444136 /* menu.png */,
-				3DA138B31F3DDFBE0000189A /* moreopt@2x.png */,
 				3DA138C91F3E12710000189A /* my_location.png */,
 				3D514D3C1F3EB8EA008DD014 /* No_Image_Available.png */,
 				3D95D52A1F1E37E80038DFD7 /* noti-icon.png */,
@@ -2938,7 +2926,7 @@
 				TargetAttributes = {
 					3D707A581D56D57300591BF6 = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = 5TY53JR767;
+						DevelopmentTeam = VVNGPSU68X;
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -3107,7 +3095,6 @@
 				3D514D4A1F3EC5D4008DD014 /* type-5@2x.png in Resources */,
 				3D707B861D56DC7C00591BF6 /* SFCompactDisplay-Black.ttf in Resources */,
 				3D707C161D56FFAB00591BF6 /* img.png in Resources */,
-				3D420E141EAE10DF00444136 /* menu.png in Resources */,
 				3DFF3C081F404FC9003B51DE /* CoursePreferencesViewController.xib in Resources */,
 				3D92C87C1D5B5D55005C8CAE /* bubble_min_tailless@3x.png in Resources */,
 				3D42BDF31EAB111000203FD9 /* Oswald-Medium.ttf in Resources */,
@@ -3123,7 +3110,6 @@
 				3D0F3AC61EB0CE7200327C58 /* userBG.png in Resources */,
 				3DC65E8D1D57658F008A0ADC /* 2.png in Resources */,
 				3D707B871D56DC7C00591BF6 /* SFCompactDisplay-Bold.ttf in Resources */,
-				3D707C0B1D56FD2D00591BF6 /* Menu.png in Resources */,
 				3DA1389F1F3DBACF0000189A /* Snack Bar@2x.png in Resources */,
 				3D514D491F3EC5D4008DD014 /* type-2@2x.png in Resources */,
 				3D15C4471F2B52AE0001EBC3 /* Silde 5_4s.png in Resources */,
@@ -3270,7 +3256,6 @@
 				3D42BDF11EAB111000203FD9 /* Oswald-ExtraLight.ttf in Resources */,
 				3D32050A1F2E13A8008DE028 /* filterclear@2x.png in Resources */,
 				3D6C18571D66A6AD00F87998 /* Plusadd.png in Resources */,
-				3D707C0C1D56FD2D00591BF6 /* Menu@2x.png in Resources */,
 				3D707B971D56DC7C00591BF6 /* SFCompactText-Regular.ttf in Resources */,
 				3D39337F1E3B2A2A00902567 /* ViewProfileViewController_4s.xib in Resources */,
 				3D707BAD1D56DC7C00591BF6 /* SFUIText-RegularItalic.ttf in Resources */,
@@ -3310,7 +3295,6 @@
 				3DA138871F3DBACF0000189A /* Dining@2x.png in Resources */,
 				84FD50D5213D8D6900EF389F /* EventTableViewCell.xib in Resources */,
 				3DA138A41F3DBACF0000189A /* Umbrella@2x.png in Resources */,
-				3DA138B41F3DDFBE0000189A /* moreopt@2x.png in Resources */,
 				3D9F54821ED5C79700CEE90C /* iap3.png in Resources */,
 				3DC65EA21D579102008A0ADC /* SpecialsViewController.xib in Resources */,
 				3D8173491F1F5E8E0095EDC7 /* 4_glow_effects_golf_ball_symbol02.png in Resources */,
@@ -3676,12 +3660,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ParTee.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Rohit Negi (4W74K6TMNZ)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Rohit Negi (4W74K6TMNZ)";
 				CODE_SIGN_STYLE = Manual;
 				COMPRESS_PNG_FILES = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 5TY53JR767;
+				DEVELOPMENT_TEAM = VVNGPSU68X;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3703,11 +3687,12 @@
 					"$(inherited)",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.verifyme.VerifyMeAuthenticator;
+				PRODUCT_BUNDLE_IDENTIFIER = com.app.parteegolf;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "36d4966b-af40-42a0-a7ba-591cfc8b7d35";
-				PROVISIONING_PROFILE_SPECIFIER = VerifyMeAuthDev;
+				PROVISIONING_PROFILE = "44d110ec-15c2-44a0-b5e5-80c0be69d288";
+				PROVISIONING_PROFILE_SPECIFIER = parteegolf_dev;
 				STRIP_PNG_TEXT = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "armv7 armv7s arm64";
 			};
 			name = Debug;
@@ -3717,12 +3702,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ParTee.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: ParTee, Inc. (VVNGPSU68X)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: ParTee, Inc. (VVNGPSU68X)";
 				CODE_SIGN_STYLE = Manual;
 				COMPRESS_PNG_FILES = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 5TY53JR767;
+				DEVELOPMENT_TEAM = VVNGPSU68X;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3744,11 +3729,12 @@
 					"$(inherited)",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.verifyme.VerifyMeAuthenticator;
+				PRODUCT_BUNDLE_IDENTIFIER = com.app.parteegolf;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d9558fcb-e263-4613-b20e-1548bba4aaa1";
-				PROVISIONING_PROFILE_SPECIFIER = VerifyMeDistAppStore;
+				PROVISIONING_PROFILE = "70b5051c-bb76-4338-bfd5-f23517cd8da2";
+				PROVISIONING_PROFILE_SPECIFIER = parteegolf_dis;
 				STRIP_PNG_TEXT = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "armv7 armv7s arm64";
 			};
 			name = Release;

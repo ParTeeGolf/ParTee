@@ -66,7 +66,7 @@
                                     <constraint firstAttribute="width" constant="27" id="lnP-e9-gup"/>
                                     <constraint firstAttribute="height" constant="27" id="uiA-Bk-l8l"/>
                                 </constraints>
-                                <state key="normal" backgroundImage="moreopt.png">
+                                <state key="normal" image="moreopt.png">
                                     <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
@@ -158,6 +158,6 @@
     <resources>
         <image name="Points.png" width="96" height="106"/>
         <image name="course.png" width="1080" height="720"/>
-        <image name="moreopt.png" width="35" height="35"/>
+        <image name="moreopt.png" width="8" height="37"/>
     </resources>
 </document>

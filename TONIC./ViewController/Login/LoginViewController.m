@@ -161,7 +161,7 @@
         }
     }
     else if(autocompletePlaceStatus==2)  {
-        [self loginTemp];
+        [self login];
     }
 }
 
@@ -441,7 +441,7 @@
         }
         else
         {
-            [self loginTemp];
+            [self login];
             
         }
         
@@ -449,7 +449,7 @@
     
 }
 
- -(void) loginTemp {
+ -(void) login {
      
         [[AppDelegate sharedinstance] showLoader];
         
@@ -1024,7 +1024,7 @@ didAutocompleteWithPlace:(GMSPlace *)place {
     
 
     
-    [self loginTemp];
+    [self login];
 
    // [self dismissViewControllerAnimated:YES completion:nil];
     

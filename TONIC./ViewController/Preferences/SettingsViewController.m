@@ -36,22 +36,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    if ([CLLocationManager locationServicesEnabled]){
-        
-        NSLog(@"Location Services Enabled");
-        
-        if ([CLLocationManager authorizationStatus]==kCLAuthorizationStatusDenied){
-      UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"App Permission Denied"
-                                               message:@"To re-enable, please go to Settings and turn on Location Service for this app."
-                                              delegate:nil
-                                     cancelButtonTitle:@"OK"
-                                     otherButtonTitles:nil];
-            [alert show];
-        }
-    }
-   
-    
-    
     UIImage *thumb = [UIImage imageNamed:@"filledcircle"];
     [myObSliderOutlet setThumbImage:thumb forState:UIControlStateNormal];
     [myObSliderOutlet setThumbImage:thumb forState:UIControlStateHighlighted];
@@ -105,7 +89,7 @@
     [btnMale setImage:[UIImage imageNamed:@"guestmale"] forState:UIControlStateNormal];
     [btnFemale setImage:[UIImage imageNamed:@"guestfemale"] forState:UIControlStateNormal];
 
-       tempArraySelcted=[[NSMutableArray alloc]init];
+    tempArraySelcted =[[NSMutableArray alloc]init];
 
     
     if(isiPhone4) {
@@ -363,7 +347,7 @@
 
 -(void) getLocationDataFromServer {
    
-     // [[AppDelegate sharedinstance] showLoader];
+      [[AppDelegate sharedinstance] showLoader];
     [QBRequest objectsWithClassName:@"UserInfo" extendedRequest:nil successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
         [[AppDelegate sharedinstance] hideLoader];
         NSLog(@"Entries %lu",(unsigned long)page.totalEntries);

@@ -43,10 +43,10 @@
                     <rect key="frame" x="0.0" y="0.0" width="320" height="71"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m6I-AV-702">
-                            <rect key="frame" x="15" y="44" width="20" height="16"/>
+                            <rect key="frame" x="10" y="40" width="27" height="20"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="16" id="4em-sB-6jn"/>
-                                <constraint firstAttribute="width" constant="20" id="B5F-nR-ZcQ"/>
+                                <constraint firstAttribute="width" constant="27" id="ZUM-nC-JQk"/>
+                                <constraint firstAttribute="height" constant="20" id="nr3-YA-m3G"/>
                             </constraints>
                             <state key="normal" backgroundImage="Menu.png"/>
                         </button>
@@ -74,11 +74,11 @@
                     <constraints>
                         <constraint firstItem="yeg-94-2DR" firstAttribute="centerX" secondItem="Rur-SD-ngt" secondAttribute="centerX" id="1hj-A9-xtU"/>
                         <constraint firstAttribute="bottom" secondItem="Xu3-N4-AyS" secondAttribute="bottom" id="2hA-95-tWJ"/>
-                        <constraint firstItem="m6I-AV-702" firstAttribute="leading" secondItem="Rur-SD-ngt" secondAttribute="leading" constant="15" id="8Ga-VW-x3E"/>
                         <constraint firstItem="Xu3-N4-AyS" firstAttribute="leading" secondItem="Rur-SD-ngt" secondAttribute="leading" constant="2" id="Cb4-0x-f9J"/>
+                        <constraint firstItem="m6I-AV-702" firstAttribute="leading" secondItem="Rur-SD-ngt" secondAttribute="leading" constant="10" id="GBc-pU-EJ1"/>
                         <constraint firstAttribute="bottom" secondItem="yeg-94-2DR" secondAttribute="bottom" constant="1" id="YfS-hu-hYi"/>
+                        <constraint firstAttribute="bottom" secondItem="m6I-AV-702" secondAttribute="bottom" constant="11" id="ZQk-wm-W95"/>
                         <constraint firstAttribute="height" constant="71" id="gvR-dD-TRh"/>
-                        <constraint firstAttribute="bottom" secondItem="m6I-AV-702" secondAttribute="bottom" constant="11" id="yTu-NR-4l2"/>
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="52t-S3-tNy" userLabel="segmentBackGroundView">

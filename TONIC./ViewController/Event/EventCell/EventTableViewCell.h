@@ -15,6 +15,8 @@
 @property (strong, nonatomic) IBOutlet UILabel *lblDate;
 // outlet for image of the event available in event table on quickblox.
 @property (strong, nonatomic) IBOutlet UIImageView *imgEvent;
-//This Method set the data from QBCOCustomObject in cell.
--(void)setDataFromQbObj:(QBCOCustomObject *)obj;
+//This Method set Event the data from QBCOCustomObject in cell.
+-(void)setEventDataFromQbObj:(QBCOCustomObject *)obj;
+//This Method set the AdEvent data from QBCOCustomObject in cell.
+-(void)setAdEventDataFromQbObj:(QBCOCustomObject *)obj;
 @end
