@@ -36,6 +36,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+   
     UIImage *thumb = [UIImage imageNamed:@"filledcircle"];
     [myObSliderOutlet setThumbImage:thumb forState:UIControlStateNormal];
     [myObSliderOutlet setThumbImage:thumb forState:UIControlStateHighlighted];
@@ -92,20 +93,20 @@
     tempArraySelcted =[[NSMutableArray alloc]init];
 
     
-    if(isiPhone4) {
-        [scrollViewContainer setContentSize:CGSizeMake(320, 650)];
-    }
-    
     [tblMembers reloadData];
     myObSliderOutlet.value =0;
     
    [self bindData];
     
-    scrollViewContainer.contentSize = CGSizeMake(self.view.frame.size.width,1200 );
+    
      
     
 }
-
+-(void)viewDidLayoutSubviews
+{
+    // The scrollview needs to know the content size for it to work correctly
+     scrollViewContainer.contentSize = CGSizeMake(self.view.frame.size.width,720);
+}
 -(void) viewWillAppear:(BOOL)animated {
     self.menuContainerViewController.panMode = NO;
 
@@ -120,6 +121,7 @@
         [btnBack setFrame:CGRectMake(15, 34, 20, 16)];
 
     }
+   
 }
 
 -(void) bindData {

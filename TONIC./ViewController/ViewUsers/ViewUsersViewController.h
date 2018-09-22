@@ -14,7 +14,6 @@
     IBOutlet UITableView *tblList;
     NSMutableArray *arrData;
     NSMutableArray *arrDialogData;
-    NSMutableArray *arrFinalData;
     NSMutableArray *arrFinalUserData;
     NSMutableArray *arrFinalDialogData;
 

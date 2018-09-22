@@ -98,6 +98,8 @@
     fetchPrevRecordBtn.hidden = true;
     fecthInitialRecordBtn.hidden = true;
     
+    constraintWidthContactBtn.constant = (self.view.frame.size.width - 40) /2;
+    constraintWidthWebsiteBtn.constant = (viewAdvertiseInfoPopup.frame.size.width - 40) /2;
     // Call getAdEventRecordsCount method to fetch Advertisment event details
     [self getAdEventRecordsCount];
 }
@@ -135,6 +137,8 @@
     arrAdEventsDetails = [[NSMutableArray alloc]init];
     courseDetailsStateCityArr = [[NSMutableArray alloc]init];
     /************** Initialize array to hold events details for the screen **********/
+    
+    
 }
 #pragma mark- Get AdEvent Count
 /**
@@ -299,17 +303,13 @@
                 else {
                     //   showOnyFav=NO;
                 }
-            }else {
-                NSString *strFilterDistance = [NSString stringWithFormat:@"%f,%f;%f",[strlong1 floatValue],[strlat1 floatValue],9999999.f];
-                
-                [getRequestObjectCount setObject:strFilterDistance forKey:kEventCoordNear];
             }
             break;
     }
     
     [getRequestObjectCount setObject:kEventOneStr forKey:kEventCount];
     // If user provide details for city or state then first get the details of course from golf course table and after that get the details of events from event table.
-    if (eventOption == kThreeSegmentOptionValue) {
+    if (eventOption == kThreeSegmentOptionValue  &&  dictcoursePreferencesData) {
         NSString *strcf_state= [dictcoursePreferencesData  objectForKey:kEventState];
         NSString *strcf_city = [dictcoursePreferencesData  objectForKey:kEventCity];
         
@@ -328,7 +328,7 @@
                     eventIds = [NSString stringWithFormat:@"%@,%@",eventIds, courseId];
                 }
                 [getRequestObjectCount setObject: eventIds forKey:kEventCourseIdIn];
-                cityStateCourseFilter = 0;
+                cityStateCourseFilter = kZeroValue;
                 [self getEventRecordsCount:getRequestObjectCount];
                 
             }
@@ -728,6 +728,7 @@
     objAdvEvent = [arrAdEventsDetails objectAtIndex:maxAdEventPage];
     NSString *eventTitleStr = [[AppDelegate sharedinstance] nullcheck:[objAdvEvent.fields objectForKey:kEventAdvTitle]];
     lblAdvTitle.text = eventTitleStr;
+    [lblAdvTitle setAdjustsFontSizeToFitWidth:YES];
     NSString *eventDescStr = [[AppDelegate sharedinstance] nullcheck:[objAdvEvent.fields objectForKey:kEventAdDesc]];
     txtViewAdvdesc.text = eventDescStr;
     CGFloat heightDescTextview  =  [CommonMethods heightForText:eventDescStr withFont:[UIFont systemFontOfSize:17] andWidth:txtViewAdvdesc.frame.size.width];
@@ -739,7 +740,14 @@
         heightDescTextview = 300;
     }
     txtViewAdvdesc.scrollEnabled = true;
-    constraintHeightTxtViewAdvDesc.constant = heightDescTextview + 210;
+    
+    CGFloat totalHeight = heightDescTextview + 210;
+    if (totalHeight > self.view.frame.size.height - 130 - 20 - 20) {
+        constraintHeightTxtViewAdvDesc.constant = self.view.frame.size.height - 130 - 20 - 20;
+    }else {
+       constraintHeightTxtViewAdvDesc.constant = heightDescTextview + 210;
+    }
+   
     
 }
 #pragma mark- showGrid
@@ -1040,19 +1048,26 @@
     
     if([strDesc length]>0) {
         
-        textViewEventDescInfo.text = strDesc;
+        [lblEventTitleInfo setAdjustsFontSizeToFitWidth:true];
         lblEventTitleInfo.text = strEventTitle;
         lblStartEndDateInfo.text = strDateEvent;
         viewBlurInfo.hidden = false;
         viewInfoBase.hidden = false;
         viewAdvertiseInfoPopup.hidden = true;
+        textViewEventDescInfo.text = strDesc;
         CGFloat heightDescTextview  =  [CommonMethods heightForText:strDesc withFont:[UIFont systemFontOfSize:16] andWidth:textViewEventDescInfo.frame.size.width];
         textViewEventDescInfo.scrollEnabled = true;
         textViewEventDescInfo.editable = false;
         if (heightDescTextview >= 300) {
             heightDescTextview = 300;
         }
-        constraintsInfoBaseViewHeight.constant = heightDescTextview + 327;
+        CGFloat totalHeight = heightDescTextview + 327;
+        if (totalHeight > self.view.frame.size.height - 130 - 20 - 20) {
+            constraintsInfoBaseViewHeight.constant = self.view.frame.size.height - 130 - 20 - 20;
+        }else {
+            constraintsInfoBaseViewHeight.constant = heightDescTextview + 327;
+        }
+       
     }
     else {
         [[AppDelegate sharedinstance] displayMessage:kEventNoInfoAvailTitle];

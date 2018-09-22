@@ -83,8 +83,10 @@
     [navBarTextAttributes setObject:red forKey:NSForegroundColorAttributeName ];
     
     self.navigationController.navigationBar.titleTextAttributes = navBarTextAttributes;
-    self.inputToolbar.contentView.textView.pasteDelegate = self;
     
+    /***********Chetu Change *******/
+   // self.inputToolbar.contentView.textView.pasteDelegate = self;
+      /***********Chetu Change *******/
     /**
      *  Load up our fake data for the demo
      */
@@ -539,8 +541,13 @@
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"save_to_history"] = @YES;
-    params[@"senderNick"] = self.title;
-
+    
+ /************** ChetuChange *****************/
+    // Here we have change the sender nick name to userloggedin username from title of chat screen that was receiver for the message.
+ //   params[@"senderNick"] = self.title;
+    NSMutableDictionary *dictUserData = [[[NSUserDefaults standardUserDefaults] objectForKey:kuserData] mutableCopy];
+    params[@"senderNick"] = [[AppDelegate sharedinstance] nullcheck:[dictUserData objectForKey:@"userDisplayName"]];
+/************** ChetuChange *****************/
     [qmessage setCustomParameters:params];
     
     QBChatDialog *dialog = customAmoDialog;
@@ -1088,22 +1095,24 @@
                 
                 [arrCustomMessage addObjectsFromArray:[messages mutableCopy]];
                 
+                
                 if(messages.count >= klimit && currentPageNum<1) {
                     ++currentPageNum;
                     [self customAmoCode];
                     return;
                 }
-                
+                NSLog(@"TotalCountMessages : %lu", (unsigned long)messages.count);
+                NSLog(@"TotalCountMessages : %lu", (unsigned long)currentPageNum);
                 for(QBChatMessage *messageObj in arrCustomMessage ) {
                     
-                    JSQMessage *message = [[JSQMessage alloc] initWithSenderId:[NSString stringWithFormat:@"%d",messageObj.senderID]
+                    JSQMessage *message = [[JSQMessage alloc] initWithSenderId:[NSString stringWithFormat:@"%lu",(unsigned long)messageObj.senderID]
                                                              senderDisplayName:@""
                                                                           date:messageObj.dateSent
                                                                           text:messageObj.text];
                     
                     [self.demoData.messages addObject:message];
                 }
-                
+               NSLog(@"TotalCountSenderMessages : %lu", (unsigned long)self.demoData.messages.count);
                self.demoData.messages =[[[self.demoData.messages reverseObjectEnumerator] allObjects] mutableCopy];
 
                 [self.collectionView reloadData];

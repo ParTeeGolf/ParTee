@@ -594,7 +594,7 @@
                         <constraint firstItem="EuR-Sk-e2k" firstAttribute="top" secondItem="fwU-ys-Dw8" secondAttribute="top" constant="8" id="kZI-93-FGo"/>
                     </constraints>
                 </view>
-                <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r2E-CE-eFv">
+                <pickerView hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r2E-CE-eFv">
                     <rect key="frame" x="0.0" y="352" width="320" height="216"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="216" id="rnZ-ae-Dmp"/>
@@ -604,7 +604,7 @@
                         <outlet property="delegate" destination="-1" id="shO-rD-OKm"/>
                     </connections>
                 </pickerView>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AAR-X0-sBv">
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AAR-X0-sBv">
                     <rect key="frame" x="0.0" y="352" width="320" height="216"/>
                     <subviews>
                         <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Yg3-if-qWq">

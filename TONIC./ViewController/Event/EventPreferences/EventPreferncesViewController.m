@@ -52,8 +52,7 @@
     [distanceSlider setThumbImage:thumb forState:UIControlStateHighlighted];
     [[NSNotificationCenter defaultCenter] postNotificationName:kEventPreRefreshContent object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [viewToolBar setHidden:YES];
-    [viewToolBar setHidden:YES];
+
     [listTblView setSeparatorColor:[UIColor clearColor]];
     self.navigationController.navigationBarHidden=YES;
     

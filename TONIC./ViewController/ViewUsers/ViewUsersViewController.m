@@ -56,6 +56,7 @@
     [super viewDidLoad];
    
    
+   
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadusers) name:@"reloadusers" object:nil];
   
 
@@ -65,7 +66,6 @@
     
     arrData = [[NSMutableArray alloc] init];
     arrDialogData = [[NSMutableArray alloc] init];
-    arrFinalData = [[NSMutableArray alloc] init];
     arrFinalUserData = [[NSMutableArray alloc] init];
     arrFinalDialogData = [[NSMutableArray alloc] init];
 
@@ -98,14 +98,17 @@
 
 -(void) viewWillAppear:(BOOL)animated {
 
-      
+    [[AppDelegate sharedinstance] showLoader];
+  //  [tblList setContentOffset:tblList.contentOffset animated:NO];
+    tblList.userInteractionEnabled = NO;
+    [tblList setScrollEnabled: false];
     _currentPage=0;
     
+    
     arrData = [[NSMutableArray alloc] init];
-    arrDialogData = [[NSMutableArray alloc] init];
-    arrFinalData = [[NSMutableArray alloc] init];
-    arrFinalUserData = [[NSMutableArray alloc] init];
-    arrFinalDialogData = [[NSMutableArray alloc] init];
+ //   arrDialogData = [[NSMutableArray alloc] init];
+ //   arrFinalUserData = [[NSMutableArray alloc] init];
+ //   arrFinalDialogData = [[NSMutableArray alloc] init];
     arrConnections = [[NSMutableArray alloc] init];
 
    
@@ -129,8 +132,9 @@
         currentUser.password = [[AppDelegate sharedinstance] getStringObjfromKey:kuserPassword];
         
         if([[[AppDelegate sharedinstance] sharedChatInstance] isConnected]) {
+            
+           
             arrDialogData = [[NSMutableArray alloc] init];
-
             [self getContact];
         }
         else {
@@ -138,7 +142,6 @@
            
             [self performSelector:@selector(letotherfeatureswork) withObject:nil afterDelay:10.f];
 
-            [[AppDelegate sharedinstance] showLoader];
             
             // connect to Chat
             [[AppDelegate sharedinstance].sharedChatInstance connectWithUser:currentUser completion:^(NSError * _Nullable error) {
@@ -248,6 +251,7 @@
         fecthInitialRecordBtn.hidden = true;
         _currentPage=0;
         shouldLoadNext = YES;
+        [[AppDelegate sharedinstance] showLoader];
         [self getPagedUsers:0];
     }
     
@@ -261,6 +265,7 @@
     // load previous 25 records if current page is not 0
     if (_currentPage > 0) {
         _currentPage--;
+        [[AppDelegate sharedinstance] showLoader];
         [self getCoursesRecordCount:_currentPage];
         
         if (_currentPage == 0) {
@@ -279,7 +284,7 @@
     // load next 25 records if current page is not 0
     if(shouldLoadNext) {
         _currentPage++;
-        
+        [[AppDelegate sharedinstance] showLoader];
         [self getCoursesRecordCount:_currentPage];
         
         if (_currentPage != 0) {
@@ -308,6 +313,7 @@
     }
     _currentPage = 0;
      arrConnections = [[NSMutableArray alloc] init];
+    [[AppDelegate sharedinstance] showLoader];
     [self getAllUsers];
     
     
@@ -324,6 +330,8 @@
 }
 
 - (void) getContact {
+    
+    
     [AppDelegate sharedinstance].arrContactListIDs = [[NSMutableArray alloc] init];
     
     NSArray *arrContactList =  [[AppDelegate sharedinstance]sharedChatInstance].contactList.contacts;
@@ -358,19 +366,17 @@
 
 - (void) getDialogs
 {
-    
+   
     [AppDelegate sharedinstance].strcustomnotificationtimer = @"2";
     
     _currentDialog=0;
     
     arrData = [[NSMutableArray alloc] init];
-    arrFinalData = [[NSMutableArray alloc] init];
-    arrFinalUserData = [[NSMutableArray alloc] init];
-    arrFinalDialogData = [[NSMutableArray alloc] init];
+   
+//    arrFinalUserData = [[NSMutableArray alloc] init];
+  //  arrFinalDialogData = [[NSMutableArray alloc] init];
     
-    [[AppDelegate sharedinstance] showLoader];
-    
-    NSMutableDictionary *extendedRequest = [NSMutableDictionary dictionary];
+   NSMutableDictionary *extendedRequest = [NSMutableDictionary dictionary];
     extendedRequest[@"sort_desc"] = @"last_message_date_sent";
 
     QBResponsePage *page = [QBResponsePage responsePageWithLimit:kdialogLimit skip:_currentDialog];
@@ -428,7 +434,10 @@
     //        [getRequest setObject:@"ID" forKey:@"sort_desc"];
     
     [getRequest setObject:[[arrOccupants valueForKey:@"description"] componentsJoinedByString:@","] forKey:@"user_id[in]"];
-[[AppDelegate sharedinstance] showLoader];
+    [[AppDelegate sharedinstance] showLoader];
+    
+    arrFinalDialogData = [[NSMutableArray alloc] init];
+    arrFinalUserData = [[NSMutableArray alloc] init];
     
     [QBRequest objectsWithClassName:@"UserInfo" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {            // do something with retrieved object
         
@@ -468,14 +477,16 @@
             
             if([arrFinalUserData count]>0) {
                 [tblList reloadData];
+                tblList.userInteractionEnabled = true;
+                [tblList setScrollEnabled: true];
                 
             }
         }
         
-        [[AppDelegate sharedinstance] hideLoader];
+       
         
         [self performSelector:@selector(resettimer) withObject:nil afterDelay:2];
-        
+         [[AppDelegate sharedinstance] hideLoader];
         
     } errorBlock:^(QBResponse *response) {
         // Handle error here
@@ -504,7 +515,7 @@
     
     [getRequest setObject:strPage forKey:@"skip"];
     
-    [[AppDelegate sharedinstance] showLoader];
+  //  [[AppDelegate sharedinstance] showLoader];
     
     [QBRequest objectsWithClassName:@"UserConnections" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
         // response processing
@@ -750,7 +761,7 @@
         
         [getRequest setObject: type forKey:@"user_type"];
     }
-    [[AppDelegate sharedinstance] showLoader];
+ //   [[AppDelegate sharedinstance] showLoader];
     
     [QBRequest countObjectsWithClassName:@"UserInfo" extendedRequest:getRequest successBlock:^(QBResponse * _Nonnull response, NSUInteger count) {
         
@@ -1040,8 +1051,10 @@
         isPageRefreshing=NO;
         
         [[AppDelegate sharedinstance] hideLoader];
-        
         [tblList reloadData];
+        tblList.userInteractionEnabled = true;
+        [tblList setScrollEnabled: true];
+        
         
     } errorBlock:^(QBResponse *response) {
         // error handling
@@ -1053,34 +1066,6 @@
 }
 
 
--(void) getRecords {
-    _currentPage++;
-    
-    [[AppDelegate sharedinstance] showLoader];
-    
-    NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
-    [getRequest setObject:kLimit forKey:@"limit"];
-    
-    NSString *strPage = [NSString stringWithFormat:@"%d",[kLimit intValue] * _currentPage];
-    [getRequest setObject:strPage forKey:@"skip"];
-    
-    [getRequest setObject:[[arrConnections valueForKey:@"description"] componentsJoinedByString:@","] forKey:@"userEmail[nin]"];
-    [getRequest setObject:@"created_at" forKey:@"sort_desc"];
-
-    [QBRequest objectsWithClassName:@"UserInfo" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
-        isPageRefreshing=NO;
-
-        // response processing
-        [arrData addObjectsFromArray:[objects mutableCopy]];
-
-        [[AppDelegate sharedinstance] hideLoader];
-        [tblList reloadData];
-        
-    } errorBlock:^(QBResponse *response) {
-        // error handling
-        NSLog(@"Response error: %@", [response.error description]);
-    }];
-}
 
 - (UIStatusBarStyle) preferredStatusBarStyle {
     return UIStatusBarStyleLightContent;
@@ -1319,6 +1304,8 @@
                         
                         [arrData removeObject:obj];
                         [tblList reloadData];
+                        tblList.userInteractionEnabled = true;
+                        [tblList setScrollEnabled: true];
                         
                         [[AppDelegate sharedinstance] hideLoader];
                         [[AppDelegate sharedinstance] displayMessage:@"Request has been sent successfully"];
@@ -1373,6 +1360,8 @@
                         
                         [arrData removeObject:obj];
                         [tblList reloadData];
+                        tblList.userInteractionEnabled = true;
+                        [tblList setScrollEnabled: true];
                         
                         [[AppDelegate sharedinstance] hideLoader];
                         [[AppDelegate sharedinstance] displayMessage:@"Request has been sent successfully"];
@@ -1421,6 +1410,8 @@
                     
                     [arrData removeObject:obj];
                     [tblList reloadData];
+                    tblList.userInteractionEnabled = true;
+                    [tblList setScrollEnabled: true];
                     
                     [[AppDelegate sharedinstance] hideLoader];
                     [[AppDelegate sharedinstance] displayMessage:@"Request has been sent successfully"];
@@ -1458,26 +1449,12 @@
     
     if([strIsMyMatches isEqualToString:@"1"]) {
         [tblList reloadData];
+        tblList.userInteractionEnabled = true;
+        [tblList setScrollEnabled: true];
     }
 }
 
 #pragma mark - Table view Delegate
-
-//- (void) scrollViewDidScroll:(UIScrollView *)scrollView
-//{
-//    
-//    if(tblList.contentOffset.y >= (tblList.contentSize.height - tblList.bounds.size.height + 20))
-//    {
-//        if(isPageRefreshing==NO){
-//            isPageRefreshing=YES;
-//            
-//            [self getRecords];
-//            
-//            [tblList reloadData];
-//            NSLog(@"called %d",_currentPage);
-//        }
-//    }
-//}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -1671,6 +1648,7 @@
     else {
         [cell.lblhandicap setTextColor:[UIColor whiteColor]];
 
+        /******** crash *******/
         QBCOCustomObject *obj = [arrFinalUserData objectAtIndex:indexPath.row];
         
         NSString *userFullMode= [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"userFullMode"]];

@@ -2926,7 +2926,7 @@
 				TargetAttributes = {
 					3D707A581D56D57300591BF6 = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = VVNGPSU68X;
+						DevelopmentTeam = 5TY53JR767;
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -3660,12 +3660,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ParTee.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Rohit Negi (4W74K6TMNZ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Rohit Negi (4W74K6TMNZ)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Paul Donfried (G3U3A7H8YF)";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer: Paul Donfried (G3U3A7H8YF)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Paul Donfried (G3U3A7H8YF)";
 				CODE_SIGN_STYLE = Manual;
 				COMPRESS_PNG_FILES = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = VVNGPSU68X;
+				DEVELOPMENT_TEAM = 5TY53JR767;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3687,10 +3688,10 @@
 					"$(inherited)",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.app.parteegolf;
+				PRODUCT_BUNDLE_IDENTIFIER = com.verifyme.VerifyMeAuthenticator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "44d110ec-15c2-44a0-b5e5-80c0be69d288";
-				PROVISIONING_PROFILE_SPECIFIER = parteegolf_dev;
+				PROVISIONING_PROFILE = "6f762425-16d3-407f-ab14-397a234affa3";
+				PROVISIONING_PROFILE_SPECIFIER = VerifyMeAuthDev;
 				STRIP_PNG_TEXT = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "armv7 armv7s arm64";
@@ -3729,7 +3730,7 @@
 					"$(inherited)",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.app.parteegolf;
+				PRODUCT_BUNDLE_IDENTIFIER = com.verifyme.VerifyMeAuthenticator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "70b5051c-bb76-4338-bfd5-f23517cd8da2";
 				PROVISIONING_PROFILE_SPECIFIER = parteegolf_dis;

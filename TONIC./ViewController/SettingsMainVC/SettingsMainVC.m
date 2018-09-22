@@ -796,6 +796,11 @@
         }
         else if (buttonIndex == 1)
         {
+            if([[AppDelegate sharedinstance].sharedChatInstance isConnected]) {
+                [[AppDelegate sharedinstance].sharedChatInstance disconnectWithCompletionBlock:^(NSError * _Nullable error) {
+                    
+                }];
+            }
             
             [[AppDelegate sharedinstance] setStringObj:@"" forKey:kuserEmail];
             

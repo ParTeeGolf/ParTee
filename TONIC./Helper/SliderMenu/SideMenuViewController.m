@@ -44,10 +44,8 @@ long currentTag = 1;
 
 -(void) viewDidLoad {
     
-    if(isiPhone4) {
-        [scrollViewContainer setContentSize:CGSizeMake(320, 750)];
-    }
-    
+  
+    [scrollViewContainer setContentSize:CGSizeMake(320, 750)];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshContent) name:@"refreshContent" object:nil];
 
     imgViewPic.image = [UIImage imageNamed:@"missing-profile-photo.png"];
@@ -378,12 +376,7 @@ long currentTag = 1;
             collapseRow = !collapseRow;
             hideCell = !hideCell;
             if (collapseRow) {
-                if (isiPhone4) {
                     [scrollViewContainer setContentSize:CGSizeMake(320, 750)];
-                }else{
-                    [scrollViewContainer setContentSize:CGSizeMake(320, self.view.frame.size.height)];
-                }
-               
             }else{
               [scrollViewContainer setContentSize:CGSizeMake(320, 750)];
             }
