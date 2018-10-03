@@ -109,7 +109,6 @@
 -(IBAction)femaleTapped:(id)sender;
 -(IBAction)pushTapped:(id)sender;
 -(IBAction)saveTapped:(id)sender;
-
 -(IBAction)cityTapped:(id)sender;
 
 @end

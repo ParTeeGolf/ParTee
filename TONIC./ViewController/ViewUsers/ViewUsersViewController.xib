@@ -12,8 +12,8 @@
         <array key="Montserrat-Regular.ttf">
             <string>Montserrat-Regular</string>
         </array>
-        <array key="Oswald-Regular.ttf">
-            <string>Oswald-Regular</string>
+        <array key="Ubuntu-R.ttf">
+            <string>Ubuntu</string>
         </array>
     </customFonts>
     <objects>
@@ -51,11 +51,11 @@
                             <state key="normal" backgroundImage="Menu.png"/>
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Golfers" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yeg-94-2DR">
-                            <rect key="frame" x="131.5" y="30" width="57.5" height="40"/>
+                            <rect key="frame" x="124" y="30" width="73" height="40"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="40" id="66d-I1-ot5"/>
                             </constraints>
-                            <fontDescription key="fontDescription" name="Oswald-Regular" family="Oswald" pointSize="22"/>
+                            <fontDescription key="fontDescription" name="Ubuntu" family="Ubuntu" pointSize="22"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>

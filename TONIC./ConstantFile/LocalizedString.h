@@ -197,6 +197,9 @@
 #define kEventCoordNear @"coordinates[near]"
 #define kEventFavId @"userFavID[in]"
 #define kEventCourseIdIn @"eventCourseID[in]"
+#define kEventDateTblFormat @"yyyy-MM-dd'T'HH:mm:ssZ"
+#define kEventIntervalFormat @"yyyy-MM-dd'T'HH:mm:ss"
+#define kEventStartDate @"StartDate"
 /**************** Event Screen ***********/
 
 /**************** Event Prefernces ***********/
@@ -214,4 +217,7 @@
 #define kEventPreUnchecked @"unchecked_circle.png"
 /**************** Event Prefernces ***********/
 
+/**************** Ubuntu Title VC ***********/
+#define ubuntutuTitleFont  [UIFont fontWithName:@"Ubuntu-R" size:22]
+/**************** Ubuntu Title VC ***********/
 #endif /* LocalizedString_h */

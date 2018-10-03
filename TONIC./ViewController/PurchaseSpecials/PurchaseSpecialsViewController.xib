@@ -15,11 +15,11 @@
         <array key="Montserrat-Regular.ttf">
             <string>Montserrat-Regular</string>
         </array>
-        <array key="Oswald-Regular.ttf">
-            <string>Oswald-Regular</string>
-        </array>
         <array key="SFUIDisplay-Regular.ttf">
             <string>SFUIDisplay-Regular</string>
+        </array>
+        <array key="Ubuntu-R.ttf">
+            <string>Ubuntu</string>
         </array>
         <array key="montserrat-light.ttf">
             <string>Montserrat-Light</string>
@@ -79,7 +79,7 @@
                                 <constraint firstAttribute="height" constant="40" id="1TR-ch-JG9"/>
                                 <constraint firstAttribute="width" constant="120" id="JtU-KL-GNw"/>
                             </constraints>
-                            <fontDescription key="fontDescription" name="Oswald-Regular" family="Oswald" pointSize="22"/>
+                            <fontDescription key="fontDescription" name="Ubuntu" family="Ubuntu" pointSize="22"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -444,7 +444,7 @@
         <image name="ico-back.png" width="21" height="39"/>
         <image name="ico-sendreq.png" width="50" height="50"/>
         <image name="listBackground.png" width="640" height="1136"/>
-        <image name="moreopt.png" width="35" height="35"/>
+        <image name="moreopt.png" width="8" height="37"/>
         <image name="right-arr@2.png" width="60" height="60"/>
     </resources>
 </document>

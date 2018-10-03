@@ -33,7 +33,7 @@
   
     [self.imgEvent setShowActivityIndicatorView:YES];
     [self.imgEvent setIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-    [self.imgEvent sd_setImageWithURL:[NSURL URLWithString:[obj.fields objectForKey:kEventCellImgUrl]] placeholderImage:[UIImage imageNamed:kEventCellDefaultImg]];
+    [self.imgEvent sd_setImageWithURL:[NSURL URLWithString:[[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:kEventCellImgUrl]]] placeholderImage:[UIImage imageNamed:kEventCellDefaultImg]];
 }
 
 /**
@@ -48,7 +48,7 @@
     
     [self.imgEvent setShowActivityIndicatorView:YES];
     [self.imgEvent setIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-    [self.imgEvent sd_setImageWithURL:[NSURL URLWithString:[obj.fields objectForKey:kAdEventCellImgUrl]] placeholderImage:[UIImage imageNamed:kEventCellDefaultImg]];
+    [self.imgEvent sd_setImageWithURL:[NSURL URLWithString:[[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:kAdEventCellImgUrl]]] placeholderImage:[UIImage imageNamed:kEventCellDefaultImg]];
 }
 /**
  @Description

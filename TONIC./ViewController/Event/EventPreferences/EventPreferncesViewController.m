@@ -144,10 +144,10 @@
           // convert distance in mile
             NSString *strLocation = [[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:kEventDistance]];
             
-            if([strLocation length]==0 || distanceSlider.value>99 || [strLocation isEqualToString:@"150"]) {
+            if([strLocation length]==0 || distanceSlider.value>99 || [strLocation isEqualToString:@"500"]) {
                 
                 [distanceLbl setText:@"∞"];
-                distanceSlider.value = 150;
+                distanceSlider.value = 500;
             }
             else {
                 distanceSlider.value = [strLocation integerValue];
@@ -255,7 +255,7 @@
                                           [cityTxtFld setText:kEventAll];
                                           [stateTxtFld setText:kEventAll];
                                           [distanceLbl setText:@"∞"];
-                                          distanceSlider.value=150;
+                                          distanceSlider.value=500;
                                           
                                           strPush = @"0";
                                           [self savesettings];
@@ -311,7 +311,7 @@
                                  [cityTxtFld setText:kEventAll];
                                  [stateTxtFld setText:kEventAll];
                                  [distanceLbl setText:@"∞"];
-                                 distanceSlider.value=150;
+                                 distanceSlider.value= 500;
                                  [nameTxtFld resignFirstResponder];
                                  [nameTxtFld setText:nameTxtFld.text];
                                  strPush=@"0";

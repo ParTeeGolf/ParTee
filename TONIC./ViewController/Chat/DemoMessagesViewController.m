@@ -62,9 +62,9 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(customCode) name:@"customAmoCode" object:nil];
 
     [AppDelegate sharedinstance].currentScreen = kScreenChat;
-
-    [QBSettings setStreamResumptionEnabled:YES];
-    
+/***************** ChetuChange ***********/
+ //   [QBSettings setStreamResumptionEnabled:YES];
+/***************** ChetuChange ***********/
     self.demoData.messages = [[NSMutableArray alloc] init];
     
    _currentPage = 0;
@@ -162,8 +162,7 @@
     
     
     UIFont *font = [UIFont fontWithName:@"Montserrat-Regular" size:15];
-    UIFont *font1 = [UIFont fontWithName:@"Oswald-Regular" size:22];
-
+   
     self.collectionView.collectionViewLayout.messageBubbleFont =font;
     self.navigationController.navigationBarHidden=YES;
     self.view.backgroundColor=[UIColor clearColor];  //[UIColor colorWithRed:0.231 green:0.231 blue:0.239 alpha:1.00];
@@ -201,7 +200,7 @@
     [navBaseView addSubview:customButton1];
     
     UILabel *lbl = [[UILabel alloc] initWithFrame:CGRectMake((screenWidth - 200)/2, 30, 200, 40)];
-    [lbl setFont:font1];
+    [lbl setFont:ubuntutuTitleFont];
     [lbl setTextAlignment:NSTextAlignmentCenter];
     [lbl setBackgroundColor:[UIColor clearColor]];
     [lbl setText:[otherUserObject.fields objectForKey:@"userDisplayName"]];
@@ -1232,7 +1231,7 @@
 
 }
 
-- (void)chatDidReceiveMessage:(QB_NONNULL QBChatMessage *)messageObj {
+- (void)chatDidReceiveMessage:(QBChatMessage *)messageObj {
     
     NSString *strMessageText = messageObj.text;
     NSString *strSenderName = [messageObj.customParameters objectForKey:@"senderNick"];
@@ -1281,7 +1280,7 @@
     
 }
 
-- (void)chatDidNotConnectWithError:(QB_NULLABLE NSError *)error {
+- (void)chatDidNotConnectWithError:( NSError *)error {
     
 }
 
@@ -1289,7 +1288,7 @@
     
 }
 
-- (void)chatDidFailWithStreamError:(QB_NULLABLE NSError *)error {
+- (void)chatDidFailWithStreamError:(NSError *)error {
     
 }
 

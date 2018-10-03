@@ -45,7 +45,7 @@ long currentTag = 1;
 -(void) viewDidLoad {
     
   
-    [scrollViewContainer setContentSize:CGSizeMake(320, 750)];
+    [scrollViewContainer setContentSize:CGSizeMake(scrollViewContainer.frame.size.width, 750)];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshContent) name:@"refreshContent" object:nil];
 
     imgViewPic.image = [UIImage imageNamed:@"missing-profile-photo.png"];
@@ -376,9 +376,9 @@ long currentTag = 1;
             collapseRow = !collapseRow;
             hideCell = !hideCell;
             if (collapseRow) {
-                    [scrollViewContainer setContentSize:CGSizeMake(320, 750)];
+                    [scrollViewContainer setContentSize:CGSizeMake(scrollViewContainer.frame.size.width, 750)];
             }else{
-              [scrollViewContainer setContentSize:CGSizeMake(320, 750)];
+              [scrollViewContainer setContentSize:CGSizeMake(scrollViewContainer.frame.size.width, 750)];
             }
            
             [tblView reloadData];

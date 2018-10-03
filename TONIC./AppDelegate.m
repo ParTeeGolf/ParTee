@@ -239,6 +239,8 @@ static AppDelegate *delegate;
     
     [self locationInit];
     
+    
+    
     [OneSignal initWithLaunchOptions:launchOptions appId:@"c064a937-b4df-4551-aa4e-e31eeba49d23" handleNotificationReceived:^(OSNotification *notification) {
         NSLog(@"Received Notification - %@", notification.payload.notificationID);
         
@@ -276,17 +278,21 @@ static AppDelegate *delegate;
     
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
     {
+        
         [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge) categories:nil]];
         [[UIApplication sharedApplication] registerForRemoteNotifications];
     }
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+     NSLog(@"Successfull response!");
     
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
+   
+    
     NSString *deviceIdentifier = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
     
     QBMSubscription *subscription = [QBMSubscription subscription];
@@ -295,9 +301,9 @@ static AppDelegate *delegate;
     subscription.deviceToken = deviceToken;
     
     [QBRequest createSubscription:subscription successBlock:^(QBResponse *response, NSArray *objects) {
-        
+        NSLog(@"Successfully registered %@",response);
     } errorBlock:^(QBResponse *response) {
-        
+        NSLog(@"ERROR GROUP %@",response.error.reasons);
     }];
 }
 
@@ -561,7 +567,7 @@ static AppDelegate *delegate;
 //    }];
 }
 
-- (void)chatDidNotConnectWithError:(QB_NULLABLE NSError *)error {
+- (void)chatDidNotConnectWithError:( NSError *)error {
     
     if(error) {
         
@@ -572,7 +578,7 @@ static AppDelegate *delegate;
     
 }
 
-- (void)chatDidFailWithStreamError:(QB_NULLABLE NSError *)error {
+- (void)chatDidFailWithStreamError:( NSError *)error {
     
     if(error) {
         
@@ -674,12 +680,19 @@ static AppDelegate *delegate;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshdialogs" object:nil];
 
 }
-
+-(void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler {
+    completionHandler(UNNotificationPresentationOptionSound | UNNotificationPresentationOptionAlert | UNNotificationPresentationOptionBadge);
+}
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
+{
+    NSLog(@"Notification Recieved");
+}
 #pragma mark -
 #pragma mark push
 
 - (void) application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     
+    NSLog(@"Receive Notification");
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result))completionHandler

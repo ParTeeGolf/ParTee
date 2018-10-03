@@ -76,5 +76,161 @@
     NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
     return [emailTest evaluateWithObject:email];
 }
+/**
+ @Description
+ * This Method used to find the interval between event date and current date in seconds.
+ * @author Chetu India
+ * @param eventDate is the date in string format on which event is to be organized.
+ * @param (BOOL) return true if string provided is a valid email string while it will return false if it is not valid string provided.
+ */
+
++(NSDate *)intervalBwDatesInSec:(NSString *)eventDate
+{
+
+     // convert event time in format to find interval bw current date and event date.
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:kEventDateTblFormat];
+    NSDate *eventDateTime = [dateFormatter dateFromString:eventDate];
+    
+    // find current date and time.
+    NSDate *currentDate = [NSDate date];
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:kEventIntervalFormat];
+    NSString *currentDateString = [dateFormat stringFromDate:currentDate];
+    // convert current date and time in format to find interval bw current date and event date.
+    NSDate *currentDateTime = [dateFormat dateFromString:currentDateString];
+    
+    // A NSTimeInterval value is always specified in seconds.
+    NSTimeInterval distanceBetweenDates = [eventDateTime timeIntervalSinceDate:currentDateTime];
+    distanceBetweenDates = 106;
+    NSDate *dateToSend = [NSDate dateWithTimeIntervalSinceNow:distanceBetweenDates];
+    NSTimeInterval timeSince1970 = [dateToSend timeIntervalSince1970];
+    timeSince1970 -= fmod(timeSince1970, 60); // subtract away any extra seconds
+    // find time on which notofcation need to be sent in format supported by quickblox.
+    NSDate *nowMinus = [NSDate dateWithTimeIntervalSince1970:timeSince1970];
+   
+    return nowMinus;
+   
+}
+/**
+ @Description
+ * This Method used to combine notificationId and EventId Digits only so that we able to store this string on quickblox table.
+ * @author Chetu India
+ * @param EventNotificationID is the id of notification event created on push notification table.
+ * @param eventIdStr is the Id of Event that user made the favourite now.
+ * @param (NSString) return string combined first 8 digits from eventId and push notification event id so that we able to store in quickblox table because in array not able to store the complete string.
+ */
+
+
++(NSString *)combineNotifIdAndEventIdDigits:(NSString*)eventNotificationID EventId:(NSString *)eventIdStr
+{
+    
+  
+    /****************** Logic to combine notification Id and Event Id to happen ************/
+    
+    // fetch first 8 digits from notication event id crated on table on which notifcation will go to the user that made event as favourite.
+    NSUInteger notifiEventIdLength = eventNotificationID.length;
+    NSMutableString *firstEightDigitsFromNotifiEventId;
+    if (notifiEventIdLength == 8) {
+        firstEightDigitsFromNotifiEventId  =  [NSMutableString stringWithString:[eventNotificationID substringToIndex:8]];
+    }else if (notifiEventIdLength > 8) {
+        firstEightDigitsFromNotifiEventId  = [NSMutableString stringWithString: [eventNotificationID substringToIndex:8]];
+    }else if (notifiEventIdLength < 8){
+        firstEightDigitsFromNotifiEventId  = [NSMutableString stringWithString: eventNotificationID];
+        NSUInteger length = firstEightDigitsFromNotifiEventId.length;
+        int remainingChToAdd = (int) (8 - length);
+        for (int i = 0; i < remainingChToAdd; i++) {
+        firstEightDigitsFromNotifiEventId = [NSMutableString stringWithString:   [firstEightDigitsFromNotifiEventId stringByAppendingString:@"9"]];
+        }
+    }
+    
+    // fetch first 8 digits from eventId of that made event as favourite.
+    
+    NSString *digitsFromEventId = [[eventIdStr componentsSeparatedByCharactersInSet:
+                            [[NSCharacterSet decimalDigitCharacterSet] invertedSet]]
+                           componentsJoinedByString:@""];
+    
+    NSUInteger eventIdStrLength = digitsFromEventId.length;
+    NSMutableString *firstEightDigitsFromEventId;
+    
+    if (eventIdStrLength == 8) {
+        firstEightDigitsFromEventId  = [NSMutableString stringWithString: [digitsFromEventId substringToIndex:8]];
+    }else if (eventIdStrLength > 8) {
+        firstEightDigitsFromEventId  = [NSMutableString stringWithString: [digitsFromEventId substringToIndex:8]];
+    }else if (eventIdStrLength < 8){
+        firstEightDigitsFromEventId  = [NSMutableString stringWithString:digitsFromEventId];
+        NSUInteger length = firstEightDigitsFromEventId.length;
+        int remainingChToAdd = (int) (8 - length);
+        for (int i = 0; i < remainingChToAdd; i++) {
+         firstEightDigitsFromEventId =   [NSMutableString stringWithString:  [firstEightDigitsFromEventId stringByAppendingString:@"0"]];
+        }
+    }
+    
+    NSString *combinedStr = [NSString stringWithFormat:@"%@%@",firstEightDigitsFromNotifiEventId,firstEightDigitsFromEventId];
+    
+    return combinedStr;
+}
+
+
+/**
+ @Description
+ * This Method used to fetch notificationId from combined str that have stored in table.
+ * @author Chetu India
+ * @param EventNotificationID is the id of notification event created on push notification table.
+ * @param eventIdStr is the Id of Event that user made the favourite now.
+ * @param (NSString) return string combined first 8 digits from eventId and push notification event id so that we able to store in quickblox table because in array not able to store the complete string.
+ */
+
+
++(NSString *)FetchNotifIdFromCombinedStr:(NSString*)combinedStr EventId:(NSString *)eventIdStr
+{
+    // fetch first 8 digits from notication event id crated on table on which notifcation will go to the user that made event as favourite.
+//    NSUInteger notifiEventIdLength = EventNotificationID.length;
+//    NSString *firstEightDigitsFromNotifiEventId;
+//    if (notifiEventIdLength == 8) {
+//        firstEightDigitsFromNotifiEventId  = [EventNotificationID substringToIndex:8];
+//    }else if (notifiEventIdLength > 8) {
+//        firstEightDigitsFromNotifiEventId  = [EventNotificationID substringToIndex:8];
+//    }else if (notifiEventIdLength < 8){
+//        firstEightDigitsFromNotifiEventId  = EventNotificationID;
+//        NSUInteger length = firstEightDigitsFromNotifiEventId.length;
+//        int remainingChToAdd = (int) (8 - length);
+//        for (int i = 0; i < remainingChToAdd; i++) {
+//            [firstEightDigitsFromNotifiEventId stringByAppendingString:@"9"];
+//        }
+//    }
+
+    
+    // fetch first 8 digits from eventId of that made event as favourite.
+
+    NSString *digitsFromEventId = [[eventIdStr componentsSeparatedByCharactersInSet:
+                                    [[NSCharacterSet decimalDigitCharacterSet] invertedSet]]
+                                   componentsJoinedByString:@""];
+
+    NSUInteger eventIdStrLength = digitsFromEventId.length;
+    NSString *firstEightDigitsFromEventId;
+
+    if (eventIdStrLength == 8) {
+        firstEightDigitsFromEventId  = [digitsFromEventId substringToIndex:8];
+    }else if (eventIdStrLength > 8) {
+        firstEightDigitsFromEventId  = [digitsFromEventId substringToIndex:8];
+    }else if (eventIdStrLength < 8){
+        firstEightDigitsFromEventId  = digitsFromEventId;
+        NSUInteger length = firstEightDigitsFromEventId.length;
+        int remainingChToAdd = (int) (8 - length);
+        for (int i = 0; i < remainingChToAdd; i++) {
+            [firstEightDigitsFromEventId stringByAppendingString:@"0"];
+        }
+    }
+
+   NSString *eventId = [combinedStr substringFromIndex: [combinedStr length] - 8];
+    
+    if ([eventId isEqualToString:firstEightDigitsFromEventId]) {
+       
+    }
+    
+    return combinedStr;
+}
+
 
 @end

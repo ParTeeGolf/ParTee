@@ -12,8 +12,8 @@
         <array key="Montserrat-Regular.ttf">
             <string>Montserrat-Regular</string>
         </array>
-        <array key="Oswald-Regular.ttf">
-            <string>Oswald-Regular</string>
+        <array key="Ubuntu-R.ttf">
+            <string>Ubuntu</string>
         </array>
     </customFonts>
     <objects>
@@ -97,7 +97,7 @@
                                 <constraint firstAttribute="height" constant="40" id="JNb-1F-JK8"/>
                                 <constraint firstAttribute="width" constant="200" id="VFB-xa-2r6"/>
                             </constraints>
-                            <fontDescription key="fontDescription" name="Oswald-Regular" family="Oswald" pointSize="22"/>
+                            <fontDescription key="fontDescription" name="Ubuntu" family="Ubuntu" pointSize="22"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>

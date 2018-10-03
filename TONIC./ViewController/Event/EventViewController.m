@@ -12,8 +12,46 @@
 #import <MessageUI/MFMailComposeViewController.h>
 #import "EventPreferncesViewController.h"
 
-@interface EventViewController ()<RNGridMenuDelegate, MFMailComposeViewControllerDelegate>
+
+@interface EventViewController ()<RNGridMenuDelegate, MFMailComposeViewControllerDelegate, UNUserNotificationCenterDelegate>
 {
+    // constrrints used to hide nextPrevBaseView if it have value 0 then all the objects will adjust automatically by default its value is 30.
+    IBOutlet NSLayoutConstraint *viewNextPrevHeightConstraints;
+    /************ Information View Outlets ***********/
+    IBOutlet UIView *viewBlurInfo;
+    IBOutlet UIView *viewInfoBase;
+    IBOutlet UILabel *lblEventTitleInfo;
+    IBOutlet UILabel *lblStartEndDateInfo;
+    IBOutlet UILabel *lblAddressEventInfo;
+    IBOutlet UITextView *textViewEventDescInfo;
+    IBOutlet UIButton *BtnContactInfo;
+    IBOutlet UIButton *BtnWebsiteInfo;
+    IBOutlet UIButton *btnCloseInfo;
+    IBOutlet NSLayoutConstraint *constraintsInfoBaseViewHeight;
+    /************ Information View Outlets ***********/
+    
+    /************ Advertiesment View Outlets ***********/
+    IBOutlet UIView *viewAdvertiseInfoPopup;
+    IBOutlet UILabel *lblAdvTitle;
+    IBOutlet UITextView *txtViewAdvdesc;
+    IBOutlet UIButton *btnWebsiteAdv;
+    IBOutlet UIButton *btnCloseAdv;
+    IBOutlet NSLayoutConstraint *constraintHeightTxtViewAdvDesc;
+    IBOutlet NSLayoutConstraint *infoTitleLblHeightConstarints;
+    IBOutlet NSLayoutConstraint *constraintWidthContactBtn;
+    IBOutlet NSLayoutConstraint *constraintWidthWebsiteBtn;
+    /************ Advertiesment View Outlets ***********/
+    
+    
+    // Evnet table view that will show the list of events.
+    IBOutlet UITableView *eventTblView;
+    // This label will display nothing found if no one event exist for the prefernces.
+    IBOutlet UILabel *lblNothingFound;
+    // segment control used to filetr out the events from table based on favourite, featured , near me and all events.
+    IBOutlet UISegmentedControl *segmentControl;
+    // This is base view that contain next,prev and << button to fetch the require records
+    IBOutlet UIView *nextPrevRecordBaseView;
+    
     
     // Will contain value 0 or 1. 0 means city or state parameters available.
     int cityStateCourseFilter;
@@ -21,17 +59,28 @@
     int currentPage;
     // conatin current page number for advertisement events.
     int adCurrentPage;
-    // conatin selected row value for which three dot popup to be shown.
-    NSInteger selectedRow;
-    // Contain event object for which three dot pop up to be shown, and also having data about events.
-    QBCOCustomObject *sharedobj;
-    // valirable used wheather particulr event is favourite for user or not.
-    BOOL isFavEvent;
     // contain selected segment control option value means which segment is selected for now by the user.
     int eventOption;
+    // conatin all events count for prefernces selected by the user.
+    int eventCount;
+    // conatin all Adevents count.
+    int totalAdvertEventCount;
+    // having total number of advertisement events that was shown on previous page.
+    int adEventUsedInPage;
+    // number of users notifcation events fetched
+    int notiEventUsersNumber;
+    // conatin selected row value for which three dot popup to be shown.
+    NSInteger selectedRow;
+    // valirable used wheather particulr event is favourite for user or not.
+    BOOL isFavEvent;
+    // varibale that holds value wheather records left to be shown on next page.
+    BOOL shouldLoadNext;
     // objects from course table on which particular event will happen for which event user want to get information like map, direction, information like adreess, website link, contact no to course.
     QBCOCustomObject *objEventGolfCourse;
     QBCOCustomObject *objAdvEvent;
+    // Contain event object for which three dot pop up to be shown, and also having data about events.
+    QBCOCustomObject *sharedobj;
+    QBCOCustomObject *loginUserObject;
     /**************** Long latitude details of course to which user want get information about event  ************/
     CLLocationCoordinate2D desplaceCoord;
     CLLocationCoordinate2D scrplaceCoord;
@@ -40,43 +89,30 @@
     /**************** Long latitude details of course to which user want get information aboiut event  ************/
     // string used wheather user redirect to map screen through sidemenu or map option available on three dot popup.
     NSString *favInfoMapDirStr;
-    // varibale that holds value wheather records left to be shown on next page.
-    BOOL shouldLoadNext;
-    // conatin all events count for prefernces selected by the user.
-    int eventCount;
-    // conatin all Adevents count.
-    int totalAdvertEventCount;
-    // having total number of advertisement events that was shown on previous page.
-    int adEventUsedInPage;
+    
+    // This array contain events details fetched from the quickblox table.
+    NSMutableArray *arrEventsData;
+    // This array contain AdEvents details fetched from the quickblox table.
+    NSMutableArray *arrAdEventsDetails;
+    // This array contain courses details fetched from the golfcourse table based on city or state preferred by the user to be logged in.
+    NSMutableArray *courseDetailsStateCityArr;
+    // This array contain AdEvents details fetched from the quickblox table.
+    NSMutableArray *userEventNotificationArrList;
+    // button that will load prev records from table and will show in table.
+    UIButton *fetchPrevRecordBtn;
+    // button that will load Next klimit records from table and will show in table.
+    UIButton *fetchNextRecordBtn;
+    // button that will load first klimit records from table and will show in table.
+    UIButton *fecthInitialRecordBtn;
+    // this will show the total number of records and current records showing in screen.
+    UILabel  *recordLbl;
+  
 }
-// This array contain events details fetched from the quickblox table.
-@property (nonatomic, strong) NSMutableArray *arrEventsData;
-// This array contain AdEvents details fetched from the quickblox table.
-@property (nonatomic, strong) NSMutableArray *arrAdEventsDetails;
-// button that will load prev records from table and will show in table.
-@property (strong, nonatomic) UIButton *fetchPrevRecordBtn;
-// this will show the total number of records and current records showing in screen.
-@property (strong, nonatomic) UILabel  *recordLbl;
-// button that will load Next klimit records from table and will show in table.
-@property (strong, nonatomic) UIButton *fetchNextRecordBtn;
-// button that will load first klimit records from table and will show in table.
-@property (strong, nonatomic) UIButton *fecthInitialRecordBtn;
-// This array contain courses details fetched from the golfcourse table based on city or state preferred by the user to be logged in.
-@property (nonatomic, strong) NSMutableArray *courseDetailsStateCityArr;
+
 @end
 
 @implementation EventViewController
-/*********** Syntesize property *********/
-@synthesize arrEventsData;
-@synthesize lblNothingFound;
-@synthesize eventTblView;
-@synthesize fetchPrevRecordBtn;
-@synthesize recordLbl;
-@synthesize fetchNextRecordBtn;
-@synthesize fecthInitialRecordBtn;
-@synthesize arrAdEventsDetails;
-@synthesize courseDetailsStateCityArr;
-/*********** Syntesize property *********/
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -93,7 +129,7 @@
     currentPage = kZeroValue;
     adCurrentPage = kZeroValue;
     eventOption = kThreeSegmentOptionValue;
-    _segmentControl.selectedSegmentIndex = eventOption;
+    segmentControl.selectedSegmentIndex = eventOption;
     shouldLoadNext = NO;
     fetchPrevRecordBtn.hidden = true;
     fecthInitialRecordBtn.hidden = true;
@@ -118,12 +154,13 @@
     favInfoMapDirStr = kEmptyStr;
     currentPage = kZeroValue;
     adCurrentPage = kZeroValue;
+    notiEventUsersNumber = kZeroValue;
     /******** set Initial values ********/
     eventOption = kThreeSegmentOptionValue;
-    _segmentControl.selectedSegmentIndex = eventOption;
-    self.lblNothingFound.hidden = true;
+    segmentControl.selectedSegmentIndex = eventOption;
+    lblNothingFound.hidden = true;
     viewNextPrevHeightConstraints.constant = 30;
-    _nextPrevRecordBaseView.hidden = false;
+    nextPrevRecordBaseView.hidden = false;
     viewInfoBase.layer.borderWidth = 3.0;
     viewInfoBase.layer.borderColor = [UIColor blackColor].CGColor;
     eventTblView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
@@ -136,6 +173,7 @@
     arrEventsData = [[NSMutableArray alloc]init];
     arrAdEventsDetails = [[NSMutableArray alloc]init];
     courseDetailsStateCityArr = [[NSMutableArray alloc]init];
+    userEventNotificationArrList = [[NSMutableArray alloc]init];
     /************** Initialize array to hold events details for the screen **********/
     
     
@@ -279,7 +317,7 @@
                     [getRequestObjectCount setObject: strcf_name forKey:kEventTitle];
                 }
                 // Convert distance in km into meters.
-                if(![strcf_distance isEqualToString:@"150"]) {
+                if(![strcf_distance isEqualToString:@"500"]) {
                     
                     float val = [strcf_distance floatValue];
                     float metres = val* 1609.34f;
@@ -1040,7 +1078,6 @@
     NSString *strEventTitle = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:kEventTitleParam]];
     NSString *strStartDate = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:kEventStartDate]];
     NSString *eventCourseId = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:kEventCourseId]];
-    
     NSString *strDate = [CommonMethods convertDateToAnotherFormat:strStartDate originalFormat:kEventDateFormatOriginal finalFormat:kEventDateFormatFinal];
     NSString *endDate = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:kEventEndDateParam]];
     NSString *strEndDate = [CommonMethods convertDateToAnotherFormat:endDate originalFormat:kEventDateFormatOriginal finalFormat:kEventDateFormatFinal];
@@ -1089,45 +1126,54 @@
     
     
     int totalAdvEventsCount = (int)selectedRow;
-    totalAdvEventsCount = totalAdvEventsCount / kAdvertisementEventNo;
-    int totalEventRecords = (int)selectedRow - totalAdvEventsCount;
-    QBCOCustomObject *obj = [arrEventsData objectAtIndex:totalEventRecords];
-    NSMutableArray *arr = [[obj.fields objectForKey:kEventFavID] mutableCopy];
+    QBCOCustomObject *obj = [arrEventsData objectAtIndex:totalAdvEventsCount];
+    NSMutableArray *eventFavUsersArr = [[obj.fields objectForKey:kEventFavID] mutableCopy];
     
-    if(!arr || arr.count==0)
-        arr = [[NSMutableArray alloc] init];
+    if(!eventFavUsersArr || eventFavUsersArr.count==0)
+        eventFavUsersArr = [[NSMutableArray alloc] init];
     
     NSString *strCurrentUserID = [[AppDelegate sharedinstance] getCurrentUserId];
     
-    if([arr containsObject:strCurrentUserID]) {
+    NSString *createNotificationStr = @"";
+    // It will find event to be favourite or unfavourite yes if user tries to make event as favourite and No if user wants to make it unfavourite.
+    if([eventFavUsersArr containsObject:strCurrentUserID]) {
         // already fav, so unfav
-        
-        [arr removeObject:strCurrentUserID];
+        createNotificationStr = @"NO";
+        [eventFavUsersArr removeObject:strCurrentUserID];
     }
     else {
-        [arr addObject:strCurrentUserID];
+          createNotificationStr = @"YES";
+        [eventFavUsersArr addObject:strCurrentUserID];
         
     }
     
-    if(!arr || arr.count==0) {
-        [obj.fields setObject:arr forKey:kEventFavID];
+    if(!eventFavUsersArr || eventFavUsersArr.count==0) {
+        [obj.fields setObject:eventFavUsersArr forKey:kEventFavID];
         
     }
     else {
-        [obj.fields setObject:arr forKey:kEventFavID];
+        [obj.fields setObject:eventFavUsersArr forKey:kEventFavID];
         
     }
     
     [[AppDelegate sharedinstance] showLoader];
-    
+
+
     [QBRequest updateObject:obj successBlock:^(QBResponse *response, QBCOCustomObject *object) {
         // object updated
         
-        [arrEventsData replaceObjectAtIndex:totalEventRecords withObject:obj];
-        
-        [[AppDelegate sharedinstance] hideLoader];
+        [arrEventsData replaceObjectAtIndex:totalAdvEventsCount withObject:obj];
         [eventTblView setContentOffset:eventTblView.contentOffset animated:NO];
         [eventTblView reloadData];
+        [[AppDelegate sharedinstance] hideLoader];
+        
+        if ([createNotificationStr isEqualToString:@"YES"]) {
+            [self createLocalNotifEvent:totalAdvEventsCount];
+        }else if ([createNotificationStr isEqualToString:@"NO"]) {
+      
+            [self deleteLocalNotification:totalAdvEventsCount];
+        }
+        
         
         
     } errorBlock:^(QBResponse *response) {
@@ -1137,6 +1183,91 @@
         
     }];
     
+    
+}
+#pragma mark- Contact Info Action
+/**
+ @Description
+ * This Method will create the local notification on device so that user able to recieve
+ * @author Chetu India
+ * @return IBAction nothing will return by this method.
+ */
+-(void)createLocalNotifEvent:(int)selectedEventIndex
+{
+    [[UNUserNotificationCenter currentNotificationCenter] setDelegate:self];
+    UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+    UNAuthorizationOptions options = UNAuthorizationOptionAlert + UNAuthorizationOptionSound;
+    
+    // Request using shared Notification Center
+    [center requestAuthorizationWithOptions:options
+                          completionHandler:^(BOOL granted, NSError * _Nullable error) {
+                              if (granted) {
+                                  NSLog(@"Notification Granted");
+                              }
+                          }];
+    
+    // Notification authorization settings
+    [center getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings * _Nonnull settings) {
+        if (settings.authorizationStatus == UNAuthorizationStatusAuthorized) {
+            NSLog(@"Notification allowed");
+        }
+    }];
+
+    
+    UNMutableNotificationContent *content = [UNMutableNotificationContent new];
+    content.title = @"Event Notification";
+    content.body = @"Event Local Recieved";
+    content.sound = [UNNotificationSound defaultSound];
+  
+    
+    QBCOCustomObject *obj = [arrEventsData objectAtIndex:selectedEventIndex];
+        NSString *eventStartDate = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:kEventStartDate]];
+        NSDate *notificationEventDate = [CommonMethods intervalBwDatesInSec:eventStartDate];
+    NSString *eventIdStr = [NSString stringWithFormat:@"%@", obj.ID];
+    // Trigger with date
+    NSDateComponents *triggerDate = [[NSCalendar currentCalendar]
+                                     components:NSCalendarUnitYear +
+                                     NSCalendarUnitMonth + NSCalendarUnitDay +
+                                     NSCalendarUnitHour + NSCalendarUnitMinute +
+                                     NSCalendarUnitSecond fromDate:notificationEventDate];
+    UNCalendarNotificationTrigger *trigger = [UNCalendarNotificationTrigger triggerWithDateMatchingComponents:triggerDate repeats:NO];
+    
+    
+    // Scheduling the notification
+    UNNotificationRequest *request = [UNNotificationRequest requestWithIdentifier:eventIdStr content:content trigger:trigger];
+    
+    [center addNotificationRequest:request withCompletionHandler:^(NSError * _Nullable error) {
+        if (error != nil) {
+            NSLog(@"Something went wrong: %@",error);
+        }
+    }];
+    
+}
+#pragma mark- Contact Info Action
+/**
+ @Description
+ * This Method will delete the local notification on device based on identifier.
+ * @author Chetu India
+ * @return IBAction nothing will return by this method.
+ */
+-(void)deleteLocalNotification:(int)selectedEventIndex
+{
+    
+    QBCOCustomObject *obj = [arrEventsData objectAtIndex:selectedEventIndex];
+    NSString *eventIdStr = [NSString stringWithFormat:@"%@", obj.ID];
+    [[UNUserNotificationCenter currentNotificationCenter]getPendingNotificationRequestsWithCompletionHandler:^(NSArray<UNNotificationRequest *> * _Nonnull requests) {
+        if (requests.count>0) {
+
+           
+            for (UNNotificationRequest *pendingRequest  in requests) {
+                if ([pendingRequest.identifier isEqualToString:eventIdStr]) {
+                    [[UNUserNotificationCenter currentNotificationCenter]removePendingNotificationRequestsWithIdentifiers:@[pendingRequest.identifier]];
+                }
+            }
+          
+        }
+        
+    }];
 }
 
 #pragma mark- Contact Info Action
@@ -1174,9 +1305,9 @@
     CGFloat screenWidth = screenRect.size.width;
     
     // create baseview for previous, next and lable
-    UIView *loadRecordBaseView = [[UIView alloc]initWithFrame:CGRectMake((screenWidth - 250 )/2, kZeroValue, 250, _nextPrevRecordBaseView.frame.size.height)];
+    UIView *loadRecordBaseView = [[UIView alloc]initWithFrame:CGRectMake((screenWidth - 250 )/2, kZeroValue, 250, nextPrevRecordBaseView.frame.size.height)];
     loadRecordBaseView.backgroundColor = [UIColor clearColor];
-    [_nextPrevRecordBaseView addSubview:loadRecordBaseView];
+    [nextPrevRecordBaseView addSubview:loadRecordBaseView];
     
     // create previous button
     fetchPrevRecordBtn = [[UIButton alloc]initWithFrame:CGRectMake(kZeroValue, kZeroValue, 50, loadRecordBaseView.frame.size.height)];
@@ -1203,7 +1334,7 @@
     [fetchNextRecordBtn addTarget:self action:@selector(fetchNextRecordBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
     [loadRecordBaseView addSubview:fetchNextRecordBtn];
     
-    _nextPrevRecordBaseView.backgroundColor = [UIColor colorWithRed:0.000 green:0.655 blue:0.176 alpha:1.00];
+    nextPrevRecordBaseView.backgroundColor = [UIColor colorWithRed:0.000 green:0.655 blue:0.176 alpha:1.00];
     
     // create previous button
     fecthInitialRecordBtn = [[UIButton alloc]initWithFrame:CGRectMake(kZeroValue, kZeroValue, loadRecordBaseView.frame.origin.x, loadRecordBaseView.frame.size.height)];
@@ -1211,7 +1342,7 @@
     fecthInitialRecordBtn.titleLabel.font = [UIFont fontWithName:kFontNameHelveticaNeue size:25];
     fecthInitialRecordBtn.titleLabel.textAlignment = NSTextAlignmentLeft;
     [fecthInitialRecordBtn addTarget:self action:@selector(fetchInitialRecordBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
-    [_nextPrevRecordBaseView addSubview:fecthInitialRecordBtn];
+    [nextPrevRecordBaseView addSubview:fecthInitialRecordBtn];
     
     fetchPrevRecordBtn.hidden = true;
     fecthInitialRecordBtn.hidden = true;
@@ -1366,9 +1497,7 @@
     }
     // Condition for advertisement cell
     if (remainder == kRemainderValAdvEvent) {
-//        cell.lblDate.text = kAdEventlblTxt;
-//        cell.lblDate.hidden = true;
-//        cell.lblDate.textColor = [UIColor redColor];
+
         // get the index of the advertisement events
         int totalAdvEventsCount = (int)indexPath.row;
         totalAdvEventsCount = totalAdvEventsCount + 1;

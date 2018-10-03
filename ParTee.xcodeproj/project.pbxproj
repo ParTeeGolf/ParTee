@@ -254,7 +254,6 @@
 		3D707BCA1D56E18A00591BF6 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D707BC31D56E18A00591BF6 /* FBSDKCoreKit.framework */; };
 		3D707BCB1D56E18A00591BF6 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D707BC41D56E18A00591BF6 /* FBSDKLoginKit.framework */; };
 		3D707BCC1D56E18A00591BF6 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D707BC51D56E18A00591BF6 /* FBSDKShareKit.framework */; };
-		3D707BCE1D56E18A00591BF6 /* Quickblox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D707BC71D56E18A00591BF6 /* Quickblox.framework */; };
 		3D707BD31D56E24400591BF6 /* PrivacyPolicy.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3D707BD11D56E24400591BF6 /* PrivacyPolicy.pdf */; };
 		3D707BD41D56E24400591BF6 /* Terms and Conditions.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3D707BD21D56E24400591BF6 /* Terms and Conditions.pdf */; };
 		3D707BD61D56E64600591BF6 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D707BD51D56E64600591BF6 /* Social.framework */; };
@@ -588,6 +587,19 @@
 		3DFF3C071F404FC9003B51DE /* CoursePreferencesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFF3C031F404FC9003B51DE /* CoursePreferencesViewController.m */; };
 		3DFF3C081F404FC9003B51DE /* CoursePreferencesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DFF3C041F404FC9003B51DE /* CoursePreferencesViewController.xib */; };
 		84192958211C79F100F86829 /* PurchaseSpecialsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84192957211C79F100F86829 /* PurchaseSpecialsViewController.xib */; };
+		8481C31A21563D1300957727 /* Ubuntu-B.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8481C30D21563D1300957727 /* Ubuntu-B.ttf */; };
+		8481C31B21563D1300957727 /* Ubuntu-BI.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8481C30E21563D1300957727 /* Ubuntu-BI.ttf */; };
+		8481C31C21563D1300957727 /* Ubuntu-C.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8481C30F21563D1300957727 /* Ubuntu-C.ttf */; };
+		8481C31D21563D1300957727 /* Ubuntu-L.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8481C31021563D1300957727 /* Ubuntu-L.ttf */; };
+		8481C31E21563D1300957727 /* Ubuntu-LI.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8481C31121563D1300957727 /* Ubuntu-LI.ttf */; };
+		8481C31F21563D1300957727 /* Ubuntu-M.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8481C31221563D1300957727 /* Ubuntu-M.ttf */; };
+		8481C32021563D1300957727 /* Ubuntu-MI.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8481C31321563D1300957727 /* Ubuntu-MI.ttf */; };
+		8481C32121563D1300957727 /* Ubuntu-R.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8481C31421563D1300957727 /* Ubuntu-R.ttf */; };
+		8481C32221563D1300957727 /* Ubuntu-RI.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8481C31521563D1300957727 /* Ubuntu-RI.ttf */; };
+		8481C32321563D1300957727 /* UbuntuMono-B.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8481C31621563D1300957727 /* UbuntuMono-B.ttf */; };
+		8481C32421563D1300957727 /* UbuntuMono-BI.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8481C31721563D1300957727 /* UbuntuMono-BI.ttf */; };
+		8481C32521563D1300957727 /* UbuntuMono-R.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8481C31821563D1300957727 /* UbuntuMono-R.ttf */; };
+		8481C32621563D1300957727 /* UbuntuMono-RI.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8481C31921563D1300957727 /* UbuntuMono-RI.ttf */; };
 		8487A93621300F9700E4C38E /* EventViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8487A93421300F9700E4C38E /* EventViewController.m */; };
 		8487A93721300F9700E4C38E /* EventViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8487A93521300F9700E4C38E /* EventViewController.xib */; };
 		848F8D7821145FE600013263 /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 848F8D7721145FE400013263 /* GoogleMaps.bundle */; };
@@ -597,6 +609,9 @@
 		84E2304F2143DFE700E51483 /* EventPreferncesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E2304D2143DFE700E51483 /* EventPreferncesViewController.m */; };
 		84E230502143DFE700E51483 /* EventPreferncesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84E2304E2143DFE700E51483 /* EventPreferncesViewController.xib */; };
 		84F94FD92142A1D900D96D6A /* CommonMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = 84F94FD82142A1D900D96D6A /* CommonMethods.m */; };
+		84FA39DA215BBB67003F465B /* Quickblox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84FA39D9215BBB67003F465B /* Quickblox.framework */; };
+		84FA39DB215BBB73003F465B /* Quickblox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84FA39D9215BBB67003F465B /* Quickblox.framework */; };
+		84FA39DC215BBB73003F465B /* Quickblox.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 84FA39D9215BBB67003F465B /* Quickblox.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		84FD50D4213D8D6900EF389F /* EventTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FD50D2213D8D6900EF389F /* EventTableViewCell.m */; };
 		84FD50D5213D8D6900EF389F /* EventTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84FD50D3213D8D6900EF389F /* EventTableViewCell.xib */; };
 		8A535C251F63743A0063B813 /* image-placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = 8A535C241F63743A0063B813 /* image-placeholder.png */; };
@@ -611,6 +626,20 @@
 		8A943E8F1F68E870000FF957 /* trophy.png in Resources */ = {isa = PBXBuildFile; fileRef = 8A943E8E1F68E870000FF957 /* trophy.png */; };
 		8A943E911F6F2CA6000FF957 /* prohibition-sign.png in Resources */ = {isa = PBXBuildFile; fileRef = 8A943E901F6F2CA6000FF957 /* prohibition-sign.png */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		84FA39DD215BBB73003F465B /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				84FA39DC215BBB73003F465B /* Quickblox.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		3D0589A41F036D250042350A /* search.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = search.png; sourceTree = "<group>"; };
@@ -970,7 +999,6 @@
 		3D707BC31D56E18A00591BF6 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		3D707BC41D56E18A00591BF6 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		3D707BC51D56E18A00591BF6 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
-		3D707BC71D56E18A00591BF6 /* Quickblox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Quickblox.framework; sourceTree = "<group>"; };
 		3D707BD11D56E24400591BF6 /* PrivacyPolicy.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = PrivacyPolicy.pdf; sourceTree = "<group>"; };
 		3D707BD21D56E24400591BF6 /* Terms and Conditions.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "Terms and Conditions.pdf"; sourceTree = "<group>"; };
 		3D707BD51D56E64600591BF6 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
@@ -1385,6 +1413,19 @@
 		841E605D212F081000E5894C /* LocalizedString.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocalizedString.h; sourceTree = "<group>"; };
 		843395D321467DAB00ADC73D /* ParTee.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = ParTee.entitlements; sourceTree = SOURCE_ROOT; };
 		844F444C212B0E4E00BDEF6A /* Constant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constant.h; sourceTree = "<group>"; };
+		8481C30D21563D1300957727 /* Ubuntu-B.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Ubuntu-B.ttf"; sourceTree = "<group>"; };
+		8481C30E21563D1300957727 /* Ubuntu-BI.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Ubuntu-BI.ttf"; sourceTree = "<group>"; };
+		8481C30F21563D1300957727 /* Ubuntu-C.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Ubuntu-C.ttf"; sourceTree = "<group>"; };
+		8481C31021563D1300957727 /* Ubuntu-L.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Ubuntu-L.ttf"; sourceTree = "<group>"; };
+		8481C31121563D1300957727 /* Ubuntu-LI.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Ubuntu-LI.ttf"; sourceTree = "<group>"; };
+		8481C31221563D1300957727 /* Ubuntu-M.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Ubuntu-M.ttf"; sourceTree = "<group>"; };
+		8481C31321563D1300957727 /* Ubuntu-MI.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Ubuntu-MI.ttf"; sourceTree = "<group>"; };
+		8481C31421563D1300957727 /* Ubuntu-R.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Ubuntu-R.ttf"; sourceTree = "<group>"; };
+		8481C31521563D1300957727 /* Ubuntu-RI.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Ubuntu-RI.ttf"; sourceTree = "<group>"; };
+		8481C31621563D1300957727 /* UbuntuMono-B.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "UbuntuMono-B.ttf"; sourceTree = "<group>"; };
+		8481C31721563D1300957727 /* UbuntuMono-BI.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "UbuntuMono-BI.ttf"; sourceTree = "<group>"; };
+		8481C31821563D1300957727 /* UbuntuMono-R.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "UbuntuMono-R.ttf"; sourceTree = "<group>"; };
+		8481C31921563D1300957727 /* UbuntuMono-RI.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "UbuntuMono-RI.ttf"; sourceTree = "<group>"; };
 		8487A93321300F9700E4C38E /* EventViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EventViewController.h; sourceTree = "<group>"; };
 		8487A93421300F9700E4C38E /* EventViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EventViewController.m; sourceTree = "<group>"; };
 		8487A93521300F9700E4C38E /* EventViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventViewController.xib; sourceTree = "<group>"; };
@@ -1397,6 +1438,7 @@
 		84E2304E2143DFE700E51483 /* EventPreferncesViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventPreferncesViewController.xib; sourceTree = "<group>"; };
 		84F94FD72142A1D900D96D6A /* CommonMethods.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CommonMethods.h; path = TONIC./Helper/CommonMethods/CommonMethods.h; sourceTree = SOURCE_ROOT; };
 		84F94FD82142A1D900D96D6A /* CommonMethods.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = CommonMethods.m; path = TONIC./Helper/CommonMethods/CommonMethods.m; sourceTree = SOURCE_ROOT; };
+		84FA39D9215BBB67003F465B /* Quickblox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Quickblox.framework; sourceTree = "<group>"; };
 		84FD50D1213D8D6900EF389F /* EventTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EventTableViewCell.h; sourceTree = "<group>"; };
 		84FD50D2213D8D6900EF389F /* EventTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EventTableViewCell.m; sourceTree = "<group>"; };
 		84FD50D3213D8D6900EF389F /* EventTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventTableViewCell.xib; sourceTree = "<group>"; };
@@ -1422,6 +1464,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84FA39DB215BBB73003F465B /* Quickblox.framework in Frameworks */,
 				3D707BDA1D56E7BE00591BF6 /* SystemConfiguration.framework in Frameworks */,
 				3D8FD0521F30F2D40028F8AB /* QuartzCore.framework in Frameworks */,
 				3D8FD0501F30F2C50028F8AB /* OpenGLES.framework in Frameworks */,
@@ -1462,8 +1505,8 @@
 				3D707BCA1D56E18A00591BF6 /* FBSDKCoreKit.framework in Frameworks */,
 				3D8318381EE9926200747A34 /* Crashlytics.framework in Frameworks */,
 				3D707BCB1D56E18A00591BF6 /* FBSDKLoginKit.framework in Frameworks */,
-				3D707BCE1D56E18A00591BF6 /* Quickblox.framework in Frameworks */,
 				3D8318371EE9926200747A34 /* Fabric.framework in Frameworks */,
+				84FA39DA215BBB67003F465B /* Quickblox.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2009,6 +2052,7 @@
 				3D42BDD11EAB111000203FD9 /* Font-Partee */,
 				3D9543C81EAA4829006573BE /* images-partee */,
 				3D707BD01D56E24400591BF6 /* PDF */,
+				8481C30C21563D1300957727 /* Font_Ubuntu */,
 				3D707B531D56DC7C00591BF6 /* Font */,
 				3D707B7E1D56DC7C00591BF6 /* Images */,
 			);
@@ -2157,6 +2201,7 @@
 		3D707BC11D56E15A00591BF6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				84FA39D9215BBB67003F465B /* Quickblox.framework */,
 				3D8FD0301F30F13E0028F8AB /* GoogleMapsBase.framework */,
 				3D8FD0311F30F13E0028F8AB /* GoogleMapsCore.framework */,
 				3D8FD0321F30F13E0028F8AB /* GooglePlacePicker.framework */,
@@ -2183,7 +2228,6 @@
 				3D707BC31D56E18A00591BF6 /* FBSDKCoreKit.framework */,
 				3D707BC41D56E18A00591BF6 /* FBSDKLoginKit.framework */,
 				3D707BC51D56E18A00591BF6 /* FBSDKShareKit.framework */,
-				3D707BC71D56E18A00591BF6 /* Quickblox.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -2853,6 +2897,26 @@
 			path = TONIC./ConstantFile;
 			sourceTree = SOURCE_ROOT;
 		};
+		8481C30C21563D1300957727 /* Font_Ubuntu */ = {
+			isa = PBXGroup;
+			children = (
+				8481C30D21563D1300957727 /* Ubuntu-B.ttf */,
+				8481C30E21563D1300957727 /* Ubuntu-BI.ttf */,
+				8481C30F21563D1300957727 /* Ubuntu-C.ttf */,
+				8481C31021563D1300957727 /* Ubuntu-L.ttf */,
+				8481C31121563D1300957727 /* Ubuntu-LI.ttf */,
+				8481C31221563D1300957727 /* Ubuntu-M.ttf */,
+				8481C31321563D1300957727 /* Ubuntu-MI.ttf */,
+				8481C31421563D1300957727 /* Ubuntu-R.ttf */,
+				8481C31521563D1300957727 /* Ubuntu-RI.ttf */,
+				8481C31621563D1300957727 /* UbuntuMono-B.ttf */,
+				8481C31721563D1300957727 /* UbuntuMono-BI.ttf */,
+				8481C31821563D1300957727 /* UbuntuMono-R.ttf */,
+				8481C31921563D1300957727 /* UbuntuMono-RI.ttf */,
+			);
+			path = Font_Ubuntu;
+			sourceTree = "<group>";
+		};
 		8487A92921300E6800E4C38E /* Event */ = {
 			isa = PBXGroup;
 			children = (
@@ -2905,6 +2969,7 @@
 				3D707A561D56D57300591BF6 /* Frameworks */,
 				3D707A571D56D57300591BF6 /* Resources */,
 				3D8318341EE9923600747A34 /* ShellScript */,
+				84FA39DD215BBB73003F465B /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -2926,11 +2991,11 @@
 				TargetAttributes = {
 					3D707A581D56D57300591BF6 = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = 5TY53JR767;
+						DevelopmentTeam = VVNGPSU68X;
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
-								enabled = 0;
+								enabled = 1;
 							};
 							com.apple.Keychain = {
 								enabled = 0;
@@ -2999,6 +3064,7 @@
 				3D5A17D51EB75C4700AD181A /* unchecked_circle@2x.png in Resources */,
 				3DCD78421D73E9A80077E911 /* cell_SpecialInvite.xib in Resources */,
 				3DC65E9A1D5770C2008A0ADC /* Blur@2x.png in Resources */,
+				8481C31F21563D1300957727 /* Ubuntu-M.ttf in Resources */,
 				3DA138811F3DBACF0000189A /* Caddy Hire@2x.png in Resources */,
 				3DC65E731D574D63008A0ADC /* Male User2.png in Resources */,
 				3D1363B31D5999A400E20297 /* profile-bg.png in Resources */,
@@ -3021,12 +3087,14 @@
 				3D42BDFD1EAB1EE800203FD9 /* roundrect.png in Resources */,
 				3DFF3C061F404FC9003B51DE /* CourseCellTableViewCell.xib in Resources */,
 				3DECB1F21F0BFF9E003FA07A /* Plain White Tee.png in Resources */,
+				8481C32121563D1300957727 /* Ubuntu-R.ttf in Resources */,
 				3DC65EA81D579513008A0ADC /* Tonicspecial@2x.png in Resources */,
 				3DA138BC1F3DDFFF0000189A /* info.png in Resources */,
 				3D92C8891D5B5D55005C8CAE /* clip.png in Resources */,
 				3D9543CE1EAA493B006573BE /* background.png in Resources */,
 				3DC65E8B1D57658F008A0ADC /* 1.png in Resources */,
 				3D30D9241D58B1FA00D4286B /* Check.png in Resources */,
+				8481C32521563D1300957727 /* UbuntuMono-R.ttf in Resources */,
 				3D92C8961D5B5D55005C8CAE /* share.png in Resources */,
 				3D92C8861D5B5D55005C8CAE /* bubble_tailless.png in Resources */,
 				3D707BAE1D56DC7C00591BF6 /* SFUIText-Semibold.ttf in Resources */,
@@ -3056,6 +3124,7 @@
 				3D707BA51D56DC7C00591BF6 /* SFUIText-BoldItalic.ttf in Resources */,
 				3DA138CF1F3E2E340000189A /* type-4@2x.png in Resources */,
 				3D3F11941F307B6C00DE428E /* Harpy.bundle in Resources */,
+				8481C32421563D1300957727 /* UbuntuMono-BI.ttf in Resources */,
 				3D7851731D5A03C100D80A67 /* Bubble2.png in Resources */,
 				3DA138CE1F3E2E340000189A /* type-3@2x.png in Resources */,
 				3D1363B91D59A31A00E20297 /* ReportViewController.xib in Resources */,
@@ -3066,6 +3135,7 @@
 				3DBF15C01EAB631D00D92C2B /* ico-back.png in Resources */,
 				3D8173591F1F61F40095EDC7 /* connect-4.png in Resources */,
 				3D92C8881D5B5D55005C8CAE /* bubble_tailless@3x.png in Resources */,
+				8481C31D21563D1300957727 /* Ubuntu-L.ttf in Resources */,
 				3D92C8871D5B5D55005C8CAE /* bubble_tailless@2x.png in Resources */,
 				3D92C88D1D5B5D55005C8CAE /* icon - Back@2x.png in Resources */,
 				3DA1387B1F3DBACF0000189A /* 36 holes@2x.png in Resources */,
@@ -3100,6 +3170,7 @@
 				3D42BDF31EAB111000203FD9 /* Oswald-Medium.ttf in Resources */,
 				3DA138901F3DBACF0000189A /* Locker Room@2x.png in Resources */,
 				3D0F3AD81EB0DF0E00327C58 /* badge-original.png in Resources */,
+				8481C32021563D1300957727 /* Ubuntu-MI.ttf in Resources */,
 				3DA138851F3DBACF0000189A /* Cold Towel@2x.png in Resources */,
 				3DA1387E1F3DBACF0000189A /* Beverage Service@2x.png in Resources */,
 				3DA138951F3DBACF0000189A /* Ping Pong@2x.png in Resources */,
@@ -3156,6 +3227,7 @@
 				3D92C81D1D5B5B24005C8CAE /* JSQMessagesViewController.xib in Resources */,
 				3DA138A81F3DBACF0000189A /* WiFi@2x.png in Resources */,
 				3DC65EAB1D57972C008A0ADC /* Banner bg.png in Resources */,
+				8481C31A21563D1300957727 /* Ubuntu-B.ttf in Resources */,
 				3D92C87B1D5B5D55005C8CAE /* bubble_min_tailless@2x.png in Resources */,
 				3D30D9221D58B1FA00D4286B /* Big tonic.png in Resources */,
 				3D15C4491F2B52AE0001EBC3 /* Slide 2_4s.png in Resources */,
@@ -3192,6 +3264,7 @@
 				3D15C4391F2B1CDC0001EBC3 /* check-filled.png in Resources */,
 				3DAABBAE1F24F1E20009E6C7 /* bg2@2x.png in Resources */,
 				3D707B981D56DC7C00591BF6 /* SFCompactText-RegularItalic.ttf in Resources */,
+				8481C32321563D1300957727 /* UbuntuMono-B.ttf in Resources */,
 				3DBF15C31EAB631D00D92C2B /* ico-handicap.png in Resources */,
 				3D92C87F1D5B5D55005C8CAE /* bubble_regular@3x.png in Resources */,
 				8A943E8D1F68CFF2000FF957 /* dimple.png in Resources */,
@@ -3205,6 +3278,7 @@
 				3D9543CF1EAA493B006573BE /* ico-mail.png in Resources */,
 				3D92C88A1D5B5D55005C8CAE /* clip@2x.png in Resources */,
 				3D707B921D56DC7C00591BF6 /* SFCompactText-HeavyItalic.ttf in Resources */,
+				8481C31E21563D1300957727 /* Ubuntu-LI.ttf in Resources */,
 				3D7851711D5A03C100D80A67 /* Bubble.png in Resources */,
 				3D30D9181D58B0E900D4286B /* PurchasedViewController.xib in Resources */,
 				3D92C89A1D5B5D55005C8CAE /* typing@2x.png in Resources */,
@@ -3215,6 +3289,7 @@
 				3D92C8361D5B5B24005C8CAE /* JSQMessagesCollectionViewCellOutgoing.xib in Resources */,
 				84BEFDB12119F90D003240E4 /* Launch Screen.storyboard in Resources */,
 				3D9F54861ED5C79700CEE90C /* iaprect3.png in Resources */,
+				8481C32221563D1300957727 /* Ubuntu-RI.ttf in Resources */,
 				3D30D9271D58B1FA00D4286B /* Clock@2x.png in Resources */,
 				3D0D93971EAEF21F007A8C8C /* PreviewProfileViewController.xib in Resources */,
 				3D707B9A1D56DC7C00591BF6 /* SFCompactText-SemiboldItalic.ttf in Resources */,
@@ -3253,6 +3328,7 @@
 				8487A93721300F9700E4C38E /* EventViewController.xib in Resources */,
 				3D707BB31D56DC7C00591BF6 /* start2.png in Resources */,
 				3D15C4501F2B52AE0001EBC3 /* Slide 4.png in Resources */,
+				8481C32621563D1300957727 /* UbuntuMono-RI.ttf in Resources */,
 				3D42BDF11EAB111000203FD9 /* Oswald-ExtraLight.ttf in Resources */,
 				3D32050A1F2E13A8008DE028 /* filterclear@2x.png in Resources */,
 				3D6C18571D66A6AD00F87998 /* Plusadd.png in Resources */,
@@ -3280,6 +3356,7 @@
 				3D81734A1F1F5E8E0095EDC7 /* 4_glow_effects_golf_ball_symbol03.png in Resources */,
 				3D707B8E1D56DC7C00591BF6 /* SFCompactDisplay-Ultralight.ttf in Resources */,
 				3D707BB61D56DC7C00591BF6 /* Tonic-TM@2x.png in Resources */,
+				8481C31C21563D1300957727 /* Ubuntu-C.ttf in Resources */,
 				3D707C101D56FD2D00591BF6 /* Tonic@2x.png in Resources */,
 				3D15C4481F2B52AE0001EBC3 /* Slide 1_4s.png in Resources */,
 				3D92C8821D5B5D55005C8CAE /* bubble_stroked@3x.png in Resources */,
@@ -3317,6 +3394,7 @@
 				3D707B911D56DC7C00591BF6 /* SFCompactText-Heavy.ttf in Resources */,
 				3D9F54831ED5C79700CEE90C /* iap4.png in Resources */,
 				3D95D52D1F1E38900038DFD7 /* noti-iconfilled.png in Resources */,
+				8481C31B21563D1300957727 /* Ubuntu-BI.ttf in Resources */,
 				3DC65E721D574D63008A0ADC /* Female User2@2x.png in Resources */,
 				3D9F54811ED5C79700CEE90C /* iap2.png in Resources */,
 				3D143E3F1F2A2EA700D98C98 /* pageDot@2x.png in Resources */,
@@ -3660,13 +3738,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ParTee.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Paul Donfried (G3U3A7H8YF)";
-				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer: Paul Donfried (G3U3A7H8YF)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Paul Donfried (G3U3A7H8YF)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer: Rohit Negi (4W74K6TMNZ)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Rohit Negi (4W74K6TMNZ)";
 				CODE_SIGN_STYLE = Manual;
 				COMPRESS_PNG_FILES = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 5TY53JR767;
+				DEVELOPMENT_TEAM = VVNGPSU68X;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3688,10 +3766,10 @@
 					"$(inherited)",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.verifyme.VerifyMeAuthenticator;
+				PRODUCT_BUNDLE_IDENTIFIER = com.app.parteegolf;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "6f762425-16d3-407f-ab14-397a234affa3";
-				PROVISIONING_PROFILE_SPECIFIER = VerifyMeAuthDev;
+				PROVISIONING_PROFILE = "8a4e3cff-1145-4ce4-a7b5-23e1280e4ed1";
+				PROVISIONING_PROFILE_SPECIFIER = partee_golf_developement;
 				STRIP_PNG_TEXT = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "armv7 armv7s arm64";
@@ -3703,12 +3781,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ParTee.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: ParTee, Inc. (VVNGPSU68X)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: ParTee, Inc. (VVNGPSU68X)";
 				CODE_SIGN_STYLE = Manual;
 				COMPRESS_PNG_FILES = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = VVNGPSU68X;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3730,10 +3808,10 @@
 					"$(inherited)",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.verifyme.VerifyMeAuthenticator;
+				PRODUCT_BUNDLE_IDENTIFIER = com.app.parteegolf;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "70b5051c-bb76-4338-bfd5-f23517cd8da2";
-				PROVISIONING_PROFILE_SPECIFIER = parteegolf_dis;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				STRIP_PNG_TEXT = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "armv7 armv7s arm64";

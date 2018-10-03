@@ -65,7 +65,6 @@
 
 -(void)updateConstraints {
     CGRect screenRect = [[UIScreen mainScreen] bounds];
-    CGFloat height = screenRect.size.height;
     CGFloat width = screenRect.size.width;
     
     settingBaseView.frame = CGRectMake(0, 0,width , settingBaseView.frame.size.height);

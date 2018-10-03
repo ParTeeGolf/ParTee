@@ -1255,6 +1255,8 @@
                 
                 NSString *strUserId = [NSString stringWithFormat:@"%lu",(unsigned long)obj.userID];
                 
+           //     strUserId = @"61067776";
+                
                 [QBRequest sendPush:pushMessage toUsers:strUserId successBlock:^(QBResponse *response, QBMEvent *event) {
                     
                     [arrData removeObject:obj];

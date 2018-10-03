@@ -13,38 +13,38 @@
         <array key="Montserrat-Regular.ttf">
             <string>Montserrat-Regular</string>
         </array>
-        <array key="Oswald-Regular.ttf">
-            <string>Oswald-Regular</string>
+        <array key="Ubuntu-R.ttf">
+            <string>Ubuntu</string>
         </array>
     </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EventViewController">
             <connections>
-                <outlet property="BtnContactInfo" destination="DHT-i4-FKv" id="lBD-Uv-OHe"/>
-                <outlet property="BtnWebsiteInfo" destination="zYr-r9-EgL" id="8PV-ST-Za3"/>
-                <outlet property="btnCloseAdv" destination="JOa-cS-QAg" id="hy8-T9-iCL"/>
-                <outlet property="btnCloseInfo" destination="uuL-EW-uWB" id="FFe-7V-0NX"/>
-                <outlet property="btnWebsiteAdv" destination="ZZm-FK-tTE" id="uZw-R1-D6Z"/>
-                <outlet property="constraintHeightTxtViewAdvDesc" destination="zQL-7S-KN9" id="zw7-Yk-Dy2"/>
-                <outlet property="constraintWidthContactBtn" destination="xKr-Nn-fdj" id="pIN-h6-yMX"/>
-                <outlet property="constraintWidthWebsiteBtn" destination="ddc-NE-05w" id="GWy-q9-mqT"/>
-                <outlet property="constraintsInfoBaseViewHeight" destination="7rC-Xc-b0j" id="3Rj-TO-HV7"/>
-                <outlet property="eventTblView" destination="ew1-PC-jET" id="2CL-TL-lue"/>
-                <outlet property="infoTitleLblHeightConstarints" destination="8er-ab-g2E" id="vHm-sS-Pof"/>
-                <outlet property="lblAddressEventInfo" destination="gTN-Mf-Uju" id="uIZ-UP-jUK"/>
-                <outlet property="lblAdvTitle" destination="p5a-2l-4ei" id="whw-6X-gr2"/>
-                <outlet property="lblEventTitleInfo" destination="CMy-pr-NYc" id="mug-jO-vkq"/>
-                <outlet property="lblNothingFound" destination="0Bc-Y9-6O7" id="kyS-iC-492"/>
-                <outlet property="lblStartEndDateInfo" destination="r1B-zp-xdN" id="SES-zZ-gRz"/>
-                <outlet property="nextPrevRecordBaseView" destination="DRK-3Z-0qb" id="H0Q-7X-gzW"/>
-                <outlet property="segmentControl" destination="R6B-0f-ich" id="IDx-vG-GvT"/>
-                <outlet property="textViewEventDescInfo" destination="4EV-Pr-0Vy" id="9f0-at-cOJ"/>
-                <outlet property="txtViewAdvdesc" destination="gtl-Fg-Ubd" id="VMW-tX-5a0"/>
+                <outlet property="BtnContactInfo" destination="DHT-i4-FKv" id="KjY-KV-amY"/>
+                <outlet property="BtnWebsiteInfo" destination="zYr-r9-EgL" id="IJn-WT-Is3"/>
+                <outlet property="btnCloseAdv" destination="JOa-cS-QAg" id="jmR-5q-m9n"/>
+                <outlet property="btnCloseInfo" destination="uuL-EW-uWB" id="El5-6b-Shq"/>
+                <outlet property="btnWebsiteAdv" destination="ZZm-FK-tTE" id="4Hq-tf-DRK"/>
+                <outlet property="constraintHeightTxtViewAdvDesc" destination="zQL-7S-KN9" id="vWH-cl-sn8"/>
+                <outlet property="constraintWidthContactBtn" destination="xKr-Nn-fdj" id="b45-Dx-ogF"/>
+                <outlet property="constraintWidthWebsiteBtn" destination="ddc-NE-05w" id="Vxj-5R-MJS"/>
+                <outlet property="constraintsInfoBaseViewHeight" destination="7rC-Xc-b0j" id="E7j-ZA-sAK"/>
+                <outlet property="eventTblView" destination="ew1-PC-jET" id="zaj-Nk-u3l"/>
+                <outlet property="infoTitleLblHeightConstarints" destination="8er-ab-g2E" id="Ghi-7h-cnw"/>
+                <outlet property="lblAddressEventInfo" destination="gTN-Mf-Uju" id="zya-eP-AYC"/>
+                <outlet property="lblAdvTitle" destination="p5a-2l-4ei" id="UjV-DD-ahF"/>
+                <outlet property="lblEventTitleInfo" destination="CMy-pr-NYc" id="Fy2-cL-A2a"/>
+                <outlet property="lblNothingFound" destination="0Bc-Y9-6O7" id="BrF-wB-UCs"/>
+                <outlet property="lblStartEndDateInfo" destination="r1B-zp-xdN" id="mHT-6N-ghW"/>
+                <outlet property="nextPrevRecordBaseView" destination="DRK-3Z-0qb" id="oWv-En-Tu5"/>
+                <outlet property="segmentControl" destination="R6B-0f-ich" id="KxN-qL-4v6"/>
+                <outlet property="textViewEventDescInfo" destination="4EV-Pr-0Vy" id="NIp-ED-wEF"/>
+                <outlet property="txtViewAdvdesc" destination="gtl-Fg-Ubd" id="LYZ-dE-W76"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
-                <outlet property="viewAdvertiseInfoPopup" destination="SX7-yJ-fxt" id="BEl-gu-SmX"/>
-                <outlet property="viewBlurInfo" destination="hde-in-ucQ" id="x5M-Vg-EWY"/>
-                <outlet property="viewInfoBase" destination="pRN-66-10N" id="IPA-Pe-4aM"/>
-                <outlet property="viewNextPrevHeightConstraints" destination="3zI-CT-iFM" id="VOE-To-XlZ"/>
+                <outlet property="viewAdvertiseInfoPopup" destination="SX7-yJ-fxt" id="fvq-Qe-hwX"/>
+                <outlet property="viewBlurInfo" destination="hde-in-ucQ" id="tSP-1n-7wU"/>
+                <outlet property="viewInfoBase" destination="pRN-66-10N" id="Dh0-w1-Krf"/>
+                <outlet property="viewNextPrevHeightConstraints" destination="3zI-CT-iFM" id="o3p-RX-kLh"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -72,18 +72,18 @@
                                 <constraint firstAttribute="width" constant="100" id="hjS-IT-Vpt"/>
                                 <constraint firstAttribute="height" constant="33" id="pEf-AE-gpf"/>
                             </constraints>
-                            <fontDescription key="fontDescription" name="Oswald-Regular" family="Oswald" pointSize="22"/>
+                            <fontDescription key="fontDescription" name="Ubuntu" family="Ubuntu" pointSize="22"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J7q-Pf-dAs">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J7q-Pf-dAs" userLabel="sidemenuAction">
                             <rect key="frame" x="0.0" y="27" width="49" height="39"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="49" id="F38-nx-kRG"/>
                                 <constraint firstAttribute="height" constant="39" id="Rga-qL-X2U"/>
                             </constraints>
                             <connections>
-                                <action selector="sideMenuAction:" destination="-1" eventType="touchUpInside" id="0FO-II-Q9a"/>
+                                <action selector="sideMenuAction:" destination="-1" eventType="touchUpInside" id="LjZ-qE-crk"/>
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ihw-Yj-afD">
@@ -94,14 +94,14 @@
                             </constraints>
                             <state key="normal" backgroundImage="viewonmap.png"/>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k3G-CT-fuw">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k3G-CT-fuw" userLabel="mapAction">
                             <rect key="frame" x="324" y="32" width="51" height="38"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="51" id="4RZ-a9-BIN"/>
                                 <constraint firstAttribute="height" constant="38" id="UR3-c5-cOM"/>
                             </constraints>
                             <connections>
-                                <action selector="mapSideMenuAction:" destination="-1" eventType="touchUpInside" id="hGe-dv-mP2"/>
+                                <action selector="mapSideMenuAction:" destination="-1" eventType="touchUpInside" id="Fhl-Vh-Pw9"/>
                             </connections>
                         </button>
                     </subviews>
@@ -120,7 +120,7 @@
                         <constraint firstAttribute="bottom" secondItem="tn0-1f-Kau" secondAttribute="bottom" id="x0J-p4-a0j"/>
                     </constraints>
                 </view>
-                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="R6B-0f-ich">
+                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="R6B-0f-ich" userLabel="segmentbtnAction">
                     <rect key="frame" x="0.0" y="71" width="375" height="29"/>
                     <color key="backgroundColor" red="0.0" green="0.67450980390000004" blue="0.22352941179999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <segments>
@@ -131,14 +131,14 @@
                     </segments>
                     <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <connections>
-                        <action selector="segmentChangedAction:" destination="-1" eventType="valueChanged" id="mwm-Na-KdE"/>
+                        <action selector="segmentChangedAction:" destination="-1" eventType="valueChanged" id="6dL-oJ-69u"/>
                     </connections>
                 </segmentedControl>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DRK-3Z-0qb" userLabel="LoadRecordBaseView">
                     <rect key="frame" x="0.0" y="100" width="375" height="30"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="30" id="3zI-CT-iFM"/>
+                        <constraint firstAttribute="height" constant="30" id="3zI-CT-iFM" userLabel="heightRecordBaseview"/>
                     </constraints>
                 </view>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ew1-PC-jET">
@@ -146,12 +146,12 @@
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                     <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <connections>
-                        <outlet property="dataSource" destination="-1" id="Kid-bC-F05"/>
-                        <outlet property="delegate" destination="-1" id="0dn-r1-0xA"/>
+                        <outlet property="dataSource" destination="-1" id="Ayi-2D-6Mg"/>
+                        <outlet property="delegate" destination="-1" id="I8e-ke-Eii"/>
                     </connections>
                 </tableView>
                 <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NOTHING FOUND" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Bc-Y9-6O7">
-                    <rect key="frame" x="120" y="324" width="136" height="19"/>
+                    <rect key="frame" x="120.5" y="324.5" width="136" height="18.5"/>
                     <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="15"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
@@ -171,14 +171,14 @@
                     </constraints>
                     <state key="normal" backgroundImage="search.png"/>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E5P-p7-Tia">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E5P-p7-Tia" userLabel="serachaction">
                     <rect key="frame" x="305" y="597" width="70" height="70"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="70" id="0F0-Lr-HJm"/>
                         <constraint firstAttribute="width" constant="70" id="RCt-OH-SSp"/>
                     </constraints>
                     <connections>
-                        <action selector="searchBottomBtnAction:" destination="-1" eventType="touchUpInside" id="Wee-7i-yzU"/>
+                        <action selector="searchBottomBtnAction:" destination="-1" eventType="touchUpInside" id="WFx-E1-0HP"/>
                     </connections>
                 </button>
                 <view clipsSubviews="YES" alpha="0.84999999999999998" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hde-in-ucQ" userLabel="blurInfoView">
@@ -187,7 +187,7 @@
                         <view opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SX7-yJ-fxt" userLabel="AdvertBaseView">
                             <rect key="frame" x="20" y="20" width="335" height="497"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JOa-cS-QAg">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JOa-cS-QAg" userLabel="closeBtnAction">
                                     <rect key="frame" x="280" y="10" width="40" height="40"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
@@ -199,10 +199,10 @@
                                         <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </state>
                                     <connections>
-                                        <action selector="btnCloseAdvAction:" destination="-1" eventType="touchUpInside" id="FTh-m7-L2d"/>
+                                        <action selector="btnCloseAdvAction:" destination="-1" eventType="touchUpInside" id="nts-Dx-jLn"/>
                                     </connections>
                                 </button>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p5a-2l-4ei">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p5a-2l-4ei" userLabel="lblAdvTitle">
                                     <rect key="frame" x="20" y="55" width="295" height="50"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
@@ -220,15 +220,14 @@
                                         <constraint firstAttribute="width" constant="100" id="pvW-8l-m7A"/>
                                     </constraints>
                                 </view>
-                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gtl-Fg-Ubd">
+                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gtl-Fg-Ubd" userLabel="txtViewDescAdv">
                                     <rect key="frame" x="5" y="137" width="325" height="300"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 </textView>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZZm-FK-tTE">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZZm-FK-tTE" userLabel="websiteBtnAction">
                                     <rect key="frame" x="10" y="447" width="315" height="40"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
@@ -239,7 +238,7 @@
                                         <color key="titleColor" red="0.0" green="0.6588235294" blue="0.1764705882" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </state>
                                     <connections>
-                                        <action selector="btnWebsiteAdvAction:" destination="-1" eventType="touchUpInside" id="tw4-ul-RtZ"/>
+                                        <action selector="btnWebsiteAdvAction:" destination="-1" eventType="touchUpInside" id="hAa-pg-fJc"/>
                                     </connections>
                                 </button>
                             </subviews>
@@ -259,7 +258,7 @@
                                 <constraint firstItem="Nga-fo-IFp" firstAttribute="top" secondItem="p5a-2l-4ei" secondAttribute="bottom" constant="20" id="qit-BJ-g5i"/>
                                 <constraint firstAttribute="bottom" secondItem="ZZm-FK-tTE" secondAttribute="bottom" constant="10" id="v4h-ue-cSh"/>
                                 <constraint firstItem="Nga-fo-IFp" firstAttribute="centerX" secondItem="SX7-yJ-fxt" secondAttribute="centerX" id="vyL-RN-544"/>
-                                <constraint firstAttribute="height" constant="497" id="zQL-7S-KN9"/>
+                                <constraint firstAttribute="height" constant="497" id="zQL-7S-KN9" userLabel="heightTxtConstraints"/>
                             </constraints>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="boolean" keyPath="layer.maskToBounds" value="YES"/>
@@ -271,7 +270,7 @@
                         <view hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pRN-66-10N" userLabel="InfoBaseView">
                             <rect key="frame" x="20" y="25" width="335" height="487"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uuL-EW-uWB">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uuL-EW-uWB" userLabel="closeInfoAction">
                                     <rect key="frame" x="280" y="10" width="40" height="30"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="40" id="OaD-NQ-vvG"/>
@@ -282,7 +281,7 @@
                                         <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </state>
                                     <connections>
-                                        <action selector="btnCloseInfoAction:" destination="-1" eventType="touchUpInside" id="FNf-cn-Fo2"/>
+                                        <action selector="btnCloseInfoAction:" destination="-1" eventType="touchUpInside" id="5Ew-f0-v4B"/>
                                     </connections>
                                 </button>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Course Event table - Title File Text wrap for up to three lines title for three lines " textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CMy-pr-NYc" userLabel="lblEventTitle">
@@ -323,14 +322,13 @@
                                         <constraint firstAttribute="width" constant="100" id="Oum-ZO-tPn"/>
                                     </constraints>
                                 </view>
-                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4EV-Pr-0Vy">
+                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4EV-Pr-0Vy" userLabel="txtViewInfoDesc">
                                     <rect key="frame" x="5" y="192" width="325" height="235"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 </textView>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DHT-i4-FKv">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DHT-i4-FKv" userLabel="ContactBtnAction">
                                     <rect key="frame" x="0.0" y="437" width="167" height="40"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
@@ -342,10 +340,10 @@
                                         <color key="titleColor" red="0.0" green="0.6588235294" blue="0.1764705882" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </state>
                                     <connections>
-                                        <action selector="btnInfoContactAction:" destination="-1" eventType="touchUpInside" id="fDf-1F-VwB"/>
+                                        <action selector="btnInfoContactAction:" destination="-1" eventType="touchUpInside" id="55R-M3-MnX"/>
                                     </connections>
                                 </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zYr-r9-EgL">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zYr-r9-EgL" userLabel="websiteBtnAction">
                                     <rect key="frame" x="167" y="437" width="168" height="40"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
@@ -357,7 +355,7 @@
                                         <color key="titleColor" red="0.0" green="0.6588235294" blue="0.1764705882" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </state>
                                     <connections>
-                                        <action selector="btnWebsiteInfoAction:" destination="-1" eventType="touchUpInside" id="h5j-Ov-Alv"/>
+                                        <action selector="btnWebsiteInfoAction:" destination="-1" eventType="touchUpInside" id="SGe-an-6mu"/>
                                     </connections>
                                 </button>
                             </subviews>

@@ -19,7 +19,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import "Harpy.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate,HarpyDelegate,QBChatDelegate,CLLocationManagerDelegate> {
+@interface AppDelegate : UIResponder <UIApplicationDelegate,HarpyDelegate,QBChatDelegate,CLLocationManagerDelegate,UNUserNotificationCenterDelegate> {
     OneSignal *oneSignal;
     YBHud *hud;
     CLLocationManager *locationManager;

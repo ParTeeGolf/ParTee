@@ -16,8 +16,8 @@
         <array key="Oswald-Bold.ttf">
             <string>Oswald-Bold</string>
         </array>
-        <array key="Oswald-Regular.ttf">
-            <string>Oswald-Regular</string>
+        <array key="Ubuntu-R.ttf">
+            <string>Ubuntu</string>
         </array>
         <array key="montserrat-light.ttf">
             <string>Montserrat-Light</string>
@@ -57,11 +57,11 @@
                             <state key="normal" backgroundImage="ico-back.png"/>
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Event Preferences" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CH6-Be-VZr">
-                            <rect key="frame" x="88" y="30" width="144" height="40"/>
+                            <rect key="frame" x="69.5" y="30" width="182.5" height="40"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="40" id="I9Y-2I-vFN"/>
                             </constraints>
-                            <fontDescription key="fontDescription" name="Oswald-Regular" family="Oswald" pointSize="22"/>
+                            <fontDescription key="fontDescription" name="Ubuntu" family="Ubuntu" pointSize="22"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -432,7 +432,7 @@
                                     <fontDescription key="fontDescription" name="Montserrat-Light" family="Montserrat" pointSize="15"/>
                                     <textInputTraits key="textInputTraits"/>
                                 </textField>
-                                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="100" minValue="2" maxValue="150" translatesAutoresizingMaskIntoConstraints="NO" id="H4b-dw-Vas">
+                                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="100" minValue="2" maxValue="500" translatesAutoresizingMaskIntoConstraints="NO" id="H4b-dw-Vas">
                                     <rect key="frame" x="16" y="45" width="288" height="31"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="30" id="4tb-BP-3ox"/>
