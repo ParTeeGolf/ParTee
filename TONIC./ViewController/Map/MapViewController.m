@@ -34,7 +34,8 @@
     [super viewDidLoad];
     
      [[AppDelegate sharedinstance] showLoader];
-    
+   
+  //  [self drawRouteOnMap];
     [self getUserProfileImage];
 }
 
@@ -44,10 +45,10 @@
     // Show user profile image at users current location according to requirement
     // only profile image only if map screen disply it will not display if user come from three dot popup map screen
     if([strFromScreen isEqualToString:kScreenCoursesSub]) {
-        [[AppDelegate sharedinstance] showLoader];
+    //    [[AppDelegate sharedinstance] showLoader];
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
                        ^{
-                           
+
                            NSDictionary *dictUserDetails = [[NSUserDefaults standardUserDefaults] objectForKey:kuserData];
                            NSString *strname = [dictUserDetails objectForKey:@"userPicBase"];
                            NSURL *urlImg = [NSURL URLWithString:strname];
@@ -78,7 +79,7 @@
                        });
         
     }else {
-        [[AppDelegate sharedinstance] showLoader];
+      //  [[AppDelegate sharedinstance] showLoader];
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
                        ^{
                            
@@ -191,9 +192,7 @@
             }
             else {
                 GMSMarker *marker = [GMSMarker markerWithPosition:position];
-                
                 marker.icon = [UIImage imageNamed:strPinType];
-                
                 marker.title = @"";//[NSString stringWithFormat:@"Marker %i", i];
                 marker.appearAnimation = YES;
                 marker.flat = YES;
@@ -227,7 +226,7 @@
             mymarker.snippet =  [NSString stringWithFormat:@"%i", 0];
             mymarker.map = mapView;
 
-         //   [path addCoordinate: mymarker.position];
+           [path addCoordinate: mymarker.position];
             
         }
     }
@@ -282,14 +281,12 @@
        GMSMarker *marker = [GMSMarker markerWithPosition:position];
 
        
-       
+        marker.icon = newImage;
         marker.title = @"";//[NSString stringWithFormat:@"Marker %i", i];
         marker.appearAnimation = YES;
         marker.flat = YES;
         marker.snippet =  [NSString stringWithFormat:@"%i", 0];
         marker.map = mapView;
-        
-        
         
         [path addCoordinate: marker.position];
         
@@ -506,8 +503,10 @@
     NSString *originString = [NSString stringWithFormat:@"%f,%f", origin.coordinate.latitude, origin.coordinate.longitude];
     NSString *destinationString = [NSString stringWithFormat:@"%f,%f", destination.coordinate.latitude, destination.coordinate.longitude];
     NSString *directionsAPI = @"https://maps.googleapis.com/maps/api/directions/json?";
-    NSString *directionsUrlString = [NSString stringWithFormat:@"%@&origin=%@&destination=%@&mode=driving", directionsAPI, originString, destinationString];
+    NSString *directionsUrlString = [NSString stringWithFormat:@"%@&origin=%@&destination=%@&mode=driving&key=AIzaSyDxQ3VsVecFPwridNuzoGh1-_-FXHCRoU8", directionsAPI, originString, destinationString];
     
+    
+// directionsUrlString = @"https://maps.googleapis.com/maps/api/directions/json?&origin=28.441072,77.041859&destination=28.49419,78.769459&mode=transit&key=AIzaSyDxQ3VsVecFPwridNuzoGh1-_-FXHCRoU8";
     directionsUrlString=[directionsUrlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     [manager GET:directionsUrlString

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Montserrat-Regular.ttf">
+            <string>Montserrat-Regular</string>
+        </array>
+        <array key="Ubuntu-R.ttf">
+            <string>Ubuntu</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ArticleDetailsVC">
+            <connections>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NO USERS AVAILABLE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xV9-wq-3Ek">
+                    <rect key="frame" x="102" y="324" width="170" height="19"/>
+                    <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="15"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="listBackground.png" translatesAutoresizingMaskIntoConstraints="NO" id="1Gz-3B-CBi">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                </imageView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aaz-JO-mX8" userLabel="ViewNav">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="70"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Ts-WG-grh">
+                            <rect key="frame" x="15" y="40" width="11" height="20"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="11" id="eyP-Ar-vRQ"/>
+                                <constraint firstAttribute="height" constant="20" id="ytN-9y-E0O"/>
+                            </constraints>
+                            <state key="normal" backgroundImage="ico-back.png"/>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Article" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="azg-eG-kgY">
+                            <rect key="frame" x="151" y="30" width="73" height="40"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="AbI-Rs-liD"/>
+                                <constraint firstAttribute="width" constant="73" id="wSN-yV-43J"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="Ubuntu" family="Ubuntu" pointSize="22"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3ec-je-2q1">
+                            <rect key="frame" x="0.0" y="30" width="49" height="39"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="39" id="RMU-FV-8an"/>
+                                <constraint firstAttribute="width" constant="49" id="ioj-xG-qOa"/>
+                            </constraints>
+                            <connections>
+                                <action selector="backSideMenuAction:" destination="-1" eventType="touchUpInside" id="mGs-jY-yCK"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" red="0.0" green="0.65490196079999996" blue="0.1764705882" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="70" id="8uF-yT-tZP"/>
+                        <constraint firstAttribute="bottom" secondItem="8Ts-WG-grh" secondAttribute="bottom" constant="10" id="By4-Sc-T4t"/>
+                        <constraint firstAttribute="bottom" secondItem="3ec-je-2q1" secondAttribute="bottom" constant="1" id="GYH-ag-wvc"/>
+                        <constraint firstAttribute="bottom" secondItem="azg-eG-kgY" secondAttribute="bottom" id="Wmo-8m-fX8"/>
+                        <constraint firstItem="azg-eG-kgY" firstAttribute="centerX" secondItem="aaz-JO-mX8" secondAttribute="centerX" id="cmW-59-fvS"/>
+                        <constraint firstItem="3ec-je-2q1" firstAttribute="leading" secondItem="aaz-JO-mX8" secondAttribute="leading" id="vWV-PG-8GM"/>
+                        <constraint firstItem="8Ts-WG-grh" firstAttribute="leading" secondItem="aaz-JO-mX8" secondAttribute="leading" constant="15" id="xlW-6e-iqI"/>
+                    </constraints>
+                </view>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bg-profile.png" translatesAutoresizingMaskIntoConstraints="NO" id="adH-Y9-EKq">
+                    <rect key="frame" x="0.0" y="71" width="375" height="170"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="170" id="aLB-lt-78p"/>
+                    </constraints>
+                </imageView>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Title of the Article here, to span three potential lines before trailing.." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="fdE-yY-2Vt">
+                    <rect key="frame" x="0.0" y="242" width="375" height="150"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="150" id="gT5-oh-Zfb"/>
+                    </constraints>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="37"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                </textView>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="YlB-Z2-CrQ">
+                    <rect key="frame" x="0.0" y="402" width="375" height="265"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <string key="text">Text of the article is to be here, and is to be a bit large for ease of reading. If there is an option menu in the upper right, it is to control the size of the font onlly. in order to make it more readeable, but this is not a required feature.</string>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="28"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                </textView>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="adH-Y9-EKq" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" id="2f4-Lo-YGo"/>
+                <constraint firstItem="YlB-Z2-CrQ" firstAttribute="trailing" secondItem="Q5M-cg-NOt" secondAttribute="trailing" id="92W-fc-lEG"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="1Gz-3B-CBi" secondAttribute="trailing" id="9G4-xS-SDY"/>
+                <constraint firstItem="fdE-yY-2Vt" firstAttribute="trailing" secondItem="Q5M-cg-NOt" secondAttribute="trailing" id="Aza-b0-Fqk"/>
+                <constraint firstItem="aaz-JO-mX8" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" id="HXS-5D-Wat"/>
+                <constraint firstItem="YlB-Z2-CrQ" firstAttribute="top" secondItem="fdE-yY-2Vt" secondAttribute="bottom" constant="10" id="QYy-P8-whl"/>
+                <constraint firstItem="1Gz-3B-CBi" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="Qhb-7l-jNR"/>
+                <constraint firstItem="fdE-yY-2Vt" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" id="SJc-Em-dFk"/>
+                <constraint firstItem="YlB-Z2-CrQ" firstAttribute="top" secondItem="fdE-yY-2Vt" secondAttribute="bottom" constant="10" id="Sja-by-Sgc"/>
+                <constraint firstItem="1Gz-3B-CBi" firstAttribute="bottom" secondItem="i5M-Pr-FkT" secondAttribute="bottom" id="TKL-AR-EiY"/>
+                <constraint firstItem="YlB-Z2-CrQ" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" id="YEK-Pz-2eR"/>
+                <constraint firstItem="aaz-JO-mX8" firstAttribute="trailing" secondItem="Q5M-cg-NOt" secondAttribute="trailing" id="YJV-vY-bsk"/>
+                <constraint firstItem="adH-Y9-EKq" firstAttribute="top" secondItem="aaz-JO-mX8" secondAttribute="bottom" constant="1" id="cg7-9e-XCr"/>
+                <constraint firstItem="xV9-wq-3Ek" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="f9I-c1-pdQ"/>
+                <constraint firstItem="aaz-JO-mX8" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="goV-iU-p0t"/>
+                <constraint firstItem="adH-Y9-EKq" firstAttribute="trailing" secondItem="Q5M-cg-NOt" secondAttribute="trailing" id="l4c-uW-53s"/>
+                <constraint firstItem="xV9-wq-3Ek" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="mSA-CV-bGu"/>
+                <constraint firstItem="YlB-Z2-CrQ" firstAttribute="bottom" secondItem="Q5M-cg-NOt" secondAttribute="bottom" id="qd2-Fn-dKb"/>
+                <constraint firstItem="1Gz-3B-CBi" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" id="rAa-wc-hd5"/>
+                <constraint firstItem="fdE-yY-2Vt" firstAttribute="top" secondItem="adH-Y9-EKq" secondAttribute="bottom" constant="1" id="rgr-MS-LbM"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="Q5M-cg-NOt"/>
+            <point key="canvasLocation" x="103.5" y="137.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="bg-profile.png" width="640" height="1018"/>
+        <image name="ico-back.png" width="21" height="39"/>
+        <image name="listBackground.png" width="640" height="1136"/>
+    </resources>
+</document>

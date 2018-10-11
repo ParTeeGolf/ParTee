@@ -6,11 +6,27 @@
 //  Copyright © 2018 Hooda. All rights reserved.
 //
 
+
+
 #import "EventPreferncesViewController.h"
 #import "CourseCellTableViewCell.h"
 
+
+
 @interface EventPreferncesViewController ()
 {
+    IBOutlet UITextField    *nameTxtFld;
+    IBOutlet UITextField    *stateTxtFld;
+    IBOutlet UITextField    *cityTxtFld;
+    IBOutlet UITextField    *typeTxtFld;
+    IBOutlet UIButton      *favSwitch;
+    IBOutlet UISlider      *distanceSlider;
+    IBOutlet UILabel       *distanceLbl;
+    IBOutlet UIPickerView   *pickerView;
+    IBOutlet UITableView    *listTblView;
+    IBOutlet UIView        *viewTblView;
+    IBOutlet UIView        *viewToolBar;
+    
     // array for city
     NSMutableArray *arrCityList;
     // array for state
@@ -30,19 +46,6 @@
 @end
 
 @implementation EventPreferncesViewController
-/***************** Synthesize Property ***********/
-@synthesize distanceSlider;
-@synthesize distanceLbl;
-@synthesize nameTxtFld;
-@synthesize stateTxtFld;
-@synthesize cityTxtFld;
-@synthesize typeTxtFld;
-@synthesize favSwitch;
-@synthesize pickerView;
-@synthesize listTblView;
-@synthesize viewToolBar;
-@synthesize viewTblView;
-/***************** Synthesize Property ***********/
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -69,6 +72,8 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated {
+    
+    [super viewWillAppear:YES];
     self.menuContainerViewController.panMode = NO;
 }
 #pragma mark - GetGolfCourseDetails
@@ -230,23 +235,22 @@
  * @param sender  the object on which action is perofrmed.
  * @return void nothing will return by this method.
  */
-#pragma mark- Back button Action
 - (IBAction)btnBackAction:(id)sender {
     
     [nameTxtFld resignFirstResponder];
     UIAlertController * alert = [UIAlertController
-                                 alertControllerWithTitle:kAppName
-                                 message:kBackBtnAlertTitle
+                                 alertControllerWithTitle:kEventAppName
+                                 message:kEventBackBtnAlertTitle
                                  preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction* saveSearchButton = [UIAlertAction
-                                       actionWithTitle:kBackSaveSearchBtnAlertTitle
+                                       actionWithTitle:kEventBackSaveSearchBtnAlertTitle
                                        style:UIAlertActionStyleDefault
                                        handler:^(UIAlertAction * action) {
                                            [self savesettings];
                                        }];
     
     UIAlertAction* startOverButton = [UIAlertAction
-                                      actionWithTitle:kBackStartOverBtnAlertTitle
+                                      actionWithTitle:kEventBackStartOverBtnAlertTitle
                                       style:UIAlertActionStyleDefault
                                       handler:^(UIAlertAction * action) {
                                           
@@ -270,6 +274,7 @@
     //  [self.navigationController popViewControllerAnimated:YES];
 }
 -(void) viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:YES];
     self.menuContainerViewController.panMode = YES;
 }
 #pragma mark - TextField Delagate
@@ -299,11 +304,11 @@
     [nameTxtFld setText:nameTxtFld.text];
     [nameTxtFld resignFirstResponder];
     UIAlertController * alert = [UIAlertController
-                                 alertControllerWithTitle:kAppName
-                                 message:kClearSearchAlertTitle
+                                 alertControllerWithTitle:kEventAppName
+                                 message:kEventClearSearchAlertTitle
                                  preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction* yesBtn = [UIAlertAction
-                             actionWithTitle:kYesAlertBtnTitle
+                             actionWithTitle:kEventYesAlertBtnTitle
                              style:UIAlertActionStyleDefault
                              handler:^(UIAlertAction * action) {
                                  
@@ -320,7 +325,7 @@
                              }];
     
     UIAlertAction* noBtn = [UIAlertAction
-                            actionWithTitle:kNoAlertBtnTitle
+                            actionWithTitle:kEventNoAlertBtnTitle
                             style:UIAlertActionStyleDefault
                             handler:^(UIAlertAction * action) {
                                 
@@ -515,11 +520,11 @@
 -(void) ComingSoon  {
     
     UIAlertController * alert = [UIAlertController
-                                 alertControllerWithTitle:kAppName
-                                 message:kFeatureSoonAlertTitle
+                                 alertControllerWithTitle:kEventAppName
+                                 message:kEventFeatureSoonAlertTitle
                                  preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction* okBtn = [UIAlertAction
-                            actionWithTitle:kOkAlertBtnTitle
+                            actionWithTitle:kEventOkAlertBtnTitle
                             style:UIAlertActionStyleDefault
                             handler:^(UIAlertAction * action) {
                                 
@@ -584,11 +589,11 @@
 -(void)showAlert:(NSString *)titleStr
 {
     UIAlertController * alert = [UIAlertController
-                                 alertControllerWithTitle:kAppName
+                                 alertControllerWithTitle:kEventAppName
                                  message:titleStr
                                  preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction* okButton = [UIAlertAction
-                               actionWithTitle:kOkAlertBtnTitle
+                               actionWithTitle:kEventOkAlertBtnTitle
                                style:UIAlertActionStyleDefault
                                handler:^(UIAlertAction * action) {
                                    
@@ -711,7 +716,7 @@
     else {
         
         if (tempArraySelcted.count >= 10) {
-            [self showAlert:kMaxTenCitiesSelectAlertTitle];
+            [self showAlert:kEventMaxTenCitiesSelectAlertTitle];
             
         }else {
             [ObjCirCell.selectbtnimg setImage:[UIImage imageNamed:kEventPreBlueChk] forState:UIControlStateNormal];

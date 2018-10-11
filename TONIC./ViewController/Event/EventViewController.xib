@@ -37,6 +37,9 @@
                 <outlet property="lblNothingFound" destination="0Bc-Y9-6O7" id="BrF-wB-UCs"/>
                 <outlet property="lblStartEndDateInfo" destination="r1B-zp-xdN" id="mHT-6N-ghW"/>
                 <outlet property="nextPrevRecordBaseView" destination="DRK-3Z-0qb" id="oWv-En-Tu5"/>
+                <outlet property="searchBtn" destination="E5P-p7-Tia" id="nHb-DT-CmI"/>
+                <outlet property="searchBtnImg" destination="iKp-nf-EAZ" id="dXh-HA-FaO"/>
+                <outlet property="searchImgView" destination="4tF-QW-lo1" id="20Z-7y-ROy"/>
                 <outlet property="segmentControl" destination="R6B-0f-ich" id="KxN-qL-4v6"/>
                 <outlet property="textViewEventDescInfo" destination="4EV-Pr-0Vy" id="NIp-ED-wEF"/>
                 <outlet property="txtViewAdvdesc" destination="gtl-Fg-Ubd" id="LYZ-dE-W76"/>
@@ -151,7 +154,7 @@
                     </connections>
                 </tableView>
                 <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NOTHING FOUND" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Bc-Y9-6O7">
-                    <rect key="frame" x="120.5" y="324.5" width="136" height="18.5"/>
+                    <rect key="frame" x="119.5" y="324.5" width="136" height="18.5"/>
                     <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="15"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
@@ -284,7 +287,7 @@
                                         <action selector="btnCloseInfoAction:" destination="-1" eventType="touchUpInside" id="5Ew-f0-v4B"/>
                                     </connections>
                                 </button>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Course Event table - Title File Text wrap for up to three lines title for three lines " textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CMy-pr-NYc" userLabel="lblEventTitle">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Course Event table - Title File Text wrap for up to three lines title for three lines " textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CMy-pr-NYc" userLabel="lblEventTitle">
                                     <rect key="frame" x="10" y="45" width="315" height="70"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>

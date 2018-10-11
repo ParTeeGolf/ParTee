@@ -179,8 +179,10 @@ static AppDelegate *delegate;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-    _courseOptionSelected = @"0";
-    strcustomnotificationtimer=@"1";
+    
+    _eventOptionSelected = 0;
+    _courseOptionSelected = 0;
+    strcustomnotificationtimer= @"1";
     [GMSPlacesClient provideAPIKey:kGOOGLE_API_KEY];
     [GMSServices provideAPIKey:kGOOGLE_API_KEY];
     

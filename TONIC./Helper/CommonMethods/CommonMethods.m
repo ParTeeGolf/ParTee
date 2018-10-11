@@ -9,6 +9,7 @@
 
 #import "CommonMethods.h"
 
+
 @implementation CommonMethods
 #pragma mark- Calculate Height Dynamically
 /**
@@ -109,6 +110,9 @@
     // find time on which notofcation need to be sent in format supported by quickblox.
     NSDate *nowMinus = [NSDate dateWithTimeIntervalSince1970:timeSince1970];
    
+
+    
+    
     return nowMinus;
    
 }
@@ -184,24 +188,6 @@
 
 +(NSString *)FetchNotifIdFromCombinedStr:(NSString*)combinedStr EventId:(NSString *)eventIdStr
 {
-    // fetch first 8 digits from notication event id crated on table on which notifcation will go to the user that made event as favourite.
-//    NSUInteger notifiEventIdLength = EventNotificationID.length;
-//    NSString *firstEightDigitsFromNotifiEventId;
-//    if (notifiEventIdLength == 8) {
-//        firstEightDigitsFromNotifiEventId  = [EventNotificationID substringToIndex:8];
-//    }else if (notifiEventIdLength > 8) {
-//        firstEightDigitsFromNotifiEventId  = [EventNotificationID substringToIndex:8];
-//    }else if (notifiEventIdLength < 8){
-//        firstEightDigitsFromNotifiEventId  = EventNotificationID;
-//        NSUInteger length = firstEightDigitsFromNotifiEventId.length;
-//        int remainingChToAdd = (int) (8 - length);
-//        for (int i = 0; i < remainingChToAdd; i++) {
-//            [firstEightDigitsFromNotifiEventId stringByAppendingString:@"9"];
-//        }
-//    }
-
-    
-    // fetch first 8 digits from eventId of that made event as favourite.
 
     NSString *digitsFromEventId = [[eventIdStr componentsSeparatedByCharactersInSet:
                                     [[NSCharacterSet decimalDigitCharacterSet] invertedSet]]

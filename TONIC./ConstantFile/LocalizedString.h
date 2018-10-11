@@ -51,7 +51,10 @@
 #define kUsageCounter @"kUsageCounter"
 
 
-#define kAppName @"ParTee"
+// NSString *const kAppName = @"ParTee";
+//NSString *const MySecondConstant = @"SecondConstant";
+
+ #define kAppName @"ParTee"
 
 #define klocationlong @"klocationlong"
 #define klocationlat @"klocationlat"
@@ -130,92 +133,109 @@
 #define kFeatureSoonAlertTitle @"This Feature Coming Soon!"
 /*************** Golfers Search Screen *********/
 
-/**************** Event Sccreen ***********/
-#define kAdEventlblTxt @"Advertisment Event"
-#define kEventCellName @"EventTableViewCell"
-#define kEventTblName @"CourseEvents"
-#define kAdEventTblName @"AdEvent"
-#define kEventLimitParam @"limit"
-#define kEventSkipParam @"skip"
-#define kEventCellImgUrl @"ImageUrl"
-#define kAdEventCellImgUrl @"AdImageUrl"
-#define kEventCellDefaultImg @"imgplaceholder.jpg"
-#define kEventDateFormatOriginal @"yyyy-MM-dd'T'HH:mm:ss'Z'"
-#define kEventDateFormatFinal  @"dd-MMM-yyyy"
-#define kEventLimit @"25"
-#define kAdEventLimit @"100"
-#define kEmptyStr @""
-#define kEventTrue @"true"
-#define kEventFeatured @"featured"
-#define kEventOrder @"order"
-#define kEventSortAsc @"sort_asc"
-#define kEventCordNear @"coordinates[near]"
-#define kEventFavIn @"userFavID[in]"
-#define kEventSortAsc @"sort_asc"
-#define kEventSortAsc @"sort_asc"
-#define kEventCount @"count"
-#define kEventOneStr @"1"
-#define kEventFavID @"userFavID"
-#define kEventMarkUnFav @"Mark Unfavorite"
-#define kEventMarkFav @"Mark Favorite"
-#define kEventFavImg @"fav.png"
-#define kEventUnFavImg @"unfav"
-#define kEventFavTitle @"Your Favorite"
-#define kEventInfoTitle @"Information"
-#define kEventMapTitle @"On Map"
-#define kEventDir @"Directions"
-#define kEventInfoFilledImg @"info-filled"
-#define kEventMapImg @"viewmap"
-#define kEventDirImg @"direction"
-#define kEventCord @"coordinates"
-#define kEventCourseId @"eventCourseID"
-#define kEventIdIn @"ID[in]"
-#define kEventID @"ID"
-#define kEventGolfCourse @"GolfCourses"
-#define kEventMapVc @"MapViewController"
-#define kEventNoCourseAv @"No courses available"
-#define kEventDescParam @"Description"
-#define kEventTitleParam @"Title"
-#define kEventStartDate @"StartDate"
-#define kEventEndDateParam @"EndDate"
-#define kEventNoInfoAvailTitle @"No information available"
-#define kEventAd @"AdEvent"
-#define kEventPrefVc @"EventPreferncesViewController"
-#define kEventContact @"ContactNumber"
-#define kEventAddParam @"Address"
-#define kEventAdvTitle @"AdTitle"
-#define kEventAdDesc @"AdDesc"
-#define kEventAdWebSite @"AdWebsite"
-#define kEventWebsiteParam @"Website"
-#define kEventState @"event_state"
-#define kEventCity @"event_City"
-#define kEventAll @"All"
-#define kEventTitleName @"event_tiltleName"
-#define kEventDistance @"event_Distance"
-#define kEventFav @"event_isFav"
-#define kEventTitle @"Title[ctn]"
-#define kEventCoordNear @"coordinates[near]"
-#define kEventFavId @"userFavID[in]"
-#define kEventCourseIdIn @"eventCourseID[in]"
-#define kEventDateTblFormat @"yyyy-MM-dd'T'HH:mm:ssZ"
-#define kEventIntervalFormat @"yyyy-MM-dd'T'HH:mm:ss"
-#define kEventStartDate @"StartDate"
-/**************** Event Screen ***********/
+/************* Event Screen constants *************/
+static NSString *const kAdEventlblTxt           = @"Advertisment Event";
+static NSString *const kEventCellName           = @"EventTableViewCell";
+static NSString *const kEventTblName            = @"CourseEvents";
+static NSString *const kAdEventTblName          = @"AdEvent";
+static NSString *const kEventLimitParam         = @"limit";
+static NSString *const kEventSkipParam          = @"skip";
+static NSString *const kEventDateFormatOriginal = @"yyyy-MM-dd'T'HH:mm:ss'Z'";
+static NSString *const kEventDateFormatFinal    =  @"dd-MMM-yyyy";
+static NSString *const kEventLimit              = @"25";
+static NSString *const kAdEventLimit            = @"100";
+static NSString *const kEventTrue               = @"true";
+static NSString *const kEventFeatured           = @"featured";
+static NSString *const kEventOrder              = @"order";
+static NSString *const kEventSortAsc            = @"sort_asc";
+static NSString *const kEventCordNear           = @"coordinates[near]";
+static NSString *const kEventFavIn              = @"userFavID[in]";
+static NSString *const kEventCount              = @"count";
+static NSString *const kEventFavID              = @"userFavID";
+static NSString *const kEventMarkUnFav          = @"Mark Unfavorite";
+static NSString *const kEventMarkFav            = @"Mark Favorite";
+static NSString *const kEventFavImg             = @"fav.png";
+static NSString *const kEventUnFavImg           = @"unfav";
+static NSString *const kEventFavTitle           = @"Your Favorite";
+static NSString *const kEventInfoTitle          = @"Information";
+static NSString *const kEventMapTitle           = @"On Map";
+static NSString *const kEventDir                = @"Directions";
+static NSString *const kEventInfoFilledImg      = @"info-filled";
+static NSString *const kEventMapImg             = @"viewmap";
+static NSString *const kEventDirImg             = @"direction";
+static NSString *const kEventCord               = @"coordinates";
+static NSString *const kEventCourseId           = @"eventCourseID";
+static NSString *const kEventIdIn               = @"ID[in]";
+static NSString *const kEventID                 = @"ID";
+static NSString *const kEventMapVc              = @"MapViewController";
+static NSString *const kEventNoCourseAv         = @"No courses available";
+static NSString *const kEventDescParam          = @"Description";
+static NSString *const kEventTitleParam         = @"Title";
+static NSString *const kEventStartDate          = @"StartDate";
+static NSString *const kEventEndDateParam       = @"EndDate";
+static NSString *const kEventNoInfoAvailTitle   = @"No information available";
+static NSString *const kEventAd                 = @"AdEvent";
+static NSString *const kEventPrefVc             = @"EventPreferncesViewController";
+static NSString *const kEventContact            = @"ContactNumber";
+static NSString *const kEventAddParam           = @"Address";
+static NSString *const kEventAdvTitle           = @"AdTitle";
+static NSString *const kEventAdDesc             = @"AdDesc";
+static NSString *const kEventAdWebSite          = @"AdWebsite";
+static NSString *const kEventWebsiteParam       = @"Website";
+static NSString *const kEventCoordNear          = @"coordinates[near]";
+static NSString *const kEventCourseIdIn         = @"eventCourseID[in]";
+static NSString *const kEmptyStr                   = @"";
+static NSString *const kEventOneStr                = @"1";
+static NSString *const kEventGolfCourse            = @"GolfCourses";
+static NSString *const kEventState                 = @"event_state";
+static NSString *const kEventCity                  = @"event_City";
+static NSString *const kEventAll                   = @"All";
+static NSString *const kEventTitleName             = @"event_tiltleName";
+static NSString *const kEventDistance              = @"event_Distance";
+static NSString *const kEventFav                   = @"event_isFav";
+static NSString *const kEventTitle                 = @"Title[ctn]";
+static NSString *const kEventDateTblFormat         = @"yyyy-MM-dd'T'HH:mm:ssZ";
+static NSString *const kEventIntervalFormat        = @"yyyy-MM-dd'T'HH:mm:ss";
+static NSString *const kAdEventCellImgUrl          = @"AdImageUrl";
+static NSString *const kEventCellDefaultImg        = @"imgplaceholder.jpg";
+static NSString *const kEventCellImgUrl            = @"ImageUrl";
+static NSString *const kFontNameEventHelveticaNeue      = @"Request Timed Out";
+static NSString *const kEventFetchPreviousRecordBtnTitle = @"PREV";
+static NSString *const kEventFetchNextRecordBtnTitle    = @"NEXT";
+static NSString *const kEventFetchInitialRecordBtnTitle = @"  <<  ";
+static NSString *const kEventMaxTenCitiesSelectAlertTitle = @"Maximum 10 Cities you can select.";
+/************* Event Search Screen constants *************/
 
-/**************** Event Prefernces ***********/
-#define kEventPreFilledCircle @"filledcircle"
-#define kEventPreRefreshContent @"refreshContent"
-#define kEventPreState @"State"
-#define kEventPreCity @"City"
-#define kUserInfoTbl @"UserInfo"
-#define kEventFavId @"userFavID[in]"
-#define kEventPreToggleOff @"toggleOff"
-#define kEventPreToggleOn @"toggleOn"
-#define kEventPreDesc @"description"
-#define kEventPreCourseCell @"CourseCellTableViewCell"
-#define kEventPreBlueChk @"blue_chk.png"
-#define kEventPreUnchecked @"unchecked_circle.png"
-/**************** Event Prefernces ***********/
+/************* Event Screen constants *************/
+static NSString *const kEventPreFilledCircle       = @"filledcircle";
+static NSString *const kEventPreRefreshContent     = @"refreshContent";
+static NSString *const kEventPreState              = @"State";
+static NSString *const kEventPreCity               = @"City";
+static NSString *const kUserInfoTbl                = @"UserInfo";
+static NSString *const kEventFavId                 = @"userFavID[in]";
+static NSString *const kEventPreToggleOff          = @"toggleOff";
+static NSString *const kEventPreToggleOn           = @"toggleOn";
+static NSString *const kEventPreDesc               = @"description";
+static NSString *const kEventPreCourseCell         = @"CourseCellTableViewCell";
+static NSString *const kEventPreBlueChk            = @"blue_chk.png";
+static NSString *const kEventPreUnchecked          = @"unchecked_circle.png";
+
+static NSString *const kEventClearSearchAlertTitle = @"Clear Search Parameters?";
+static NSString *const kEventBackBtnAlertTitle     = @"What would you like to do?";
+static NSString *const kEventBackSaveSearchBtnAlertTitle = @"Save and Search";
+static NSString *const kEventBackStartOverBtnAlertTitle = @"Start Over";
+static NSString *const kEventAppName                    = @"ParTee";
+static NSString *const kEventOkAlertBtnTitle                 = @"OK";
+static NSString *const kEventYesAlertBtnTitle                = @"Yes";
+static NSString *const kEventNoAlertBtnTitle                 = @"No";
+static NSString *const kEventFeatureSoonAlertTitle = @"This Feature Coming Soon!";
+
+/************* Event Search Screen constants *************/
+
+/************ News feed Constants ************/
+static NSString *const kArticleDetailVc         = @"ArticleDetailsVC";
+static NSString *const knewsFeedCellName           = @"NewsFeedTblViewCell";
+/************ News feed Constants ************/
 
 /**************** Ubuntu Title VC ***********/
 #define ubuntutuTitleFont  [UIFont fontWithName:@"Ubuntu-R" size:22]

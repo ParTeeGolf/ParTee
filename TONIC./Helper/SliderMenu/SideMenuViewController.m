@@ -7,7 +7,7 @@
 #import "SideMenuViewController.h"
 #import "MFSideMenu.h"
 #import "cell_Menu.h"
-
+#import "NewsFeedVc.h"
 #import "HomeViewController.h"
 #import "ProfileViewController.h"
 #import "SettingsViewController.h"
@@ -256,11 +256,11 @@ long currentTag = 1;
         case 2:
             cell.lbl_Name.text = @"\tINVITATIONS";
             cell.hidden = hideCell;
-            if(![self.view viewWithTag:2])
-                
-            {
-                [cell.contentView addSubview: [self ComingSoonButton:cell.frame.origin.x originY:cell.frame.origin.y hideButton:false tag:2]];
-            }
+//            if(![self.view viewWithTag:2])
+//
+//            {
+//                [cell.contentView addSubview: [self ComingSoonButton:cell.frame.origin.x originY:cell.frame.origin.y hideButton:false tag:2]];
+//            }
             break;
         case 3:
             cell.lbl_Name.text = @"\tTEE TIMES";
@@ -298,12 +298,14 @@ long currentTag = 1;
 //            }
             break;
         case 9:
-            cell.lbl_Name.text = @"PARTEE LINE BLOG";
-            if(![self.view viewWithTag:9])
-                
-            {
-                [cell.contentView addSubview: [self ComingSoonButton:cell.frame.origin.x originY:cell.frame.origin.y hideButton:false tag:9]];
-            }
+           // cell.lbl_Name.text = @"PARTEE LINE BLOG";
+            cell.lbl_Name.text = @"NEWS FEED";
+        //    cell.hidden = hideCell;
+//            if(![self.view viewWithTag:9])
+//
+//            {
+//                [cell.contentView addSubview: [self ComingSoonButton:cell.frame.origin.x originY:cell.frame.origin.y hideButton:false tag:9]];
+//            }
 
             break;
         case 10:
@@ -422,7 +424,8 @@ long currentTag = 1;
             viewController    = [[EventViewController alloc] initWithNibName:@"EventViewController" bundle:nil];
             break;
         case 9:
-           [self ComingSoon];
+         //  [self ComingSoon];
+            viewController    = [[NewsFeedVc alloc] initWithNibName:@"NewsFeedVc" bundle:nil];
             break;
         case 10:
             [self ComingSoon];
@@ -430,9 +433,6 @@ long currentTag = 1;
         case 11:
             [self ComingSoon];
             break;
-            
-            
-            
     }
     
     if(viewController != NULL)

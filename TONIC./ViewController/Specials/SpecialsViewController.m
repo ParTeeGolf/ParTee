@@ -55,10 +55,12 @@ int courseOption;
 
 - (void)viewDidLoad {
     
-    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    delegate.courseOptionSelected = @"0";
+   
     [super viewDidLoad];
     shouldLoadNext=YES;
+    
+    ((AppDelegate*)[UIApplication sharedApplication].delegate).courseOptionSelected = 0;
+    courseOption = ((AppDelegate*)[UIApplication sharedApplication].delegate).courseOptionSelected;
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshContent" object:nil];
     
@@ -81,7 +83,7 @@ int courseOption;
     arrData = [[NSMutableArray alloc] init];
     arrCoursesData = [[NSMutableArray alloc] init];
     
-    courseOption = kFeatured;
+    
     
     NSMutableDictionary *dictcoursePreferencesData = [[[NSUserDefaults standardUserDefaults] objectForKey:kcoursePreferencesData] mutableCopy];
     
@@ -105,18 +107,12 @@ int courseOption;
 -(void) viewWillAppear:(BOOL)animated {
     self.menuContainerViewController.panMode=YES;
     
+    courseOption = ((AppDelegate*)[UIApplication sharedApplication].delegate).courseOptionSelected;
     [[AppDelegate sharedinstance] showLoader];
     
     
     _currentPage=0;
-    //    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    //    NSString *strCourseOptionSelected =  delegate.courseOptionSelected;
-    //    if ([strCourseOptionSelected isEqualToString:@"0"]) {
-    //           arrData = [[NSMutableArray alloc] init];
-    //    }else if ([strCourseOptionSelected isEqualToString:@"3"]) {
-    //          //   arrData = [[NSMutableArray alloc] init];
-    //
-    //    }
+
     segmentSpecials.selectedSegmentIndex = courseOption;
     shouldLoadNext = YES;
     
@@ -129,9 +125,13 @@ int courseOption;
     
     NSString *strCourseOption = [dictcoursePreferencesData objectForKey:@"cf_courseOption"];
     
+    fetchPrevRecordBtn.hidden = YES;
+    fecthInitialRecordBtn.hidden = YES;
+    
     if([strCourseOption length] > 0)
     {
         courseOption = [strCourseOption intValue];
+         courseOption = ((AppDelegate*)[UIApplication sharedApplication].delegate).courseOptionSelected;
     }
     
     if([[[AppDelegate sharedinstance] sharedChatInstance] isConnected])
@@ -173,34 +173,32 @@ int courseOption;
     }
     
     
-    if(status==1) {
-        [btnBack setHidden:NO];
-        [btnMenu setHidden:YES];
-    }
-    else {
-        [btnBack setHidden:YES];
-        [btnMenu setHidden:NO];
-    }
+
     
-    if (courseOption == 0) {
-        loadRecordBaseV.hidden = true;
-        recordLoadBaseViewHeightConst.constant = 0;
-        searchImgView.hidden = true;
-        btnSearchBig.hidden = true;
-        btnSearchSmall.hidden = true;
-        
-    }else {
-        loadRecordBaseV.hidden = false;
-        recordLoadBaseViewHeightConst.constant = 30;
-        searchImgView.hidden = false;
-        btnSearchBig.hidden = false;
-        btnSearchSmall.hidden = false;
-        
-    }
-    
-    fetchPrevRecordBtn.hidden = true;
-    fecthInitialRecordBtn.hidden = true;
     lblNotAvailable.frame = CGRectMake((self.view.frame.size.width - lblNotAvailable.frame.size.width )/2, (self.view.frame.size.height - lblNotAvailable.frame.size.height )/2, lblNotAvailable.frame.size.width, lblNotAvailable.frame.size.height);
+    
+  
+    if (courseOption == 0) {
+        [self hideOrShowSearchBtn:YES];
+    }else{
+        [self hideOrShowSearchBtn:NO];
+    }
+}
+
+-(void)hideOrShowSearchBtn:(BOOL)hideShowBool
+{
+    loadRecordBaseV.hidden = hideShowBool;
+    searchImgView.hidden = hideShowBool;
+    btnSearchBig.hidden = hideShowBool;
+    btnSearchSmall.hidden = hideShowBool;
+    btnSearchSmall.hidden = hideShowBool;
+    btnSearchBig.hidden =  hideShowBool;
+    
+    if (hideShowBool) {
+         recordLoadBaseViewHeightConst.constant = 0;
+    }else {
+         recordLoadBaseViewHeightConst.constant = 30;
+    }
 }
 -(void)getCoursesRecordCount
 {
@@ -235,7 +233,7 @@ int courseOption;
             [getRequestObjectCount setObject: @"order" forKey:@"sort_asc"];
             break;
         case 1:
-            strFilterDistance = [NSString stringWithFormat:@"%f,%f;%f",[strlong floatValue],[strlat floatValue],100.6f];
+            strFilterDistance = [NSString stringWithFormat:@"%f,%f;%f",[strlong floatValue],[strlat floatValue],160000.6f];
             [getRequestObjectCount setObject:strFilterDistance forKey:@"coordinates[near]"];
             break;
         case 2:
@@ -303,8 +301,8 @@ int courseOption;
                     
                 }
                 else {
-                    NSString *strFilterDistance = [NSString stringWithFormat:@"%f,%f;%f",[strlong1 floatValue],[strlat1 floatValue],9999999.f];
-                    [getRequestObjectCount setObject:strFilterDistance forKey:@"coordinates[near]"];
+            //        NSString *strFilterDistance = [NSString stringWithFormat:@"%f,%f;%f",[strlong1 floatValue],[strlat1 floatValue],9999999.f];
+             //       [getRequestObjectCount setObject:strFilterDistance forKey:@"coordinates[near]"];
                 }
                 
                 if([strcf_isFav isEqualToString:@"1"]) {
@@ -317,8 +315,8 @@ int courseOption;
                 
             }
             else {
-                NSString *strFilterDistance = [NSString stringWithFormat:@"%f,%f;%f",[strlong1 floatValue],[strlat1 floatValue],9999999.f];
-                [getRequestObjectCount setObject:strFilterDistance forKey:@"coordinates[near]"];
+          //      NSString *strFilterDistance = [NSString stringWithFormat:@"%f,%f;%f",[strlong1 floatValue],[strlat1 floatValue],9999999.f];
+        //        [getRequestObjectCount setObject:strFilterDistance forKey:@"coordinates[near]"];
             }
             break;
     }
@@ -425,7 +423,7 @@ int courseOption;
             [getRequest setObject: @"order" forKey:@"sort_asc"];
             break;
         case 1:
-            strFilterDistance = [NSString stringWithFormat:@"%f,%f;%f",[strlong floatValue],[strlat floatValue],100.6f];
+            strFilterDistance = [NSString stringWithFormat:@"%f,%f;%f",[strlong floatValue],[strlat floatValue],160000.6f];
             [getRequest setObject:strFilterDistance forKey:@"coordinates[near]"];
             break;
         case 2:
@@ -493,8 +491,8 @@ int courseOption;
                     
                 }
                 else {
-                    NSString *strFilterDistance = [NSString stringWithFormat:@"%f,%f;%f",[strlong1 floatValue],[strlat1 floatValue],9999999.f];
-                    [getRequest setObject:strFilterDistance forKey:@"coordinates[near]"];
+               //     NSString *strFilterDistance = [NSString stringWithFormat:@"%f,%f;%f",[strlong1 floatValue],[strlat1 floatValue],9999999.f];
+              //      [getRequest setObject:strFilterDistance forKey:@"coordinates[near]"];
                 }
                 
                 if([strcf_isFav isEqualToString:@"1"]) {
@@ -507,8 +505,8 @@ int courseOption;
                 
             }
             else {
-                NSString *strFilterDistance = [NSString stringWithFormat:@"%f,%f;%f",[strlong1 floatValue],[strlat1 floatValue],9999999.f];
-                [getRequest setObject:strFilterDistance forKey:@"coordinates[near]"];
+           //     NSString *strFilterDistance = [NSString stringWithFormat:@"%f,%f;%f",[strlong1 floatValue],[strlat1 floatValue],9999999.f];
+       //         [getRequest setObject:strFilterDistance forKey:@"coordinates[near]"];
             }
             break;
     }
@@ -758,37 +756,17 @@ int courseOption;
     [tblList setContentOffset:tblList.contentOffset animated:NO];
 //    [arrData removeAllObjects];
     courseOption = (int)selectedSegment;
+    ((AppDelegate*)[UIApplication sharedApplication].delegate).courseOptionSelected = courseOption;
+    // Hide or show search button
+    if (courseOption == 0) {
+        [self hideOrShowSearchBtn:YES];
+    }else{
+        [self hideOrShowSearchBtn:NO];
+    }
     shouldLoadNext = NO;
     _currentPage = 0;
-    if (courseOption == 0) {
-        recordLoadBaseViewHeightConst.constant = 0;
-        loadRecordBaseV.hidden = true;
-        searchImgView.hidden = true;
-        btnSearchBig.hidden = true;
-        btnSearchSmall.hidden = true;
-        
-    }else if (courseOption == 1) {
-        recordLoadBaseViewHeightConst.constant = 30;
-        loadRecordBaseV.hidden = false;
-        searchImgView.hidden = false;
-        btnSearchBig.hidden = false;
-        btnSearchSmall.hidden = false;
-        
-    }else if (courseOption == 2) {
-        recordLoadBaseViewHeightConst.constant = 30;
-        loadRecordBaseV.hidden = false;
-        searchImgView.hidden = false;
-        btnSearchBig.hidden = false;
-        btnSearchSmall.hidden = false;
-        
-    }else if (courseOption == 3) {
-        recordLoadBaseViewHeightConst.constant = 30;
-        loadRecordBaseV.hidden = false;
-        searchImgView.hidden = false;
-        btnSearchBig.hidden = false;
-        btnSearchSmall.hidden = false;
-        
-    }
+    fetchPrevRecordBtn.hidden = YES;
+    fecthInitialRecordBtn.hidden = YES;
     
     [self getCoursesRecordCount];
     /*********** ChetuChange **********/
@@ -797,7 +775,9 @@ int courseOption;
 -(IBAction) segmentChanged :(UISegmentedControl*) sender {
     
     fromSegment=1;
-   
+    fetchPrevRecordBtn.hidden = YES;
+    fecthInitialRecordBtn.hidden = YES;
+    
     if(sender.selectedSegmentIndex==0) {
         //  My Specials
         segmentMode=0;
@@ -823,8 +803,6 @@ int courseOption;
     MapViewController *obj = [[MapViewController alloc] initWithNibName:@"MapViewController" bundle:nil];
     obj.arrCourseData = arrData;
     obj.strFromScreen = @"1";
-    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    delegate.courseOptionSelected = @"3";
     [self.navigationController pushViewController:obj animated:YES];
     
 }
@@ -1442,9 +1420,10 @@ int courseOption;
         
         if([strIsMyCourses isEqualToString:@"0"]) {
             [arrData replaceObjectAtIndex:selectedRow withObject:obj];
+           
         }
         else {
-            //            [arrData replaceObjectAtIndex:indexPath.row withObject:obj];
+            //    [arrData replaceObjectAtIndex:indexPath.row withObject:obj];
         }
         
         if(showOnyFav) {
@@ -1452,9 +1431,15 @@ int courseOption;
             [self getData];
         }
         else {
-            [[AppDelegate sharedinstance] hideLoader];
-             [tblList setContentOffset:tblList.contentOffset animated:NO];
-            [tblList reloadData];
+           
+            if (courseOption == 2) {
+                [self getCoursesRecordCount];
+            }else{
+                [[AppDelegate sharedinstance] hideLoader];
+                [tblList setContentOffset:tblList.contentOffset animated:NO];
+                [tblList reloadData];
+            }
+           
         }
         
     } errorBlock:^(QBResponse *response) {

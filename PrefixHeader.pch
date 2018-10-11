@@ -30,7 +30,8 @@
 #import "LocalizedString.h"
 #import "Constant.h"
 #import "CommonMethods.h"
-#define kGOOGLE_API_KEY @"AIzaSyCfwNjY_fTIqkQSD3VjNWhXAE8YgDVKYNU"
+//#define kGOOGLE_API_KEY @"AIzaSyCfwNjY_fTIqkQSD3VjNWhXAE8YgDVKYNU"
+#define kGOOGLE_API_KEY @"AIzaSyDxQ3VsVecFPwridNuzoGh1-_-FXHCRoU8"
 
 
 

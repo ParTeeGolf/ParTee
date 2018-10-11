@@ -13,6 +13,7 @@
 #import "EventPreferncesViewController.h"
 
 
+
 @interface EventViewController ()<RNGridMenuDelegate, MFMailComposeViewControllerDelegate, UNUserNotificationCenterDelegate>
 {
     // constrrints used to hide nextPrevBaseView if it have value 0 then all the objects will adjust automatically by default its value is 30.
@@ -42,7 +43,12 @@
     IBOutlet NSLayoutConstraint *constraintWidthWebsiteBtn;
     /************ Advertiesment View Outlets ***********/
     
-    
+    // base green search image.
+    IBOutlet UIButton *searchBtnImg;
+     // search ImageView
+    IBOutlet UIImageView *searchImgView;
+     // Search Btn action
+    IBOutlet UIButton *searchBtn;
     // Evnet table view that will show the list of events.
     IBOutlet UITableView *eventTblView;
     // This label will display nothing found if no one event exist for the prefernces.
@@ -115,6 +121,8 @@
 
 
 - (void)viewDidLoad {
+    
+    ((AppDelegate*)[UIApplication sharedApplication].delegate).eventOptionSelected = 0;
     [super viewDidLoad];
     [self initializeDataForScreen];
     [self createRecordBaseView];
@@ -122,13 +130,19 @@
 
 -(void)viewWillAppear:(BOOL)animated {
     
+    [super viewWillAppear:YES];
     // hide info popup
     viewBlurInfo.hidden = true;
     viewInfoBase.hidden = true;
     // courseOption set selected segment to all events
     currentPage = kZeroValue;
     adCurrentPage = kZeroValue;
-    eventOption = kThreeSegmentOptionValue;
+    eventOption = ((AppDelegate*)[UIApplication sharedApplication].delegate).eventOptionSelected;
+    if (eventOption == 0) {
+        [self hideOrShowSearchBtn:YES];
+    }else{
+        [self hideOrShowSearchBtn:NO];
+    }
     segmentControl.selectedSegmentIndex = eventOption;
     shouldLoadNext = NO;
     fetchPrevRecordBtn.hidden = true;
@@ -138,6 +152,20 @@
     constraintWidthWebsiteBtn.constant = (viewAdvertiseInfoPopup.frame.size.width - 40) /2;
     // Call getAdEventRecordsCount method to fetch Advertisment event details
     [self getAdEventRecordsCount];
+}
+#pragma mark- initialize Data
+/**
+ @Description
+ * This method will hide or show search button available at the bottom of event screen.
+ * @author Chetu India
+ * @param hideShowBool this value used to hide or show search button.
+ * @return void nothing will return by this method.
+ */
+-(void)hideOrShowSearchBtn:(BOOL)hideShowBool
+{
+    searchBtn.hidden = hideShowBool;
+    searchBtnImg.hidden = hideShowBool;
+    searchImgView.hidden = hideShowBool;
 }
 #pragma mark- initialize Data
 /**
@@ -273,11 +301,11 @@
     [getRequestObjectCount setObject:strPage forKey:kEventSkipParam];
     NSString *strCurrentUserID = [[AppDelegate sharedinstance] getCurrentUserId];
     
-    NSString *strlat1 = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlat];
-    strlat1 = [[AppDelegate sharedinstance] nullcheck:strlat1];
+//    NSString *strlat1 = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlat];
+//    strlat1 = [[AppDelegate sharedinstance] nullcheck:strlat1];
     
-    NSString *strlong1 = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlong];
-    strlong1 = [[AppDelegate sharedinstance] nullcheck:strlong1];
+//    NSString *strlong1 = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlong];
+//    strlong1 = [[AppDelegate sharedinstance] nullcheck:strlong1];
     
     strlat = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlat];
     strlat = [[AppDelegate sharedinstance] nullcheck:strlat];
@@ -296,7 +324,7 @@
             [getRequestObjectCount setObject: kEventOrder forKey:kEventSortAsc];
             break;
         case 1:
-            strFilterDistance = [NSString stringWithFormat:@"%f,%f;%f",[strlong floatValue],[strlat floatValue],10.6f];
+            strFilterDistance = [NSString stringWithFormat:@"%f,%f;%f",[strlong floatValue],[strlat floatValue],800000.6f];
             [getRequestObjectCount setObject:strFilterDistance forKey:kEventCordNear];
             break;
         case 2:
@@ -329,14 +357,14 @@
                     
                 }
                 else {
-                    NSString *strFilterDistance = [NSString stringWithFormat:@"%f,%f;%f",[strlong1 floatValue],[strlat1 floatValue],9999999.f];
+            //        NSString *strFilterDistance = [NSString stringWithFormat:@"%f,%f;%f",[strlong1 floatValue],[strlat1 floatValue],9999999.f];
                     
-                    [getRequestObjectCount setObject:strFilterDistance forKey:kEventCoordNear];
+              //      [getRequestObjectCount setObject:strFilterDistance forKey:kEventCoordNear];
                 }
                 
                 if([strcf_isFav isEqualToString:kEventOneStr]) {
                     //   showOnyFav=YES;
-                    [getRequestObjectCount setObject: strCurrentUserID forKey:kEventFavId];
+                    [getRequestObjectCount setObject: strCurrentUserID forKey:kEventFavIn];
                 }
                 else {
                     //   showOnyFav=NO;
@@ -671,6 +699,13 @@
     [eventTblView setContentOffset:eventTblView.contentOffset animated:NO];
     [arrEventsData removeAllObjects];
     eventOption = (int)selectedSegment;
+    ((AppDelegate*)[UIApplication sharedApplication].delegate).eventOptionSelected = eventOption;
+    // Hide or show search button
+    if (eventOption == 0) {
+        [self hideOrShowSearchBtn:YES];
+    }else{
+        [self hideOrShowSearchBtn:NO];
+    }
     shouldLoadNext = NO;
     currentPage = 0;
     fetchPrevRecordBtn.hidden = true;
@@ -708,23 +743,11 @@
     CGPoint rootViewPoint = [sender.superview convertPoint:center toView:eventTblView];
     NSIndexPath *indexPath = [eventTblView indexPathForRowAtPoint:rootViewPoint];
     selectedRow = indexPath.row;
-    
-    int rowno = (int)selectedRow;
-    rowno = rowno + 1;
-    int val = rowno  % kAdvertisementEventNo;
-    if (val == kRemainderValAdvEvent) {
-        [self showAdvertPopup];
-    }else {
-        
-        int totalAdvEventsCount = (int)selectedRow;
-        totalAdvEventsCount = totalAdvEventsCount / kAdvertisementEventNo;
-        int totalEventRecords = (int)indexPath.row - totalAdvEventsCount;
-        
-        selectedRow = totalEventRecords;
-        QBCOCustomObject *obj  = [arrEventsData objectAtIndex:totalEventRecords];
-        
+   
+    if (eventOption == 0) {
+       
+        QBCOCustomObject *obj  = [arrEventsData objectAtIndex:selectedRow];
         sharedobj = obj;
-        
         NSMutableArray *arr = [[obj.fields objectForKey:kEventFavID] mutableCopy];
         
         if(!arr || arr.count==0)
@@ -741,8 +764,44 @@
         }
         
         [self showGrid];
+    }else {
+        int rowno = (int)selectedRow;
+        rowno = rowno + 1;
+        int val = rowno  % kAdvertisementEventNo;
+        if (val == kRemainderValAdvEvent) {
+            [self showAdvertPopup];
+        }else {
+            
+            int totalAdvEventsCount = (int)selectedRow;
+            totalAdvEventsCount = totalAdvEventsCount / kAdvertisementEventNo;
+            int totalEventRecords = (int)indexPath.row - totalAdvEventsCount;
+            
+            selectedRow = totalEventRecords;
+            QBCOCustomObject *obj  = [arrEventsData objectAtIndex:totalEventRecords];
+            
+            sharedobj = obj;
+            
+            NSMutableArray *arr = [[obj.fields objectForKey:kEventFavID] mutableCopy];
+            
+            if(!arr || arr.count==0)
+                arr = [[NSMutableArray alloc] init];
+            
+            NSString *strCurrentUserID = [[AppDelegate sharedinstance] getCurrentUserId];
+            
+            if([arr containsObject:strCurrentUserID]) {
+                // it is fav
+                isFavEvent=YES;
+            }
+            else {
+                isFavEvent=NO;
+            }
+            
+            [self showGrid];
+        }
+        
     }
     
+  
     
 }
 
@@ -1123,8 +1182,6 @@
  */
 
 -(void) actionFav {
-    
-    
     int totalAdvEventsCount = (int)selectedRow;
     QBCOCustomObject *obj = [arrEventsData objectAtIndex:totalAdvEventsCount];
     NSMutableArray *eventFavUsersArr = [[obj.fields objectForKey:kEventFavID] mutableCopy];
@@ -1142,7 +1199,7 @@
         [eventFavUsersArr removeObject:strCurrentUserID];
     }
     else {
-          createNotificationStr = @"YES";
+        createNotificationStr = @"YES";
         [eventFavUsersArr addObject:strCurrentUserID];
         
     }
@@ -1157,20 +1214,21 @@
     }
     
     [[AppDelegate sharedinstance] showLoader];
-
-
+    
+    
     [QBRequest updateObject:obj successBlock:^(QBResponse *response, QBCOCustomObject *object) {
         // object updated
         
         [arrEventsData replaceObjectAtIndex:totalAdvEventsCount withObject:obj];
         [eventTblView setContentOffset:eventTblView.contentOffset animated:NO];
         [eventTblView reloadData];
-        [[AppDelegate sharedinstance] hideLoader];
+       
         
         if ([createNotificationStr isEqualToString:@"YES"]) {
             [self createLocalNotifEvent:totalAdvEventsCount];
+             [[AppDelegate sharedinstance] hideLoader];
         }else if ([createNotificationStr isEqualToString:@"NO"]) {
-      
+            
             [self deleteLocalNotification:totalAdvEventsCount];
         }
         
@@ -1183,9 +1241,12 @@
         
     }];
     
+   
+    
+  
     
 }
-#pragma mark- Contact Info Action
+#pragma mark- Create Noti Action
 /**
  @Description
  * This Method will create the local notification on device so that user able to recieve
@@ -1243,7 +1304,7 @@
     }];
     
 }
-#pragma mark- Contact Info Action
+#pragma mark- Delete Noti Action
 /**
  @Description
  * This Method will delete the local notification on device based on identifier.
@@ -1262,12 +1323,20 @@
             for (UNNotificationRequest *pendingRequest  in requests) {
                 if ([pendingRequest.identifier isEqualToString:eventIdStr]) {
                     [[UNUserNotificationCenter currentNotificationCenter]removePendingNotificationRequestsWithIdentifiers:@[pendingRequest.identifier]];
+                    
                 }
             }
           
         }
         
     }];
+    
+    if (eventOption == 2) {
+        [self getEventRecordsCount];
+    }else {
+         [[AppDelegate sharedinstance] hideLoader];
+        
+    }
 }
 
 #pragma mark- Contact Info Action
@@ -1311,8 +1380,8 @@
     
     // create previous button
     fetchPrevRecordBtn = [[UIButton alloc]initWithFrame:CGRectMake(kZeroValue, kZeroValue, 50, loadRecordBaseView.frame.size.height)];
-    [fetchPrevRecordBtn setTitle:kFetchPreviousRecordBtnTitle forState:UIControlStateNormal];
-    fetchPrevRecordBtn.titleLabel.font = [UIFont fontWithName:kFontNameHelveticaNeue size:25];
+    [fetchPrevRecordBtn setTitle:kEventFetchPreviousRecordBtnTitle forState:UIControlStateNormal];
+    fetchPrevRecordBtn.titleLabel.font = [UIFont fontWithName:kFontNameEventHelveticaNeue size:25];
     fetchPrevRecordBtn.titleLabel.textAlignment = NSTextAlignmentLeft;
     [fetchPrevRecordBtn addTarget:self action:@selector(fetchPrevRecordBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
     [loadRecordBaseView addSubview:fetchPrevRecordBtn];
@@ -1321,15 +1390,15 @@
     recordLbl = [[UILabel alloc]initWithFrame:CGRectMake(fetchPrevRecordBtn.frame.size.width + fetchPrevRecordBtn.frame.origin.x, kZeroValue, 150,loadRecordBaseView.frame.size.height)];
     recordLbl.adjustsFontSizeToFitWidth = YES;
     recordLbl.textAlignment = NSTextAlignmentCenter;
-    recordLbl.font = [UIFont fontWithName:kFontNameHelveticaNeue size:17];
+    recordLbl.font = [UIFont fontWithName:kFontNameEventHelveticaNeue size:17];
     recordLbl.textColor = [UIColor whiteColor];
     [loadRecordBaseView addSubview:recordLbl];
     
     // create next button to fetch next 25 records of courses
     fetchNextRecordBtn = [[UIButton alloc]initWithFrame:CGRectMake(recordLbl.frame.size.width + recordLbl.frame.origin.x, 0, 50, loadRecordBaseView.frame.size.height)];
-    [fetchNextRecordBtn setTitle:kFetchNextRecordBtnTitle forState:UIControlStateNormal];
+    [fetchNextRecordBtn setTitle:kEventFetchNextRecordBtnTitle forState:UIControlStateNormal];
     [fetchNextRecordBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    fetchNextRecordBtn.titleLabel.font = [UIFont fontWithName:kFontNameHelveticaNeue size:25];
+    fetchNextRecordBtn.titleLabel.font = [UIFont fontWithName:kFontNameEventHelveticaNeue size:25];
     fetchNextRecordBtn.titleLabel.textAlignment = NSTextAlignmentRight;
     [fetchNextRecordBtn addTarget:self action:@selector(fetchNextRecordBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
     [loadRecordBaseView addSubview:fetchNextRecordBtn];
@@ -1338,8 +1407,8 @@
     
     // create previous button
     fecthInitialRecordBtn = [[UIButton alloc]initWithFrame:CGRectMake(kZeroValue, kZeroValue, loadRecordBaseView.frame.origin.x, loadRecordBaseView.frame.size.height)];
-    [fecthInitialRecordBtn setTitle:kFetchInitialRecordBtnTitle forState:UIControlStateNormal];
-    fecthInitialRecordBtn.titleLabel.font = [UIFont fontWithName:kFontNameHelveticaNeue size:25];
+    [fecthInitialRecordBtn setTitle:kEventFetchInitialRecordBtnTitle forState:UIControlStateNormal];
+    fecthInitialRecordBtn.titleLabel.font = [UIFont fontWithName:kFontNameEventHelveticaNeue size:25];
     fecthInitialRecordBtn.titleLabel.textAlignment = NSTextAlignmentLeft;
     [fecthInitialRecordBtn addTarget:self action:@selector(fetchInitialRecordBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
     [nextPrevRecordBaseView addSubview:fecthInitialRecordBtn];
@@ -1424,113 +1493,135 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Getting total number of records to be shown in the event tableview after adding total events available in quickbloax table and number of advertisement event that will be every fith event
-    
     NSInteger totalNoOfRows = kZeroValue;
-    int requiredAdEvents = eventCount / (kAdvertisementEventNo - 1);
-    if (totalAdvertEventCount >= requiredAdEvents) {
-        int totalAdvEventsCount = (int)arrEventsData.count;
-        totalAdvEventsCount = totalAdvEventsCount / (kAdvertisementEventNo - 1);
-        int totalEventRecords = (int)totalAdvEventsCount + (int)arrEventsData.count;
-        adEventUsedInPage = (int)totalAdvEventsCount;
-        NSInteger totalEventRecordsCount = (NSInteger) totalEventRecords;
+    if (eventOption == 0) {
         
-        totalNoOfRows =  totalEventRecordsCount;
-    }else {
+        totalNoOfRows = (NSInteger)eventCount;
+    }else{
         
-        int limitEvent = [kEventLimit intValue];
-        int maxAdEventPerPage = limitEvent;
-        maxAdEventPerPage  = maxAdEventPerPage / (kAdvertisementEventNo - 1);
-        int usedAdEvent = maxAdEventPerPage * currentPage;
-        
-        int remaingAdEventToShow = totalAdvertEventCount - usedAdEvent;
-        
-        if (remaingAdEventToShow == kZeroValue) {
-            totalNoOfRows = (int)arrEventsData.count;
-            adEventUsedInPage = kZeroValue;
-        }else if (remaingAdEventToShow < kZeroValue) {
-            totalNoOfRows = (int)arrEventsData.count;
-            adEventUsedInPage = kZeroValue;
+        int requiredAdEvents = eventCount / (kAdvertisementEventNo - 1);
+        if (totalAdvertEventCount >= requiredAdEvents) {
+            int totalAdvEventsCount = (int)arrEventsData.count;
+            totalAdvEventsCount = totalAdvEventsCount / (kAdvertisementEventNo - 1);
+            int totalEventRecords = (int)totalAdvEventsCount + (int)arrEventsData.count;
+            adEventUsedInPage = (int)totalAdvEventsCount;
+            NSInteger totalEventRecordsCount = (NSInteger) totalEventRecords;
+            
+            totalNoOfRows =  totalEventRecordsCount;
         }else {
             
-            if (maxAdEventPerPage <= remaingAdEventToShow ) {
-                totalNoOfRows = (int)arrEventsData.count +  maxAdEventPerPage;
-                adEventUsedInPage = maxAdEventPerPage;
+            int limitEvent = [kEventLimit intValue];
+            int maxAdEventPerPage = limitEvent;
+            maxAdEventPerPage  = maxAdEventPerPage / (kAdvertisementEventNo - 1);
+            int usedAdEvent = maxAdEventPerPage * currentPage;
+            
+            int remaingAdEventToShow = totalAdvertEventCount - usedAdEvent;
+            
+            if (remaingAdEventToShow == kZeroValue) {
+                totalNoOfRows = (int)arrEventsData.count;
+                adEventUsedInPage = kZeroValue;
+            }else if (remaingAdEventToShow < kZeroValue) {
+                totalNoOfRows = (int)arrEventsData.count;
+                adEventUsedInPage = kZeroValue;
             }else {
-                totalNoOfRows = (int)arrEventsData.count +  remaingAdEventToShow;
-                adEventUsedInPage = remaingAdEventToShow;
+                
+                if (maxAdEventPerPage <= remaingAdEventToShow ) {
+                    totalNoOfRows = (int)arrEventsData.count +  maxAdEventPerPage;
+                    adEventUsedInPage = maxAdEventPerPage;
+                }else {
+                    totalNoOfRows = (int)arrEventsData.count +  remaingAdEventToShow;
+                    adEventUsedInPage = remaingAdEventToShow;
+                }
             }
         }
     }
+    
+  
     return totalNoOfRows;
     
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+  
+    
     EventTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kEventCellName];
-    NSArray *topLevelObjects;
     
-    topLevelObjects = [[NSBundle mainBundle] loadNibNamed:kEventCellName owner:self options:nil];
-    // Grab a pointer to the first object (presumably the custom cell, as that's all the XIB should contain).
-    
-    cell = [topLevelObjects objectAtIndex:kZeroValue];
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    // find the indexpath for advertisement event that shows in table
-    int rowno = (int)indexPath.row;
-    rowno = rowno + 1;
-    int remainder = rowno  % kAdvertisementEventNo;
-    int requiredAdEvents = eventCount / (kAdvertisementEventNo - 1);
-    if (totalAdvertEventCount >= requiredAdEvents) {
+    if (cell == nil)
+    {
+         NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:kEventCellName owner:self options:nil];
+        // Grab a pointer to the first object (presumably the custom cell, as that's all the XIB should contain).
         
-    }else {
-        int totalAdvEventsCount = (int)indexPath.row;
-        int limitEvent = [kEventLimit intValue];
-        int maxAdEventPage = limitEvent;
-        maxAdEventPage  = maxAdEventPage / (kAdvertisementEventNo - 1);
-        totalAdvEventsCount = currentPage * (maxAdEventPage + limitEvent) + totalAdvEventsCount;
-        int maxEvent = totalAdvertEventCount * (kAdvertisementEventNo - 1);
-        maxEvent = maxEvent + (kAdvertisementEventNo - 2);
-        int totalAdEventPlusMaxEvent = maxEvent + totalAdvertEventCount;
-        if (totalAdvEventsCount > totalAdEventPlusMaxEvent) {
-            remainder = 6;
-        }
+        cell = [topLevelObjects objectAtIndex:kZeroValue];
+        
     }
-    // Condition for advertisement cell
-    if (remainder == kRemainderValAdvEvent) {
-
-        // get the index of the advertisement events
-        int totalAdvEventsCount = (int)indexPath.row;
-        totalAdvEventsCount = totalAdvEventsCount + 1;
-        totalAdvEventsCount = totalAdvEventsCount / kAdvertisementEventNo;
-        totalAdvEventsCount = totalAdvEventsCount - 1;
-        int maxAdEventPage = [kEventLimit intValue];
-        maxAdEventPage  = maxAdEventPage / (kAdvertisementEventNo - 1);
-        maxAdEventPage = currentPage * maxAdEventPage + totalAdvEventsCount;
-        QBCOCustomObject *obj = [arrAdEventsDetails objectAtIndex:maxAdEventPage];
+    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    if (eventOption == 0) {
+        QBCOCustomObject *obj = [arrEventsData objectAtIndex:indexPath.row];
         // Set Data from obj in tableview cell
-        [cell setAdEventDataFromQbObj:obj];
-        [cell.BtnFav addTarget:self action:@selector(btnFavTapped:) forControlEvents:UIControlEventTouchUpInside];
-    }else {
-        
-        if (remainder == 6) {
-          int indexValue = (int)indexPath.row;
-            indexValue = indexValue - adEventUsedInPage;
-            QBCOCustomObject *obj = [arrEventsData objectAtIndex:indexValue];
-            // Set Data from obj in tableview cell
-            [cell setEventDataFromQbObj:obj];
-            [cell.BtnFav addTarget:self action:@selector(btnFavTapped:) forControlEvents:UIControlEventTouchUpInside];
+        [cell setEventDataFromQbObj:obj];
+    }else{
+        // find the indexpath for advertisement event that shows in table
+        int rowno = (int)indexPath.row;
+        rowno = rowno + 1;
+        int remainder = rowno  % kAdvertisementEventNo;
+        int requiredAdEvents = eventCount / (kAdvertisementEventNo - 1);
+        if (totalAdvertEventCount >= requiredAdEvents) {
+            
         }else {
             int totalAdvEventsCount = (int)indexPath.row;
-            totalAdvEventsCount = totalAdvEventsCount / (kAdvertisementEventNo);
-            int totalEventRecords = (int)indexPath.row - totalAdvEventsCount;
-            QBCOCustomObject *obj = [arrEventsData objectAtIndex:totalEventRecords];
+            int limitEvent = [kEventLimit intValue];
+            int maxAdEventPage = limitEvent;
+            maxAdEventPage  = maxAdEventPage / (kAdvertisementEventNo - 1);
+            totalAdvEventsCount = currentPage * (maxAdEventPage + limitEvent) + totalAdvEventsCount;
+            int maxEvent = totalAdvertEventCount * (kAdvertisementEventNo - 1);
+            maxEvent = maxEvent + (kAdvertisementEventNo - 2);
+            int totalAdEventPlusMaxEvent = maxEvent + totalAdvertEventCount;
+            if (totalAdvEventsCount > totalAdEventPlusMaxEvent) {
+                remainder = 6;
+            }
+        }
+        // Condition for advertisement cell
+        if (remainder == kRemainderValAdvEvent) {
+            
+            // get the index of the advertisement events
+            int totalAdvEventsCount = (int)indexPath.row;
+            totalAdvEventsCount = totalAdvEventsCount + 1;
+            totalAdvEventsCount = totalAdvEventsCount / kAdvertisementEventNo;
+            totalAdvEventsCount = totalAdvEventsCount - 1;
+            int maxAdEventPage = [kEventLimit intValue];
+            maxAdEventPage  = maxAdEventPage / (kAdvertisementEventNo - 1);
+            maxAdEventPage = currentPage * maxAdEventPage + totalAdvEventsCount;
+            QBCOCustomObject *obj = [arrAdEventsDetails objectAtIndex:maxAdEventPage];
             // Set Data from obj in tableview cell
-            [cell setEventDataFromQbObj:obj];
-            [cell.BtnFav addTarget:self action:@selector(btnFavTapped:) forControlEvents:UIControlEventTouchUpInside];
+            [cell setAdEventDataFromQbObj:obj];
+            
+        }else {
+            
+            if (remainder == 6) {
+                int indexValue = (int)indexPath.row;
+                indexValue = indexValue - adEventUsedInPage;
+                QBCOCustomObject *obj = [arrEventsData objectAtIndex:indexValue];
+                // Set Data from obj in tableview cell
+                [cell setEventDataFromQbObj:obj];
+                
+            }else {
+                int totalAdvEventsCount = (int)indexPath.row;
+                totalAdvEventsCount = totalAdvEventsCount / (kAdvertisementEventNo);
+                int totalEventRecords = (int)indexPath.row - totalAdvEventsCount;
+                QBCOCustomObject *obj = [arrEventsData objectAtIndex:totalEventRecords];
+                // Set Data from obj in tableview cell
+                [cell setEventDataFromQbObj:obj];
+                
+                
+            }
             
         }
-        
     }
+    
+    [cell.BtnFav addTarget:self action:@selector(btnFavTapped:) forControlEvents:UIControlEventTouchUpInside];
     
     return cell;
     

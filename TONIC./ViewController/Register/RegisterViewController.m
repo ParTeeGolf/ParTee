@@ -15,6 +15,12 @@
 #define kPickerHandicap 4
 #define kPickerCourses 5
 
+NSString *const constPasswordLimit = @"Maximum 10 Characters allowed for password.";
+NSString *const constEmailLimit = @"Maximum 50 Characters allowed for Email.";
+NSString *const constNameLimit = @"Maximum 50 Characters allowed for Name.";
+NSString *const constZipcodeLimit = @"Maximum 10 Characters allowed for Zipcode.";
+
+
 @interface RegisterViewController ()
 
 @end
@@ -73,7 +79,7 @@
     [txtZipCode setTag:108];
     [txtHandicap setTag:109];
     [tvInfo setTag:110];
-
+    txtZipCode.keyboardType = UIKeyboardTypeNumberPad;
     datePicker.maximumDate=[NSDate date];
     datePicker.backgroundColor=[UIColor whiteColor];
     
@@ -862,7 +868,69 @@
     
     return YES;
 }
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    
+    NSUInteger newLength = [textField.text length] + [string length] - range.length;
+    // password characters limit
+      if([textField tag]==103) {
+          
+          if (newLength <= 10) {
+              return YES;
+          }else{
+              
+            [textField resignFirstResponder];
+              [self showAlertWithTitle:constPasswordLimit];
+          }
+          
+      }else if ([textField tag]==101) {
+          // name characters limit
+          if (newLength <= 50) {
+              return YES;
+          }else{
+              
+              [textField resignFirstResponder];
+              [self showAlertWithTitle:constNameLimit];
+          }
+          
+      }else if ([textField tag]==108){
+          // zipcode characters limit
+          if (newLength <= 10) {
+              return YES;
+          }else{
+              
+              [textField resignFirstResponder];
+              [self showAlertWithTitle:constZipcodeLimit];
+          }
+          
+      }else if ([textField tag]==102){
+          // Email characters limit
+          if (newLength <= 50) {
+              return YES;
+          }else{
+              
+              [textField resignFirstResponder];
+              [self showAlertWithTitle:constEmailLimit];
+          }
+          
+      }
+    
+    return YES;
+}
 
+-(void)showAlertWithTitle:(NSString *)titleStr
+
+{
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Information" message:titleStr preferredStyle:UIAlertControllerStyleAlert];
+    
+    alertController.view.frame = [[UIScreen mainScreen] bounds];
+    
+    [alertController addAction:[UIAlertAction actionWithTitle:@"OK"
+                                                        style:UIAlertActionStyleDefault
+                                                      handler:^(UIAlertAction *action){
+                                                      }]];
+    
+    [self presentViewController:alertController animated:YES completion:nil];
+}
 //-----------------------------------------------------------------------
 
 - (BOOL)textFieldShouldClear:(UITextField *)textField {

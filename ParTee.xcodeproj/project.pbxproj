@@ -587,6 +587,12 @@
 		3DFF3C071F404FC9003B51DE /* CoursePreferencesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFF3C031F404FC9003B51DE /* CoursePreferencesViewController.m */; };
 		3DFF3C081F404FC9003B51DE /* CoursePreferencesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DFF3C041F404FC9003B51DE /* CoursePreferencesViewController.xib */; };
 		84192958211C79F100F86829 /* PurchaseSpecialsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84192957211C79F100F86829 /* PurchaseSpecialsViewController.xib */; };
+		8420E6D3216E22DC00011E19 /* NewsFeedTblViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8420E6D1216E22DC00011E19 /* NewsFeedTblViewCell.m */; };
+		8420E6D4216E22DC00011E19 /* NewsFeedTblViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8420E6D2216E22DC00011E19 /* NewsFeedTblViewCell.xib */; };
+		843EF918216B9B29000604EE /* NewsFeedVc.m in Sources */ = {isa = PBXBuildFile; fileRef = 843EF916216B9B29000604EE /* NewsFeedVc.m */; };
+		843EF919216B9B29000604EE /* NewsFeedVc.xib in Resources */ = {isa = PBXBuildFile; fileRef = 843EF917216B9B29000604EE /* NewsFeedVc.xib */; };
+		843EF91E216BA863000604EE /* ArticleDetailsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 843EF91C216BA863000604EE /* ArticleDetailsVC.m */; };
+		843EF91F216BA863000604EE /* ArticleDetailsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 843EF91D216BA863000604EE /* ArticleDetailsVC.xib */; };
 		8481C31A21563D1300957727 /* Ubuntu-B.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8481C30D21563D1300957727 /* Ubuntu-B.ttf */; };
 		8481C31B21563D1300957727 /* Ubuntu-BI.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8481C30E21563D1300957727 /* Ubuntu-BI.ttf */; };
 		8481C31C21563D1300957727 /* Ubuntu-C.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8481C30F21563D1300957727 /* Ubuntu-C.ttf */; };
@@ -1411,7 +1417,16 @@
 		3DFF3C041F404FC9003B51DE /* CoursePreferencesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CoursePreferencesViewController.xib; sourceTree = "<group>"; };
 		84192957211C79F100F86829 /* PurchaseSpecialsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PurchaseSpecialsViewController.xib; sourceTree = "<group>"; };
 		841E605D212F081000E5894C /* LocalizedString.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocalizedString.h; sourceTree = "<group>"; };
+		8420E6D0216E22DC00011E19 /* NewsFeedTblViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NewsFeedTblViewCell.h; sourceTree = "<group>"; };
+		8420E6D1216E22DC00011E19 /* NewsFeedTblViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NewsFeedTblViewCell.m; sourceTree = "<group>"; };
+		8420E6D2216E22DC00011E19 /* NewsFeedTblViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsFeedTblViewCell.xib; sourceTree = "<group>"; };
 		843395D321467DAB00ADC73D /* ParTee.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = ParTee.entitlements; sourceTree = SOURCE_ROOT; };
+		843EF915216B9B29000604EE /* NewsFeedVc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NewsFeedVc.h; sourceTree = "<group>"; };
+		843EF916216B9B29000604EE /* NewsFeedVc.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NewsFeedVc.m; sourceTree = "<group>"; };
+		843EF917216B9B29000604EE /* NewsFeedVc.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsFeedVc.xib; sourceTree = "<group>"; };
+		843EF91B216BA863000604EE /* ArticleDetailsVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArticleDetailsVC.h; sourceTree = "<group>"; };
+		843EF91C216BA863000604EE /* ArticleDetailsVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ArticleDetailsVC.m; sourceTree = "<group>"; };
+		843EF91D216BA863000604EE /* ArticleDetailsVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ArticleDetailsVC.xib; sourceTree = "<group>"; };
 		844F444C212B0E4E00BDEF6A /* Constant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constant.h; sourceTree = "<group>"; };
 		8481C30D21563D1300957727 /* Ubuntu-B.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Ubuntu-B.ttf"; sourceTree = "<group>"; };
 		8481C30E21563D1300957727 /* Ubuntu-BI.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Ubuntu-BI.ttf"; sourceTree = "<group>"; };
@@ -1840,6 +1855,7 @@
 		3D707A731D56D6CA00591BF6 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				843EF914216B9AF2000604EE /* NewsFeed */,
 				8487A92921300E6800E4C38E /* Event */,
 				3DFF3BFE1F404FC9003B51DE /* CoursePreferences */,
 				3DA138C11F3E0C860000189A /* Map */,
@@ -2887,6 +2903,38 @@
 			path = CoursePreferences;
 			sourceTree = "<group>";
 		};
+		8420E6CF216E22B400011E19 /* NewsFeedCell */ = {
+			isa = PBXGroup;
+			children = (
+				8420E6D0216E22DC00011E19 /* NewsFeedTblViewCell.h */,
+				8420E6D1216E22DC00011E19 /* NewsFeedTblViewCell.m */,
+				8420E6D2216E22DC00011E19 /* NewsFeedTblViewCell.xib */,
+			);
+			path = NewsFeedCell;
+			sourceTree = "<group>";
+		};
+		843EF914216B9AF2000604EE /* NewsFeed */ = {
+			isa = PBXGroup;
+			children = (
+				8420E6CF216E22B400011E19 /* NewsFeedCell */,
+				843EF91A216BA835000604EE /* NewsFeedArticle */,
+				843EF915216B9B29000604EE /* NewsFeedVc.h */,
+				843EF916216B9B29000604EE /* NewsFeedVc.m */,
+				843EF917216B9B29000604EE /* NewsFeedVc.xib */,
+			);
+			path = NewsFeed;
+			sourceTree = "<group>";
+		};
+		843EF91A216BA835000604EE /* NewsFeedArticle */ = {
+			isa = PBXGroup;
+			children = (
+				843EF91B216BA863000604EE /* ArticleDetailsVC.h */,
+				843EF91C216BA863000604EE /* ArticleDetailsVC.m */,
+				843EF91D216BA863000604EE /* ArticleDetailsVC.xib */,
+			);
+			path = NewsFeedArticle;
+			sourceTree = "<group>";
+		};
 		844F444B212B0E2E00BDEF6A /* ConstantFile */ = {
 			isa = PBXGroup;
 			children = (
@@ -2970,6 +3018,7 @@
 				3D707A571D56D57300591BF6 /* Resources */,
 				3D8318341EE9923600747A34 /* ShellScript */,
 				84FA39DD215BBB73003F465B /* Embed Frameworks */,
+				84BBE710216900220027E4C6 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -3188,6 +3237,7 @@
 				84E230502143DFE700E51483 /* EventPreferncesViewController.xib in Resources */,
 				3D0D939C1EAEF6BA007A8C8C /* decoration-star.png in Resources */,
 				84BEFDAF2119F28F003240E4 /* LoginViewController.xib in Resources */,
+				843EF919216B9B29000604EE /* NewsFeedVc.xib in Resources */,
 				3DC65E941D57658F008A0ADC /* dot-active@2x.png in Resources */,
 				3D15C44C1F2B52AE0001EBC3 /* Silde 5.png in Resources */,
 				3D92C8931D5B5D55005C8CAE /* play.png in Resources */,
@@ -3274,6 +3324,7 @@
 				3D92C8901D5B5D55005C8CAE /* pause.png in Resources */,
 				3DFB9A0E1F25F74F00B6558B /* favourite-filled.png in Resources */,
 				3D92C8771D5B5D55005C8CAE /* bubble_min.png in Resources */,
+				8420E6D4216E22DC00011E19 /* NewsFeedTblViewCell.xib in Resources */,
 				3D0F3AC81EB0D53F00327C58 /* usersample.png in Resources */,
 				3D9543CF1EAA493B006573BE /* ico-mail.png in Resources */,
 				3D92C88A1D5B5D55005C8CAE /* clip@2x.png in Resources */,
@@ -3420,6 +3471,7 @@
 				3D514D3D1F3EB8EA008DD014 /* No_Image_Available.png in Resources */,
 				3D92C8971D5B5D55005C8CAE /* share@2x.png in Resources */,
 				3DC65E8F1D57658F008A0ADC /* 3.png in Resources */,
+				843EF91F216BA863000604EE /* ArticleDetailsVC.xib in Resources */,
 				3D7987901F3F6F8B00CAEC10 /* viewonmap@2x.png in Resources */,
 				3D707BAB1D56DC7C00591BF6 /* SFUIText-MediumItalic.ttf in Resources */,
 				3D15C44D1F2B52AE0001EBC3 /* Slide 1.png in Resources */,
@@ -3442,7 +3494,21 @@
 /* Begin PBXShellScriptBuildPhase section */
 		3D8318341EE9923600747A34 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 12;
+			files = (
+			);
+			inputPaths = (
+				"",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Fabric.framework/run 6bf8388b28a251e7806f701f96d6741a44534f1d 482927a3bb3015f5c69a4de6e4e8b433a961e98a7894543bcc70d1e4f491ec74";
+		};
+		84BBE710216900220027E4C6 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 12;
 			files = (
 			);
 			inputPaths = (
@@ -3451,7 +3517,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "./Fabric.framework/run 6bf8388b28a251e7806f701f96d6741a44534f1d 482927a3bb3015f5c69a4de6e4e8b433a961e98a7894543bcc70d1e4f491ec74";
+			shellScript = "APP_PATH=\"${TARGET_BUILD_DIR}/${WRAPPER_NAME}\"\n\n# This script loops through the frameworks embedded in the application and\n# removes unused architectures.\nfind \"$APP_PATH\" -name '*.framework' -type d | while read -r FRAMEWORK\ndo\nFRAMEWORK_EXECUTABLE_NAME=$(defaults read \"$FRAMEWORK/Info.plist\" CFBundleExecutable)\nFRAMEWORK_EXECUTABLE_PATH=\"$FRAMEWORK/$FRAMEWORK_EXECUTABLE_NAME\"\necho \"Executable is $FRAMEWORK_EXECUTABLE_PATH\"\n\nEXTRACTED_ARCHS=()\n\nfor ARCH in $ARCHS\ndo\necho \"Extracting $ARCH from $FRAMEWORK_EXECUTABLE_NAME\"\nlipo -extract \"$ARCH\" \"$FRAMEWORK_EXECUTABLE_PATH\" -o \"$FRAMEWORK_EXECUTABLE_PATH-$ARCH\"\nEXTRACTED_ARCHS+=(\"$FRAMEWORK_EXECUTABLE_PATH-$ARCH\")\ndone\n\necho \"Merging extracted architectures: ${ARCHS}\"\nlipo -o \"$FRAMEWORK_EXECUTABLE_PATH-merged\" -create \"${EXTRACTED_ARCHS[@]}\"\nrm \"${EXTRACTED_ARCHS[@]}\"\n\necho \"Replacing original executable with thinned version\"\nrm \"$FRAMEWORK_EXECUTABLE_PATH\"\nmv \"$FRAMEWORK_EXECUTABLE_PATH-merged\" \"$FRAMEWORK_EXECUTABLE_PATH\"\n\ndone";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -3552,6 +3618,7 @@
 				3D707B271D56D7A200591BF6 /* SideMenuViewController.m in Sources */,
 				3D6C18681D66AAFE00F87998 /* InviteViewController.m in Sources */,
 				3D92C8301D5B5B24005C8CAE /* JSQMessagesCellTextView.m in Sources */,
+				8420E6D3216E22DC00011E19 /* NewsFeedTblViewCell.m in Sources */,
 				3D3205041F2E0A4A008DE028 /* OBSlider.m in Sources */,
 				3DA138C51F3E0C860000189A /* MapViewController.m in Sources */,
 				3D92C81C1D5B5B24005C8CAE /* JSQMessagesViewController.m in Sources */,
@@ -3621,6 +3688,7 @@
 				3D92C83A1D5B5B24005C8CAE /* JSQMessagesLoadEarlierHeaderView.m in Sources */,
 				3D92C81F1D5B5B24005C8CAE /* JSQMessagesBubbleImageFactory.m in Sources */,
 				3D30D9011D58AD0400D4286B /* PurchaseSpecialsViewController.m in Sources */,
+				843EF918216B9B29000604EE /* NewsFeedVc.m in Sources */,
 				3D92C84E1D5B5B69005C8CAE /* NSUserDefaults+DemoSettings.m in Sources */,
 				3D65B5D21F1D0D8C00852FD9 /* DGActivityIndicatorTwoDotsAnimation.m in Sources */,
 				3D92C82C1D5B5B24005C8CAE /* JSQMessagesAvatarImage.m in Sources */,
@@ -3635,6 +3703,7 @@
 				3D707BFD1D56FC6800591BF6 /* HomeViewController.m in Sources */,
 				3D65B5C11F1D0D8C00852FD9 /* DGActivityIndicatorBallZigZagAnimation.m in Sources */,
 				3D65B5C21F1D0D8C00852FD9 /* DGActivityIndicatorBallZigZagDeflectAnimation.m in Sources */,
+				843EF91E216BA863000604EE /* ArticleDetailsVC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3759,7 +3828,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/TONIC./Helper/AddMobSDK",
 				);
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-lstdc++",
 					"-lxml2",
@@ -3772,7 +3841,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = partee_golf_developement;
 				STRIP_PNG_TEXT = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = "armv7 armv7s arm64";
+				VALID_ARCHS = "armv7 arm64 armv7s";
 			};
 			name = Debug;
 		};
@@ -3786,7 +3855,7 @@
 				CODE_SIGN_STYLE = Manual;
 				COMPRESS_PNG_FILES = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = VVNGPSU68X;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3810,11 +3879,11 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.app.parteegolf;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "e914a061-fdfc-411e-b9d5-47e0e66d4ff1";
+				PROVISIONING_PROFILE_SPECIFIER = parteegolf_adhoc;
 				STRIP_PNG_TEXT = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = "armv7 armv7s arm64";
+				VALID_ARCHS = "armv7 arm64 armv7s";
 			};
 			name = Release;
 		};

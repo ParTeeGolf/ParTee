@@ -48,14 +48,16 @@
     NSString *strRedirectScreen;
     
 }
-
-   @property (strong, nonatomic) CLLocationManager *locationManager;
+@property (strong, nonatomic) CLLocationManager *locationManager;
 @property (assign, nonatomic) CLLocationCoordinate2D commonone;
 
 @property (strong, nonatomic)NSMutableArray *arrSharedOnlineUsers;
 @property (strong, nonatomic) NSMutableArray *arrContactListIDs;
 @property (strong, nonatomic)  NSString *strIsChatConnected;
-
+/*************** Event segment control selected *************/
+@property  int eventOptionSelected;
+@property  int courseOptionSelected;
+/*************** Event segment control selected *************/
 -(NSString *) getCurrentName;
 @property (strong,nonatomic)  UIView * topView;
 
@@ -85,7 +87,7 @@
 @property (nonatomic,strong) QBCOCustomObject *delegateShareObject;
 
 @property (nonatomic,strong) QBChatDialog *dialog;
-@property (nonatomic,strong) NSString *courseOptionSelected;
+
 - (void)saveImage : (UIImage*)img withName : (NSString*)name;
 - (UIImage*)getImage : (NSString*)name;
 -(BOOL) isUserLogIn;
