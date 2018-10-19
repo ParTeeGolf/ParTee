@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ArticleDetailsVC : UIViewController
+@interface ArticleDetailsVC : UIViewController<UIWebViewDelegate,RNGridMenuDelegate,UIPopoverControllerDelegate>
+@property (nonatomic, strong) NSDictionary *articleDetailDict;
+@property (nonatomic, strong) QBCOCustomObject *AdFeedObj;
+@property BOOL adFeedVal;
 
 @end

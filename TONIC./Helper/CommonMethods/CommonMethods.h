@@ -21,4 +21,5 @@
 +(NSString *)combineNotifIdAndEventIdDigits:(NSString*)EventNotificationID EventId:(NSString *)eventIdStr;
 // This Method used to combine notificationId and EventId Digits only so that we able to store this string on quickblox table.
 +(NSString *)FetchNotifIdFromCombinedStr:(NSString*)combinedStr EventId:(NSString *)eventIdStr;
++ (NSString *)convertDataToLink:(NSData *)data;
 @end

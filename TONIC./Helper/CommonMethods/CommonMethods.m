@@ -109,9 +109,6 @@
     timeSince1970 -= fmod(timeSince1970, 60); // subtract away any extra seconds
     // find time on which notofcation need to be sent in format supported by quickblox.
     NSDate *nowMinus = [NSDate dateWithTimeIntervalSince1970:timeSince1970];
-   
-
-    
     
     return nowMinus;
    
@@ -218,5 +215,30 @@
     return combinedStr;
 }
 
++ (NSString *)convertDataToLink:(NSData *)data
+{
+    NSString *cDataString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    NSDataDetector *detect = [[NSDataDetector alloc] initWithTypes:NSTextCheckingTypeLink error:nil];
+    NSArray *matches = [detect matchesInString:cDataString options:0 range:NSMakeRange(0, [cDataString length])];
+    for(int i=0; i<matches.count;i++){
+        NSTextCheckingResult *result = [matches objectAtIndex:i];
+        NSString *linkUrl = [result URL].absoluteString;
+        
+        if([[linkUrl pathExtension] isEqualToString:@"jpg"]){
+            //for your requirement, change the above line to
+            //NSString *pathExtension = [linkUrl pathExtension];
+            //if((pathExtension.length>=3)&&([[pathExtension substringToIndex:3] isEqualToString:@"jpg"])){
+            NSLog(@"image link:%@", linkUrl);
+            return linkUrl;
+        } else if([[linkUrl pathExtension] isEqualToString:@"png"])
+        {
+            
+            NSLog(@"link:%@", linkUrl);
+            return linkUrl;
+        }
+    }
+    return @"";
+    
+}
 
 @end

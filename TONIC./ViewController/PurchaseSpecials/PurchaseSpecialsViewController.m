@@ -111,6 +111,8 @@
     lblAddress.frame = CGRectMake(5, 253, width - 10, 46);
     btnFav.frame = CGRectMake(width - 62, 129, 51, 62);
     btnFavImage.frame = CGRectMake(width - 8 - 27, 156, 27, 27);
+  //  btnFav.backgroundColor = [UIColor redColor];
+  //  btnFavImage.backgroundColor = [UIColor grayColor];
     narrowlineView2.frame = CGRectMake(0, narrowlineView2.frame.origin.y, width, narrowlineView2.frame.size.height);
     
     lblWebsite.frame = CGRectMake(lblWebsite.frame.origin.x, lblWebsite.frame.origin.y, width - (lblWebsite.frame.origin.x), lblWebsite.frame.size.height);
@@ -941,7 +943,7 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section {
 }
 
 - (void)showGrid {
-    NSInteger numberOfOptions = 5;
+    NSInteger numberOfOptions = 4;
     NSArray *items;
     
     NSString *favoriteTitle = isFavCourse==YES ? @"Mark Unfavorite" : @"Mark Favorite";
@@ -952,7 +954,7 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section {
              [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:@"info-filled"] title:@"Information"],
              [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:@"viewmap"] title:@"On Map"],
              [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:@"direction"] title:@"Directions"],
-             [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:@"image-placeholder"] title:@"Photos"],
+           //  [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:@"image-placeholder"] title:@"Photos"],
              ];
     
     

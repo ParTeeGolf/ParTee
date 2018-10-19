@@ -20,6 +20,10 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ArticleDetailsVC">
             <connections>
+                <outlet property="articleImgView" destination="adH-Y9-EKq" id="5FJ-LK-Ela"/>
+                <outlet property="articleTiltleTxtView" destination="fdE-yY-2Vt" id="PSa-tg-wv8"/>
+                <outlet property="descWebView" destination="egN-sV-c5o" id="v8w-8m-TSx"/>
+                <outlet property="titleTxtViewHeight" destination="gT5-oh-Zfb" id="7IE-IP-S7P"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -29,7 +33,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NO USERS AVAILABLE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xV9-wq-3Ek">
-                    <rect key="frame" x="102" y="324" width="170" height="19"/>
+                    <rect key="frame" x="102.5" y="324.5" width="169.5" height="18.5"/>
                     <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="15"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
@@ -81,13 +85,25 @@
                     </constraints>
                 </view>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bg-profile.png" translatesAutoresizingMaskIntoConstraints="NO" id="adH-Y9-EKq">
-                    <rect key="frame" x="0.0" y="71" width="375" height="170"/>
+                    <rect key="frame" x="0.0" y="71" width="375" height="250"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="170" id="aLB-lt-78p"/>
+                        <constraint firstAttribute="height" constant="250" id="aLB-lt-78p"/>
                     </constraints>
                 </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V6f-qm-Ufi" userLabel="FavBtn">
+                    <rect key="frame" x="344" y="88" width="27" height="40"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="27" id="PdM-5u-BfX"/>
+                        <constraint firstAttribute="height" constant="40" id="Q9i-Yo-vLh"/>
+                    </constraints>
+                    <state key="normal" image="moreopt.png"/>
+                    <connections>
+                        <action selector="favBtnAction:" destination="-1" eventType="touchUpInside" id="QwN-3a-zEh"/>
+                    </connections>
+                </button>
                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Title of the Article here, to span three potential lines before trailing.." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="fdE-yY-2Vt">
-                    <rect key="frame" x="0.0" y="242" width="375" height="150"/>
+                    <rect key="frame" x="0.0" y="322" width="375" height="150"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="150" id="gT5-oh-Zfb"/>
@@ -96,37 +112,37 @@
                     <fontDescription key="fontDescription" type="system" pointSize="37"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
-                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="YlB-Z2-CrQ">
-                    <rect key="frame" x="0.0" y="402" width="375" height="265"/>
+                <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="egN-sV-c5o">
+                    <rect key="frame" x="0.0" y="482" width="375" height="185"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <string key="text">Text of the article is to be here, and is to be a bit large for ease of reading. If there is an option menu in the upper right, it is to control the size of the font onlly. in order to make it more readeable, but this is not a required feature.</string>
-                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="28"/>
-                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                </textView>
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="edH-4h-mJk"/>
+                    </connections>
+                </webView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
+                <constraint firstItem="egN-sV-c5o" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" id="2Wk-Zz-fiw"/>
                 <constraint firstItem="adH-Y9-EKq" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" id="2f4-Lo-YGo"/>
-                <constraint firstItem="YlB-Z2-CrQ" firstAttribute="trailing" secondItem="Q5M-cg-NOt" secondAttribute="trailing" id="92W-fc-lEG"/>
+                <constraint firstItem="egN-sV-c5o" firstAttribute="bottom" secondItem="Q5M-cg-NOt" secondAttribute="bottom" id="8yu-Uj-0Vg"/>
                 <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="1Gz-3B-CBi" secondAttribute="trailing" id="9G4-xS-SDY"/>
+                <constraint firstItem="egN-sV-c5o" firstAttribute="top" secondItem="fdE-yY-2Vt" secondAttribute="bottom" constant="10" id="A7B-Xt-az9"/>
                 <constraint firstItem="fdE-yY-2Vt" firstAttribute="trailing" secondItem="Q5M-cg-NOt" secondAttribute="trailing" id="Aza-b0-Fqk"/>
                 <constraint firstItem="aaz-JO-mX8" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" id="HXS-5D-Wat"/>
-                <constraint firstItem="YlB-Z2-CrQ" firstAttribute="top" secondItem="fdE-yY-2Vt" secondAttribute="bottom" constant="10" id="QYy-P8-whl"/>
+                <constraint firstItem="V6f-qm-Ufi" firstAttribute="top" secondItem="aaz-JO-mX8" secondAttribute="bottom" constant="18" id="NbY-9K-jfs"/>
                 <constraint firstItem="1Gz-3B-CBi" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="Qhb-7l-jNR"/>
                 <constraint firstItem="fdE-yY-2Vt" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" id="SJc-Em-dFk"/>
-                <constraint firstItem="YlB-Z2-CrQ" firstAttribute="top" secondItem="fdE-yY-2Vt" secondAttribute="bottom" constant="10" id="Sja-by-Sgc"/>
                 <constraint firstItem="1Gz-3B-CBi" firstAttribute="bottom" secondItem="i5M-Pr-FkT" secondAttribute="bottom" id="TKL-AR-EiY"/>
-                <constraint firstItem="YlB-Z2-CrQ" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" id="YEK-Pz-2eR"/>
                 <constraint firstItem="aaz-JO-mX8" firstAttribute="trailing" secondItem="Q5M-cg-NOt" secondAttribute="trailing" id="YJV-vY-bsk"/>
                 <constraint firstItem="adH-Y9-EKq" firstAttribute="top" secondItem="aaz-JO-mX8" secondAttribute="bottom" constant="1" id="cg7-9e-XCr"/>
                 <constraint firstItem="xV9-wq-3Ek" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="f9I-c1-pdQ"/>
                 <constraint firstItem="aaz-JO-mX8" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="goV-iU-p0t"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="V6f-qm-Ufi" secondAttribute="trailing" constant="4" id="h1T-1C-pIb"/>
                 <constraint firstItem="adH-Y9-EKq" firstAttribute="trailing" secondItem="Q5M-cg-NOt" secondAttribute="trailing" id="l4c-uW-53s"/>
                 <constraint firstItem="xV9-wq-3Ek" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="mSA-CV-bGu"/>
-                <constraint firstItem="YlB-Z2-CrQ" firstAttribute="bottom" secondItem="Q5M-cg-NOt" secondAttribute="bottom" id="qd2-Fn-dKb"/>
                 <constraint firstItem="1Gz-3B-CBi" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" id="rAa-wc-hd5"/>
                 <constraint firstItem="fdE-yY-2Vt" firstAttribute="top" secondItem="adH-Y9-EKq" secondAttribute="bottom" constant="1" id="rgr-MS-LbM"/>
+                <constraint firstItem="egN-sV-c5o" firstAttribute="trailing" secondItem="Q5M-cg-NOt" secondAttribute="trailing" id="tVn-ub-l7d"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="Q5M-cg-NOt"/>
             <point key="canvasLocation" x="103.5" y="137.5"/>
@@ -136,5 +152,6 @@
         <image name="bg-profile.png" width="640" height="1018"/>
         <image name="ico-back.png" width="21" height="39"/>
         <image name="listBackground.png" width="640" height="1136"/>
+        <image name="moreopt.png" width="8" height="37"/>
     </resources>
 </document>

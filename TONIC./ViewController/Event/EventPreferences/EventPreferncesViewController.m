@@ -704,14 +704,14 @@
     
     [ObjCirCell setSelectionStyle:UITableViewCellSelectionStyleNone];
     
-    NSString *str;
+    NSString *cityListStr;
     
-    str = [arrCityList objectAtIndex:indexPath.row];
+    cityListStr = [arrCityList objectAtIndex:indexPath.row];
     // this will show or hide the right checkbox button on the city that user have slected.
-    if ([tempArraySelcted containsObject:str]) {
+    if ([tempArraySelcted containsObject:cityListStr]) {
         [ObjCirCell.selectbtnimg setImage:[UIImage imageNamed:kEventPreUnchecked] forState:UIControlStateNormal];
         // remove city form list of city that have selected by the user.
-        [tempArraySelcted removeObject:str];
+        [tempArraySelcted removeObject:cityListStr];
     }
     else {
         
@@ -721,18 +721,13 @@
         }else {
             [ObjCirCell.selectbtnimg setImage:[UIImage imageNamed:kEventPreBlueChk] forState:UIControlStateNormal];
              // Add city form list of city that have selected by the user.
-            [tempArraySelcted addObject:str];
+            [tempArraySelcted addObject:cityListStr];
         }
     }
   [listTblView reloadData];
 }
-
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     
 }
-
-
-
 @end

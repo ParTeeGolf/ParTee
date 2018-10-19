@@ -14,4 +14,5 @@
 @property (strong, nonatomic) IBOutlet UILabel *adminNameLbl;
 @property (strong, nonatomic) IBOutlet UILabel *dateLbl;
 -(void)setFeedDataFromDict:(NSDictionary *)dict;
+-(void)setAdFeedDataFromQbObj:(QBCOCustomObject *)obj;
 @end

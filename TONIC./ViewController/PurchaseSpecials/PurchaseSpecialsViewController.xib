@@ -173,17 +173,17 @@
                             <color key="shadowColor" cocoaTouchSystemColor="darkTextColor"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ka7-KU-ZTj">
+                            <rect key="frame" x="295" y="132" width="8" height="37"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                            <state key="normal" image="moreopt.png"/>
+                        </button>
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XgE-GY-ek0">
                             <rect key="frame" x="269" y="120" width="51" height="62"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <connections>
                                 <action selector="favTapped:" destination="-2" eventType="touchUpInside" id="8dN-lH-iFV"/>
                             </connections>
-                        </button>
-                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ka7-KU-ZTj">
-                            <rect key="frame" x="285" y="137" width="27" height="27"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                            <state key="normal" backgroundImage="moreopt.png"/>
                         </button>
                         <view alpha="0.5" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BAk-dZ-UMK">
                             <rect key="frame" x="-28" y="298" width="375" height="1"/>

@@ -234,8 +234,52 @@ static NSString *const kEventFeatureSoonAlertTitle = @"This Feature Coming Soon!
 
 /************ News feed Constants ************/
 static NSString *const kArticleDetailVc         = @"ArticleDetailsVC";
-static NSString *const knewsFeedCellName           = @"NewsFeedTblViewCell";
+static NSString *const knewsFeedCellName        = @"NewsFeedTblViewCell";
+static NSString *const kNewsFeedUrl = @"https://www.partee.golf/feed.xml";
+static NSString *const kInstaFeedUrl = @"https://web.stagram.com/rss/n/parteegolfers";
+static NSString *const kCellIdentifier = @"cellIdentifier";
+static NSString *const kParserItem = @"item";
+static NSString *const kMediaThumbnail = @"media:thumbnail";
+static NSString *const kInstaUrl = @"url";
+static NSString *const kFeedTitleParam = @"title";
+static NSString *const kFeedLinkParam = @"link";
+static NSString *const kFeedGuidParam = @"guid";
+static NSString *const kFeedDescParam = @"description";
+static NSString *const kFeedDateParam = @"pubDate";
+static NSString *const kFeedContentParam = @"content:encoded";
+static NSString *const kFeedCreatorParam = @"dc:creator";
+static NSString *const kFeedLangParam  = @"dc:language";
+static NSString *const kInstaFeedTitle = @"instaTitle";
+static NSString *const kInstaFeedLink = @"instaLink";
+static NSString *const kInstaFeedDesc = @"instaDesc";
+static NSString *const kInstaFeedPubDate = @"instaPubDate";
+static NSString *const kInstaFeedCreator = @"instaCreator";
+static NSString *const kInstaFeedThumbnail = @"instaThumbnail";
+static NSString *const kAdNewsFeedTblName = @"AdNewsFeed";
+static NSString *const kFeedMorningReadTitle = @"The Morning Read";
+static NSString *const kFeedParteeLineTitle = @"The ParTee Line";
+static NSString *const kUnSpecifiedPng = @"unspecified.png";
+static NSString *const kInstaFeedContent = @"content";
+static NSString *const kInstaFeedCreater = @"creator";
+
+
+static NSString *const kformatOriginal = @"EEE, dd MMM yyyy HH:mm:ss Z";
+static NSString *const kfinalFormat = @"dd-MM-yy";
+static NSString *const kFormatOriginalCreatedDate = @"yyyy-MM-dd HH:mm:ss";
+static NSString *const kAdLink    = @"adLink";
+static NSString *const kAdTitle   = @"adTitle";
+static NSString *const kAdCreater = @"adCreater";
+static NSString *const kAdDesc    = @"adDesc";
+static NSString *const kAdContent = @"AdContent";
+static NSString *const kLargeTxtFeedImg = @"largeTxtFeed";
+static NSString *const kSmallTxtImg     = @"smallTxtFeed";
+static NSString *const kShareImg        = @"shareFeed";
+static NSString *const kLargeTitle      = @"Large";
+static NSString *const kSmallTitle      = @"Small";
+static NSString *const kShareTitle       = @"Share";
 /************ News feed Constants ************/
+
+
 
 /**************** Ubuntu Title VC ***********/
 #define ubuntutuTitleFont  [UIFont fontWithName:@"Ubuntu-R" size:22]

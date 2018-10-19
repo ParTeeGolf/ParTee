@@ -36,4 +36,12 @@
 #define kZeroValue 0
 #define kThreeSegmentOptionValue 3
 /************ Event Screen **********/
+
+/*********** News Feed ***********/
+#define kIndexShare   2
+#define kIndexLarge   0
+#define kIndexSmall   1
+#define kThreeValue   3
+/*********** News Feed ***********/
+
 #endif /* Constant_h */

@@ -1615,12 +1615,9 @@
                 // Set Data from obj in tableview cell
                 [cell setEventDataFromQbObj:obj];
                 
-                
             }
-            
         }
     }
-    
     [cell.BtnFav addTarget:self action:@selector(btnFavTapped:) forControlEvents:UIControlEventTouchUpInside];
     
     return cell;
