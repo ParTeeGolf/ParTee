@@ -21,5 +21,8 @@
 +(NSString *)combineNotifIdAndEventIdDigits:(NSString*)EventNotificationID EventId:(NSString *)eventIdStr;
 // This Method used to combine notificationId and EventId Digits only so that we able to store this string on quickblox table.
 +(NSString *)FetchNotifIdFromCombinedStr:(NSString*)combinedStr EventId:(NSString *)eventIdStr;
+// This Method used to convert the nsdata into link that we are getting in feed details.
 + (NSString *)convertDataToLink:(NSData *)data;
+// This Method used to reset user defaults store in device while user tries to logout.
++ (void)resetDefaults;
 @end

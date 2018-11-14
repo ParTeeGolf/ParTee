@@ -52,7 +52,6 @@
         [self getSpecialInvitations];
         segmentMode=1;
     }
-    
 }
 
 -(void) getCourseData {

@@ -29,7 +29,8 @@
     NSString *guidStr;
     NSString *linkStr;
     /*********** Varibles to store Values related to article *******/
-    
+    // string used to construct java script string in order to change the font size of the text.
+    NSString *javaScriptStrToChangeFontSize;
 }
 
 @end
@@ -86,7 +87,7 @@
     
     [articleImgView sd_setImageWithURL:[NSURL URLWithString:descStr] placeholderImage:[UIImage imageNamed:kUnSpecifiedPng]];
     articleTiltleTxtView.text = titleStr;
-    
+    [articleTiltleTxtView scrollRangeToVisible:NSMakeRange(0, 1)];
     [descWebView setOpaque:NO];
     descWebView.backgroundColor = [UIColor clearColor];
     if (_adFeedVal) {
@@ -108,13 +109,11 @@
 - (void)webViewDidFinishLoad:(UIWebView *)_webView{
     
     if (_adFeedVal) {
-        NSString *jsString = [[NSString alloc]      initWithFormat:@"document.getElementsByTagName('body')[0].style.webkitTextFillColor= 'white';document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust='140%%';DOMReady();"];
-        [descWebView stringByEvaluatingJavaScriptFromString:jsString];
+        javaScriptStrToChangeFontSize = [[NSString alloc] initWithFormat:@"document.getElementsByTagName('body')[0].style.webkitTextFillColor= 'white';document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust='140%%';DOMReady();"];
     }else {
-        NSString *setJavaScript = [[NSString alloc] initWithFormat:@"document.getElementsByTagName('body')[0].style.webkitTextFillColor= 'white';document.getElementsByTagName('div')[0].style.backgroundColor='clear';document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust='140%%'; DOMReady();"];
-        
-        [descWebView stringByEvaluatingJavaScriptFromString:setJavaScript];
+        javaScriptStrToChangeFontSize = [[NSString alloc] initWithFormat:@"document.getElementsByTagName('body')[0].style.webkitTextFillColor= 'white';document.getElementsByTagName('div')[0].style.backgroundColor='clear';document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust='140%%'; DOMReady();"];
     }
+     [descWebView stringByEvaluatingJavaScriptFromString:javaScriptStrToChangeFontSize];
     
 }
 #pragma mark - Fav Button Action
@@ -206,13 +205,12 @@
 -(void)textLargeArticle
 {
     if (_adFeedVal) {
-        NSString *jsString = [[NSString alloc]      initWithFormat:@"document.getElementsByTagName('body')[0].style.webkitTextFillColor= 'white';document.getElementsByTagName('div')[0].style.backgroundColor='clear';document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust='200%%';"];
-        [descWebView stringByEvaluatingJavaScriptFromString:jsString];
+        javaScriptStrToChangeFontSize = [[NSString alloc]      initWithFormat:@"document.getElementsByTagName('body')[0].style.webkitTextFillColor= 'white';document.getElementsByTagName('div')[0].style.backgroundColor='clear';document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust='200%%';"];
+      
     }else {
-        NSString *setJavaScript = [[NSString alloc] initWithFormat:@"document.getElementsByTagName('body')[0].style.webkitTextFillColor= 'white';document.getElementsByTagName('div')[0].style.backgroundColor='clear';document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust='200%%'; DOMReady();"];
-        
-        [descWebView stringByEvaluatingJavaScriptFromString:setJavaScript];
+        javaScriptStrToChangeFontSize = [[NSString alloc] initWithFormat:@"document.getElementsByTagName('body')[0].style.webkitTextFillColor= 'white';document.getElementsByTagName('div')[0].style.backgroundColor='clear';document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust='200%%'; DOMReady();"];
     }
+      [descWebView stringByEvaluatingJavaScriptFromString:javaScriptStrToChangeFontSize];
     
     
 }
@@ -225,16 +223,14 @@
  */
 -(void)textSmallArticle
 {
-    
+
     if (_adFeedVal) {
-        NSString *jsString = [[NSString alloc]      initWithFormat:@"document.getElementsByTagName('body')[0].style.webkitTextFillColor= 'white';document.getElementsByTagName('div')[0].style.backgroundColor='clear';document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust='140%%';"];
-        [descWebView stringByEvaluatingJavaScriptFromString:jsString];
+           javaScriptStrToChangeFontSize = [[NSString alloc] initWithFormat:@"document.getElementsByTagName('body')[0].style.webkitTextFillColor= 'white';document.getElementsByTagName('div')[0].style.backgroundColor='clear';document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust='140%%';"];
+    
     }else {
-        NSString *setJavaScript = [[NSString alloc] initWithFormat:@"document.getElementsByTagName('body')[0].style.webkitTextFillColor= 'white';document.getElementsByTagName('div')[0].style.backgroundColor='clear';document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust='140%%'; DOMReady();"];
-        
-        [descWebView stringByEvaluatingJavaScriptFromString:setJavaScript];
+        javaScriptStrToChangeFontSize = [[NSString alloc] initWithFormat:@"document.getElementsByTagName('body')[0].style.webkitTextFillColor= 'white';document.getElementsByTagName('div')[0].style.backgroundColor='clear';document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust='140%%'; DOMReady();"];
     }
-   
+    [descWebView stringByEvaluatingJavaScriptFromString:javaScriptStrToChangeFontSize];
 }
 #pragma mark - Back Button Action
 /**

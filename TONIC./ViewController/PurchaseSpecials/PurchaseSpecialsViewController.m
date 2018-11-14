@@ -44,7 +44,8 @@
     firstTimeViewLoad = 0;
     
     arrAmenities = [[NSMutableArray alloc] init];
-    
+    proTbl.separatorColor = [UIColor clearColor];
+
     if(isiPhone4) {
         [scrollViewContainer setContentSize:CGSizeMake(320, 750)];
     }
@@ -62,9 +63,7 @@
     self.edgesForExtendedLayout = UIRectEdgeNone;
     
     [AppDelegate sharedinstance].delegateShareObject=nil;
-    
     [self manageCollectionView];
-
     
 }
 
@@ -81,10 +80,12 @@
     
     imgViewUser2 = [[UIImageView alloc]initWithFrame:CGRectMake(width - 37 - 70, 23, 70, 70)];
     imgViewUser2.image = [UIImage imageNamed:@"Placeholder.png"];
+    imgViewUser2.hidden = YES;
     [scrollViewContainer addSubview:imgViewUser2];
     
     btnPlus = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     btnPlus.frame = CGRectMake(17.5 , 17.5, 35, 35);
+    btnPlus.hidden = YES;
     [btnPlus setBackgroundImage:[UIImage imageNamed:@"Plusadd.png"] forState:UIControlStateNormal];
     [imgViewUser2 addSubview:btnPlus];
     
@@ -104,28 +105,71 @@
     [btnSelectUser addTarget:self action:@selector(selectUser:) forControlEvents:UIControlEventTouchUpInside];
     [scrollViewContainer addSubview:btnSelectUser];
     
+    btnViewUser.hidden = YES;
+    btnViewUser.hidden = YES;
+    btnSelectUser.hidden = YES;
     
-    imageUrl.frame = CGRectMake(0,120 , width, 180);
-    narrowLineView1.frame = CGRectMake(0, 120, width, 180);
-    lblName.frame = CGRectMake(5, 221, width - 10, 54);
-    lblAddress.frame = CGRectMake(5, 253, width - 10, 46);
-    btnFav.frame = CGRectMake(width - 62, 129, 51, 62);
-    btnFavImage.frame = CGRectMake(width - 8 - 27, 156, 27, 27);
+    imageUrl.frame = CGRectMake(0,10 , width, 180);
+    narrowLineView1.frame = CGRectMake(0, 10, width, 180);
+    lblName.frame = CGRectMake(5, 111, width - 10, 54);
+    lblAddress.frame = CGRectMake(5, 33, width - 10, 46);
+    btnFav.frame = CGRectMake(width - 62, 19, 51, 62);
+    btnFavImage.frame = CGRectMake(width - 8 - 27, 46, 27, 27);
   //  btnFav.backgroundColor = [UIColor redColor];
   //  btnFavImage.backgroundColor = [UIColor grayColor];
-    narrowlineView2.frame = CGRectMake(0, narrowlineView2.frame.origin.y, width, narrowlineView2.frame.size.height);
+    narrowlineView2.frame = CGRectMake(0, imageUrl.frame.origin.y + imageUrl.frame.size.height, width, narrowlineView2.frame.size.height);
+   
+    phoneLbl.frame = CGRectMake(phoneLbl.frame.origin.x,imageUrl.frame.origin.y + imageUrl.frame.size.height+ 4 , phoneLbl.frame.size.width, phoneLbl.frame.size.height);
+    lblContactNum.frame = CGRectMake(lblContactNum.frame.origin.x, phoneLbl.frame.origin.y, width - (lblContactNum.frame.origin.x), lblContactNum.frame.size.height);
     
-    lblWebsite.frame = CGRectMake(lblWebsite.frame.origin.x, lblWebsite.frame.origin.y, width - (lblWebsite.frame.origin.x), lblWebsite.frame.size.height);
-    lblContactNum.frame = CGRectMake(lblContactNum.frame.origin.x, lblContactNum.frame.origin.y, width - (lblContactNum.frame.origin.x), lblContactNum.frame.size.height);
-    lblbooking.frame = CGRectMake(lblbooking.frame.origin.x, lblbooking.frame.origin.y, width - (lblbooking.frame.origin.x), lblbooking.frame.size.height);
+    websiteLbl.frame = CGRectMake(websiteLbl.frame.origin.x,phoneLbl.frame.origin.y + phoneLbl.frame.size.height + 4, websiteLbl.frame.size.width, websiteLbl.frame.size.height);
+    lblWebsite.frame = CGRectMake(lblWebsite.frame.origin.x, websiteLbl.frame.origin.y, width - (lblWebsite.frame.origin.x), lblWebsite.frame.size.height);
+  
+    teeTimeLbl.frame = CGRectMake(teeTimeLbl.frame.origin.x,websiteLbl.frame.origin.y + websiteLbl.frame.size.height + 4 , teeTimeLbl.frame.size.width, teeTimeLbl.frame.size.height);
+    lblbooking.frame = CGRectMake(lblbooking.frame.origin.x, teeTimeLbl.frame.origin.y, width - (lblbooking.frame.origin.x), lblbooking.frame.size.height);
+    
+    amentiesLbl.frame = CGRectMake(amentiesLbl.frame.origin.x,teeTimeLbl.frame.origin.y + teeTimeLbl.frame.size.height + 4 , amentiesLbl.frame.size.width, amentiesLbl.frame.size.height);
+    
+    collectionViewData.frame = CGRectMake(collectionViewData.frame.origin.x, amentiesLbl.frame.origin.y + amentiesLbl.frame.size.height + 4 , width, collectionViewData.frame.size.height);
+    
+    proView.frame = CGRectMake(proView.frame.origin.x,amentiesLbl.frame.origin.y + amentiesLbl.frame.size.height + 17 , self.view.frame.size.width, self.view.frame.size.height - (amentiesLbl.frame.origin.y + amentiesLbl.frame.size.height + 17));
     golfPros.frame = CGRectMake(golfPros.frame.origin.x, golfPros.frame.origin.y, width - (golfPros.frame.origin.x), golfPros.frame.size.height);
     proBaseView.frame = CGRectMake(proBaseView.frame.origin.x, proBaseView.frame.origin.y, width, proBaseView.frame.size.height);
-    proTbl.frame = CGRectMake(proTbl.frame.origin.x, proTbl.frame.origin.y, width, proTbl.frame.size.height);
-    collectionViewData.frame = CGRectMake(collectionViewData.frame.origin.x, collectionViewData.frame.origin.y, width, collectionViewData.frame.size.height);
+    proTbl.frame = CGRectMake(proTbl.frame.origin.x, proTbl.frame.origin.y, width, proView.frame.size.height - (golfPros.frame.size.height + 90));
     
+    
+      if([arrAmenities count]==0) {
+        
+          [self hideOrShowAmenties:YES];
+          collectionViewData.hidden = YES;
+      }else{
+          [self hideOrShowAmenties:YES];
+          collectionViewData.hidden = YES;
+          
+      //    [self hideOrShowAmenties:NO];
+        //  collectionViewData.hidden = NO;
+      }
+
     
 }
-
+-(void)hideOrShowAmenties:(BOOL)hide
+{
+    if (hide) {
+    
+        proView.frame = CGRectMake(proView.frame.origin.x,amentiesLbl.frame.origin.y + amentiesLbl.frame.size.height + 17 , self.view.frame.size.width, self.view.frame.size.height - (amentiesLbl.frame.origin.y + amentiesLbl.frame.size.height + 27));
+        golfPros.frame = CGRectMake(golfPros.frame.origin.x, golfPros.frame.origin.y, self.view.frame.size.width - (golfPros.frame.origin.x), golfPros.frame.size.height);
+        proBaseView.frame = CGRectMake(proBaseView.frame.origin.x, proBaseView.frame.origin.y, self.view.frame.size.width, proBaseView.frame.size.height);
+        proTbl.frame = CGRectMake(proTbl.frame.origin.x, proTbl.frame.origin.y, self.view.frame.size.width, proView.frame.size.height - (golfPros.frame.size.height + 70));
+        
+    }else{
+        
+        proView.frame = CGRectMake(proView.frame.origin.x,collectionViewData.frame.origin.y + collectionViewData.frame.size.height + 17 , self.view.frame.size.width, self.view.frame.size.height - (collectionViewData.frame.origin.y + collectionViewData.frame.size.height + 27));
+        golfPros.frame = CGRectMake(golfPros.frame.origin.x, golfPros.frame.origin.y, self.view.frame.size.width - (golfPros.frame.origin.x), golfPros.frame.size.height);
+        proBaseView.frame = CGRectMake(proBaseView.frame.origin.x, proBaseView.frame.origin.y, self.view.frame.size.width, proBaseView.frame.size.height);
+        proTbl.frame = CGRectMake(proTbl.frame.origin.x, proTbl.frame.origin.y, self.view.frame.size.width, proView.frame.size.height - (golfPros.frame.size.height + 70));
+    }
+    
+}
 -(void) viewWillAppear:(BOOL)animated {
     
    
@@ -144,7 +188,6 @@
             
             NSLog(@"Entries %lu",(unsigned long)page.totalEntries);
             
-            
             [data addObjectsFromArray:[objects mutableCopy]];
             
             for(QBCOCustomObject *obj in objects)
@@ -162,29 +205,33 @@
             
             [getRequest setObject: userIds forKey:@"_id[in]"];
             
-            [QBRequest objectsWithClassName:@"UserInfo" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
-                
-                [arrData addObjectsFromArray:[objects mutableCopy]];
-                
-                if([arrData count]==0) {
+            if (userIds.count == 0) {
+               [proView setHidden:YES];
+            }else {
+                [QBRequest objectsWithClassName:@"UserInfo" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
                     
-                    [proView setHidden:YES];
-                }
-                else {
-                    [proView setHidden:NO];
+                    [arrData addObjectsFromArray:[objects mutableCopy]];
                     
-                }
-                
-                [proTable reloadData];
-                [scrollViewContainer setContentSize:CGSizeMake(320, 820)];
-                
-            } errorBlock:^(QBResponse *response) {
-                // error handling
-                [[AppDelegate sharedinstance] hideLoader];
-                
-                NSLog(@"Response error: %@", [response.error description]);
-            }];
-           
+                    if([arrData count]==0) {
+                        
+                        [proView setHidden:YES];
+                    }
+                    else {
+                        [proView setHidden:NO];
+                        
+                    }
+                    
+                    [proTable reloadData];
+                    [scrollViewContainer setContentSize:CGSizeMake(320, 820)];
+                    
+                } errorBlock:^(QBResponse *response) {
+                    // error handling
+                    [[AppDelegate sharedinstance] hideLoader];
+                    
+                    NSLog(@"Response error: %@", [response.error description]);
+                }];
+            }
+            
             
         } errorBlock:^(QBResponse *response) {
             // error handling
@@ -220,8 +267,12 @@
  
         NSArray *items ;
 
-        str1 = [obj.fields objectForKey:@"amenities_temp"];
-        items =[[obj.fields objectForKey:@"amenities_temp"] copy];
+        /************ Chetu Change **********/
+    //    str1 = [obj.fields objectForKey:@"amenities_temp"];
+    //    items =[[obj.fields objectForKey:@"amenities_temp"] copy];
+         /************ Chetu Change **********/
+        str1 = [obj.fields objectForKey:@"Amenities"];
+        items =[[obj.fields objectForKey:@"Amenities"] copy];
         
         if([str1 isKindOfClass:[NSString class]]) {
             if(![str1 isEqualToString:@""]) {
@@ -231,25 +282,27 @@
                 
                 if([arrAmenities count]==0) {
                     [collectionViewData setHidden:YES];
+                    [self hideOrShowAmenties:YES];
                     [lblNotFound setHidden:NO];
-                    [btnNext setHidden:YES];
+                  //  [btnNext setHidden:YES];
                 }
                 else {
                     [collectionViewData setHidden:NO];
+                    [self hideOrShowAmenties:NO];
                     [lblNotFound setHidden:YES];
                     
                     if([arrAmenities count]<5) {
-                        [btnNext setHidden:YES];
+                     //   [btnNext setHidden:YES];
                     }
                     else {
-                        [btnNext setHidden:NO];
+                   //     [btnNext setHidden:NO];
                     }
                 }
                 
                 [collectionViewData reloadData];
             }
             else {
-                [btnNext setHidden:YES];
+             //   [btnNext setHidden:YES];
             }
             
         }
@@ -261,25 +314,27 @@
                 
                 if([arrAmenities count]==0) {
                     [collectionViewData setHidden:YES];
+                      [self hideOrShowAmenties:YES];
                     [lblNotFound setHidden:NO];
-                    [btnNext setHidden:YES];
+                  //  [btnNext setHidden:YES];
                 }
                 else {
                     [collectionViewData setHidden:NO];
+                    [self hideOrShowAmenties:NO];
                     [lblNotFound setHidden:YES];
                     
                     if([arrAmenities count]<5) {
-                        [btnNext setHidden:YES];
+                     //   [btnNext setHidden:YES];
                     }
                     else {
-                        [btnNext setHidden:NO];
+                    //    [btnNext setHidden:NO];
                     }
                 }
                 
                 [collectionViewData reloadData];
             }
             else {
-                [btnNext setHidden:YES];
+             //   [btnNext setHidden:YES];
             }
             
         }
@@ -395,7 +450,8 @@
     /******* Chetu Change ********/
   }
 
- 
+
+
 -(void) bindDataForUser {
     QBCOCustomObject *obj = courseObject;
     
@@ -439,19 +495,21 @@
     
     if([arrAmenities count]==0) {
         [collectionViewData setHidden:YES];
+        [self hideOrShowAmenties:YES];
         [lblNotFound setHidden:NO];
-        [btnNext setHidden:YES];
+    //    [btnNext setHidden:YES];
     }
     else {
         [collectionViewData setHidden:NO];
+        [self hideOrShowAmenties:NO];
         [lblNotFound setHidden:YES];
         
         if([arrAmenities count]<5) {
-            [btnNext setHidden:YES];
+         //   [btnNext setHidden:YES];
             
         }
         else {
-            [btnNext setHidden:NO];
+          //  [btnNext setHidden:NO];
             
         }
     }
@@ -587,19 +645,21 @@
 
     if([arrAmenities count]==0) {
         [collectionViewData setHidden:YES];
+          [self hideOrShowAmenties:YES];
         [lblNotFound setHidden:NO];
-        [btnNext setHidden:YES];
+    //    [btnNext setHidden:YES];
     }
     else {
         [collectionViewData setHidden:NO];
+          [self hideOrShowAmenties:NO];
         [lblNotFound setHidden:YES];
         
         if([arrAmenities count]<5) {
-            [btnNext setHidden:YES];
+       //     [btnNext setHidden:YES];
 
         }
         else {
-            [btnNext setHidden:NO];
+        //    [btnNext setHidden:NO];
 
         }
     }
@@ -909,8 +969,10 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section {
     [cell.imgViewUser.layer setBorderColor:[UIColor clearColor].CGColor];
     
     NSString *strName = [arrAmenities objectAtIndex:indexPath.row];
-    
-    [cell.imgViewUser setImage:[UIImage imageNamed:strName]];
+    NSString *trimmedString = [strName stringByTrimmingCharactersInSet:
+                               [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    UIImage *tempImage = [UIImage imageNamed:trimmedString];
+    [cell.imgViewUser setImage:[UIImage imageNamed:trimmedString]];
     [cell.lblUserName setText:strName];
     
     // Return the cell

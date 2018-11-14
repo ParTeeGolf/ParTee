@@ -34,6 +34,8 @@
 #define kIndexDirection 3
 #define kIndexPhoto 4
 #define kZeroValue 0
+#define kIndexClaender 4
+#define kIndexEventShare 5
 #define kThreeSegmentOptionValue 3
 /************ Event Screen **********/
 

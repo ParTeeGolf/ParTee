@@ -160,6 +160,7 @@ static NSString *const kEventFavTitle           = @"Your Favorite";
 static NSString *const kEventInfoTitle          = @"Information";
 static NSString *const kEventMapTitle           = @"On Map";
 static NSString *const kEventDir                = @"Directions";
+static NSString *const kEventCalendar           = @"Add to Calendar";
 static NSString *const kEventInfoFilledImg      = @"info-filled";
 static NSString *const kEventMapImg             = @"viewmap";
 static NSString *const kEventDirImg             = @"direction";
@@ -204,6 +205,10 @@ static NSString *const kEventFetchPreviousRecordBtnTitle = @"PREV";
 static NSString *const kEventFetchNextRecordBtnTitle    = @"NEXT";
 static NSString *const kEventFetchInitialRecordBtnTitle = @"  <<  ";
 static NSString *const kEventMaxTenCitiesSelectAlertTitle = @"Maximum 10 Cities you can select.";
+static NSString *const kEventStateTblName       = @"StateList";
+static NSString *const kEventStateName          = @"StateName";
+static NSString *const kCourseState             = @"State";
+static NSString *const kCourseCity              = @"City";
 /************* Event Search Screen constants *************/
 
 /************* Event Screen constants *************/

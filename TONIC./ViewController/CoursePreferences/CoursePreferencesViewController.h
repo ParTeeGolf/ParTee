@@ -74,7 +74,7 @@
 }
 
 @property (nonatomic,strong) NSString *cameFromScreen;
-
+@property  int isFromFavCourseSearch;
 
 -(IBAction)pushTapped:(id)sender;
 -(IBAction)saveTapped:(id)sender;

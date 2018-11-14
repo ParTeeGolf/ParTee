@@ -42,6 +42,10 @@
     int pickerOption;
     // var whetaher state selected or city.
     int cityOrStateSelected;
+    // current page for to fetch list of city.
+    int currentPageCity;
+    // user selected state
+    NSString *selectedState;
 }
 @end
 
@@ -64,11 +68,13 @@
     arrCityStateList = [[NSMutableArray alloc] init];
     arrStateList = [[NSMutableArray alloc] init];
     tempArraySelcted = [[NSMutableArray alloc]init];
+    currentPageCity = 0;
     /************** Initialize Array used *********/
     
     [pickerView setBackgroundColor:[UIColor whiteColor]];
     distanceSlider.value =0;
-    [self getGolfCourseDetails];
+    [self getStateList];
+    // [self getGolfCourseDetails];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -76,6 +82,111 @@
     [super viewWillAppear:YES];
     self.menuContainerViewController.panMode = NO;
 }
+
+#pragma mark - getStateList
+/**
+ @Description
+ * This method will fetch the details of states lists from state table available on quickblox.
+ * @author Chetu India
+ * @return void nothing will return by this method.
+ */
+-(void)getStateList {
+    
+    [QBRequest objectsWithClassName:kEventStateTblName extendedRequest:nil successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
+        
+        NSLog(@"Entries %lu",(unsigned long)page.totalEntries);
+        arrData=[objects mutableCopy];
+        
+        for(int i=0;i<[objects count];i++) {
+            QBCOCustomObject *obj = [arrData objectAtIndex:i];
+            
+            NSString *strState = [obj.fields objectForKey:kEventStateName];
+            
+            if(![arrStateList containsObject:strState])
+            {
+                [arrStateList addObject:strState];
+            }
+            
+        }
+        
+        [arrStateList sortUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+        
+        [arrStateList insertObject:kEventAll atIndex:0];
+         [self getUserDetails];
+        
+    } errorBlock:^(QBResponse *response) {
+        // error handling
+        [[AppDelegate sharedinstance] hideLoader];
+        
+        NSLog(@"Response error: %@", [response.error description]);
+    }];
+    
+}
+#pragma mark - getcityList
+/**
+ @Description
+ * This method will fetch the list of cities from golf course table for a particular state.
+ * @author Chetu India
+ * @return void nothing will return by this method.
+ */
+
+-(void)getcityList
+{
+    [[AppDelegate sharedinstance] showLoader];
+    
+    NSMutableDictionary *getRequestObjectCount = [NSMutableDictionary dictionary];
+    [getRequestObjectCount setObject: selectedState forKey:kCourseState];
+    
+    [getRequestObjectCount setObject:@"100" forKey:kEventLimitParam];
+    NSString *strPage = [NSString stringWithFormat:@"%d",[@"100" intValue] * currentPageCity];
+    
+    [getRequestObjectCount setObject:strPage forKey:kEventSkipParam];
+
+    [QBRequest objectsWithClassName:kEventGolfCourse extendedRequest:getRequestObjectCount successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
+        
+        NSLog(@"Entries %lu",(unsigned long)page.totalEntries);
+        arrData=[objects mutableCopy];
+        
+        for(int i=0;i<[objects count];i++) {
+            
+            QBCOCustomObject *obj = [arrData objectAtIndex:i];
+            NSString *strCity = [obj.fields objectForKey:kCourseCity];
+            
+            if(![arrCityList containsObject:strCity])
+            {
+                [arrCityList addObject:strCity];
+            }
+        }
+        
+        currentPageCity++;
+        if (objects.count < 100) {
+            
+            [arrCityList sortUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+            
+            [arrCityList insertObject:kEventAll atIndex:0];
+            
+            listTblView.allowsMultipleSelection = YES;
+            [listTblView reloadData];
+            [viewTblView setHidden:NO];
+            [[AppDelegate sharedinstance] hideLoader];
+            
+        }else {
+            [self getcityList];
+        }
+        
+    } errorBlock:^(QBResponse *response) {
+        // error handling
+        [[AppDelegate sharedinstance] hideLoader];
+        
+        NSLog(@"Response error: %@", [response.error description]);
+    }];
+    
+}
+
+
+
+
+
 #pragma mark - GetGolfCourseDetails
 /**
  @Description
@@ -484,7 +595,14 @@
         [pickerView setHidden:YES];
         
         strStateSelected = stateTxtFld.text;
+        selectedState = strStateSelected;
         
+        currentPageCity = kZeroValue;
+        if([arrCityList count]>kZeroValue)
+            [arrCityList removeAllObjects];
+        [self getcityList];
+        
+  /*
         if([arrCityList count]>kZeroValue)
             [arrCityList removeAllObjects];
       // get the details of city within state from arrCityStateList
@@ -508,6 +626,8 @@
         [viewTblView setHidden:NO];
         [listTblView reloadData];
         [pickerView setHidden:NO];
+        
+        */
     }
     
 }
@@ -675,11 +795,11 @@
         SendMessageCell = [cell objectAtIndex:0];
     }
     
-    NSString *str;
+    NSString *elementstr;
     
-    str = [arrCityList objectAtIndex:indexPath.row];
+    elementstr = [arrCityList objectAtIndex:indexPath.row];
     // this will show or hide the right checkbox button on the city that user have slected.
-    if([tempArraySelcted containsObject:str])    {
+    if([tempArraySelcted containsObject:elementstr])    {
         [SendMessageCell.selectbtnimg setImage:[UIImage imageNamed:kEventPreBlueChk] forState:UIControlStateNormal];
         [SendMessageCell.selectbtnimg setHidden:NO];
     }
@@ -691,7 +811,7 @@
     
     [SendMessageCell.selectbtnimg setTag:indexPath.row];
     
-    SendMessageCell.lblName.text = str;//[[arrMembers objectAtIndex:indexPath.row] objectForKey:@"Name"];
+    SendMessageCell.lblName.text = elementstr;//[[arrMembers objectAtIndex:indexPath.row] objectForKey:@"Name"];
     
     return SendMessageCell;
     

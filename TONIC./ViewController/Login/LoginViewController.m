@@ -524,8 +524,7 @@
                 [dictUserDetails setObject:strHomeCourseName forKey:@"home_coursename"];
                 [dictUserDetails setObject:strHomeCourseId forKey:@"home_course_id"];
                 
-                               [dictUserDetails setObject:[object.fields objectForKey:@"userPush"] forKey:@"userPush"];
-                
+                [dictUserDetails setObject:[object.fields objectForKey:@"userPush"] forKey:@"userPush"];
                 
                 strlat = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlat];
                 strlat = [[AppDelegate sharedinstance] nullcheck:strlat];

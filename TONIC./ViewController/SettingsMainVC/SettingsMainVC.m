@@ -800,7 +800,7 @@
                     
                 }];
             }
-            
+        //    [CommonMethods resetDefaults];
             [[AppDelegate sharedinstance] setStringObj:@"" forKey:kuserEmail];
             
             LoginViewController *loginView;

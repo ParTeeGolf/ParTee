@@ -282,9 +282,11 @@
                 // Repalce the old dict with new dict.
                 [feeds replaceObjectAtIndex:i withObject:newDict];
             }
-        }else if (xmlParserTagValue == 1){
             [collectionView reloadData];
             [self getAdFeedCount];
+        }else if (xmlParserTagValue == 1){
+          //  [collectionView reloadData];
+         //   [self getAdFeedCount];
             
         }
     }
@@ -575,7 +577,7 @@
                     
                     int arrIndex = ((indexValue + 1) /kAdvertisementEventNo) - 1 ;
                     [cell setAdFeedDataFromQbObj:[arrAdFeedDetails objectAtIndex:arrIndex]];
-                    cell.adminNameLbl.textColor = [UIColor redColor];
+                  //  cell.adminNameLbl.textColor = [UIColor redColor];
                 }else {
                     int numberadvertFeedsCount = indexValue - (int)(indexValue / kAdvertisementEventNo);
                     [cell setFeedDataFromDict:[feeds objectAtIndex:numberadvertFeedsCount]];

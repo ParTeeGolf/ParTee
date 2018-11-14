@@ -33,7 +33,7 @@
     }
     return requiredHeight.size.height;
 }
-
+#pragma mark- convert Date To Another Format
 /**
  @Description
  * This Method using to convert the date string from one format to another format.
@@ -60,12 +60,13 @@
     NSString *convertFormatDateStr = [formatter stringFromDate:date];
     return convertFormatDateStr;
 }
+#pragma mark- convert Date To Another Format
 /**
  @Description
  * This Method used to validate the string provided is a valid email or not.
  * @author Chetu India
  * @param email string to be validate wheather it is valid email string or not.
- * @param (BOOL) return true if string provided is a valid email string while it will return false if it is not valid string provided.
+ * @return (BOOL) return true if string provided is a valid email string while it will return false if it is not valid string provided.
  */
 
 + (BOOL)validateEmailWithString:(NSString*)email
@@ -77,12 +78,14 @@
     NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
     return [emailTest evaluateWithObject:email];
 }
+#pragma mark- interval Bw Dates In Sec
 /**
  @Description
  * This Method used to find the interval between event date and current date in seconds.
  * @author Chetu India
  * @param eventDate is the date in string format on which event is to be organized.
  * @param (BOOL) return true if string provided is a valid email string while it will return false if it is not valid string provided.
+ * @return return nsdate on which notification to be trigered.
  */
 
 +(NSDate *)intervalBwDatesInSec:(NSString *)eventDate
@@ -103,7 +106,7 @@
     
     // A NSTimeInterval value is always specified in seconds.
     NSTimeInterval distanceBetweenDates = [eventDateTime timeIntervalSinceDate:currentDateTime];
-    distanceBetweenDates = 106;
+  //  distanceBetweenDates = 106;
     NSDate *dateToSend = [NSDate dateWithTimeIntervalSinceNow:distanceBetweenDates];
     NSTimeInterval timeSince1970 = [dateToSend timeIntervalSince1970];
     timeSince1970 -= fmod(timeSince1970, 60); // subtract away any extra seconds
@@ -113,13 +116,14 @@
     return nowMinus;
    
 }
+#pragma mark- combine Notif Id And EventIdDigits
 /**
  @Description
  * This Method used to combine notificationId and EventId Digits only so that we able to store this string on quickblox table.
  * @author Chetu India
  * @param EventNotificationID is the id of notification event created on push notification table.
  * @param eventIdStr is the Id of Event that user made the favourite now.
- * @param (NSString) return string combined first 8 digits from eventId and push notification event id so that we able to store in quickblox table because in array not able to store the complete string.
+ * @return (NSString) return string combined first 8 digits from eventId and push notification event id so that we able to store in quickblox table because in array not able to store the complete string.
  */
 
 
@@ -172,16 +176,15 @@
     return combinedStr;
 }
 
-
+#pragma mark- Fetch Notif Id From CombinedStr
 /**
  @Description
  * This Method used to fetch notificationId from combined str that have stored in table.
  * @author Chetu India
  * @param EventNotificationID is the id of notification event created on push notification table.
  * @param eventIdStr is the Id of Event that user made the favourite now.
- * @param (NSString) return string combined first 8 digits from eventId and push notification event id so that we able to store in quickblox table because in array not able to store the complete string.
+ * @return (NSString) return string combined first 8 digits from eventId and push notification event id so that we able to store in quickblox table because in array not able to store the complete string.
  */
-
 
 +(NSString *)FetchNotifIdFromCombinedStr:(NSString*)combinedStr EventId:(NSString *)eventIdStr
 {
@@ -214,6 +217,14 @@
     
     return combinedStr;
 }
+//
+#pragma mark- Fetch Notif Id From CombinedStr
+/**
+ @Description
+ * This Method used to convert the nsdata into link that we are getting in feed details.
+ * @author Chetu India
+ * @return NsData contain data from feed.
+ */
 
 + (NSString *)convertDataToLink:(NSData *)data
 {
@@ -225,9 +236,7 @@
         NSString *linkUrl = [result URL].absoluteString;
         
         if([[linkUrl pathExtension] isEqualToString:@"jpg"]){
-            //for your requirement, change the above line to
-            //NSString *pathExtension = [linkUrl pathExtension];
-            //if((pathExtension.length>=3)&&([[pathExtension substringToIndex:3] isEqualToString:@"jpg"])){
+           
             NSLog(@"image link:%@", linkUrl);
             return linkUrl;
         } else if([[linkUrl pathExtension] isEqualToString:@"png"])
@@ -240,5 +249,20 @@
     return @"";
     
 }
-
+#pragma mark- Reset user Defaults
+/**
+ @Description
+ * This Method used to remove the user persistent data from nsuserdefault while user signout from  the application.
+ * @author Chetu India
+ */
++ (void)resetDefaults {
+    NSUserDefaults * defs = [NSUserDefaults standardUserDefaults];
+    NSDictionary * dict = [defs dictionaryRepresentation];
+    for (id key in dict) {
+    
+        [defs removeObjectForKey:key];
+    }
+    [defs synchronize];
+   
+}
 @end

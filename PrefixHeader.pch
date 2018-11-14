@@ -9,7 +9,7 @@
 #ifndef Alarm_PrefixHeader_pch
 #define Alarm_PrefixHeader_pch
 
-#import "UIImageView+WebCache.h"
+
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 #import "UIView+Toast.h"
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
@@ -31,8 +31,9 @@
 #import "Constant.h"
 #import "CommonMethods.h"
 //#define kGOOGLE_API_KEY @"AIzaSyCfwNjY_fTIqkQSD3VjNWhXAE8YgDVKYNU"
-#define kGOOGLE_API_KEY @"AIzaSyDxQ3VsVecFPwridNuzoGh1-_-FXHCRoU8"
+//#define kGOOGLE_API_KEY @"AIzaSyDxQ3VsVecFPwridNuzoGh1-_-FXHCRoU8"
 
-
+//#define kGOOGLE_API_KEY @"AIzaSyCa7kgNGA4MNdJVATP3KQadnSYmbpZUJPg"
+#define kGOOGLE_API_KEY @"AIzaSyBGk3fDMZHoId5VQT-gvbMWYgZnaj8zyE0"
 
 #endif

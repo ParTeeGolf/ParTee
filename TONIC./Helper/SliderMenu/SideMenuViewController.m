@@ -55,8 +55,7 @@ long currentTag = 1;
     [imgViewPic.layer setMasksToBounds:YES];
     [imgViewPic.layer setBorderColor:[UIColor whiteColor].CGColor];
     
-    numOfRows=13;
-    
+    numOfRows = 11;
     [tblView reloadData];
 }
 
@@ -95,7 +94,7 @@ long currentTag = 1;
         [imgViewPic sd_setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:[UIImage imageNamed:@"user"]];
     
     
-    numOfRows=13;
+    numOfRows = 11;
     
      [tblView reloadData];
     
@@ -195,9 +194,9 @@ long currentTag = 1;
             return collapseRow ? 52.0 : 30.0;
             break;
         case 1:
+//        case 2:
+//        case 3:
         case 2:
-        case 3:
-        case 4:
             return collapseRow ? 0 : 30.0;
             break;
             
@@ -262,34 +261,34 @@ long currentTag = 1;
 //                [cell.contentView addSubview: [self ComingSoonButton:cell.frame.origin.x originY:cell.frame.origin.y hideButton:false tag:2]];
 //            }
             break;
+//        case 3:
+//            cell.lbl_Name.text = @"\tTEE TIMES";
+//            cell.hidden = hideCell;
+//            if(![self.view viewWithTag:3])
+//
+//            {
+//                [cell.contentView addSubview: [self ComingSoonButton:cell.frame.origin.x originY:cell.frame.origin.y hideButton:false tag:3]];
+//            }
+//            break;
+//        case 4:
+//            cell.lbl_Name.text = @"\tEVENTS";
+//            cell.hidden = hideCell;
+//            if(![self.view viewWithTag:4])
+//
+//            {
+//                [cell.contentView addSubview: [self ComingSoonButton:cell.frame.origin.x originY:cell.frame.origin.y hideButton:false tag:4]];
+//            }
+//            break;
         case 3:
-            cell.lbl_Name.text = @"\tTEE TIMES";
-            cell.hidden = hideCell;
-            if(![self.view viewWithTag:3])
-                
-            {
-                [cell.contentView addSubview: [self ComingSoonButton:cell.frame.origin.x originY:cell.frame.origin.y hideButton:false tag:3]];
-            }
-            break;
-        case 4:
-            cell.lbl_Name.text = @"\tEVENTS";
-            cell.hidden = hideCell;
-            if(![self.view viewWithTag:4])
-                
-            {
-                [cell.contentView addSubview: [self ComingSoonButton:cell.frame.origin.x originY:cell.frame.origin.y hideButton:false tag:4]];
-            }
-            break;
-        case 5:
             cell.lbl_Name.text = @"GOLFERS";
             break;
-        case 6:
+        case 4:
             cell.lbl_Name.text = @"COURSES";
             break;
-        case 7:
+        case 5:
            cell.lbl_Name.text = @"PROS";
             break;
-        case 8:
+        case 6:
             cell.lbl_Name.text = @"EVENTS";
 //            if(![self.view viewWithTag:8])
 //
@@ -297,7 +296,7 @@ long currentTag = 1;
 //                [cell.contentView addSubview: [self ComingSoonButton:cell.frame.origin.x originY:cell.frame.origin.y hideButton:false tag:8]];
 //            }
             break;
-        case 9:
+        case 7:
            // cell.lbl_Name.text = @"PARTEE LINE BLOG";
             cell.lbl_Name.text = @"NEWS FEED";
         //    cell.hidden = hideCell;
@@ -308,7 +307,7 @@ long currentTag = 1;
 //            }
 
             break;
-        case 10:
+        case 8:
             cell.lbl_Name.text = @"30 SECOND LESSONS";
             if(![self.view viewWithTag:10])
                 
@@ -317,7 +316,7 @@ long currentTag = 1;
             }
 
             break;
-        case 11:
+        case 9:
             cell.lbl_Name.text = @"PARTEE PARTNERS";
             if(![self.view viewWithTag:11])
                 
@@ -326,7 +325,7 @@ long currentTag = 1;
             }
             
             break;
-        case 12:
+        case 10:
             cell.lbl_Name.text = @"";
             if(![self.view viewWithTag:101])
                 
@@ -395,42 +394,42 @@ long currentTag = 1;
             ((InviteViewController*)viewController).strIsConnInvite=@"1";
      //        [self ComingSoon];
             break;
-        case 3:
+//        case 3:
 //            viewController    = [[SpecialsViewController alloc] initWithNibName:@"SpecialsViewController" bundle:nil];
 //            ((SpecialsViewController*)viewController).strIsMyCourses=@"1";
-            [self ComingSoon];
-            break;
-        case 4:
-            [self ComingSoon];
-            break;
-        case 5:
+//            [self ComingSoon];
+//            break;
+//        case 4:
+//            [self ComingSoon];
+//            break;
+        case 3:
             viewController    = [[ViewUsersViewController alloc] initWithNibName:@"ViewUsersViewController" bundle:nil];
             ((ViewUsersViewController*)viewController).strIsMyMatches=@"0";
             [AppDelegate sharedinstance].strIsMyMatches=@"0";
             ((ViewUsersViewController*)viewController).IsPro=false;
             break;
-        case 6:
+        case 4:
             viewController    = [[SpecialsViewController alloc] initWithNibName:@"SpecialsViewController" bundle:nil];
             ((SpecialsViewController*)viewController).strIsMyCourses=@"0";
             [[AppDelegate sharedinstance] setStringObj:@"0" forKey:@"courseOptions"];
             break;
-        case 7:
+        case 5:
             viewController    = [[ViewUsersViewController alloc] initWithNibName:@"ViewUsersViewController" bundle:nil];
             ((ViewUsersViewController*)viewController).strIsMyMatches=@"0";
             ((ViewUsersViewController*)viewController).IsPro=true;
             [AppDelegate sharedinstance].strIsMyMatches=@"0";
             break;
-        case 8:
+        case 6:
             viewController    = [[EventViewController alloc] initWithNibName:@"EventViewController" bundle:nil];
             break;
-        case 9:
+        case 7:
          //  [self ComingSoon];
             viewController    = [[NewsFeedVc alloc] initWithNibName:@"NewsFeedVc" bundle:nil];
             break;
-        case 10:
+        case 8:
             [self ComingSoon];
             break;
-        case 11:
+        case 9:
             [self ComingSoon];
             break;
     }

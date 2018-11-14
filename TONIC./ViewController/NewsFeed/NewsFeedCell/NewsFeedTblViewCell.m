@@ -24,12 +24,11 @@
 #pragma mark- setDataFromEventObject
 -(void)setFeedDataFromDict:(NSDictionary *)dict {
     
-    
-    
     [self.articleImgView sd_setImageWithURL:[NSURL URLWithString:[dict objectForKey:kFeedDescParam]] placeholderImage:[UIImage imageNamed:kUnSpecifiedPng]];
     NSString *pubDate = [dict objectForKey:kFeedDateParam];
     NSString *titleStr = [dict objectForKey:kFeedTitleParam];
     self.headingTxtView.text = titleStr;
+    [self.headingTxtView scrollRangeToVisible:NSMakeRange(0, 1)];
     self.adminNameLbl.text = [dict objectForKey:kInstaFeedCreater];
     NSString *strDate = [CommonMethods convertDateToAnotherFormat:pubDate originalFormat:kformatOriginal finalFormat:kfinalFormat];
     self.dateLbl.text = strDate;
@@ -48,20 +47,20 @@
     [self.articleImgView sd_setImageWithURL:[NSURL URLWithString:[obj.fields objectForKey:kAdLink]] placeholderImage:[UIImage imageNamed:kUnSpecifiedPng]];
     self.headingTxtView.text = [obj.fields objectForKey:kAdTitle];
     self.adminNameLbl.text = [obj.fields objectForKey:kAdCreater];
-  
+    [self.headingTxtView scrollRangeToVisible:NSMakeRange(0, 1)];
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     // set the date format related to what the string already you have
-
+    
     [dateFormat setDateFormat:kFormatOriginalCreatedDate];
     NSString *finalDate = [dateFormat stringFromDate:obj.createdAt];
- NSString *dateStr = [CommonMethods convertDateToAnotherFormat:finalDate originalFormat:kFormatOriginalCreatedDate finalFormat:kfinalFormat];
+    NSString *dateStr = [CommonMethods convertDateToAnotherFormat:finalDate originalFormat:kFormatOriginalCreatedDate finalFormat:kfinalFormat];
     
     self.dateLbl.text = dateStr;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
 }
 

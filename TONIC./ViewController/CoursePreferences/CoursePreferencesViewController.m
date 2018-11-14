@@ -25,7 +25,10 @@
 #define kScreenMenu @"2"
 
 @interface CoursePreferencesViewController ()
-
+{
+    int currentPage;
+    NSString *selectedState;
+}
 @end
 
 @implementation CoursePreferencesViewController
@@ -34,6 +37,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    currentPage = 0;
     UIImage *thumb = [UIImage imageNamed:@"filledcircle"];
     [myObSliderOutlet setThumbImage:thumb forState:UIControlStateNormal];
     [myObSliderOutlet setThumbImage:thumb forState:UIControlStateHighlighted];
@@ -76,7 +80,11 @@
     [tblMembers reloadData];
     myObSliderOutlet.value =0;
 
-    [self bindData];
+   //  [self bindData];
+    
+    [self getStateList];
+     
+     
 }
 
 -(void) viewWillAppear:(BOOL)animated {
@@ -96,7 +104,146 @@
     
 }
 
+
+-(void)getStateList {
+    
+    [[AppDelegate sharedinstance] showLoader];
+    
+    
+    [QBRequest objectsWithClassName:@"StateList" extendedRequest:nil successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
+        
+        NSLog(@"Entries %lu",(unsigned long)page.totalEntries);
+        arrData=[objects mutableCopy];
+        
+        for(int i=0;i<[objects count];i++) {
+            QBCOCustomObject *obj = [arrData objectAtIndex:i];
+          
+            NSString *strState = [obj.fields objectForKey:@"StateName"];
+          
+            if(![arrStateList containsObject:strState])
+            {
+                [arrStateList addObject:strState];
+            }
+            
+        }
+        
+        [arrStateList sortUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+        [arrStateList insertObject:@"All" atIndex:0];
+        
+        [self getTypeList];
+      
+    } errorBlock:^(QBResponse *response) {
+        // error handling
+        [[AppDelegate sharedinstance] hideLoader];
+        
+        NSLog(@"Response error: %@", [response.error description]);
+    }];
+    
+}
+
+
+-(void)getTypeList {
+    
+    [QBRequest objectsWithClassName:@"CourseType" extendedRequest:nil successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
+        
+        NSLog(@"Entries %lu",(unsigned long)page.totalEntries);
+        arrData=[objects mutableCopy];
+        
+        for(int i=0;i<[objects count];i++) {
+            QBCOCustomObject *obj = [arrData objectAtIndex:i];
+            
+            NSString *strType = [obj.fields objectForKey:@"CourseType"];
+            if(![arrTypeList containsObject:strType])
+            {
+                [arrTypeList addObject:strType];
+            }
+            
+        }
+        
+        [arrTypeList sortUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+        [arrTypeList insertObject:@"All" atIndex:0];
+      //  [self getcityList];
+        [self bindData];
+        
+    } errorBlock:^(QBResponse *response) {
+        // error handling
+        [[AppDelegate sharedinstance] hideLoader];
+        
+        NSLog(@"Response error: %@", [response.error description]);
+    }];
+    
+}
+
+
+-(void)getcityList
+{
+      [[AppDelegate sharedinstance] showLoader];
+    
+    NSMutableDictionary *getRequestObjectCount = [NSMutableDictionary dictionary];
+    [getRequestObjectCount setObject: selectedState forKey:@"State"];
+    
+    [getRequestObjectCount setObject:@"100" forKey:@"limit"];
+    NSString *strPage = [NSString stringWithFormat:@"%d",[@"100" intValue] * currentPage];
+    
+    [getRequestObjectCount setObject:strPage forKey:@"skip"];
+    
+    [QBRequest objectsWithClassName:@"GolfCourses" extendedRequest:getRequestObjectCount successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
+        
+        NSLog(@"Entries %lu",(unsigned long)page.totalEntries);
+        arrData=[objects mutableCopy];
+        
+        for(int i=0;i<[objects count];i++) {
+            QBCOCustomObject *obj = [arrData objectAtIndex:i];
+            NSString *strCity = [obj.fields objectForKey:@"City"];
+            
+            if(![arrCityList containsObject:strCity])
+            {
+                [arrCityList addObject:strCity];
+            }
+        }
+        
+        currentPage++;
+        if (objects.count < 100) {
+          
+            [arrCityList sortUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+            
+            [arrCityList insertObject:@"All" atIndex:0];
+            
+            tblMembers.allowsMultipleSelection = YES;
+            [tblMembers reloadData];
+            [viewTable setHidden:NO];
+             [[AppDelegate sharedinstance] hideLoader];
+            
+        }else {
+            [self getcityList];
+        }
+        
+      
+       
+        
+        
+    } errorBlock:^(QBResponse *response) {
+        // error handling
+        [[AppDelegate sharedinstance] hideLoader];
+        
+        NSLog(@"Response error: %@", [response.error description]);
+    }];
+    
+}
+
+
 -(void) bindData {
+  
+    /*
+    [[AppDelegate sharedinstance] showLoader];
+    NSMutableDictionary *getRequestObjectCount = [NSMutableDictionary dictionary];
+  //  [getRequestObjectCount setObject:@"1" forKey:@"count"];
+  //  [getRequestObjectCount setObject: @"" forKey:@"State"];
+    
+    [getRequestObjectCount setObject:@"100" forKey:@"limit"];
+    NSString *strPage = [NSString stringWithFormat:@"%d",[@"100" intValue] * currentPage];
+    
+    [getRequestObjectCount setObject:strPage forKey:@"skip"];
     
     [QBRequest objectsWithClassName:@"GolfCourses" extendedRequest:nil successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
         
@@ -132,6 +279,8 @@
         
         [arrStateList insertObject:@"All" atIndex:0];
         [arrTypeList insertObject:@"All" atIndex:0];
+      
+    
         
     } errorBlock:^(QBResponse *response) {
         // error handling
@@ -139,6 +288,8 @@
         
         NSLog(@"Response error: %@", [response.error description]);
     }];
+    
+    */
     
     [[AppDelegate sharedinstance] showLoader];
     NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
@@ -173,14 +324,22 @@
         
             strPush = [[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"cf_isFav"]];
             
-            if([strPush isEqualToString:@"1"]) {
-                
+            if (self.isFromFavCourseSearch == 1) {
+                strPush=@"1";
                 [btnPush  setBackgroundImage:[UIImage imageNamed:@"toggleOn"] forState:UIControlStateNormal];
+                
+            }else {
+                if([strPush isEqualToString:@"1"]) {
+                    
+                    [btnPush  setBackgroundImage:[UIImage imageNamed:@"toggleOn"] forState:UIControlStateNormal];
+                }
+                else {
+                    [btnPush  setBackgroundImage:[UIImage imageNamed:@"toggleOff"] forState:UIControlStateNormal];
+                    
+                }
             }
-            else {
-                [btnPush  setBackgroundImage:[UIImage imageNamed:@"toggleOff"] forState:UIControlStateNormal];
-
-            }
+            
+        
             
             NSString *strState = [[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"cf_state"]];
             NSString *str_cf_city= [[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"cf_city"]];
@@ -209,6 +368,7 @@
                 [txtState setText:@"All"];
             }
             else {
+                selectedState = strState;
                 [txtState setText:strState];
             }
             
@@ -267,6 +427,9 @@
             
             NSLog(@"Response error: %@", [response.error description]);
         }];
+    
+    
+    
 }
 
 
@@ -511,7 +674,15 @@
     switch(buttonTapped)
     {
         case kButtonCity:
+            
+            
             strStateSelected = txtState.text;
+            selectedState = strStateSelected;
+            currentPage = 0;
+            if([arrCityList count]>0)
+                [arrCityList removeAllObjects];
+            [self getcityList];
+         /*
             
             if([arrCityList count]>0)
                 [arrCityList removeAllObjects];
@@ -536,6 +707,7 @@
             
             tblMembers.allowsMultipleSelection = YES;
             [viewTable setHidden:NO];
+            */
             break;
         case kButtonState:
             [pickerView setHidden:NO];
@@ -953,6 +1125,7 @@
     {
         case kPickerState:
             txtState.text = [arrStateList objectAtIndex:row];
+            selectedState = [arrStateList objectAtIndex:row];
             txtCity.text = @"All";
             break;
             

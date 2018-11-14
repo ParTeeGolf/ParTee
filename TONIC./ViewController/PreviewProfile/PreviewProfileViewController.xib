@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -68,7 +68,7 @@
                             <state key="normal" backgroundImage="ico-back.png"/>
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Preview" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uQL-ny-NGG">
-                            <rect key="frame" x="60.5" y="30" width="200" height="40"/>
+                            <rect key="frame" x="60" y="30" width="200" height="40"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="200" id="5jL-Gd-VtH"/>
                                 <constraint firstAttribute="height" constant="40" id="cdu-sq-3Uv"/>
@@ -221,7 +221,7 @@
                                 <action selector="segmentSwitch:" destination="-1" eventType="primaryActionTriggered" id="Lhx-wN-II0"/>
                             </connections>
                         </segmentedControl>
-                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rUu-WD-yFj">
+                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rUu-WD-yFj">
                             <rect key="frame" x="8" y="281" width="304" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <connections>
@@ -258,13 +258,13 @@
                 <constraint firstAttribute="bottom" secondItem="FbU-sx-ofY" secondAttribute="bottom" id="xqU-6Z-seA"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="-6017" y="-2423"/>
+            <point key="canvasLocation" x="-9627.2000000000007" y="-2179.6101949025488"/>
         </view>
         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="TNZ-gg-102">
             <rect key="frame" x="0.0" y="0.0" width="46" height="30"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <state key="normal" title="Button"/>
-            <point key="canvasLocation" x="-5744" y="-2341"/>
+            <point key="canvasLocation" x="-9190.3999999999996" y="-2105.8470764617691"/>
         </button>
     </objects>
     <resources>

@@ -222,15 +222,26 @@ int courseOption;
     strlong = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlong];
     strlong = [[AppDelegate sharedinstance] nullcheck:strlong];
     
+    // if no location access
+    if([strlat length]==0) {
+        strlat = @"45.62076121";
+        strlong = @"-111.12052917";
+    }
+   
     NSMutableDictionary *dictcoursePreferencesData;
     NSString *strFilterDistance;
     NSString *strCurrentUserID = [[AppDelegate sharedinstance] getCurrentUserId];
+    
+    float metresDistance = 99999999999.34f;
+    NSString *filterDistance = [NSString stringWithFormat:@"%f,%f;%f",[strlong floatValue],[strlat floatValue],metresDistance];
+    
     
     switch(courseOption)
     {
         case 0:
             [getRequestObjectCount setObject: @"true" forKey:@"featured"];
-            [getRequestObjectCount setObject: @"order" forKey:@"sort_asc"];
+          //  [getRequestObjectCount setObject: @"order" forKey:@"sort_asc"];
+            [getRequestObjectCount setObject:filterDistance forKey:@"coordinates[near]"];
             break;
         case 1:
             strFilterDistance = [NSString stringWithFormat:@"%f,%f;%f",[strlong floatValue],[strlat floatValue],160000.6f];
@@ -412,15 +423,26 @@ int courseOption;
     strlong = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlong];
     strlong = [[AppDelegate sharedinstance] nullcheck:strlong];
     
+    // if no location access
+    if([strlat length]==0) {
+        strlat = @"45.62076121";
+        strlong = @"-111.12052917";
+    }
+    
     NSMutableDictionary *dictcoursePreferencesData;
     NSString *strFilterDistance;
     NSString *strCurrentUserID = [[AppDelegate sharedinstance] getCurrentUserId];
+    
+    float metresDistance = 99999999999.34f;
+    NSString *filterDistance = [NSString stringWithFormat:@"%f,%f;%f",[strlong floatValue],[strlat floatValue],metresDistance];
+  
     
     switch(courseOption)
     {
         case 0:
             [getRequest setObject: @"true" forKey:@"featured"];
             [getRequest setObject: @"order" forKey:@"sort_asc"];
+            [getRequest setObject:filterDistance forKey:@"coordinates[near]"];
             break;
         case 1:
             strFilterDistance = [NSString stringWithFormat:@"%f,%f;%f",[strlong floatValue],[strlat floatValue],160000.6f];
@@ -511,15 +533,16 @@ int courseOption;
             break;
     }
     
-    
-    
     //  [[AppDelegate sharedinstance] showLoader];
     
     //  [getRequest setObject:@"1" forKey:@"count"];
     [QBRequest objectsWithClassName:@"GolfCourses" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
         
         NSLog(@"Entries %lu",(unsigned long)page.totalEntries);
-        arrData = [[NSMutableArray alloc] init];
+        if (courseOption != 0) {
+              arrData = [[NSMutableArray alloc] init];
+        }
+      
         [[AppDelegate sharedinstance] hideLoader];
         
         [arrData addObjectsFromArray:[objects mutableCopy]];
@@ -699,6 +722,7 @@ int courseOption;
         fecthInitialRecordBtn.hidden = true;
         _currentPage=0;
         shouldLoadNext = YES;
+        
         [self getCoursesRecordCount];
     }
   
@@ -759,6 +783,7 @@ int courseOption;
     ((AppDelegate*)[UIApplication sharedApplication].delegate).courseOptionSelected = courseOption;
     // Hide or show search button
     if (courseOption == 0) {
+        arrData = [[NSMutableArray alloc] init];
         [self hideOrShowSearchBtn:YES];
     }else{
         [self hideOrShowSearchBtn:NO];
@@ -810,6 +835,11 @@ int courseOption;
 -(IBAction)searchtapped:(id)sender {
     
     CoursePreferencesViewController *obj = [[CoursePreferencesViewController alloc] initWithNibName:@"CoursePreferencesViewController" bundle:nil];
+    if (courseOption == 2) {
+      obj.isFromFavCourseSearch = 1;
+    }else {
+     obj.isFromFavCourseSearch = 0;
+    }
     
     [self.navigationController pushViewController:obj animated:YES];
 }
@@ -828,10 +858,39 @@ int courseOption;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if([strIsMyCourses isEqualToString:@"0"])
-        return arrData.count;
+    
+
+    if (courseOption == 0) {
+        
+        if (arrData.count > 10) {
+            
+            
+            return 10;
+        }else {
+            
+            if([strIsMyCourses isEqualToString:@"0"])
+                return arrData.count;
+            
+            return arrCoursesData.count;
+        }
+        
+        
+    } else {
+        
+        if([strIsMyCourses isEqualToString:@"0"])
+            return arrData.count;
+        
+        return arrCoursesData.count;
+    }
+    
     
     return arrCoursesData.count;
+  
+    
+//    if([strIsMyCourses isEqualToString:@"0"])
+//        return arrData.count;
+//
+//    return arrCoursesData.count;
     
 }
 
@@ -935,6 +994,7 @@ int courseOption;
         /***************** ChetuChange **************/
         
         // Load featured courses only when last courses reached in the table
+        /*
         if (courseOption == 0) {
             NSString *str11= [[arrData objectAtIndex:indexPath.row] description];
             NSString *str22= [[arrData lastObject] description];
@@ -958,6 +1018,8 @@ int courseOption;
                 }
             }
         }
+        
+        */
         
         /***************** ChetuChange **************/
         
@@ -1010,9 +1072,6 @@ int courseOption;
         viewController    = [[PurchaseSpecialsViewController alloc] initWithNibName:@"PurchaseSpecialsViewController" bundle:nil];
         
         viewController.status=1;
-        
-        
-        
         
         QBCOCustomObject *obj = [arrData objectAtIndex:indexPath.row];
         

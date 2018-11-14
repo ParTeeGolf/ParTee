@@ -11,7 +11,7 @@
 #import "MapViewController.h"
 #import <MessageUI/MFMailComposeViewController.h>
 #import "EventPreferncesViewController.h"
-
+#import <EventKit/EventKit.h>
 
 
 @interface EventViewController ()<RNGridMenuDelegate, MFMailComposeViewControllerDelegate, UNUserNotificationCenterDelegate>
@@ -855,7 +855,7 @@
  * @return void nothing will return by this method.
  */
 - (void)showGrid {
-    NSInteger numberOfOptions = 4;
+    NSInteger numberOfOptions = 6;
     NSArray *items;
     
     //  Chnage the title of favorite button
@@ -873,7 +873,9 @@
              [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:favImgStr] title:kEventFavTitle],
              [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:kEventInfoFilledImg] title:kEventInfoTitle],
              [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:kEventMapImg] title:kEventMapTitle],
-             [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:kEventDirImg] title:kEventDir]
+             [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:kEventDirImg] title:kEventDir],
+             [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:kEventDirImg] title:kEventCalendar],
+             [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:kShareImg] title:kShareTitle]
              ];
     
     
@@ -951,11 +953,46 @@
         case kIndexDirection:
             [self actionDirectionTapped];
             break;
-        case kIndexPhoto:
-            //    [self actionPhoto];
+        case kIndexClaender:
+            [self actionCalender];
+            break;
+        case kIndexEventShare:
+            [self shareLinkViaSocialApp];
             break;
     }
 }
+#pragma mark- grid Delegate
+/**
+ @Description
+ * Share artcile link via social networking application available on the device.
+ * @author Chetu India
+ * @return void nothing will return by this method.
+ */
+-(void)shareLinkViaSocialApp
+{
+    NSString *eventCourseId = [[AppDelegate sharedinstance] nullcheck:[sharedobj.fields objectForKey:kEventCourseId]];
+    favInfoMapDirStr = @"SHARE";
+    [self getEventCourseDetails:eventCourseId];
+    
+}
+
+#pragma mark- Calender Btn Popup
+/**
+ @Description
+ * This method will fetch event details for the event that was selected by the user from poopup and redirect the user to map screen.
+ * @author Chetu India
+ * @return void nothing will return by this method.
+ */
+-(void) actionCalender {
+    
+    NSString *eventCourseId = [[AppDelegate sharedinstance] nullcheck:[sharedobj.fields objectForKey:kEventCourseId]];
+    favInfoMapDirStr = @"CALENDAR";
+    [self getEventCourseDetails:eventCourseId];
+    
+    
+    
+}
+
 #pragma mark- Map Btn Popup
 /**
  @Description
@@ -1107,7 +1144,79 @@
             obj.strFromScreen = kEventOneStr;
             [self.navigationController pushViewController:obj animated:YES];
             
+        }else if ([favInfoMapDirStr isEqualToString:@"SHARE"]){
+            objEventGolfCourse = [objects objectAtIndex:0];
             
+            //  (Title of Event, Date of Event, Location of Event, info text of event.)
+            NSString *titleEvent = [[AppDelegate sharedinstance] nullcheck:[sharedobj.fields objectForKey:@"Title"]];
+            NSString *startDateEvent = [[AppDelegate sharedinstance] nullcheck:[sharedobj.fields objectForKey:@"StartDate"]];
+            NSString *addressEvent = [[AppDelegate sharedinstance] nullcheck:[objEventGolfCourse.fields objectForKey:@"Address"]];
+            
+            NSString *descEvent = [[AppDelegate sharedinstance] nullcheck:[sharedobj.fields objectForKey:@"Description"]];
+
+            NSArray * activityItems = @[[NSString stringWithFormat:@"%@\nFrom %@\n%@\n%@",titleEvent,startDateEvent, addressEvent, descEvent]];
+            NSArray * applicationActivities = nil;
+            NSArray * excludeActivities = @[UIActivityTypeAssignToContact, UIActivityTypeCopyToPasteboard, UIActivityTypePostToWeibo, UIActivityTypePrint, UIActivityTypeMessage];
+            
+            UIActivityViewController * activityController = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:applicationActivities];
+            activityController.excludedActivityTypes = excludeActivities;
+            
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+            {
+                activityController.popoverPresentationController.sourceView = self.view;
+                
+                [self presentViewController:activityController
+                                   animated:YES
+                                 completion:nil];
+            }
+            else
+            {
+                [self presentViewController:activityController
+                                   animated:YES
+                                 completion:nil];
+            }
+            
+        }else if ([favInfoMapDirStr isEqualToString:@"CALENDAR"]) {
+            
+            objEventGolfCourse = [objects objectAtIndex:0];
+            
+            //  (Title of Event, Date of Event, Location of Event, info text of event.)
+            NSString *titleEvent = [[AppDelegate sharedinstance] nullcheck:[sharedobj.fields objectForKey:@"Title"]];
+            NSString *startDateEvent = [[AppDelegate sharedinstance] nullcheck:[sharedobj.fields objectForKey:@"StartDate"]];
+            startDateEvent = @"2018-11-29T15:23:00Z";
+            NSString *addressEvent = [[AppDelegate sharedinstance] nullcheck:[objEventGolfCourse.fields objectForKey:@"Address"]];
+            
+            NSString *descEvent = [[AppDelegate sharedinstance] nullcheck:[sharedobj.fields objectForKey:@"Description"]];
+            
+            EKEventStore *store = [EKEventStore new];
+            [store requestAccessToEntityType:EKEntityTypeEvent completion:^(BOOL granted, NSError *error) {
+                if (!granted) { return; }
+                EKEvent *event = [EKEvent eventWithEventStore:store];
+                event.title = [NSString stringWithFormat:@"%@\nFrom%@\n%@\n%@",titleEvent,startDateEvent, addressEvent, descEvent];
+                
+                NSString *eventStartDate = [[AppDelegate sharedinstance] nullcheck:startDateEvent];
+                
+                // convert event time in format to find interval bw current date and event date.
+                NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+                [dateFormatter setDateFormat:kEventDateTblFormat];
+                NSDate *eventDateTime = [dateFormatter dateFromString:eventStartDate];
+                
+                
+             //   NSDate *now = [NSDate date]; // Grab current time
+              //  NSDate *newDate = [now dateByAddingTimeInterval:100]; // Add XXX seconds to *now
+                event.startDate = eventDateTime; //today
+                event.endDate = [event.startDate dateByAddingTimeInterval:24*60*60];  //set 1 hour meeting
+                event.calendar = [store defaultCalendarForNewEvents];
+                
+                EKAlarm *alarmForOneDayBeforeAppointment = [[EKAlarm alloc] init];
+                alarmForOneDayBeforeAppointment.absoluteDate = [eventDateTime dateByAddingTimeInterval:100];
+                event.alarms = @[alarmForOneDayBeforeAppointment];
+                
+                NSError *err = nil;
+                [store saveEvent:event span:EKSpanThisEvent commit:YES error:&err];
+                NSString *eventId = event.eventIdentifier;  //save the event id if you want to access this later
+                NSLog(@"%@", eventId);
+            }];
         }
         
         
@@ -1224,14 +1333,14 @@
         [eventTblView reloadData];
        
         
-        if ([createNotificationStr isEqualToString:@"YES"]) {
-            [self createLocalNotifEvent:totalAdvEventsCount];
-             [[AppDelegate sharedinstance] hideLoader];
-        }else if ([createNotificationStr isEqualToString:@"NO"]) {
-            
-            [self deleteLocalNotification:totalAdvEventsCount];
-        }
-        
+//        if ([createNotificationStr isEqualToString:@"YES"]) {
+//            [self createLocalNotifEvent:totalAdvEventsCount];
+//             [[AppDelegate sharedinstance] hideLoader];
+//        }else if ([createNotificationStr isEqualToString:@"NO"]) {
+//
+//            [self deleteLocalNotification:totalAdvEventsCount];
+//        }
+        [[AppDelegate sharedinstance] hideLoader];
         
         
     } errorBlock:^(QBResponse *response) {
@@ -1595,6 +1704,9 @@
             maxAdEventPage  = maxAdEventPage / (kAdvertisementEventNo - 1);
             maxAdEventPage = currentPage * maxAdEventPage + totalAdvEventsCount;
             QBCOCustomObject *obj = [arrAdEventsDetails objectAtIndex:maxAdEventPage];
+            cell.lblDate.hidden = NO;
+            cell.lblDate.text = @"deateb dsd jkhas";
+            cell.lblDate.backgroundColor = [UIColor redColor];
             // Set Data from obj in tableview cell
             [cell setAdEventDataFromQbObj:obj];
             

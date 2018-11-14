@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -73,7 +73,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2zv-qW-lh2" userLabel="ViewNav">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="70"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Invite" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aSw-Ap-5rY">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Course Info" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aSw-Ap-5rY">
                             <rect key="frame" x="100" y="30" width="120" height="40"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="40" id="1TR-ch-JG9"/>
@@ -101,7 +101,7 @@
                                 <action selector="backPressed:" destination="-1" eventType="touchUpInside" id="dz6-38-juy"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MxF-Mo-U3H">
+                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MxF-Mo-U3H">
                             <rect key="frame" x="280" y="38" width="25" height="25"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="25" id="aHv-Kv-FHg"/>
@@ -109,7 +109,7 @@
                             </constraints>
                             <state key="normal" image="ico-sendreq.png"/>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ICl-Bt-pgV">
+                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ICl-Bt-pgV">
                             <rect key="frame" x="263" y="28" width="57" height="42"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="57" id="CUU-pI-HQH"/>
@@ -138,11 +138,11 @@
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rlz-zO-qbg">
                     <rect key="frame" x="0.0" y="70" width="320" height="508"/>
                     <subviews>
-                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="akki.png" translatesAutoresizingMaskIntoConstraints="NO" id="dWf-x6-QZ0">
+                        <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="akki.png" translatesAutoresizingMaskIntoConstraints="NO" id="dWf-x6-QZ0">
                             <rect key="frame" x="34" y="23" width="70" height="70"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Plain White Tee.png" translatesAutoresizingMaskIntoConstraints="NO" id="YFm-s7-LPF">
+                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Plain White Tee.png" translatesAutoresizingMaskIntoConstraints="NO" id="YFm-s7-LPF">
                             <rect key="frame" x="139" y="23" width="40" height="68"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </imageView>
@@ -245,7 +245,7 @@
                                 <action selector="bookingpressed:" destination="-1" eventType="touchUpInside" id="SH1-wN-A2A"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gOW-tU-1ae">
+                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gOW-tU-1ae">
                             <rect key="frame" x="267" y="416" width="30" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <state key="normal" image="right-arr@2.png"/>
@@ -307,6 +307,7 @@
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
                     </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </scrollView>
             </subviews>
             <color key="backgroundColor" red="0.23137254900000001" green="0.23137254900000001" blue="0.23921568630000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -325,7 +326,7 @@
                 <constraint firstItem="1BC-WV-ZMg" firstAttribute="leading" secondItem="tdp-pP-UfW" secondAttribute="leading" id="aVr-La-vD3"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="-1187" y="-1052"/>
+            <point key="canvasLocation" x="-1899.2" y="-946.32683658170924"/>
         </view>
         <view alpha="0.5" contentMode="scaleToFill" id="jJr-Aa-UTc">
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
@@ -338,12 +339,12 @@
             <fontDescription key="fontDescription" name="SFUIDisplay-Regular" family="SF UI Display" pointSize="20"/>
             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <nil key="highlightedColor"/>
-            <point key="canvasLocation" x="1600" y="-463"/>
+            <point key="canvasLocation" x="2560" y="-416.49175412293857"/>
         </label>
         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Points.png" id="Uxr-sJ-dL8">
             <rect key="frame" x="0.0" y="0.0" width="48" height="53"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-            <point key="canvasLocation" x="1539" y="-424"/>
+            <point key="canvasLocation" x="2462.4000000000001" y="-381.40929535232385"/>
         </imageView>
         <view contentMode="scaleToFill" id="xmw-NZ-kSU">
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
@@ -360,7 +361,7 @@
                 </button>
             </subviews>
             <color key="backgroundColor" red="1" green="0.47450980390000003" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-            <point key="canvasLocation" x="1703" y="376"/>
+            <point key="canvasLocation" x="2724.8000000000002" y="338.23088455772114"/>
         </view>
         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="6vw-Lc-fsS">
             <rect key="frame" x="0.0" y="0.0" width="57" height="42"/>
@@ -368,19 +369,19 @@
             <connections>
                 <action selector="action_gotoMyMatches:" destination="-1" eventType="touchUpInside" id="85h-yv-R9R"/>
             </connections>
-            <point key="canvasLocation" x="1517" y="-752"/>
+            <point key="canvasLocation" x="2427.1999999999998" y="-676.46176911544228"/>
         </button>
         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="hwS-O5-nh0">
             <rect key="frame" x="0.0" y="0.0" width="32" height="36"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <state key="normal" image="Tonic.png"/>
-            <point key="canvasLocation" x="1556" y="-658"/>
+            <point key="canvasLocation" x="2489.5999999999999" y="-591.90404797601207"/>
         </button>
         <view alpha="0.5" contentMode="scaleToFill" id="9Oi-o0-vkY">
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-            <point key="canvasLocation" x="86" y="-774"/>
+            <point key="canvasLocation" x="137.59999999999999" y="-696.25187406296857"/>
         </view>
         <label opaque="NO" userInteractionEnabled="NO" alpha="0.69999998807907104" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lorem ipsum " lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Fy1-Ym-3t2">
             <rect key="frame" x="0.0" y="0.0" width="128" height="19"/>
@@ -388,7 +389,7 @@
             <fontDescription key="fontDescription" name="Montserrat-Light" family="Montserrat" pointSize="11"/>
             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <nil key="highlightedColor"/>
-            <point key="canvasLocation" x="-129" y="-826"/>
+            <point key="canvasLocation" x="-206.40000000000001" y="-743.02848575712153"/>
         </label>
         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Contact" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="XNP-1v-qb7">
             <rect key="frame" x="0.0" y="0.0" width="152" height="34"/>
@@ -396,7 +397,7 @@
             <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="15"/>
             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <nil key="highlightedColor"/>
-            <point key="canvasLocation" x="-399" y="-605"/>
+            <point key="canvasLocation" x="-638.39999999999998" y="-544.22788605697156"/>
         </label>
         <label opaque="NO" userInteractionEnabled="NO" alpha="0.69999998807907104" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="yourwebsite.com" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ldB-LV-5ME">
             <rect key="frame" x="0.0" y="0.0" width="204" height="28"/>
@@ -404,7 +405,7 @@
             <fontDescription key="fontDescription" name="Montserrat-Light" family="Montserrat" pointSize="11"/>
             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <nil key="highlightedColor"/>
-            <point key="canvasLocation" x="-103" y="-697"/>
+            <point key="canvasLocation" x="-164.80000000000001" y="-626.98650674662679"/>
         </label>
         <label opaque="NO" userInteractionEnabled="NO" alpha="0.69999998807907104" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1234567890" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="NKK-hM-kkm">
             <rect key="frame" x="0.0" y="0.0" width="201" height="22"/>
@@ -412,7 +413,7 @@
             <fontDescription key="fontDescription" name="Montserrat-Light" family="Montserrat" pointSize="11"/>
             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <nil key="highlightedColor"/>
-            <point key="canvasLocation" x="-222" y="-664"/>
+            <point key="canvasLocation" x="-355.19999999999999" y="-597.30134932533736"/>
         </label>
         <textView clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.69999998807907104" contentMode="scaleToFill" editable="NO" text="Amenity1,Amenity2,Amenity3,Amenity4,Amentity5" id="5hR-K5-vPD">
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
@@ -424,7 +425,7 @@
             <connections>
                 <outlet property="delegate" destination="-1" id="UhF-U0-Xe9"/>
             </connections>
-            <point key="canvasLocation" x="-309" y="-1197"/>
+            <point key="canvasLocation" x="-494.39999999999998" y="-1076.7616191904049"/>
         </textView>
         <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="P6P-cc-kwp">
             <rect key="frame" x="0.0" y="0.0" width="61" height="95"/>
@@ -433,7 +434,7 @@
             <fontDescription key="fontDescription" type="system" pointSize="17"/>
             <nil key="textColor"/>
             <nil key="highlightedColor"/>
-            <point key="canvasLocation" x="-842" y="-985"/>
+            <point key="canvasLocation" x="-1347.2" y="-886.05697151424295"/>
         </label>
     </objects>
     <resources>

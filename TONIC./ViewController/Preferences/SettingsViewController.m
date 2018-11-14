@@ -25,7 +25,10 @@
 #define kScreenMenu @"2"
 
 @interface SettingsViewController ()
-
+{
+    int currentPageState;
+    NSString *selectedState;
+}
 @end
 
 @implementation SettingsViewController
@@ -36,7 +39,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-   
+    currentPageState = 0;
     UIImage *thumb = [UIImage imageNamed:@"filledcircle"];
     [myObSliderOutlet setThumbImage:thumb forState:UIControlStateNormal];
     [myObSliderOutlet setThumbImage:thumb forState:UIControlStateHighlighted];
@@ -97,9 +100,6 @@
     myObSliderOutlet.value =0;
     
    [self bindData];
-    
-    
-     
     
 }
 -(void)viewDidLayoutSubviews
@@ -181,7 +181,7 @@
             
             NSLog(@"Response error: %@", [response.error description]);
         }];
-    [self getLocationDataFromServer];
+   // [self getLocationDataFromServer];
 }
 
 -(void) bindSearchData:(QBCOCustomObject *) userObject searchType:(NSString*) searchType
@@ -195,7 +195,7 @@
     [QBRequest objectsWithClassName:@"UserSearch" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page)
      {
          
-         [[AppDelegate sharedinstance] hideLoader];
+    //     [[AppDelegate sharedinstance] hideLoader];
          if([objects count] == 0)
          {
              NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
@@ -271,6 +271,7 @@
          NSArray *arrCity = [object.fields objectForKey:@"City"];
          NSString *strCity = [arrCity componentsJoinedByString:@","];
          NSString *strState = [[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"State"]];
+         selectedState = strState;
          NSString *strhome_course= [[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"Name"]];
          
          NSString *strAge = [[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"Age"]];
@@ -337,6 +338,7 @@
          else {
              [nameTxtFld setText:strGolferName];
          }
+         [self getStateList];
          
      }
                          errorBlock:^(QBResponse *response) {
@@ -346,6 +348,101 @@
                              NSLog(@"Response error: %@", [response.error description]);
                          }];
 }
+
+
+-(void)getStateList {
+    
+    [QBRequest objectsWithClassName:@"StateList" extendedRequest:nil successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
+        
+        NSLog(@"Entries %lu",(unsigned long)page.totalEntries);
+        arrData=[objects mutableCopy];
+        
+        for(int i=0;i<[objects count];i++) {
+            QBCOCustomObject *obj = [arrData objectAtIndex:i];
+            
+            NSString *strState = [obj.fields objectForKey:@"StateName"];
+            
+            if(![arrStateList containsObject:strState])
+            {
+                [arrStateList addObject:strState];
+            }
+            
+        }
+        
+        [arrStateList sortUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+        
+        [arrStateList insertObject:@"All" atIndex:0];
+        
+     
+        [[AppDelegate sharedinstance] hideLoader];
+        
+    } errorBlock:^(QBResponse *response) {
+        // error handling
+        [[AppDelegate sharedinstance] hideLoader];
+        
+        NSLog(@"Response error: %@", [response.error description]);
+    }];
+    
+}
+
+-(void)getcityList
+{
+    [[AppDelegate sharedinstance] showLoader];
+    
+    NSMutableDictionary *getRequestObjectCount = [NSMutableDictionary dictionary];
+    [getRequestObjectCount setObject: selectedState forKey:@"userState"];
+    
+    [getRequestObjectCount setObject:@"100" forKey:@"limit"];
+    NSString *strPage = [NSString stringWithFormat:@"%d",[@"100" intValue] * currentPageState];
+    
+    [getRequestObjectCount setObject:strPage forKey:@"skip"];
+    
+    [QBRequest objectsWithClassName:@"UserInfo" extendedRequest:getRequestObjectCount successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
+        
+        NSLog(@"Entries %lu",(unsigned long)page.totalEntries);
+        arrData=[objects mutableCopy];
+        
+        for(int i=0;i<[objects count];i++) {
+            QBCOCustomObject *obj = [arrData objectAtIndex:i];
+            NSString *strCity = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"userCity"]];
+            
+            if(![arrCityList containsObject:strCity])
+            {
+                if ([strCity isEqualToString:@""]) {
+                    
+                }else{
+                     [arrCityList addObject:strCity];
+                }
+              
+            }
+        }
+        
+        currentPageState++;
+        if (objects.count < 100) {
+            
+            [arrCityList sortUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+            
+            [arrCityList insertObject:@"All" atIndex:0];
+            
+            tblMembers.allowsMultipleSelection = YES;
+            [tblMembers reloadData];
+            [viewTable setHidden:NO];
+            [[AppDelegate sharedinstance] hideLoader];
+            
+        }else {
+            [self getcityList];
+        }
+        
+    } errorBlock:^(QBResponse *response) {
+        // error handling
+        [[AppDelegate sharedinstance] hideLoader];
+        
+        NSLog(@"Response error: %@", [response.error description]);
+    }];
+    
+}
+
+
 
 -(void) getLocationDataFromServer {
    
@@ -861,7 +958,14 @@
     
     if(buttonTapped == kButtonCity) {
         NSString *strStateSelected = txtState.text;
+        selectedState = strStateSelected;
+        currentPageState = 0;
+        if([arrCityList count]>0)
+            [arrCityList removeAllObjects];
+        [self getcityList];
         
+        
+       /*
         if([arrCityList count]>0)
             [arrCityList removeAllObjects];
         
@@ -891,7 +995,7 @@
         {
             [tempArraySelcted addObject:str];
         }
-       
+       */
     }
     else if(buttonTapped == kButtonState) {
 
@@ -1519,6 +1623,7 @@
             
         case kPickerState:
             txtState.text = [arrStateList objectAtIndex:row];
+            selectedState = [arrStateList objectAtIndex:row];
             txtCity.text = @"All";
             [tempArraySelcted removeAllObjects];
             break;

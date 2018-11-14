@@ -46,6 +46,8 @@
 #pragma mark- setDataFromEventObject
 -(void)setAdEventDataFromQbObj:(QBCOCustomObject *)obj {
     
+    
+    
     [self.imgEvent setShowActivityIndicatorView:YES];
     [self.imgEvent setIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     [self.imgEvent sd_setImageWithURL:[NSURL URLWithString:[[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:kAdEventCellImgUrl]]] placeholderImage:[UIImage imageNamed:kEventCellDefaultImg]];

@@ -18,6 +18,7 @@
 
 @interface MapViewController ()
 {
+    GMSMarker *mymarker;
     UIImage *newImage;
 }
 @end
@@ -33,95 +34,16 @@
     
     [super viewDidLoad];
     
-     [[AppDelegate sharedinstance] showLoader];
    
-  //  [self drawRouteOnMap];
-    [self getUserProfileImage];
-}
-
-
--(void)getUserProfileImage
-{
-    // Show user profile image at users current location according to requirement
-    // only profile image only if map screen disply it will not display if user come from three dot popup map screen
-    if([strFromScreen isEqualToString:kScreenCoursesSub]) {
-    //    [[AppDelegate sharedinstance] showLoader];
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
-                       ^{
-
-                           NSDictionary *dictUserDetails = [[NSUserDefaults standardUserDefaults] objectForKey:kuserData];
-                           NSString *strname = [dictUserDetails objectForKey:@"userPicBase"];
-                           NSURL *urlImg = [NSURL URLWithString:strname];
-                           NSData *imageData = [NSData dataWithContentsOfURL:urlImg];
-                           
-                           //This is your completion handler
-                           dispatch_sync(dispatch_get_main_queue(), ^{
-                               
-                               
-                               UIImage *newBottomImage = [UIImage imageWithData:imageData];
-                               UIImage *bottomImage = [self roundedRectImageFromImage:newBottomImage size:CGSizeMake(70.8, 70.8) withCornerRadius:70.8];
-                               UIImage *image       = [UIImage imageNamed:kUserMapProfileBackgrooundIcon]; //foreground image
-                               
-                               CGSize newSize = CGSizeMake(150, 150);
-                               UIGraphicsBeginImageContext( newSize );
-                               
-                               // Apply supplied opacity if applicable
-                               [image drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
-                               [bottomImage drawInRect:CGRectMake(40.5,7.6,70.8,70.8)];
-                               newImage = UIGraphicsGetImageFromCurrentImageContext();
-                               
-                               UIGraphicsEndImageContext();
-                             //  marker.icon = newImage;
-                               
-                                [self drawRouteOnMap];
-                              //   [[AppDelegate sharedinstance] hideLoader];
-                           });
-                       });
-        
-    }else {
-      //  [[AppDelegate sharedinstance] showLoader];
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
-                       ^{
-                           
-                           
-                           NSDictionary *dictUserDetails = [[NSUserDefaults standardUserDefaults] objectForKey:kuserData];
-                           NSString *strname = [dictUserDetails objectForKey:@"userPicBase"];
-                           NSURL *urlImg = [NSURL URLWithString:strname];
-                           NSData *imageData = [NSData dataWithContentsOfURL:urlImg];
-                           
-                           //This is your completion handler
-                           dispatch_sync(dispatch_get_main_queue(), ^{
-                               
-                               
-                               UIImage *newBottomImage = [UIImage imageWithData:imageData];
-                               UIImage *bottomImage = [self roundedRectImageFromImage:newBottomImage size:CGSizeMake(70.8, 70.8) withCornerRadius:70.8];
-                               UIImage *image       = [UIImage imageNamed:kUserMapProfileBackgrooundIcon]; //foreground image
-                               
-                               CGSize newSize = CGSizeMake(150, 150);
-                               UIGraphicsBeginImageContext( newSize );
-                               
-                               // Apply supplied opacity if applicable
-                               [image drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
-                               [bottomImage drawInRect:CGRectMake(40.5,7.6,70.8,70.8)];
-                               newImage = UIGraphicsGetImageFromCurrentImageContext();
-                               
-                               UIGraphicsEndImageContext();
-                         //      marker.icon = newImage;
-                               
-                               [self drawRouteOnMap];
-                              // [[AppDelegate sharedinstance] hideLoader];
-                               
-                           });
-                       });
-    }
-    
+   //  [[AppDelegate sharedinstance] showLoader];
+    [self drawRouteOnMap];
+ 
 }
 -(void)drawRouteOnMap
 {
     imgviewLoc.layer.masksToBounds = YES;
     imgviewLoc.layer.cornerRadius = 25.0;
     imgviewLoc.layer.cornerRadius = 25.0;
-    
     self.navigationController.navigationBarHidden = YES;
     
     [indicatorLocImage setHidden:YES];
@@ -130,9 +52,6 @@
     arrData = [[NSMutableArray alloc] init];
     
     self.automaticallyAdjustsScrollViewInsets = NO;
-    
-    
-    
     mapView.myLocationEnabled = NO;
     mapView.delegate = self;
     mapView.settings.myLocationButton = NO;
@@ -185,23 +104,23 @@
             desplaceCoord = placeCoord;
             
             CLLocationCoordinate2D position = {  placeCoord.latitude, placeCoord.longitude };
-           
+            
             if([strFromScreen isEqualToString:kScreenCoursesMain]) {
-
-               
+                
+                
             }
             else {
-                GMSMarker *marker = [GMSMarker markerWithPosition:position];
-                marker.icon = [UIImage imageNamed:strPinType];
-                marker.title = @"";//[NSString stringWithFormat:@"Marker %i", i];
-                marker.appearAnimation = YES;
-                marker.flat = YES;
-                marker.snippet =  [NSString stringWithFormat:@"%i", i];
-                marker.map = mapView;
+                //                GMSMarker *marker = [GMSMarker markerWithPosition:position];
+                //                marker.icon = [UIImage imageNamed:strPinType];
+                //                marker.title = @"";//[NSString stringWithFormat:@"Marker %i", i];
+                //                marker.appearAnimation = YES;
+                //                marker.flat = YES;
+                //                marker.snippet =  [NSString stringWithFormat:@"%i", i];
+                //                marker.map = mapView;
                 
-                [path addCoordinate: marker.position];
+                //      [path addCoordinate: marker.position];
             }
-           
+            
             
             strlat = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlat];
             strlat = [[AppDelegate sharedinstance] nullcheck:strlat];
@@ -216,17 +135,17 @@
             CLLocationCoordinate2D myposition = {  placeCoord.latitude, placeCoord.longitude };
             scrplaceCoord = myposition;
             
-            GMSMarker *mymarker = [GMSMarker markerWithPosition:myposition];
-
-            mymarker.icon = [UIImage imageNamed:@"type-my"];
-
-            mymarker.title = @"";//[NSString stringWithFormat:@"Marker %i", i];
-            mymarker.appearAnimation = YES;
-            mymarker.flat = YES;
-            mymarker.snippet =  [NSString stringWithFormat:@"%i", 0];
-            mymarker.map = mapView;
-
-           [path addCoordinate: mymarker.position];
+            //            GMSMarker *mymarker = [GMSMarker markerWithPosition:myposition];
+            //
+            //            mymarker.icon = [UIImage imageNamed:@"type-my"];
+            //
+            //            mymarker.title = @"";//[NSString stringWithFormat:@"Marker %i", i];
+            //            mymarker.appearAnimation = YES;
+            //            mymarker.flat = YES;
+            //            mymarker.snippet =  [NSString stringWithFormat:@"%i", 0];
+            //            mymarker.map = mapView;
+            
+            //    [path addCoordinate: mymarker.position];
             
         }
     }
@@ -278,26 +197,37 @@
         placeCoord.latitude=[strlat doubleValue];
         placeCoord.longitude=[strlong doubleValue];
         
-       GMSMarker *marker = [GMSMarker markerWithPosition:position];
-
-       
-        marker.icon = newImage;
-        marker.title = @"";//[NSString stringWithFormat:@"Marker %i", i];
+        GMSMarker *marker = [GMSMarker markerWithPosition:position];
+        marker.icon = [UIImage imageNamed:@"type-my"];
+        marker.title = @"";
         marker.appearAnimation = YES;
         marker.flat = YES;
         marker.snippet =  [NSString stringWithFormat:@"%i", 0];
         marker.map = mapView;
-        
         [path addCoordinate: marker.position];
         
         CLLocationCoordinate2D myposition = {  placeCoord.latitude, placeCoord.longitude };
         scrplaceCoord = myposition;
         
-        GMSMarker *mymarker = [GMSMarker markerWithPosition:myposition];
         
-        mymarker.icon = [UIImage imageNamed:@"type-my"];
+        UIImage *newBottomImage = [UIImage imageNamed:@"userProfileDefaultImage"];
+        UIImage *bottomImage = [self roundedRectImageFromImage:newBottomImage size:CGSizeMake(70.8, 70.8) withCornerRadius:70.8];
+        UIImage *image       = [UIImage imageNamed:kUserMapProfileBackgrooundIcon]; //foreground image
         
-        mymarker.title = @"";//[NSString stringWithFormat:@"Marker %i", i];
+        CGSize newSize = CGSizeMake(150, 150);
+        UIGraphicsBeginImageContext( newSize );
+        
+        // Apply supplied opacity if applicable
+        [image drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
+        [bottomImage drawInRect:CGRectMake(40.5,7.6,70.8,70.8)];
+        UIImage *tempImage = UIGraphicsGetImageFromCurrentImageContext();
+        
+        UIGraphicsEndImageContext();
+        
+        
+        mymarker = [GMSMarker markerWithPosition:myposition];
+        mymarker.icon = tempImage;
+        mymarker.title = @"";
         mymarker.appearAnimation = YES;
         mymarker.flat = YES;
         mymarker.snippet =  [NSString stringWithFormat:@"%i", 0];
@@ -324,6 +254,8 @@
         
         [self drawRoute];
         
+        //   [self getUserProfileImage];
+        
         if([strCourseImgUrl length]>0) {
             NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:strCourseImgUrl]];
             
@@ -349,9 +281,83 @@
             
             [imgviewLoc setImage:[UIImage imageNamed:@"ic_thumbnail.png"]];
         }
-      
+        
     }
 }
+
+-(void)getUserProfileImage
+{
+    // Show user profile image at users current location according to requirement
+    // only profile image only if map screen disply it will not display if user come from three dot popup map screen
+    if([strFromScreen isEqualToString:kScreenCoursesSub]) {
+    //    [[AppDelegate sharedinstance] showLoader];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
+                       ^{
+
+                           NSDictionary *dictUserDetails = [[NSUserDefaults standardUserDefaults] objectForKey:kuserData];
+                           NSString *strname = [dictUserDetails objectForKey:@"userPicBase"];
+                           NSURL *urlImg = [NSURL URLWithString:strname];
+                           NSData *imageData = [NSData dataWithContentsOfURL:urlImg];
+                           
+                           //This is your completion handler
+                           dispatch_sync(dispatch_get_main_queue(), ^{
+                               
+                               
+                               UIImage *newBottomImage = [UIImage imageWithData:imageData];
+                               UIImage *bottomImage = [self roundedRectImageFromImage:newBottomImage size:CGSizeMake(70.8, 70.8) withCornerRadius:70.8];
+                               UIImage *image       = [UIImage imageNamed:kUserMapProfileBackgrooundIcon]; //foreground image
+                               
+                               CGSize newSize = CGSizeMake(150, 150);
+                               UIGraphicsBeginImageContext( newSize );
+                               
+                               // Apply supplied opacity if applicable
+                               [image drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
+                               [bottomImage drawInRect:CGRectMake(40.5,7.6,70.8,70.8)];
+                               newImage = UIGraphicsGetImageFromCurrentImageContext();
+                               
+                               UIGraphicsEndImageContext();
+                               mymarker.icon = newImage;
+                             
+                           });
+                       });
+        
+    }else {
+      //  [[AppDelegate sharedinstance] showLoader];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
+                       ^{
+                           
+                           
+                           NSDictionary *dictUserDetails = [[NSUserDefaults standardUserDefaults] objectForKey:kuserData];
+                           NSString *strname = [dictUserDetails objectForKey:@"userPicBase"];
+                           NSURL *urlImg = [NSURL URLWithString:strname];
+                           NSData *imageData = [NSData dataWithContentsOfURL:urlImg];
+                           
+                           //This is your completion handler
+                           dispatch_sync(dispatch_get_main_queue(), ^{
+                               
+                               
+                               UIImage *newBottomImage = [UIImage imageWithData:imageData];
+                               UIImage *bottomImage = [self roundedRectImageFromImage:newBottomImage size:CGSizeMake(70.8, 70.8) withCornerRadius:70.8];
+                               UIImage *image       = [UIImage imageNamed:kUserMapProfileBackgrooundIcon]; //foreground image
+                               
+                               CGSize newSize = CGSizeMake(150, 150);
+                               UIGraphicsBeginImageContext( newSize );
+                               
+                               // Apply supplied opacity if applicable
+                               [image drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
+                               [bottomImage drawInRect:CGRectMake(40.5,7.6,70.8,70.8)];
+                               newImage = UIGraphicsGetImageFromCurrentImageContext();
+                               
+                               UIGraphicsEndImageContext();
+                               mymarker.icon = newImage;
+                          
+                               
+                           });
+                       });
+    }
+    
+}
+
 
 -(UIImage*)roundedRectImageFromImage:(UIImage *)image
                                 size:(CGSize)imageSize
@@ -503,10 +509,8 @@
     NSString *originString = [NSString stringWithFormat:@"%f,%f", origin.coordinate.latitude, origin.coordinate.longitude];
     NSString *destinationString = [NSString stringWithFormat:@"%f,%f", destination.coordinate.latitude, destination.coordinate.longitude];
     NSString *directionsAPI = @"https://maps.googleapis.com/maps/api/directions/json?";
-    NSString *directionsUrlString = [NSString stringWithFormat:@"%@&origin=%@&destination=%@&mode=driving&key=AIzaSyDxQ3VsVecFPwridNuzoGh1-_-FXHCRoU8", directionsAPI, originString, destinationString];
+    NSString *directionsUrlString = [NSString stringWithFormat:@"%@&origin=%@&destination=%@&mode=driving&key=AIzaSyBGk3fDMZHoId5VQT-gvbMWYgZnaj8zyE0", directionsAPI, originString, destinationString];
     
-    
-// directionsUrlString = @"https://maps.googleapis.com/maps/api/directions/json?&origin=28.441072,77.041859&destination=28.49419,78.769459&mode=transit&key=AIzaSyDxQ3VsVecFPwridNuzoGh1-_-FXHCRoU8";
     directionsUrlString=[directionsUrlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     [manager GET:directionsUrlString
@@ -522,16 +526,17 @@
              if ([routesArray count] > 0)
              {
                  GMSPath *path1 =[GMSPath pathFromEncodedPath:json[@"routes"][0][@"overview_polyline"][@"points"]];
-                 
                  singleLine = [GMSPolyline polylineWithPath:path1];
                  singleLine.strokeWidth = 3;
                  singleLine.strokeColor = [UIColor colorWithRed:0.000 green:0.655 blue:0.247 alpha:1.00];
                  singleLine.map = mapView;
              }
+              [self getUserProfileImage];
              
          }
          failure:^(AFHTTPRequestOperation *operation, NSError *error) {
              //show error
+              [self getUserProfileImage];
              [[AppDelegate sharedinstance] hideLoader];
              [[AppDelegate sharedinstance] displayMessage:@"Some error occured"];
          }];

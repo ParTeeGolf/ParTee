@@ -24,6 +24,9 @@
    //  contain all golfers count available on Quickblox table
     int coursesCount;
     UIView *loadRecordBaseView;
+    int currentPageGetAllUser;
+    int isFromSendRequestToUser;
+    
     
     /************* ChetuChange *********/
 }
@@ -56,7 +59,6 @@
     [super viewDidLoad];
    
    
-   
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadusers) name:@"reloadusers" object:nil];
   
 
@@ -72,6 +74,8 @@
     self.navigationController.navigationBarHidden=YES;
     //http://stackoverflow.com/questions/20491084/quickblox-how-to-make-paged-request-of-custom-objects?rq=1
     _currentPage = 0;
+    currentPageGetAllUser = 0;
+    isFromSendRequestToUser = 0;
     tblList.tableFooterView = [UIView new];
     tblList.separatorColor = [UIColor clearColor];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshContent" object:nil];
@@ -103,7 +107,8 @@
     tblList.userInteractionEnabled = NO;
     [tblList setScrollEnabled: false];
     _currentPage=0;
-    
+    currentPageGetAllUser = 0;
+    isFromSendRequestToUser = 0;
     
     arrData = [[NSMutableArray alloc] init];
  //   arrDialogData = [[NSMutableArray alloc] init];
@@ -167,6 +172,7 @@
         [btnSettingsBig setHidden:NO];
         [btnSettingsSmall setHidden:NO];
         lblTitle.text = [self IsPro] ? @"Pros" : @"Golfers";
+        currentPageGetAllUser = 0;
         [self getAllUsers];
     }
    /************ ChetuChange *************/
@@ -178,62 +184,824 @@
     /************ ChetuChange *************/
     
 }
-#pragma mark - Create Record Base View
-// Create Record baseView prograrmmatically
--(void)createRecordBaseView {
+-(void) refreshdialogs {
     
-    // get device size
-    CGRect screenRect = [[UIScreen mainScreen] bounds];
-    CGFloat screenWidth = screenRect.size.width;
-    
-    // create baseview for previous, next and lable
-    loadRecordBaseView = [[UIView alloc]initWithFrame:CGRectMake((screenWidth - 250 )/2, 0, 250, fecthNextPrevRecordsBaseVIew.frame.size.height)];
-    loadRecordBaseView.backgroundColor = [UIColor clearColor];
-    [fecthNextPrevRecordsBaseVIew addSubview:loadRecordBaseView];
-    
-    // create previous button
-    fetchPrevRecordBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 50, loadRecordBaseView.frame.size.height)];
-    [fetchPrevRecordBtn setTitle:kFetchPreviousRecordBtnTitle forState:UIControlStateNormal];
-    fetchPrevRecordBtn.titleLabel.font = [UIFont fontWithName:kFontNameHelveticaNeue size:25];
-    //   [fetchPrevRecordBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
-    fetchPrevRecordBtn.titleLabel.textAlignment = NSTextAlignmentLeft;
-    [fetchPrevRecordBtn addTarget:self action:@selector(fetchPrevRecordBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
-    [loadRecordBaseView addSubview:fetchPrevRecordBtn];
-    
-    // create record label
-    recordLbl = [[UILabel alloc]initWithFrame:CGRectMake(fetchPrevRecordBtn.frame.size.width + fetchPrevRecordBtn.frame.origin.x, 0, 150,loadRecordBaseView.frame.size.height)];
-    recordLbl.text = @"1 - 25";
-    recordLbl.adjustsFontSizeToFitWidth = YES;
-    recordLbl.textAlignment = NSTextAlignmentCenter;
-    recordLbl.font = [UIFont fontWithName:kFontNameHelveticaNeue size:17];
-    recordLbl.textColor = [UIColor whiteColor];
-    [loadRecordBaseView addSubview:recordLbl];
-    
-    // create next button to fetch next 25 records of courses
-    fetchNextRecordBtn = [[UIButton alloc]initWithFrame:CGRectMake(recordLbl.frame.size.width + recordLbl.frame.origin.x, 0, 50, loadRecordBaseView.frame.size.height)];
-    [fetchNextRecordBtn setTitle:kFetchNextRecordBtnTitle forState:UIControlStateNormal];
-    [fetchNextRecordBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    fetchNextRecordBtn.titleLabel.font = [UIFont fontWithName:kFontNameHelveticaNeue size:25];
-    fetchNextRecordBtn.titleLabel.textAlignment = NSTextAlignmentRight;
-    [fetchNextRecordBtn addTarget:self action:@selector(fetchNextRecordBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
-    [loadRecordBaseView addSubview:fetchNextRecordBtn];
-    
-    fecthNextPrevRecordsBaseVIew.backgroundColor = [UIColor colorWithRed:0.000 green:0.655 blue:0.176 alpha:1.00];
-    
-    // create previous button
-    fecthInitialRecordBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, loadRecordBaseView.frame.origin.x, loadRecordBaseView.frame.size.height)];
-    [fecthInitialRecordBtn setTitle:kFetchInitialRecordBtnTitle forState:UIControlStateNormal];
-    fecthInitialRecordBtn.titleLabel.font = [UIFont fontWithName:kFontNameHelveticaNeue size:25];
-    //   [fecthInitialRecordBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
-    fecthInitialRecordBtn.titleLabel.textAlignment = NSTextAlignmentLeft;
-    [fecthInitialRecordBtn addTarget:self action:@selector(fetchInitialRecordBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
-    [fecthNextPrevRecordsBaseVIew addSubview:fecthInitialRecordBtn];
-    
-    fetchPrevRecordBtn.hidden = true;
-    fecthInitialRecordBtn.hidden = true;
+    if([strIsMyMatches isEqualToString:@"1"])
+    {
+        arrDialogData = [[NSMutableArray alloc] init];
+        
+        [self getContact];
+    }
 }
 
-/************* ChetuChange ***********/
+- (void) getContact {
+    
+    
+    [AppDelegate sharedinstance].arrContactListIDs = [[NSMutableArray alloc] init];
+    
+    NSArray *arrContactList =  [[AppDelegate sharedinstance]sharedChatInstance].contactList.contacts;
+    
+    for(QBContactListItem *contact in arrContactList) {
+        
+        BOOL isOnline = contact.isOnline;
+        NSInteger userIdValue = contact.userID;
+        
+        [[AppDelegate sharedinstance].arrContactListIDs addObject:[NSNumber numberWithInteger:contact.userID]];
+        
+        if(isOnline)
+        {
+            NSLog(@"User %ld is online",(long)userIdValue);
+            if(![[AppDelegate sharedinstance].arrSharedOnlineUsers containsObject:[NSNumber numberWithInteger:contact.userID]]) {
+                [[AppDelegate sharedinstance].arrSharedOnlineUsers addObject:[NSNumber numberWithInteger:contact.userID]];
+                
+            }
+        }
+        else {
+            if([[AppDelegate sharedinstance].arrSharedOnlineUsers containsObject:[NSNumber numberWithInteger:contact.userID]]) {
+                [[AppDelegate sharedinstance].arrSharedOnlineUsers removeObject:[NSNumber numberWithInteger:contact.userID]];
+                
+            }
+            
+        }
+    }
+    
+    [self getDialogs];
+    
+}
+
+- (void) getDialogs
+{
+    
+    [AppDelegate sharedinstance].strcustomnotificationtimer = @"2";
+    
+    _currentDialog=0;
+    
+    arrData = [[NSMutableArray alloc] init];
+    
+    //    arrFinalUserData = [[NSMutableArray alloc] init];
+    //  arrFinalDialogData = [[NSMutableArray alloc] init];
+    
+    NSMutableDictionary *extendedRequest = [NSMutableDictionary dictionary];
+    extendedRequest[@"sort_desc"] = @"last_message_date_sent";
+    
+    QBResponsePage *page = [QBResponsePage responsePageWithLimit:kdialogLimit skip:_currentDialog];
+    
+    [QBRequest dialogsForPage:page extendedRequest:extendedRequest successBlock:^(QBResponse *response, NSArray *dialogObjects, NSSet *dialogsUsersIDs, QBResponsePage *page) {
+        
+        _currentDialog += dialogObjects.count;
+        
+        [arrDialogData addObjectsFromArray:dialogObjects];
+        
+        if (page.totalEntries > _currentDialog) {
+            
+            [self getDialogs];
+            return;
+        }
+        
+        NSMutableArray *arrOccupants  = [[NSMutableArray alloc] init];
+        
+        NSString *strCurrentId = [[AppDelegate sharedinstance] getStringObjfromKey:kuserDBID];
+        
+        NSNumber *num = [NSNumber numberWithInt:[strCurrentId intValue]];
+        
+        for(QBChatDialog *obj  in arrDialogData) {
+            //now go through array and get user id of opponents
+            
+            if(![[AppDelegate sharedinstance] checkSubstring:@"unfriended" containedIn:obj.lastMessageText ])
+            {
+                NSMutableArray *arrTemp = [obj.occupantIDs mutableCopy];
+                [arrTemp removeObject:num];
+                [arrOccupants addObject:[arrTemp objectAtIndex:0]];
+            }
+        }
+        
+        NSLog(@"%@",[[arrOccupants valueForKey:@"description"] componentsJoinedByString:@","]);
+        
+        [self getUserFromDialogs:0 withArray:arrOccupants];
+        
+        
+    } errorBlock:^(QBResponse *response) {
+        [[AppDelegate sharedinstance] hideLoader];
+        
+    }];
+}
+
+-(void) getUserFromDialogs:(int) dialogUserPageNum withArray:(NSMutableArray *)arrOccupants{
+    
+    __block int currentPageNum = dialogUserPageNum;
+    
+    NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
+    [getRequest setObject:kLimit forKey:@"limit"];
+    
+    NSString *strPage = [NSString stringWithFormat:@"%d",[kLimit intValue] * currentPageNum];
+    
+    [getRequest setObject:strPage forKey:@"skip"];
+    //        [getRequest setObject:@"ID" forKey:@"sort_desc"];
+    
+    [getRequest setObject:[[arrOccupants valueForKey:@"description"] componentsJoinedByString:@","] forKey:@"user_id[in]"];
+    
+    NSString *searchType = [self IsPro] ? kuserSearchPro : kuserSearchUser;
+    
+    
+    
+    NSMutableDictionary *dictUserSearchData = [[[NSUserDefaults standardUserDefaults] objectForKey:searchType] mutableCopy];
+    NSString *strinterested_in_location =[[AppDelegate sharedinstance] nullcheck:[dictUserSearchData objectForKey:@"Location"]];
+    // This will find the users within 150 mile range if user select nearme option from segment control.
+    if ([nearMe isEqualToString: @"YES"]) {
+        strinterested_in_location = @"100";
+    }else {
+        
+    }
+    /************ ChetuChange  ************/
+    if([strinterested_in_location length]>0) {
+        
+        if(![strinterested_in_location isEqualToString:@"150"]) {
+            
+            float val = [strinterested_in_location floatValue];
+            float metres = val* 1609.34f;
+            
+            NSString *strlatitude = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlat];
+            strlatitude = [[AppDelegate sharedinstance] nullcheck:strlatitude];
+            
+            NSString *strlongitude = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlong];
+            strlongitude = [[AppDelegate sharedinstance] nullcheck:strlongitude];
+            
+            // if no location access
+            if([strlatitude length]==0) {
+                strlatitude = @"45.62076121";
+                strlongitude = @"-111.12052917";
+            }
+            
+            NSString *strFilterDistance = [NSString stringWithFormat:@"%f,%f;%f",[strlongitude floatValue],[strlatitude floatValue],metres];
+            [getRequest setObject:strFilterDistance forKey:@"current_location[near]"];
+            
+        }
+        
+    }
+    
+    
+    [[AppDelegate sharedinstance] showLoader];
+    
+    arrFinalDialogData = [[NSMutableArray alloc] init];
+    arrFinalUserData = [[NSMutableArray alloc] init];
+    
+    [QBRequest objectsWithClassName:@"UserInfo" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {            // do something with retrieved object
+        
+        for(QBCOCustomObject *userobj in objects) {
+            
+            NSInteger userId = userobj.userID;
+            
+            NSInteger idxOfuser =  [arrOccupants indexOfObject:[NSNumber numberWithInteger:userId]];
+            
+            QBChatDialog *dictDialog = [arrDialogData objectAtIndex:idxOfuser];
+            
+            [arrFinalUserData addObject:userobj];
+            [arrFinalDialogData addObject:dictDialog];
+        }
+        
+        if(!arrData) {
+            arrData = [[NSMutableArray alloc] init];
+        }
+        
+        if(objects.count >= [kLimit integerValue]) {
+            
+            [self getUserFromDialogs:++currentPageNum withArray:arrOccupants];
+            return;
+        }
+        
+        
+        arrData = [arrFinalUserData mutableCopy];
+        
+        if([arrData count]==0) {
+            [lblNotAvailable setHidden:NO];
+        }
+        else {
+            [lblNotAvailable setHidden:YES];
+        }
+        
+        if([strIsMyMatches isEqualToString:@"1"]) {
+            
+            if([arrFinalUserData count]>0) {
+                [tblList reloadData];
+                tblList.userInteractionEnabled = true;
+                [tblList setScrollEnabled: true];
+                
+            }
+        }
+        
+        
+        
+        [self performSelector:@selector(resettimer) withObject:nil afterDelay:2];
+        [[AppDelegate sharedinstance] hideLoader];
+        
+    } errorBlock:^(QBResponse *response) {
+        // Handle error here
+        [[AppDelegate sharedinstance] hideLoader];
+        
+    }];
+}
+
+-(void) resettimer {
+    [AppDelegate sharedinstance].strcustomnotificationtimer = @"1";
+}
+
+
+-(void) getAllUsers {
+    
+    // getting connections so can filter out connecton status
+    
+    NSString *strUserEmail = [[AppDelegate sharedinstance] getCurrentUserEmail];
+    
+    NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
+    
+    [getRequest setObject:strUserEmail forKey:@"connSenderID[or]"];
+    [getRequest setObject:strUserEmail forKey:@"connReceiverID[or]"];
+    [getRequest setObject:kLimit forKey:@"limit"];
+    NSString *strPage = [NSString stringWithFormat:@"%d",[kLimit intValue] * currentPageGetAllUser];
+    
+    [getRequest setObject:strPage forKey:@"skip"];
+    
+    //  [[AppDelegate sharedinstance] showLoader];
+    
+    [QBRequest objectsWithClassName:@"UserConnections" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
+        // response processing
+        
+        if(!arrConnections) {
+            arrConnections = [[NSMutableArray alloc] init];
+        }
+        
+        [arrConnections addObjectsFromArray:[objects mutableCopy]];
+        
+        if([objects count]>=[kLimit integerValue]) {
+            shouldLoadNext=YES;
+        }
+        else {
+            shouldLoadNext=NO;
+        }
+        
+        if(shouldLoadNext) {
+            
+          //  ++_currentPage;
+            ++currentPageGetAllUser;
+            [self getAllUsers];
+            return;
+        }
+        
+        NSMutableArray *arrTemp = [[NSMutableArray alloc] init];
+        
+        for (QBCOCustomObject *obj in arrConnections) {
+            
+            NSString *strSenderId = [obj.fields objectForKey:@"connSenderID"];
+            NSString *strRecId = [obj.fields objectForKey:@"connReceiverID"];
+            
+            if([strSenderId isEqualToString:[[AppDelegate sharedinstance] getCurrentUserEmail]]) {
+                [arrTemp addObject:strRecId];
+            }
+            else if([strRecId isEqualToString:[[AppDelegate sharedinstance] getCurrentUserEmail]]) {
+                [arrTemp addObject:strSenderId];
+            }
+        }
+        
+        [arrTemp addObject:strUserEmail];
+        
+        arrConnections = [arrTemp mutableCopy];
+        [tblList setContentOffset:tblList.contentOffset animated:NO];
+        arrData = [[NSMutableArray alloc] init];
+        // [self getPagedUsers:0];
+        [self getCoursesRecordCount:_currentPage];
+    } errorBlock:^(QBResponse *response) {
+        // error handling
+        [[AppDelegate sharedinstance] hideLoader];
+        
+        NSLog(@"Response error: %@", [response.error description]);
+    }];
+    
+}
+/********** ChetuChange ********/
+#pragma mark- Get golfers count
+/************* Get Golfers count from Quickblox table **************/
+
+-(void)getCoursesRecordCount:(int) currentNum
+{
+    __block int currentPageNum = currentNum;
+    
+    NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
+    [getRequest setObject:kLimit forKey:@"limit"];
+    
+    NSString *strPage = [NSString stringWithFormat:@"%d",[kLimit intValue] * currentPageNum];
+    
+    [getRequest setObject:strPage forKey:@"skip"];
+    
+    [getRequest setObject:@"created_at" forKey:@"sort_desc"];
+    
+    NSString *searchType = [self IsPro] ? kuserSearchPro : kuserSearchUser;
+    
+    NSMutableDictionary *dictUserSearchData = [[[NSUserDefaults standardUserDefaults] objectForKey:searchType] mutableCopy];
+    
+    
+    // Age condition
+    NSString *strAge = [dictUserSearchData objectForKey:@"Age"];
+    
+    NSInteger upperlimit = 0, lowerlimit=0;
+    
+    if([strAge length] != 0)
+    {
+        
+        
+        
+        NSArray* splitAge = [strAge componentsSeparatedByString: @"-"];
+        lowerlimit = [[splitAge objectAtIndex: 0] intValue] - 1;
+        upperlimit = [[splitAge objectAtIndex: 1] intValue] + 1;
+        
+        /************* ChetuChange ***********/
+        if(lowerlimit>0) {
+            [getRequest setObject:[NSNumber numberWithInteger:upperlimit] forKey:@"userAge[lt]"];
+            [getRequest setObject:[NSNumber numberWithInteger:lowerlimit] forKey:@"userAge[gt]"];
+            
+            /************* ChetuChange ***********/
+        }
+    }
+    
+    
+    NSString *strHandicap = [dictUserSearchData objectForKey:@"Handicap"];
+    
+    if([strHandicap length]!=0 && ![self IsPro])
+    {
+        NSArray* splitHandicap = [strHandicap componentsSeparatedByString: @":"];
+        NSString *handicapRange = [splitHandicap objectAtIndex: 0];
+        NSString *includeNA = [splitHandicap objectAtIndex: 1];
+        
+        NSArray* splitRange = [handicapRange componentsSeparatedByString: @" - "];
+        lowerlimit = [[splitRange objectAtIndex: 0] intValue];
+        upperlimit = [[splitRange objectAtIndex: 1] intValue];
+        
+        NSMutableArray *handicapArr = [[NSMutableArray alloc] init];
+        
+        for(long x = lowerlimit; x <= upperlimit; ++x)
+        {
+            [handicapArr addObject:[NSString stringWithFormat:@"%ld", x]];
+        }
+        
+        if([includeNA isEqualToString:@"0"])
+        {
+            [handicapArr addObject:@"N/A"];
+        }
+        
+        [getRequest setObject:handicapArr forKey:@"userHandicap[in]"];
+        [getRequest setObject:@"userHandicap" forKey:@"sort_asc"];
+        
+    }
+    
+    
+    NSString *strType = [dictUserSearchData  objectForKey:@"Type"] ;
+    
+    if([strType length] != 0 && ![strType isEqualToString:@"All"]) {
+        [getRequest setObject: strType forKey:@"userFullMode"];
+        
+    }
+    
+    NSString *strState =[[AppDelegate sharedinstance] nullcheck:[dictUserSearchData objectForKey:@"State"]];
+    
+    if(![strState isEqualToString:@"All"] && [strState length] != 0)
+        [getRequest setObject:strState forKey:@"userState[in]"];
+    
+    
+    NSString *strGolfer_name = [[AppDelegate sharedinstance] nullcheck:[dictUserSearchData objectForKey:@"Golfers_name"]];
+    
+    if(![strGolfer_name isEqualToString:@"All"] && [strGolfer_name length] != 0)
+    {
+        [getRequest setObject: strGolfer_name forKey:@"userDisplayName[ctn]"];
+    }
+    
+    
+    NSArray *arrCity = [dictUserSearchData objectForKey:@"City"];
+    
+    if(![arrCity containsObject:@"All"] && [arrCity count] != 0)
+        [getRequest setObject:arrCity forKey:@"userCity[in]"];
+    
+    NSString *strinterested_in_home_course = [[AppDelegate sharedinstance] nullcheck:[dictUserSearchData objectForKey:@"Name"]];
+    
+    if([strinterested_in_home_course length]>0) {
+        if(![strinterested_in_home_course isEqualToString:@"All"])
+            [getRequest setObject:strinterested_in_home_course forKey:@"home_coursename[in]"];
+    }
+    /************* ChetuChange ***********/
+    NSString *role = [self IsPro] ? @"1" : @"0";
+    
+    
+    [getRequest setObject:role forKey:@"UserRole"];
+    /************* ChetuChange ***********/
+    
+    NSString *strinterested_in_location =[[AppDelegate sharedinstance] nullcheck:[dictUserSearchData objectForKey:@"Location"]];
+    /************ ChetuChange  ************/
+    
+    // This will find the users within 150 mile range if user select nearme option from segment control.
+    if ([nearMe isEqualToString: @"YES"]) {
+        strinterested_in_location = @"100";
+    }else {
+        
+    }
+    /************ ChetuChange  ************/
+    if([strinterested_in_location length]>0) {
+        
+        if(![strinterested_in_location isEqualToString:@"150"]) {
+            
+            float val = [strinterested_in_location floatValue];
+            float metres = val* 1609.34f;
+            
+            NSString *strlatitude = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlat];
+            strlatitude = [[AppDelegate sharedinstance] nullcheck:strlatitude];
+            
+            NSString *strlongitude = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlong];
+            strlongitude = [[AppDelegate sharedinstance] nullcheck:strlongitude];
+            
+            // if no location access
+            if([strlatitude length]==0) {
+                strlatitude = @"45.62076121";
+                strlongitude = @"-111.12052917";
+            }
+            
+            NSString *strFilterDistance = [NSString stringWithFormat:@"%f,%f;%f",[strlongitude floatValue],[strlatitude floatValue],metres];
+            [getRequest setObject:strFilterDistance forKey:@"current_location[near]"];
+            
+        }
+        
+    }else {
+        
+        NSString *strlatitude = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlat];
+        strlatitude = [[AppDelegate sharedinstance] nullcheck:strlatitude];
+        
+        NSString *strlongitude = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlong];
+        strlongitude = [[AppDelegate sharedinstance] nullcheck:strlongitude];
+        
+        // if no location access
+        if([strlatitude length]==0) {
+            strlatitude = @"45.62076121";
+            strlongitude = @"-111.12052917";
+        }
+        
+        float metresDistance = 99999999999.34f;
+        NSString *strFilterDistance = [NSString stringWithFormat:@"%f,%f;%f",[strlongitude floatValue],[strlatitude floatValue],metresDistance];
+        [getRequest setObject:strFilterDistance forKey:@"current_location[near]"];
+        
+    }
+    
+    NSString *strGender = [[AppDelegate sharedinstance] nullcheck:[[dictUserSearchData  objectForKey:@"Gender"] lowercaseString]];
+    
+    if(![strGender isEqualToString:@"all"] && [strGender length] != 0)
+    {
+        [getRequest setObject:strGender forKey:@"userGender[in]"];
+    }
+    
+    
+    if(![self IsPro])
+    {
+        [getRequest setObject:[[arrConnections valueForKey:@"description"] componentsJoinedByString:@","] forKey:@"userEmail[nin]"];
+    }
+    
+    NSMutableDictionary *dictUserData = [[[NSUserDefaults standardUserDefaults] objectForKey:kuserData] mutableCopy];
+    
+    NSString *strisDevelopment = [[AppDelegate sharedinstance] nullcheck:[dictUserData  objectForKey:@"isDevelopment"]] ;
+    
+    if([strisDevelopment isEqualToString:@"1"]) {
+        [getRequest setObject:@"1" forKey:@"isDevelopment"];
+    }
+    
+    [getRequest setObject:@16 forKey:@"advertisingBlockCount[lt]"];
+    
+    NSString *type = [[AppDelegate sharedinstance] nullcheck:[dictUserData  objectForKey:@"Type"]];
+    
+    if(![type isEqualToString:@"All"] && [type length] !=0)
+    {
+        if([type isEqualToString:@"Free"])
+        {
+            type = @"1";
+        }
+        else if([type isEqualToString:@"Premium"])
+        {
+            type = @"1";
+        }
+        
+        [getRequest setObject: type forKey:@"user_type"];
+    }
+    //   [[AppDelegate sharedinstance] showLoader];
+    
+    [QBRequest countObjectsWithClassName:@"UserInfo" extendedRequest:getRequest successBlock:^(QBResponse * _Nonnull response, NSUInteger count) {
+        
+        NSLog(@"%lu",(unsigned long)count);
+        coursesCount = (int)count;
+        NSString *recordcountStr;
+        if (shouldLoadNext) {
+            
+        }else {
+            if (coursesCount == 0) {
+                recordcountStr = [NSString stringWithFormat:@"0 - 0 (%d)", coursesCount];
+            }else if (coursesCount < 25) {
+                recordcountStr = [NSString stringWithFormat:@"1 - %d (%d)", coursesCount, coursesCount];
+            }else {
+                recordcountStr = [NSString stringWithFormat:@"1 - %@ (%d)", kLimit, coursesCount];
+            }
+            
+         //   recordLbl.text = recordcountStr;
+        }
+        [self getPagedUsers:_currentPage];
+        
+        
+    } errorBlock:^(QBResponse *response) {
+        [[AppDelegate sharedinstance] hideLoader];
+        
+        NSLog(@"Response error: %@", [response.error description]);
+    }];
+    
+}
+/************* Get Golfers count from Quickblox table **************/
+/********** ChetuChange ********/
+-(void) getPagedUsers:(int) currentNum {
+    __block int currentPageNum = currentNum;
+    
+    NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
+    [getRequest setObject:kLimit forKey:@"limit"];
+    
+    NSString *strPage = [NSString stringWithFormat:@"%d",[kLimit intValue] * currentPageNum];
+    
+    [getRequest setObject:strPage forKey:@"skip"];
+    
+    [getRequest setObject:@"created_at" forKey:@"sort_desc"];
+    
+    NSString *searchType = [self IsPro] ? kuserSearchPro : kuserSearchUser;
+    
+    NSMutableDictionary *dictUserSearchData = [[[NSUserDefaults standardUserDefaults] objectForKey:searchType] mutableCopy];
+    
+    // Age condition
+    NSString *strAge = [dictUserSearchData objectForKey:@"Age"];
+    
+    NSInteger upperlimit = 0, lowerlimit=0;
+    
+    if([strAge length] != 0)
+    {
+        
+        
+        
+        NSArray* splitAge = [strAge componentsSeparatedByString: @"-"];
+        lowerlimit = [[splitAge objectAtIndex: 0] intValue] - 1;
+        upperlimit = [[splitAge objectAtIndex: 1] intValue] + 1;
+        
+        /************* ChetuChange ***********/
+        if(lowerlimit>0) {
+            [getRequest setObject:[NSNumber numberWithInteger:upperlimit] forKey:@"userAge[lt]"];
+            [getRequest setObject:[NSNumber numberWithInteger:lowerlimit] forKey:@"userAge[gt]"];
+            
+            /************* ChetuChange ***********/
+        }
+    }
+    
+    
+    NSString *strHandicap = [dictUserSearchData objectForKey:@"Handicap"];
+    
+    if([strHandicap length]!=0 && ![self IsPro])
+    {
+        NSArray* splitHandicap = [strHandicap componentsSeparatedByString: @":"];
+        NSString *handicapRange = [splitHandicap objectAtIndex: 0];
+        NSString *includeNA = [splitHandicap objectAtIndex: 1];
+        
+        NSArray* splitRange = [handicapRange componentsSeparatedByString: @" - "];
+        lowerlimit = [[splitRange objectAtIndex: 0] intValue];
+        upperlimit = [[splitRange objectAtIndex: 1] intValue];
+        
+        NSMutableArray *handicapArr = [[NSMutableArray alloc] init];
+        
+        for(long x = lowerlimit; x <= upperlimit; ++x)
+        {
+            [handicapArr addObject:[NSString stringWithFormat:@"%ld", x]];
+        }
+        
+        if([includeNA isEqualToString:@"0"])
+        {
+            [handicapArr addObject:@"N/A"];
+        }
+        
+        [getRequest setObject:handicapArr forKey:@"userHandicap[in]"];
+        [getRequest setObject:@"userHandicap" forKey:@"sort_asc"];
+        
+        
+        
+    }
+    
+    
+    NSString *strType = [dictUserSearchData  objectForKey:@"Type"] ;
+    
+    if([strType length] != 0 && ![strType isEqualToString:@"All"]) {
+        [getRequest setObject: strType forKey:@"userFullMode"];
+        
+    }
+    
+    NSString *strState =[[AppDelegate sharedinstance] nullcheck:[dictUserSearchData objectForKey:@"State"]];
+    
+    if(![strState isEqualToString:@"All"] && [strState length] != 0)
+        [getRequest setObject:strState forKey:@"userState[in]"];
+    
+    NSString *strGolfer_name = [[AppDelegate sharedinstance] nullcheck:[dictUserSearchData objectForKey:@"Golfers_name"]];
+    
+    if(![strGolfer_name isEqualToString:@"All"] && [strGolfer_name length] != 0)
+        [getRequest setObject: strGolfer_name forKey:@"userDisplayName[ctn]"];
+    
+    
+    NSArray *arrCity = [dictUserSearchData objectForKey:@"City"];
+    
+    if(![arrCity containsObject:@"All"] && [arrCity count] != 0)
+        [getRequest setObject:arrCity forKey:@"userCity[in]"];
+    
+    NSString *strinterested_in_home_course = [[AppDelegate sharedinstance] nullcheck:[dictUserSearchData objectForKey:@"Name"]];
+    
+    if([strinterested_in_home_course length]>0) {
+        if(![strinterested_in_home_course isEqualToString:@"All"])
+            [getRequest setObject:strinterested_in_home_course forKey:@"home_coursename[in]"];
+    }
+    /************* ChetuChange ***********/
+    NSString *role = [self IsPro] ? @"1" : @"0";
+    
+    
+    [getRequest setObject:role forKey:@"UserRole"];
+    /************* ChetuChange ***********/
+    
+    NSString *strinterested_in_location =[[AppDelegate sharedinstance] nullcheck:[dictUserSearchData objectForKey:@"Location"]];
+    /************ ChetuChange  ************/
+    
+    // This will find the users within 100 mile range if user select nearme option from segment control.
+    if ([nearMe isEqualToString: @"YES"]) {
+        strinterested_in_location = @"100";
+    }else {
+        
+    }
+    /************ ChetuChange  ************/
+    if([strinterested_in_location length]>0) {
+        
+        if(![strinterested_in_location isEqualToString:@"150"]) {
+            
+            float val = [strinterested_in_location floatValue];
+            float metres = val* 1609.34f;
+            
+            NSString *strlatitude = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlat];
+            strlatitude = [[AppDelegate sharedinstance] nullcheck:strlatitude];
+            
+            NSString *strlongitude = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlong];
+            strlongitude = [[AppDelegate sharedinstance] nullcheck:strlongitude];
+            
+            // if no location access
+            if([strlatitude length]==0) {
+                strlatitude = @"45.62076121";
+                strlongitude = @"-111.12052917";
+            }
+            
+            NSString *strFilterDistance = [NSString stringWithFormat:@"%f,%f;%f",[strlongitude floatValue],[strlatitude floatValue],metres];
+            [getRequest setObject:strFilterDistance forKey:@"current_location[near]"];
+            
+        }
+        
+    }
+    
+    NSString *strGender = [[AppDelegate sharedinstance] nullcheck:[[dictUserSearchData  objectForKey:@"Gender"] lowercaseString]];
+    
+    if(![strGender isEqualToString:@"all"] && [strGender length] != 0)
+    {
+        [getRequest setObject:strGender forKey:@"userGender[in]"];
+    }
+    
+    
+    if(![self IsPro])
+    {
+        [getRequest setObject:[[arrConnections valueForKey:@"description"] componentsJoinedByString:@","] forKey:@"userEmail[nin]"];
+    }
+    
+    NSMutableDictionary *dictUserData = [[[NSUserDefaults standardUserDefaults] objectForKey:kuserData] mutableCopy];
+    
+    NSString *strisDevelopment = [[AppDelegate sharedinstance] nullcheck:[dictUserData  objectForKey:@"isDevelopment"]] ;
+    
+    if([strisDevelopment isEqualToString:@"1"]) {
+        [getRequest setObject:@"1" forKey:@"isDevelopment"];
+    }
+    
+    [getRequest setObject:@16 forKey:@"advertisingBlockCount[lt]"];
+    
+    NSString *type = [[AppDelegate sharedinstance] nullcheck:[dictUserData  objectForKey:@"Type"]];
+    
+    if(![type isEqualToString:@"All"] && [type length] !=0)
+    {
+        if([type isEqualToString:@"Free"])
+        {
+            type = @"1";
+        }
+        else if([type isEqualToString:@"Premium"])
+        {
+            type = @"1";
+        }
+        
+        [getRequest setObject: type forKey:@"user_type"];
+    }
+    
+    
+    //   [[AppDelegate sharedinstance] showLoader];
+    
+    [QBRequest objectsWithClassName:@"UserInfo" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
+        // response processing
+        
+        //        if(!arrData) {
+        //            arrData = [[NSMutableArray alloc] init];
+        //        }
+        arrData = [[NSMutableArray alloc] init];
+        [arrData addObjectsFromArray:[objects mutableCopy]];
+        
+        //        if(objects.count >= [kLimit integerValue]) {
+        //
+        //            [self getPagedUsers:++currentPageNum];
+        //            return;
+        //        }
+        
+        if([objects count]>=[kLimit integerValue]) {
+            shouldLoadNext = YES;
+            fetchNextRecordBtn.hidden = false;
+
+        }
+        else {
+            shouldLoadNext=NO;
+            fetchNextRecordBtn.hidden = true;
+        }
+        if (shouldLoadNext) {
+            
+            NSString *recordcountStr;
+            
+            NSString *strPage = [NSString stringWithFormat:@"%d",[kLimit intValue] * _currentPage];
+            int noOfRecords = (int)objects.count;
+            int skipRecords = [strPage intValue];
+            if (skipRecords != 0) {
+                int lastLimitRecords = skipRecords + noOfRecords;
+                skipRecords = skipRecords + 1;
+                recordcountStr = [NSString stringWithFormat:@"%d - %d (%d)",skipRecords, lastLimitRecords, coursesCount];
+                recordLbl.text = recordcountStr;
+            }else {
+                int lastLimitRecords = skipRecords + noOfRecords;
+                skipRecords = skipRecords + 1;
+                recordcountStr = [NSString stringWithFormat:@"%d - %d (%d)",skipRecords, lastLimitRecords, coursesCount];
+                recordLbl.text = recordcountStr;
+            }
+            
+            
+        }else {
+            NSString *strPage = [NSString stringWithFormat:@"%d",[kLimit intValue] * _currentPage];
+            int skipRecords = [strPage intValue];
+            int diffLastRecords = coursesCount - skipRecords;
+            if (diffLastRecords <= [kLimit intValue]) {
+                NSString *recordcountStr;
+                if (skipRecords == 0 && coursesCount == 0) {
+                }else {
+                    skipRecords = skipRecords + 1;
+                }
+                
+                recordcountStr = [NSString stringWithFormat:@"%d - %d (%d)",skipRecords, coursesCount, coursesCount];
+                recordLbl.text = recordcountStr;
+            }
+        }
+        
+        
+        if([arrData count]==0) {
+            [lblNotAvailable setHidden:NO];
+             [tblList setHidden:YES];
+        }
+        else {
+            [lblNotAvailable setHidden:YES];
+              [tblList setHidden:NO];
+        }
+        
+        isPageRefreshing=NO;
+        
+        if (isFromSendRequestToUser == 1) {
+                 [tblList reloadData];
+                 tblList.userInteractionEnabled = true;
+                 [tblList setScrollEnabled: true];
+                 [[AppDelegate sharedinstance] hideLoader];
+                 [[AppDelegate sharedinstance] displayMessage:@"Request has been sent successfully"];
+            
+        }else {
+          
+            [[AppDelegate sharedinstance] hideLoader];
+            [tblList reloadData];
+            tblList.userInteractionEnabled = true;
+            [tblList setScrollEnabled: true];
+        }
+       isFromSendRequestToUser = 0;
+       
+        
+      
+        
+        
+    } errorBlock:^(QBResponse *response) {
+        // error handling
+        [[AppDelegate sharedinstance] hideLoader];
+        
+        NSLog(@"Response error: %@", [response.error description]);
+    }];
+    
+}
 
 #pragma mark - load Initial 25 Records
 // Load Initial 25 records
@@ -295,775 +1063,103 @@
     }
 }
 /*********** ChetuChnage ************/
+#pragma mark - Create Record Base View
+// Create Record baseView prograrmmatically
+-(void)createRecordBaseView {
+    
+    // get device size
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    CGFloat screenWidth = screenRect.size.width;
+    
+    // create baseview for previous, next and lable
+    loadRecordBaseView = [[UIView alloc]initWithFrame:CGRectMake((screenWidth - 250 )/2, 0, 250, fecthNextPrevRecordsBaseVIew.frame.size.height)];
+    loadRecordBaseView.backgroundColor = [UIColor clearColor];
+    [fecthNextPrevRecordsBaseVIew addSubview:loadRecordBaseView];
+    
+    // create previous button
+    fetchPrevRecordBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 50, loadRecordBaseView.frame.size.height)];
+    [fetchPrevRecordBtn setTitle:kFetchPreviousRecordBtnTitle forState:UIControlStateNormal];
+    fetchPrevRecordBtn.titleLabel.font = [UIFont fontWithName:kFontNameHelveticaNeue size:25];
+    //   [fetchPrevRecordBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+    fetchPrevRecordBtn.titleLabel.textAlignment = NSTextAlignmentLeft;
+    [fetchPrevRecordBtn addTarget:self action:@selector(fetchPrevRecordBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [loadRecordBaseView addSubview:fetchPrevRecordBtn];
+    
+    // create record label
+    recordLbl = [[UILabel alloc]initWithFrame:CGRectMake(fetchPrevRecordBtn.frame.size.width + fetchPrevRecordBtn.frame.origin.x, 0, 150,loadRecordBaseView.frame.size.height)];
+    recordLbl.text = @"1 - 25";
+    recordLbl.adjustsFontSizeToFitWidth = YES;
+    recordLbl.textAlignment = NSTextAlignmentCenter;
+    recordLbl.font = [UIFont fontWithName:kFontNameHelveticaNeue size:17];
+    recordLbl.textColor = [UIColor whiteColor];
+    [loadRecordBaseView addSubview:recordLbl];
+    
+    // create next button to fetch next 25 records of courses
+    fetchNextRecordBtn = [[UIButton alloc]initWithFrame:CGRectMake(recordLbl.frame.size.width + recordLbl.frame.origin.x, 0, 50, loadRecordBaseView.frame.size.height)];
+    [fetchNextRecordBtn setTitle:kFetchNextRecordBtnTitle forState:UIControlStateNormal];
+    [fetchNextRecordBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    fetchNextRecordBtn.titleLabel.font = [UIFont fontWithName:kFontNameHelveticaNeue size:25];
+    fetchNextRecordBtn.titleLabel.textAlignment = NSTextAlignmentRight;
+    [fetchNextRecordBtn addTarget:self action:@selector(fetchNextRecordBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [loadRecordBaseView addSubview:fetchNextRecordBtn];
+    
+    fecthNextPrevRecordsBaseVIew.backgroundColor = [UIColor colorWithRed:0.000 green:0.655 blue:0.176 alpha:1.00];
+    
+    // create previous button
+    fecthInitialRecordBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, loadRecordBaseView.frame.origin.x, loadRecordBaseView.frame.size.height)];
+    [fecthInitialRecordBtn setTitle:kFetchInitialRecordBtnTitle forState:UIControlStateNormal];
+    fecthInitialRecordBtn.titleLabel.font = [UIFont fontWithName:kFontNameHelveticaNeue size:25];
+    //   [fecthInitialRecordBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+    fecthInitialRecordBtn.titleLabel.textAlignment = NSTextAlignmentLeft;
+    [fecthInitialRecordBtn addTarget:self action:@selector(fetchInitialRecordBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [fecthNextPrevRecordsBaseVIew addSubview:fecthInitialRecordBtn];
+    
+    fetchPrevRecordBtn.hidden = true;
+    fecthInitialRecordBtn.hidden = true;
+}
+
+/************* ChetuChange ***********/
 
 - (IBAction)segmentChanged:(id)sender {
     
     UISegmentedControl *segmentedControl = (UISegmentedControl *) sender;
     NSInteger selectedSegment = segmentedControl.selectedSegmentIndex;
-    
-    fetchPrevRecordBtn.hidden = true;
-    fecthInitialRecordBtn.hidden = true;
-    
-    int selectedSeg = (int)selectedSegment;
-    
-    if (selectedSeg == 0) {
-         nearMe = @"NO";
-    }else {
-         nearMe = @"YES";
-    }
-    _currentPage = 0;
-     arrConnections = [[NSMutableArray alloc] init];
-    [[AppDelegate sharedinstance] showLoader];
-    [self getAllUsers];
-    
-    
-}
-
--(void) refreshdialogs {
-    
-    if([strIsMyMatches isEqualToString:@"1"])
-    {
-        arrDialogData = [[NSMutableArray alloc] init];
-
-        [self getContact];
-    }
-}
-
-- (void) getContact {
-    
-    
-    [AppDelegate sharedinstance].arrContactListIDs = [[NSMutableArray alloc] init];
-    
-    NSArray *arrContactList =  [[AppDelegate sharedinstance]sharedChatInstance].contactList.contacts;
-    
-    for(QBContactListItem *contact in arrContactList) {
-        
-        BOOL isOnline = contact.isOnline;
-        NSInteger userIdValue = contact.userID;
-
-        [[AppDelegate sharedinstance].arrContactListIDs addObject:[NSNumber numberWithInteger:contact.userID]];
-        
-        if(isOnline)
-        {
-            NSLog(@"User %ld is online",(long)userIdValue);
-            if(![[AppDelegate sharedinstance].arrSharedOnlineUsers containsObject:[NSNumber numberWithInteger:contact.userID]]) {
-                [[AppDelegate sharedinstance].arrSharedOnlineUsers addObject:[NSNumber numberWithInteger:contact.userID]];
-                
-            }
-        }
-        else {
-            if([[AppDelegate sharedinstance].arrSharedOnlineUsers containsObject:[NSNumber numberWithInteger:contact.userID]]) {
-                [[AppDelegate sharedinstance].arrSharedOnlineUsers removeObject:[NSNumber numberWithInteger:contact.userID]];
-
-            }
-
-        }
-    }
-    
-    [self getDialogs];
-
-}
-
-- (void) getDialogs
-{
-   
-    [AppDelegate sharedinstance].strcustomnotificationtimer = @"2";
-    
-    _currentDialog=0;
-    
-    arrData = [[NSMutableArray alloc] init];
-   
-//    arrFinalUserData = [[NSMutableArray alloc] init];
-  //  arrFinalDialogData = [[NSMutableArray alloc] init];
-    
-   NSMutableDictionary *extendedRequest = [NSMutableDictionary dictionary];
-    extendedRequest[@"sort_desc"] = @"last_message_date_sent";
-
-    QBResponsePage *page = [QBResponsePage responsePageWithLimit:kdialogLimit skip:_currentDialog];
-    
-    [QBRequest dialogsForPage:page extendedRequest:extendedRequest successBlock:^(QBResponse *response, NSArray *dialogObjects, NSSet *dialogsUsersIDs, QBResponsePage *page) {
-        
-        _currentDialog += dialogObjects.count;
-        
-        [arrDialogData addObjectsFromArray:dialogObjects];
-        
-        if (page.totalEntries > _currentDialog) {
-            
-            [self getDialogs];
-            return;
-        }
-        
-        NSMutableArray *arrOccupants  = [[NSMutableArray alloc] init];
-        
-        NSString *strCurrentId = [[AppDelegate sharedinstance] getStringObjfromKey:kuserDBID];
-        
-        NSNumber *num = [NSNumber numberWithInt:[strCurrentId intValue]];
-        
-        for(QBChatDialog *obj  in arrDialogData) {
-            //now go through array and get user id of opponents
-            
-            if(![[AppDelegate sharedinstance] checkSubstring:@"unfriended" containedIn:obj.lastMessageText ])
-            {
-                NSMutableArray *arrTemp = [obj.occupantIDs mutableCopy];
-                [arrTemp removeObject:num];
-                [arrOccupants addObject:[arrTemp objectAtIndex:0]];
-            }
-        }
-
-        NSLog(@"%@",[[arrOccupants valueForKey:@"description"] componentsJoinedByString:@","]);
-        
-        [self getUserFromDialogs:0 withArray:arrOccupants];
-
-        
-     } errorBlock:^(QBResponse *response) {
-         [[AppDelegate sharedinstance] hideLoader];
-
-     }];
-}
-
--(void) getUserFromDialogs:(int) dialogUserPageNum withArray:(NSMutableArray *)arrOccupants{
-    
-    __block int currentPageNum = dialogUserPageNum;
-    
-    NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
-    [getRequest setObject:kLimit forKey:@"limit"];
-    
-    NSString *strPage = [NSString stringWithFormat:@"%d",[kLimit intValue] * currentPageNum];
-    
-    [getRequest setObject:strPage forKey:@"skip"];
-    //        [getRequest setObject:@"ID" forKey:@"sort_desc"];
-    
-    [getRequest setObject:[[arrOccupants valueForKey:@"description"] componentsJoinedByString:@","] forKey:@"user_id[in]"];
-    [[AppDelegate sharedinstance] showLoader];
-    
-    arrFinalDialogData = [[NSMutableArray alloc] init];
-    arrFinalUserData = [[NSMutableArray alloc] init];
-    
-    [QBRequest objectsWithClassName:@"UserInfo" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {            // do something with retrieved object
-        
-        for(QBCOCustomObject *userobj in objects) {
-            
-            NSInteger userId = userobj.userID;
-            
-            NSInteger idxOfuser =  [arrOccupants indexOfObject:[NSNumber numberWithInteger:userId]];
-            
-            QBChatDialog *dictDialog = [arrDialogData objectAtIndex:idxOfuser];
-            
-            [arrFinalUserData addObject:userobj];
-            [arrFinalDialogData addObject:dictDialog];
-        }
-        
-        if(!arrData) {
-            arrData = [[NSMutableArray alloc] init];
-        }
-        
-        if(objects.count >= [kLimit integerValue]) {
-            
-            [self getUserFromDialogs:++currentPageNum withArray:arrOccupants];
-            return;
-        }
-
-        
-        arrData = [arrFinalUserData mutableCopy];
-        
-        if([arrData count]==0) {
-            [lblNotAvailable setHidden:NO];
-        }
-        else {
-            [lblNotAvailable setHidden:YES];
-        }
-        
-        if([strIsMyMatches isEqualToString:@"1"]) {
-            
-            if([arrFinalUserData count]>0) {
-                [tblList reloadData];
-                tblList.userInteractionEnabled = true;
-                [tblList setScrollEnabled: true];
-                
-            }
-        }
-        
-       
-        
-        [self performSelector:@selector(resettimer) withObject:nil afterDelay:2];
-         [[AppDelegate sharedinstance] hideLoader];
-        
-    } errorBlock:^(QBResponse *response) {
-        // Handle error here
-        [[AppDelegate sharedinstance] hideLoader];
-        
-    }];
-}
-
--(void) resettimer {
-    [AppDelegate sharedinstance].strcustomnotificationtimer = @"1";
-}
-
-
--(void) getAllUsers {
-
-    // getting connections so can filter out connecton status
-    
-    NSString *strUserEmail = [[AppDelegate sharedinstance] getCurrentUserEmail];
-    
-    NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
-    
-    [getRequest setObject:strUserEmail forKey:@"connSenderID[or]"];
-    [getRequest setObject:strUserEmail forKey:@"connReceiverID[or]"];
-    [getRequest setObject:kLimit forKey:@"limit"];
-    NSString *strPage = [NSString stringWithFormat:@"%d",[kLimit intValue] * _currentPage];
-    
-    [getRequest setObject:strPage forKey:@"skip"];
-    
-  //  [[AppDelegate sharedinstance] showLoader];
-    
-    [QBRequest objectsWithClassName:@"UserConnections" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
-        // response processing
-        
-        if(!arrConnections) {
-            arrConnections = [[NSMutableArray alloc] init];
-        }
-        
-        [arrConnections addObjectsFromArray:[objects mutableCopy]];
-        
-        if([objects count]>=[kLimit integerValue]) {
-            shouldLoadNext=YES;
-        }
-        else {
-            shouldLoadNext=NO;
-        }
-
-        if(shouldLoadNext) {
-            
-            ++_currentPage;
-            [self getAllUsers];
-            return;
-        }
-        
-        NSMutableArray *arrTemp = [[NSMutableArray alloc] init];
-        
-        for (QBCOCustomObject *obj in arrConnections) {
-            
-            NSString *strSenderId = [obj.fields objectForKey:@"connSenderID"];
-            NSString *strRecId = [obj.fields objectForKey:@"connReceiverID"];
-
-            if([strSenderId isEqualToString:[[AppDelegate sharedinstance] getCurrentUserEmail]]) {
-                [arrTemp addObject:strRecId];
-            }
-            else if([strRecId isEqualToString:[[AppDelegate sharedinstance] getCurrentUserEmail]]) {
-                [arrTemp addObject:strSenderId];
-            }
-        }
-        
-        [arrTemp addObject:strUserEmail];
-        
-        arrConnections = [arrTemp mutableCopy];
-        [tblList setContentOffset:tblList.contentOffset animated:NO];
-        arrData = [[NSMutableArray alloc] init];
-       // [self getPagedUsers:0];
-        [self getCoursesRecordCount:0];
-    } errorBlock:^(QBResponse *response) {
-        // error handling
-        [[AppDelegate sharedinstance] hideLoader];
-
-        NSLog(@"Response error: %@", [response.error description]);
-    }];
-    
-}
-/********** ChetuChange ********/
-#pragma mark- Get golfers count
-/************* Get Golfers count from Quickblox table **************/
-
--(void)getCoursesRecordCount:(int) currentNum
-{
-    __block int currentPageNum = currentNum;
-    
-    NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
-    [getRequest setObject:kLimit forKey:@"limit"];
-    
-    NSString *strPage = [NSString stringWithFormat:@"%d",[kLimit intValue] * currentPageNum];
-    
-    [getRequest setObject:strPage forKey:@"skip"];
-    
-    [getRequest setObject:@"created_at" forKey:@"sort_desc"];
-    
-    NSString *searchType = [self IsPro] ? kuserSearchPro : kuserSearchUser;
-    
-    NSMutableDictionary *dictUserSearchData = [[[NSUserDefaults standardUserDefaults] objectForKey:searchType] mutableCopy];
-    
-   
-    // Age condition
-    NSString *strAge = [dictUserSearchData objectForKey:@"Age"];
-    
-    NSInteger upperlimit = 0, lowerlimit=0;
-    
-    if([strAge length] != 0)
-    {
-        
-        
-        
-        NSArray* splitAge = [strAge componentsSeparatedByString: @"-"];
-        lowerlimit = [[splitAge objectAtIndex: 0] intValue] - 1;
-        upperlimit = [[splitAge objectAtIndex: 1] intValue] + 1;
-        
-        /************* ChetuChange ***********/
-        if(lowerlimit>0) {
-               [getRequest setObject:[NSNumber numberWithInteger:upperlimit] forKey:@"userAge[lt]"];
-                [getRequest setObject:[NSNumber numberWithInteger:lowerlimit] forKey:@"userAge[gt]"];
-            
-            /************* ChetuChange ***********/
-        }
-    }
-    
-    
-    NSString *strHandicap = [dictUserSearchData objectForKey:@"Handicap"];
-    
-    if([strHandicap length]!=0 && ![self IsPro])
-    {
-        NSArray* splitHandicap = [strHandicap componentsSeparatedByString: @":"];
-        NSString *handicapRange = [splitHandicap objectAtIndex: 0];
-        NSString *includeNA = [splitHandicap objectAtIndex: 1];
-        
-        NSArray* splitRange = [handicapRange componentsSeparatedByString: @" - "];
-        lowerlimit = [[splitRange objectAtIndex: 0] intValue];
-        upperlimit = [[splitRange objectAtIndex: 1] intValue];
-        
-        NSMutableArray *handicapArr = [[NSMutableArray alloc] init];
-        
-        for(long x = lowerlimit; x <= upperlimit; ++x)
-        {
-            [handicapArr addObject:[NSString stringWithFormat:@"%ld", x]];
-        }
-        
-        if([includeNA isEqualToString:@"0"])
-        {
-            [handicapArr addObject:@"N/A"];
-        }
-        
-        [getRequest setObject:handicapArr forKey:@"userHandicap[in]"];
-        [getRequest setObject:@"userHandicap" forKey:@"sort_asc"];
-        
-        
-        
-    }
-    
-    
-    NSString *strType = [dictUserSearchData  objectForKey:@"Type"] ;
-    
-    if([strType length] != 0 && ![strType isEqualToString:@"All"]) {
-        [getRequest setObject: strType forKey:@"userFullMode"];
-        
-    }
-    
-    NSString *strState =[[AppDelegate sharedinstance] nullcheck:[dictUserSearchData objectForKey:@"State"]];
-    
-    if(![strState isEqualToString:@"All"] && [strState length] != 0)
-        [getRequest setObject:strState forKey:@"userState[in]"];
-    
-    
-    NSString *strGolfer_name = [[AppDelegate sharedinstance] nullcheck:[dictUserSearchData objectForKey:@"Golfers_name"]];
-    
-    if(![strGolfer_name isEqualToString:@"All"] && [strGolfer_name length] != 0)
-    {
-        [getRequest setObject: strGolfer_name forKey:@"userDisplayName[ctn]"];
-    }
-    
-    
-    NSArray *arrCity = [dictUserSearchData objectForKey:@"City"];
-    
-    if(![arrCity containsObject:@"All"] && [arrCity count] != 0)
-        [getRequest setObject:arrCity forKey:@"userCity[in]"];
-    
-    NSString *strinterested_in_home_course = [[AppDelegate sharedinstance] nullcheck:[dictUserSearchData objectForKey:@"Name"]];
-    
-    if([strinterested_in_home_course length]>0) {
-        if(![strinterested_in_home_course isEqualToString:@"All"])
-            [getRequest setObject:strinterested_in_home_course forKey:@"home_coursename[in]"];
-    }
-    /************* ChetuChange ***********/
-    NSString *role = [self IsPro] ? @"1" : @"0";
-    
-    
-    [getRequest setObject:role forKey:@"UserRole"];
-    /************* ChetuChange ***********/
-    
-    NSString *strinterested_in_location =[[AppDelegate sharedinstance] nullcheck:[dictUserSearchData objectForKey:@"Location"]];
-    /************ ChetuChange  ************/
-    
-    // This will find the users within 15 mile range if user select nearme option from segment control.
-    if ([nearMe isEqualToString: @"YES"]) {
-        strinterested_in_location = @"100";
-    }else {
-        
-    }
-    /************ ChetuChange  ************/
-    if([strinterested_in_location length]>0) {
-        
-        if(![strinterested_in_location isEqualToString:@"150"]) {
-            
-            float val = [strinterested_in_location floatValue];
-            float metres = val* 1609.34f;
-            
-            NSString *strlatitude = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlat];
-            strlatitude = [[AppDelegate sharedinstance] nullcheck:strlatitude];
-            
-            NSString *strlongitude = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlong];
-            strlongitude = [[AppDelegate sharedinstance] nullcheck:strlongitude];
-            
-            // if no location access
-            if([strlatitude length]==0) {
-                strlatitude = @"45.62076121";
-                strlongitude = @"-111.12052917";
-            }
-            
-            NSString *strFilterDistance = [NSString stringWithFormat:@"%f,%f;%f",[strlongitude floatValue],[strlatitude floatValue],metres];
-            [getRequest setObject:strFilterDistance forKey:@"current_location[near]"];
-            
-        }
-        
-    }
-    
-    NSString *strGender = [[AppDelegate sharedinstance] nullcheck:[[dictUserSearchData  objectForKey:@"Gender"] lowercaseString]];
-    
-    if(![strGender isEqualToString:@"all"] && [strGender length] != 0)
-    {
-        [getRequest setObject:strGender forKey:@"userGender[in]"];
-    }
-  
- 
-    if(![self IsPro])
-    {
-        [getRequest setObject:[[arrConnections valueForKey:@"description"] componentsJoinedByString:@","] forKey:@"userEmail[nin]"];
-    }
-    
-    NSMutableDictionary *dictUserData = [[[NSUserDefaults standardUserDefaults] objectForKey:kuserData] mutableCopy];
-    
-    NSString *strisDevelopment = [[AppDelegate sharedinstance] nullcheck:[dictUserData  objectForKey:@"isDevelopment"]] ;
-    
-    if([strisDevelopment isEqualToString:@"1"]) {
-        [getRequest setObject:@"1" forKey:@"isDevelopment"];
-    }
-    
-    [getRequest setObject:@16 forKey:@"advertisingBlockCount[lt]"];
-    
-    NSString *type = [[AppDelegate sharedinstance] nullcheck:[dictUserData  objectForKey:@"Type"]];
-    
-    if(![type isEqualToString:@"All"] && [type length] !=0)
-    {
-        if([type isEqualToString:@"Free"])
-        {
-            type = @"1";
-        }
-        else if([type isEqualToString:@"Premium"])
-        {
-            type = @"1";
-        }
-        
-        [getRequest setObject: type forKey:@"user_type"];
-    }
- //   [[AppDelegate sharedinstance] showLoader];
-    
-    [QBRequest countObjectsWithClassName:@"UserInfo" extendedRequest:getRequest successBlock:^(QBResponse * _Nonnull response, NSUInteger count) {
-        
-        NSLog(@"%lu",(unsigned long)count);
-        coursesCount = (int)count;
-         NSString *recordcountStr;
-        if (shouldLoadNext) {
-            
-        }else {
-            if (coursesCount == 0) {
-                recordcountStr = [NSString stringWithFormat:@"0 - 0 (%d)", coursesCount];
-            }else if (coursesCount < 25) {
-                recordcountStr = [NSString stringWithFormat:@"1 - %d (%d)", coursesCount, coursesCount];
-            }else {
-                recordcountStr = [NSString stringWithFormat:@"1 - %@ (%d)", kLimit, coursesCount];
-            }
-            
-            recordLbl.text = recordcountStr;
-        }
-        [self getPagedUsers:_currentPage];
-        
-        
-    } errorBlock:^(QBResponse *response) {
-        [[AppDelegate sharedinstance] hideLoader];
-        
-        NSLog(@"Response error: %@", [response.error description]);
-    }];
-    
-}
-/************* Get Golfers count from Quickblox table **************/
-/********** ChetuChange ********/
--(void) getPagedUsers:(int) currentNum {
-    __block int currentPageNum = currentNum;
-    
-    NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
-    [getRequest setObject:kLimit forKey:@"limit"];
-    
-    NSString *strPage = [NSString stringWithFormat:@"%d",[kLimit intValue] * currentPageNum];
-    
-    [getRequest setObject:strPage forKey:@"skip"];
-    
-    [getRequest setObject:@"created_at" forKey:@"sort_desc"];
-    
-    NSString *searchType = [self IsPro] ? kuserSearchPro : kuserSearchUser;
-    
-    NSMutableDictionary *dictUserSearchData = [[[NSUserDefaults standardUserDefaults] objectForKey:searchType] mutableCopy];
-    
-    // Age condition
-    NSString *strAge = [dictUserSearchData objectForKey:@"Age"];
-    
-     NSInteger upperlimit = 0, lowerlimit=0;
-    
-    if([strAge length] != 0)
-    {
-       
-        
-        
-        NSArray* splitAge = [strAge componentsSeparatedByString: @"-"];
-        lowerlimit = [[splitAge objectAtIndex: 0] intValue] - 1;
-        upperlimit = [[splitAge objectAtIndex: 1] intValue] + 1;
-        
-      /************* ChetuChange ***********/
-        if(lowerlimit>0) {
-            [getRequest setObject:[NSNumber numberWithInteger:upperlimit] forKey:@"userAge[lt]"];
-            [getRequest setObject:[NSNumber numberWithInteger:lowerlimit] forKey:@"userAge[gt]"];
-            
-        /************* ChetuChange ***********/
-        }
-    }
-    
-    
-    NSString *strHandicap = [dictUserSearchData objectForKey:@"Handicap"];
-    
-    if([strHandicap length]!=0 && ![self IsPro])
-    {
-        NSArray* splitHandicap = [strHandicap componentsSeparatedByString: @":"];
-        NSString *handicapRange = [splitHandicap objectAtIndex: 0];
-        NSString *includeNA = [splitHandicap objectAtIndex: 1];
-        
-        NSArray* splitRange = [handicapRange componentsSeparatedByString: @" - "];
-        lowerlimit = [[splitRange objectAtIndex: 0] intValue];
-        upperlimit = [[splitRange objectAtIndex: 1] intValue];
-        
-        NSMutableArray *handicapArr = [[NSMutableArray alloc] init];
-        
-        for(long x = lowerlimit; x <= upperlimit; ++x)
-        {
-            [handicapArr addObject:[NSString stringWithFormat:@"%ld", x]];
-        }
-        
-        if([includeNA isEqualToString:@"0"])
-        {
-            [handicapArr addObject:@"N/A"];
-        }
-      
-        [getRequest setObject:handicapArr forKey:@"userHandicap[in]"];
-        [getRequest setObject:@"userHandicap" forKey:@"sort_asc"];
-        
-        
-        
-    }
-    
-    
-    NSString *strType = [dictUserSearchData  objectForKey:@"Type"] ;
-    
-    if([strType length] != 0 && ![strType isEqualToString:@"All"]) {
-       [getRequest setObject: strType forKey:@"userFullMode"];
-        
-    }
-    
-    NSString *strState =[[AppDelegate sharedinstance] nullcheck:[dictUserSearchData objectForKey:@"State"]];
-    
-    if(![strState isEqualToString:@"All"] && [strState length] != 0)
-        [getRequest setObject:strState forKey:@"userState[in]"];
-    
-    NSString *strGolfer_name = [[AppDelegate sharedinstance] nullcheck:[dictUserSearchData objectForKey:@"Golfers_name"]];
-    
-    if(![strGolfer_name isEqualToString:@"All"] && [strGolfer_name length] != 0)
-        [getRequest setObject: strGolfer_name forKey:@"userDisplayName[ctn]"];
-
-    
-    NSArray *arrCity = [dictUserSearchData objectForKey:@"City"];
-    
-    if(![arrCity containsObject:@"All"] && [arrCity count] != 0)
-        [getRequest setObject:arrCity forKey:@"userCity[in]"];
-    
-   NSString *strinterested_in_home_course = [[AppDelegate sharedinstance] nullcheck:[dictUserSearchData objectForKey:@"Name"]];
-    
-    if([strinterested_in_home_course length]>0) {
-        if(![strinterested_in_home_course isEqualToString:@"All"])
-            [getRequest setObject:strinterested_in_home_course forKey:@"home_coursename[in]"];
-    }
-  /************* ChetuChange ***********/
-    NSString *role = [self IsPro] ? @"1" : @"0";
- 
-    
-    [getRequest setObject:role forKey:@"UserRole"];
-     /************* ChetuChange ***********/
-    
-    NSString *strinterested_in_location =[[AppDelegate sharedinstance] nullcheck:[dictUserSearchData objectForKey:@"Location"]];
-   /************ ChetuChange  ************/
-    
-    // This will find the users within 100 mile range if user select nearme option from segment control.
-    if ([nearMe isEqualToString: @"YES"]) {
-        strinterested_in_location = @"100";
-    }else {
-        
-    }
-    /************ ChetuChange  ************/
-    if([strinterested_in_location length]>0) {
-        
-        if(![strinterested_in_location isEqualToString:@"150"]) {
-            
-            float val = [strinterested_in_location floatValue];
-            float metres = val* 1609.34f;
-            
-            NSString *strlatitude = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlat];
-            strlatitude = [[AppDelegate sharedinstance] nullcheck:strlatitude];
-            
-            NSString *strlongitude = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlong];
-            strlongitude = [[AppDelegate sharedinstance] nullcheck:strlongitude];
-            
-            // if no location access
-            if([strlatitude length]==0) {
-                strlatitude = @"45.62076121";
-                strlongitude = @"-111.12052917";
-            }
-            
-            NSString *strFilterDistance = [NSString stringWithFormat:@"%f,%f;%f",[strlongitude floatValue],[strlatitude floatValue],metres];
-            [getRequest setObject:strFilterDistance forKey:@"current_location[near]"];
-            
-        }
-        
-    }
-
-    NSString *strGender = [[AppDelegate sharedinstance] nullcheck:[[dictUserSearchData  objectForKey:@"Gender"] lowercaseString]];
-    
-    if(![strGender isEqualToString:@"all"] && [strGender length] != 0)
-    {
-        [getRequest setObject:strGender forKey:@"userGender[in]"];
-    }
-    
-    
-    if(![self IsPro])
-    {
-        [getRequest setObject:[[arrConnections valueForKey:@"description"] componentsJoinedByString:@","] forKey:@"userEmail[nin]"];
-    }
-    
-    NSMutableDictionary *dictUserData = [[[NSUserDefaults standardUserDefaults] objectForKey:kuserData] mutableCopy];
-    
-    NSString *strisDevelopment = [[AppDelegate sharedinstance] nullcheck:[dictUserData  objectForKey:@"isDevelopment"]] ;
-    
-    if([strisDevelopment isEqualToString:@"1"]) {
-        [getRequest setObject:@"1" forKey:@"isDevelopment"];
-    }
-    
-    [getRequest setObject:@16 forKey:@"advertisingBlockCount[lt]"];
-    
-    NSString *type = [[AppDelegate sharedinstance] nullcheck:[dictUserData  objectForKey:@"Type"]];
-    
-    if(![type isEqualToString:@"All"] && [type length] !=0)
-    {
-        if([type isEqualToString:@"Free"])
-        {
-            type = @"1";
-        }
-        else if([type isEqualToString:@"Premium"])
-        {
-            type = @"1";
-        }
-        
-        [getRequest setObject: type forKey:@"user_type"];
-    }
-    
-    
- //   [[AppDelegate sharedinstance] showLoader];
-    
-    [QBRequest objectsWithClassName:@"UserInfo" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
-        // response processing
-        
-//        if(!arrData) {
-//            arrData = [[NSMutableArray alloc] init];
-//        }
-          arrData = [[NSMutableArray alloc] init];
-        [arrData addObjectsFromArray:[objects mutableCopy]];
-        
-//        if(objects.count >= [kLimit integerValue]) {
-//
-//            [self getPagedUsers:++currentPageNum];
-//            return;
-//        }
-        
-        if([objects count]>=[kLimit integerValue]) {
-            shouldLoadNext = YES;
-            fetchNextRecordBtn.hidden = false;
-         
-        }
-        else {
-            shouldLoadNext=NO;
-            fetchNextRecordBtn.hidden = true;
+     int selectedSeg = (int)selectedSegment;
+  if([strIsMyMatches isEqualToString:@"1"]) {
+      if([[[AppDelegate sharedinstance] sharedChatInstance] isConnected]) {
           
-        }
-        if (shouldLoadNext) {
-            
-            NSString *recordcountStr;
-            
-            NSString *strPage = [NSString stringWithFormat:@"%d",[kLimit intValue] * _currentPage];
-            int noOfRecords = (int)objects.count;
-            int skipRecords = [strPage intValue];
-            if (skipRecords != 0) {
-                int lastLimitRecords = skipRecords + noOfRecords;
-                skipRecords = skipRecords + 1;
-                recordcountStr = [NSString stringWithFormat:@"%d - %d (%d)",skipRecords, lastLimitRecords, coursesCount];
-                recordLbl.text = recordcountStr;
-            }else {
-                int lastLimitRecords = skipRecords + noOfRecords;
-                skipRecords = skipRecords + 1;
-                recordcountStr = [NSString stringWithFormat:@"%d - %d (%d)",skipRecords, lastLimitRecords, coursesCount];
-                recordLbl.text = recordcountStr;
-            }
-            
-            
-        }else {
-            NSString *strPage = [NSString stringWithFormat:@"%d",[kLimit intValue] * _currentPage];
-            int skipRecords = [strPage intValue];
-            int diffLastRecords = coursesCount - skipRecords;
-            if (diffLastRecords <= [kLimit intValue]) {
-                NSString *recordcountStr;
-                if (skipRecords == 0 && coursesCount == 0) {
-                }else {
-                    skipRecords = skipRecords + 1;
-                }
-                
-                recordcountStr = [NSString stringWithFormat:@"%d - %d (%d)",skipRecords, coursesCount, coursesCount];
-                recordLbl.text = recordcountStr;
-            }
-        }
-        
-        
-        if([arrData count]==0) {
-            [lblNotAvailable setHidden:NO];
-        }
-        else {
-            [lblNotAvailable setHidden:YES];
-        }
-        
-        isPageRefreshing=NO;
-        
-        [[AppDelegate sharedinstance] hideLoader];
-        [tblList reloadData];
-        tblList.userInteractionEnabled = true;
-        [tblList setScrollEnabled: true];
-        
-        
-    } errorBlock:^(QBResponse *response) {
-        // error handling
-        [[AppDelegate sharedinstance] hideLoader];
-        
-        NSLog(@"Response error: %@", [response.error description]);
-    }];
-
+          [[AppDelegate sharedinstance] showLoader];
+         
+          if (selectedSeg == 0) {
+              nearMe = @"NO";
+          }else {
+              nearMe = @"YES";
+          }
+          arrDialogData = [[NSMutableArray alloc] init];
+          [self getContact];
+      }
+  }else{
+      fetchPrevRecordBtn.hidden = true;
+      fecthInitialRecordBtn.hidden = true;
+      
+     
+      
+      if (selectedSeg == 0) {
+          nearMe = @"NO";
+      }else {
+          nearMe = @"YES";
+      }
+      _currentPage = 0;
+      arrConnections = [[NSMutableArray alloc] init];
+      [[AppDelegate sharedinstance] showLoader];
+      currentPageGetAllUser = 0;
+      [self getAllUsers];
+  }
+   
+    
+    
 }
+
 
 
 
@@ -1104,6 +1200,7 @@
 }
 
 //-----------------------------------------------------------------------
+
 
 -(IBAction) sendRequest:(UIButton*)sender {
     CGPoint center=sender.center;
@@ -1171,54 +1268,7 @@
 
     NSMutableDictionary *dictUserData = [[[NSUserDefaults standardUserDefaults] objectForKey:kuserData] mutableCopy];
    
-    /*********** ChetuChange *************/
-// Commented to remove the functionality for purchase connects throughout the application
-    
-    // Show pop up to buy more or upgrade
-    
-//    if(![[dictUserData objectForKey:@"userFullMode"] isEqualToString:@"1"]){
-//
-//        int weeklyConnects = [[dictUserData objectForKey:@"userFreeConnects"] intValue];
-//        int userPurchasedConnects = [[dictUserData objectForKey:@"userPurchasedConnects"] intValue];
-//
-//        int totalAvailableConnects = weeklyConnects + userPurchasedConnects;
-//
-//        if(totalAvailableConnects<1) {
-//
-//            // Show pop up to buy more or upgrade
-//
-//            UIAlertController * alert = [UIAlertController
-//                                         alertControllerWithTitle:@"PURCHASE CONNECTS"
-//                                         message:@"Sorry, you have no CONNECTS available to send request.\nDo you want to buy them?"
-//                                         preferredStyle:UIAlertControllerStyleAlert];
-//
-//
-//
-//            UIAlertAction* yesButton = [UIAlertAction
-//                                        actionWithTitle:@"YES"
-//                                        style:UIAlertActionStyleDefault
-//                                        handler:^(UIAlertAction * action) {
-//                                            //Handle your yes please button action here
-//                                        }];
-//
-//            UIAlertAction* noButton = [UIAlertAction
-//                                       actionWithTitle:@"NO"
-//                                       style:UIAlertActionStyleDefault
-//                                       handler:^(UIAlertAction * action) {
-//
-//                                       }];
-//
-//            [alert addAction:yesButton];
-//            [alert addAction:noButton];
-//
-//            [self presentViewController:alert animated:YES completion:nil];
-//
-//
-//            return;
-//        }
-//    }
-    
-    /*********** ChetuChange *************/
+
     QBCOCustomObject *object = [QBCOCustomObject customObject];
     object.className = @"UserConnections";
     
@@ -1279,11 +1329,11 @@
                     
                     if(weeklyConnects>0) {
                         
-                         weeklyConnects = weeklyConnects - 1;
+                        weeklyConnects = weeklyConnects - 1;
                         [object.fields setObject:[NSString stringWithFormat:@"%d",weeklyConnects]  forKey:@"userFreeConnects"];
                     }
                     else {
-                       
+                        
                         if(userPurchasedConnects>0) {
                             userPurchasedConnects = userPurchasedConnects - 1;
                         }
@@ -1293,7 +1343,7 @@
                     
                     [dictUserData setObject:[NSString stringWithFormat:@"%d",weeklyConnects] forKey:@"userFreeConnects"];
                     [dictUserData setObject:[NSString stringWithFormat:@"%d",userPurchasedConnects] forKey:@"userPurchasedConnects"];
-
+                    
                     [[NSUserDefaults standardUserDefaults] setObject:dictUserData forKey:kuserData];
                     [[NSUserDefaults standardUserDefaults] synchronize];
                     
@@ -1305,12 +1355,15 @@
                         // object updated
                         
                         [arrData removeObject:obj];
-                        [tblList reloadData];
+                        [arrConnections removeAllObjects];
+                        currentPageGetAllUser = 0;
+                        isFromSendRequestToUser = 1;
+                        [self getAllUsers];
                         tblList.userInteractionEnabled = true;
                         [tblList setScrollEnabled: true];
                         
-                        [[AppDelegate sharedinstance] hideLoader];
-                        [[AppDelegate sharedinstance] displayMessage:@"Request has been sent successfully"];
+                   //     [[AppDelegate sharedinstance] hideLoader];
+                 //       [[AppDelegate sharedinstance] displayMessage:@"Request has been sent successfully"];
                         
                         
                     } errorBlock:^(QBResponse *response) {
@@ -1361,12 +1414,15 @@
                         // object updated
                         
                         [arrData removeObject:obj];
-                        [tblList reloadData];
+                     
                         tblList.userInteractionEnabled = true;
                         [tblList setScrollEnabled: true];
-                        
-                        [[AppDelegate sharedinstance] hideLoader];
-                        [[AppDelegate sharedinstance] displayMessage:@"Request has been sent successfully"];
+                         [arrConnections removeAllObjects];
+                        currentPageGetAllUser = 0;
+                        isFromSendRequestToUser = 1;
+                         [self getAllUsers];
+                      //  [[AppDelegate sharedinstance] hideLoader];
+                  //      [[AppDelegate sharedinstance] displayMessage:@"Request has been sent successfully"];
                         
                         
                     } errorBlock:^(QBResponse *response) {
@@ -1411,12 +1467,16 @@
                     // object updated
                     
                     [arrData removeObject:obj];
-                    [tblList reloadData];
+              
+                    [arrConnections removeAllObjects];
+                    currentPageGetAllUser = 0;
+                    isFromSendRequestToUser = 1;
+                    [self getAllUsers];
                     tblList.userInteractionEnabled = true;
                     [tblList setScrollEnabled: true];
                     
-                    [[AppDelegate sharedinstance] hideLoader];
-                    [[AppDelegate sharedinstance] displayMessage:@"Request has been sent successfully"];
+               //     [[AppDelegate sharedinstance] hideLoader];
+               //     [[AppDelegate sharedinstance] displayMessage:@"Request has been sent successfully"];
                     
                     
                 } errorBlock:^(QBResponse *response) {
