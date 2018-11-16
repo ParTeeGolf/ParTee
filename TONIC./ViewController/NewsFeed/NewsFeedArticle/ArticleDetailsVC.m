@@ -93,10 +93,18 @@
     if (_adFeedVal) {
         [descWebView loadHTMLString:[NSString stringWithFormat:@"<div align='justify'>%@<div>",contentStr] baseURL:nil];
     }else{
-     [descWebView  loadHTMLString:[NSString stringWithFormat:@"<html><body><span style=\"text-align:justify\">%@</span></body></html>",contentStr] baseURL:nil];
+       
+        NSArray *listItems = [contentStr componentsSeparatedByString:@"\""];
+        if (listItems.count == 3) {
+            NSString *separateStr1 = [listItems objectAtIndex:0];
+            NSString *separateStr2 = [listItems objectAtIndex:1];
+            NSString *separateStr3 = [listItems objectAtIndex:2];
+            NSString *combinedStr = [NSString stringWithFormat:@"%@\"%@\" width='100%%' height='100%%'%@",separateStr1, separateStr2, separateStr3];
+            contentStr = combinedStr;
+        }
+     
+        [descWebView  loadHTMLString:[NSString stringWithFormat:@"<html><body><span style=\"text-align:justify\">%@</span></body></html>",contentStr] baseURL:nil];
     }
-   
-    
 }
 #pragma mark - Webview delegate method
 /**
@@ -113,6 +121,7 @@
     }else {
         javaScriptStrToChangeFontSize = [[NSString alloc] initWithFormat:@"document.getElementsByTagName('body')[0].style.webkitTextFillColor= 'white';document.getElementsByTagName('div')[0].style.backgroundColor='clear';document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust='140%%'; DOMReady();"];
     }
+    
      [descWebView stringByEvaluatingJavaScriptFromString:javaScriptStrToChangeFontSize];
     
 }

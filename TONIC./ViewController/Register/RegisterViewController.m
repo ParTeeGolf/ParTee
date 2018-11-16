@@ -1348,7 +1348,7 @@ NSString *const constZipcodeLimit = @"Maximum 10 Characters allowed for Zipcode.
             }];
             
         } errorBlock:^(QBResponse *response) {
-            
+            NSLog(@"error: %@", response.error);
             [[AppDelegate sharedinstance] hideLoader];
             
         }];

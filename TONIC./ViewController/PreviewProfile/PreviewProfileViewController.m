@@ -67,34 +67,9 @@
     
     if(isiPhone4) {
         [scrollViewContainer setContentSize:CGSizeMake(320, 650)];
-
     }
 }
-#pragma mark updateConstarints
 
-// Update view frame according to device
--(void)updateConstarints {
-    
-    CGRect screenRect = [[UIScreen mainScreen] bounds];
-    CGFloat width = screenRect.size.width;
-    
-    lblName.frame = CGRectMake(lblName.frame.origin.x, lblName.frame.origin.y, lblName.frame.size.width, lblName.frame.size.height);
-    proType.frame = CGRectMake(proType.frame.origin.x, proType.frame.origin.y, proType.frame.size.width, proType.frame.size.height);
-    lblHandicap.frame = CGRectMake(lblHandicap.frame.origin.x, lblHandicap.frame.origin.y, lblHandicap.frame.size.width, lblHandicap.frame.size.height);
-    imgBadge.frame = CGRectMake(width - 54 - 8, imgBadge.frame.origin.y, imgBadge.frame.size.width, imgBadge.frame.size.height);
-    dimpleImg.frame = CGRectMake(0, dimpleImg.frame.origin.y, width, dimpleImg.frame.size.height);
-    imgViewProfilePic.frame = CGRectMake(0, imgViewProfilePic.frame.origin.y, width, imgViewProfilePic.frame.size.height);
-    
-    lblHomecourse.frame = CGRectMake(8, lblHomecourse.frame.origin.y, width - 16, lblHomecourse.frame.size.height);
-    CourseBtn.frame = CGRectMake(8, CourseBtn.frame.origin.y, width - 16, CourseBtn.frame.size.height);
-    proView.frame = CGRectMake(8, proView.frame.origin.y, width - 16, proView.frame.size.height);
-    achievments.frame = CGRectMake(8, achievments.frame.origin.y, width - 16, achievments.frame.size.height);
-    offering.frame = CGRectMake(8, offering.frame.origin.y, width - 16, offering.frame.size.height);
-    email.frame = CGRectMake(8, email.frame.origin.y, width - 16, email.frame.size.height);
-    bio.frame = CGRectMake(8, email.frame.origin.y, width - 16, email.frame.size.height);
-    
-    
-}
 - (void) bindData {
 
     NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
@@ -114,7 +89,7 @@
     else if([strCameFrom isEqualToString:kScreenViewUsers]) {
         [btnOptions setHidden:YES];
         [btnOptionsBig setHidden:YES];
-        
+        scrollViewContainer.contentSize = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height);
         [btnAdd setHidden:NO];
         [btnAddBg setHidden:NO];
         
@@ -577,7 +552,31 @@
             [[AppDelegate sharedinstance] hideLoader];
         }];
 }
+#pragma mark updateConstarints
 
+// Update view frame according to device
+-(void)updateConstarints {
+    
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    CGFloat width = screenRect.size.width;
+    
+    lblName.frame = CGRectMake(lblName.frame.origin.x, lblName.frame.origin.y, lblName.frame.size.width, lblName.frame.size.height);
+    proType.frame = CGRectMake(proType.frame.origin.x, proType.frame.origin.y, proType.frame.size.width, proType.frame.size.height);
+    lblHandicap.frame = CGRectMake(lblHandicap.frame.origin.x, lblHandicap.frame.origin.y, lblHandicap.frame.size.width, lblHandicap.frame.size.height);
+    imgBadge.frame = CGRectMake(width - 54 - 8, imgBadge.frame.origin.y, imgBadge.frame.size.width, imgBadge.frame.size.height);
+    dimpleImg.frame = CGRectMake(0, dimpleImg.frame.origin.y, width, dimpleImg.frame.size.height);
+    imgViewProfilePic.frame = CGRectMake(0, imgViewProfilePic.frame.origin.y, width, imgViewProfilePic.frame.size.height);
+    
+    lblHomecourse.frame = CGRectMake(8, lblHomecourse.frame.origin.y, width - 16, lblHomecourse.frame.size.height);
+    CourseBtn.frame = CGRectMake(8, CourseBtn.frame.origin.y, width - 16, CourseBtn.frame.size.height);
+    proView.frame = CGRectMake(8, proView.frame.origin.y, width - 16, proView.frame.size.height);
+    achievments.frame = CGRectMake(8, achievments.frame.origin.y, width - 16, achievments.frame.size.height);
+    offering.frame = CGRectMake(8, offering.frame.origin.y, width - 16, offering.frame.size.height);
+    email.frame = CGRectMake(8, email.frame.origin.y, width - 16, email.frame.size.height);
+    bio.frame = CGRectMake(8, email.frame.origin.y, width - 16, email.frame.size.height);
+    
+    
+}
 -(void) blockUser {
     
 //    customShareObj

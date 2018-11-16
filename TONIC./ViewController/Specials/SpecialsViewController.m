@@ -542,7 +542,10 @@ int courseOption;
         if (courseOption != 0) {
               arrData = [[NSMutableArray alloc] init];
         }
-      
+        if (courseOption == 0) {
+             arrData = [[NSMutableArray alloc] init];
+                // [self hideOrShowSearchBtn:YES];
+        }
         [[AppDelegate sharedinstance] hideLoader];
         
         [arrData addObjectsFromArray:[objects mutableCopy]];
@@ -783,7 +786,7 @@ int courseOption;
     ((AppDelegate*)[UIApplication sharedApplication].delegate).courseOptionSelected = courseOption;
     // Hide or show search button
     if (courseOption == 0) {
-        arrData = [[NSMutableArray alloc] init];
+    //    arrData = [[NSMutableArray alloc] init];
         [self hideOrShowSearchBtn:YES];
     }else{
         [self hideOrShowSearchBtn:NO];

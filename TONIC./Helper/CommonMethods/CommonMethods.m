@@ -265,4 +265,99 @@
     [defs synchronize];
    
 }
+
+
+// #pragma mark- Create Noti Action
+// /*
+// @Description
+// * This Method will create the local notification on device so that user able to recieve
+// * @author Chetu India
+// * @return IBAction nothing will return by this method.
+// */
+//-(void)createLocalNotifEvent:(int)selectedEventIndex
+//{
+//    [[UNUserNotificationCenter currentNotificationCenter] setDelegate:self];
+//    UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+//    UNAuthorizationOptions options = UNAuthorizationOptionAlert + UNAuthorizationOptionSound;
+//
+//    // Request using shared Notification Center
+//    [center requestAuthorizationWithOptions:options
+//                          completionHandler:^(BOOL granted, NSError * _Nullable error) {
+//                              if (granted) {
+//                                  NSLog(@"Notification Granted");
+//                              }
+//                          }];
+//
+//    // Notification authorization settings
+//    [center getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings * _Nonnull settings) {
+//        if (settings.authorizationStatus == UNAuthorizationStatusAuthorized) {
+//            NSLog(@"Notification allowed");
+//        }
+//    }];
+//
+//
+//    UNMutableNotificationContent *content = [UNMutableNotificationContent new];
+//    content.title = @"Event Notification";
+//    content.body = @"Event Local Recieved";
+//    content.sound = [UNNotificationSound defaultSound];
+//
+//
+//    QBCOCustomObject *obj = [arrEventsData objectAtIndex:selectedEventIndex];
+//    NSString *eventStartDate = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:kEventStartDate]];
+//    NSDate *notificationEventDate = [CommonMethods intervalBwDatesInSec:eventStartDate];
+//    NSString *eventIdStr = [NSString stringWithFormat:@"%@", obj.ID];
+//    // Trigger with date
+//    NSDateComponents *triggerDate = [[NSCalendar currentCalendar]
+//                                     components:NSCalendarUnitYear +
+//                                     NSCalendarUnitMonth + NSCalendarUnitDay +
+//                                     NSCalendarUnitHour + NSCalendarUnitMinute +
+//                                     NSCalendarUnitSecond fromDate:notificationEventDate];
+//    UNCalendarNotificationTrigger *trigger = [UNCalendarNotificationTrigger triggerWithDateMatchingComponents:triggerDate repeats:NO];
+//
+//
+//    // Scheduling the notification
+//    UNNotificationRequest *request = [UNNotificationRequest requestWithIdentifier:eventIdStr content:content trigger:trigger];
+//
+//    [center addNotificationRequest:request withCompletionHandler:^(NSError * _Nullable error) {
+//        if (error != nil) {
+//            NSLog(@"Something went wrong: %@",error);
+//        }
+//    }];
+//
+//}
+//#pragma mark- Delete Noti Action
+///**
+// @Description
+// * This Method will delete the local notification on device based on identifier.
+// * @author Chetu India
+// * @return IBAction nothing will return by this method.
+// */
+//-(void)deleteLocalNotification:(int)selectedEventIndex
+//{
+//
+//    QBCOCustomObject *obj = [arrEventsData objectAtIndex:selectedEventIndex];
+//    NSString *eventIdStr = [NSString stringWithFormat:@"%@", obj.ID];
+//    [[UNUserNotificationCenter currentNotificationCenter]getPendingNotificationRequestsWithCompletionHandler:^(NSArray<UNNotificationRequest *> * _Nonnull requests) {
+//        if (requests.count>0) {
+//
+//
+//            for (UNNotificationRequest *pendingRequest  in requests) {
+//                if ([pendingRequest.identifier isEqualToString:eventIdStr]) {
+//                    [[UNUserNotificationCenter currentNotificationCenter]removePendingNotificationRequestsWithIdentifiers:@[pendingRequest.identifier]];
+//
+//                }
+//            }
+//
+//        }
+//
+//    }];
+//
+//    if (eventOption == 2) {
+//        [self getEventRecordsCount];
+//    }else {
+//        [[AppDelegate sharedinstance] hideLoader];
+//
+//    }
+//}
+// */
 @end

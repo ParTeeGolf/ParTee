@@ -964,7 +964,7 @@
             [arrCityList removeAllObjects];
         [self getcityList];
         
-        
+    
        /*
         if([arrCityList count]>0)
             [arrCityList removeAllObjects];

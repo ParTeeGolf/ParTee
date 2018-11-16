@@ -1148,11 +1148,11 @@
             objEventGolfCourse = [objects objectAtIndex:0];
             
             //  (Title of Event, Date of Event, Location of Event, info text of event.)
-            NSString *titleEvent = [[AppDelegate sharedinstance] nullcheck:[sharedobj.fields objectForKey:@"Title"]];
-            NSString *startDateEvent = [[AppDelegate sharedinstance] nullcheck:[sharedobj.fields objectForKey:@"StartDate"]];
-            NSString *addressEvent = [[AppDelegate sharedinstance] nullcheck:[objEventGolfCourse.fields objectForKey:@"Address"]];
+            NSString *titleEvent = [[AppDelegate sharedinstance] nullcheck:[sharedobj.fields objectForKey:kEventTitleParam]];
+            NSString *startDateEvent = [[AppDelegate sharedinstance] nullcheck:[sharedobj.fields objectForKey:kEventStartDate]];
+            NSString *addressEvent = [[AppDelegate sharedinstance] nullcheck:[objEventGolfCourse.fields objectForKey:kEventAddParam]];
             
-            NSString *descEvent = [[AppDelegate sharedinstance] nullcheck:[sharedobj.fields objectForKey:@"Description"]];
+            NSString *descEvent = [[AppDelegate sharedinstance] nullcheck:[sharedobj.fields objectForKey:kEventDescParam]];
 
             NSArray * activityItems = @[[NSString stringWithFormat:@"%@\nFrom %@\n%@\n%@",titleEvent,startDateEvent, addressEvent, descEvent]];
             NSArray * applicationActivities = nil;
@@ -1181,14 +1181,13 @@
             objEventGolfCourse = [objects objectAtIndex:0];
             
             //  (Title of Event, Date of Event, Location of Event, info text of event.)
-            NSString *titleEvent = [[AppDelegate sharedinstance] nullcheck:[sharedobj.fields objectForKey:@"Title"]];
-            NSString *startDateEvent = [[AppDelegate sharedinstance] nullcheck:[sharedobj.fields objectForKey:@"StartDate"]];
-            startDateEvent = @"2018-11-29T15:23:00Z";
-            NSString *addressEvent = [[AppDelegate sharedinstance] nullcheck:[objEventGolfCourse.fields objectForKey:@"Address"]];
-            
-            NSString *descEvent = [[AppDelegate sharedinstance] nullcheck:[sharedobj.fields objectForKey:@"Description"]];
-            
+            NSString *titleEvent = [[AppDelegate sharedinstance] nullcheck:[sharedobj.fields objectForKey:kEventTitleParam]];
+            NSString *startDateEvent = [[AppDelegate sharedinstance] nullcheck:[sharedobj.fields objectForKey:kEventStartDate]];
+          //  startDateEvent = @"2018-11-29T15:23:00Z";
+            NSString *addressEvent = [[AppDelegate sharedinstance] nullcheck:[objEventGolfCourse.fields objectForKey:kEventAddParam]];
+            NSString *descEvent = [[AppDelegate sharedinstance] nullcheck:[sharedobj.fields objectForKey:kEventDescParam]];
             EKEventStore *store = [EKEventStore new];
+            // Create Event on native calender application installed in device.
             [store requestAccessToEntityType:EKEntityTypeEvent completion:^(BOOL granted, NSError *error) {
                 if (!granted) { return; }
                 EKEvent *event = [EKEvent eventWithEventStore:store];
@@ -1201,11 +1200,8 @@
                 [dateFormatter setDateFormat:kEventDateTblFormat];
                 NSDate *eventDateTime = [dateFormatter dateFromString:eventStartDate];
                 
-                
-             //   NSDate *now = [NSDate date]; // Grab current time
-              //  NSDate *newDate = [now dateByAddingTimeInterval:100]; // Add XXX seconds to *now
                 event.startDate = eventDateTime; //today
-                event.endDate = [event.startDate dateByAddingTimeInterval:24*60*60];  //set 1 hour meeting
+                event.endDate = [event.startDate dateByAddingTimeInterval:24*60*60];  //set 1 day meeting
                 event.calendar = [store defaultCalendarForNewEvents];
                 
                 EKAlarm *alarmForOneDayBeforeAppointment = [[EKAlarm alloc] init];
@@ -1331,7 +1327,6 @@
         [arrEventsData replaceObjectAtIndex:totalAdvEventsCount withObject:obj];
         [eventTblView setContentOffset:eventTblView.contentOffset animated:NO];
         [eventTblView reloadData];
-       
         
 //        if ([createNotificationStr isEqualToString:@"YES"]) {
 //            [self createLocalNotifEvent:totalAdvEventsCount];
@@ -1349,104 +1344,8 @@
         [[AppDelegate sharedinstance] hideLoader];
         
     }];
-    
-   
-    
-  
-    
 }
-#pragma mark- Create Noti Action
-/**
- @Description
- * This Method will create the local notification on device so that user able to recieve
- * @author Chetu India
- * @return IBAction nothing will return by this method.
- */
--(void)createLocalNotifEvent:(int)selectedEventIndex
-{
-    [[UNUserNotificationCenter currentNotificationCenter] setDelegate:self];
-    UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
-    UNAuthorizationOptions options = UNAuthorizationOptionAlert + UNAuthorizationOptionSound;
-    
-    // Request using shared Notification Center
-    [center requestAuthorizationWithOptions:options
-                          completionHandler:^(BOOL granted, NSError * _Nullable error) {
-                              if (granted) {
-                                  NSLog(@"Notification Granted");
-                              }
-                          }];
-    
-    // Notification authorization settings
-    [center getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings * _Nonnull settings) {
-        if (settings.authorizationStatus == UNAuthorizationStatusAuthorized) {
-            NSLog(@"Notification allowed");
-        }
-    }];
 
-    
-    UNMutableNotificationContent *content = [UNMutableNotificationContent new];
-    content.title = @"Event Notification";
-    content.body = @"Event Local Recieved";
-    content.sound = [UNNotificationSound defaultSound];
-  
-    
-    QBCOCustomObject *obj = [arrEventsData objectAtIndex:selectedEventIndex];
-        NSString *eventStartDate = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:kEventStartDate]];
-        NSDate *notificationEventDate = [CommonMethods intervalBwDatesInSec:eventStartDate];
-    NSString *eventIdStr = [NSString stringWithFormat:@"%@", obj.ID];
-    // Trigger with date
-    NSDateComponents *triggerDate = [[NSCalendar currentCalendar]
-                                     components:NSCalendarUnitYear +
-                                     NSCalendarUnitMonth + NSCalendarUnitDay +
-                                     NSCalendarUnitHour + NSCalendarUnitMinute +
-                                     NSCalendarUnitSecond fromDate:notificationEventDate];
-    UNCalendarNotificationTrigger *trigger = [UNCalendarNotificationTrigger triggerWithDateMatchingComponents:triggerDate repeats:NO];
-    
-    
-    // Scheduling the notification
-    UNNotificationRequest *request = [UNNotificationRequest requestWithIdentifier:eventIdStr content:content trigger:trigger];
-    
-    [center addNotificationRequest:request withCompletionHandler:^(NSError * _Nullable error) {
-        if (error != nil) {
-            NSLog(@"Something went wrong: %@",error);
-        }
-    }];
-    
-}
-#pragma mark- Delete Noti Action
-/**
- @Description
- * This Method will delete the local notification on device based on identifier.
- * @author Chetu India
- * @return IBAction nothing will return by this method.
- */
--(void)deleteLocalNotification:(int)selectedEventIndex
-{
-    
-    QBCOCustomObject *obj = [arrEventsData objectAtIndex:selectedEventIndex];
-    NSString *eventIdStr = [NSString stringWithFormat:@"%@", obj.ID];
-    [[UNUserNotificationCenter currentNotificationCenter]getPendingNotificationRequestsWithCompletionHandler:^(NSArray<UNNotificationRequest *> * _Nonnull requests) {
-        if (requests.count>0) {
-
-           
-            for (UNNotificationRequest *pendingRequest  in requests) {
-                if ([pendingRequest.identifier isEqualToString:eventIdStr]) {
-                    [[UNUserNotificationCenter currentNotificationCenter]removePendingNotificationRequestsWithIdentifiers:@[pendingRequest.identifier]];
-                    
-                }
-            }
-          
-        }
-        
-    }];
-    
-    if (eventOption == 2) {
-        [self getEventRecordsCount];
-    }else {
-         [[AppDelegate sharedinstance] hideLoader];
-        
-    }
-}
 
 #pragma mark- Contact Info Action
 /**
