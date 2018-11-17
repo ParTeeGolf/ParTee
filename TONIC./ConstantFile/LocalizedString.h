@@ -164,6 +164,7 @@ static NSString *const kEventCalendar           = @"Add to Calendar";
 static NSString *const kEventInfoFilledImg      = @"info-filled";
 static NSString *const kEventMapImg             = @"viewmap";
 static NSString *const kEventDirImg             = @"direction";
+static NSString *const kEventCalenderImg        = @"CalanderImg";
 static NSString *const kEventCord               = @"coordinates";
 static NSString *const kEventCourseId           = @"eventCourseID";
 static NSString *const kEventIdIn               = @"ID[in]";
@@ -281,7 +282,9 @@ static NSString *const kSmallTxtImg     = @"smallTxtFeed";
 static NSString *const kShareImg        = @"shareFeed";
 static NSString *const kLargeTitle      = @"Large";
 static NSString *const kSmallTitle      = @"Small";
-static NSString *const kShareTitle       = @"Share";
+static NSString *const kShareTitle      = @"Share";
+static NSString *const kTextSmall       = @"document.getElementsByTagName('body')[0].style.webkitTextFillColor= 'white';document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust='140%%';DOMReady();";
+
 /************ News feed Constants ************/
 
 

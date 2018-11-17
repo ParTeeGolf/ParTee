@@ -795,14 +795,9 @@
             else {
                 isFavEvent=NO;
             }
-            
             [self showGrid];
         }
-        
     }
-    
-  
-    
 }
 
 #pragma mark- showAdvertPopup
@@ -869,12 +864,12 @@
         favImgStr = kEventUnFavImg;
     }
     
-    items= @[
+    items = @[
              [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:favImgStr] title:kEventFavTitle],
              [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:kEventInfoFilledImg] title:kEventInfoTitle],
              [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:kEventMapImg] title:kEventMapTitle],
              [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:kEventDirImg] title:kEventDir],
-             [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:kEventDirImg] title:kEventCalendar],
+             [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:kEventCalenderImg] title:kEventCalendar],
              [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:kShareImg] title:kShareTitle]
              ];
     
@@ -883,6 +878,7 @@
     av.delegate = self;
     av.bounces = YES;
     [av showInViewController:self center:CGPointMake(self.view.bounds.size.width/2.f, self.view.bounds.size.height/2.f)];
+    
 }
 #pragma mark- Btn Adv Website Action
 /**
@@ -1149,12 +1145,12 @@
             
             //  (Title of Event, Date of Event, Location of Event, info text of event.)
             NSString *titleEvent = [[AppDelegate sharedinstance] nullcheck:[sharedobj.fields objectForKey:kEventTitleParam]];
-            NSString *startDateEvent = [[AppDelegate sharedinstance] nullcheck:[sharedobj.fields objectForKey:kEventStartDate]];
-            NSString *addressEvent = [[AppDelegate sharedinstance] nullcheck:[objEventGolfCourse.fields objectForKey:kEventAddParam]];
-            
-            NSString *descEvent = [[AppDelegate sharedinstance] nullcheck:[sharedobj.fields objectForKey:kEventDescParam]];
+//            NSString *startDateEvent = [[AppDelegate sharedinstance] nullcheck:[sharedobj.fields objectForKey:kEventStartDate]];
+//            NSString *addressEvent = [[AppDelegate sharedinstance] nullcheck:[objEventGolfCourse.fields objectForKey:kEventAddParam]];
+//
+//            NSString *descEvent = [[AppDelegate sharedinstance] nullcheck:[sharedobj.fields objectForKey:kEventDescParam]];
 
-            NSArray * activityItems = @[[NSString stringWithFormat:@"%@\nFrom %@\n%@\n%@",titleEvent,startDateEvent, addressEvent, descEvent]];
+            NSArray * activityItems = @[[NSString stringWithFormat:@"Check\nout this event I found in the ParTee App! Insert/Populate \n %@",titleEvent]];
             NSArray * applicationActivities = nil;
             NSArray * excludeActivities = @[UIActivityTypeAssignToContact, UIActivityTypeCopyToPasteboard, UIActivityTypePostToWeibo, UIActivityTypePrint, UIActivityTypeMessage];
             
@@ -1200,7 +1196,9 @@
                 [dateFormatter setDateFormat:kEventDateTblFormat];
                 NSDate *eventDateTime = [dateFormatter dateFromString:eventStartDate];
                 
-                event.startDate = eventDateTime; //today
+                NSDate *subtractDayDate = [eventDateTime dateByAddingTimeInterval:-60*60*24];
+                
+                event.startDate = subtractDayDate; //today
                 event.endDate = [event.startDate dateByAddingTimeInterval:24*60*60];  //set 1 day meeting
                 event.calendar = [store defaultCalendarForNewEvents];
                 
