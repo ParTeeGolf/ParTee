@@ -446,7 +446,7 @@
         [[AppDelegate sharedinstance] showLoader];
         
         [QBRequest objectsWithClassName:@"UserInfo" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {            // do something with retrieved object
-            QBCOCustomObject *currentUserObj =[objects objectAtIndex:0];
+           QBCOCustomObject *currentUserObj =[objects objectAtIndex:0];
             
             QBCOCustomObject *otherUserObj =[objects objectAtIndex:1];
 

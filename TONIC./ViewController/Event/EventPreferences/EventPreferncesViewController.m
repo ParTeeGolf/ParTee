@@ -15,6 +15,7 @@
 
 @interface EventPreferncesViewController ()
 {
+    /************** IBOutlets ***********/
     IBOutlet UITextField    *nameTxtFld;
     IBOutlet UITextField    *stateTxtFld;
     IBOutlet UITextField    *cityTxtFld;
@@ -26,6 +27,7 @@
     IBOutlet UITableView    *listTblView;
     IBOutlet UIView        *viewTblView;
     IBOutlet UIView        *viewToolBar;
+     /************** IBOutlets ***********/
     
     // array for city
     NSMutableArray *arrCityList;
@@ -96,21 +98,15 @@
         
         NSLog(@"Entries %lu",(unsigned long)page.totalEntries);
         arrData=[objects mutableCopy];
-        
         for(int i=0;i<[objects count];i++) {
             QBCOCustomObject *obj = [arrData objectAtIndex:i];
-            
             NSString *strState = [obj.fields objectForKey:kEventStateName];
-            
             if(![arrStateList containsObject:strState])
             {
                 [arrStateList addObject:strState];
             }
-            
         }
-        
         [arrStateList sortUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
-        
         [arrStateList insertObject:kEventAll atIndex:0];
          [self getUserDetails];
         
@@ -134,14 +130,12 @@
 {
     [[AppDelegate sharedinstance] showLoader];
     
+    // Create Parameters Dictionary
     NSMutableDictionary *getRequestObjectCount = [NSMutableDictionary dictionary];
     [getRequestObjectCount setObject: selectedState forKey:kCourseState];
-    
     [getRequestObjectCount setObject:@"100" forKey:kEventLimitParam];
     NSString *strPage = [NSString stringWithFormat:@"%d",[@"100" intValue] * currentPageCity];
-    
     [getRequestObjectCount setObject:strPage forKey:kEventSkipParam];
-
     [QBRequest objectsWithClassName:kEventGolfCourse extendedRequest:getRequestObjectCount successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
         
         NSLog(@"Entries %lu",(unsigned long)page.totalEntries);
@@ -160,11 +154,9 @@
         
         currentPageCity++;
         if (objects.count < 100) {
-            
+            // sort city list
             [arrCityList sortUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
-            
             [arrCityList insertObject:kEventAll atIndex:0];
-            
             listTblView.allowsMultipleSelection = YES;
             [listTblView reloadData];
             [viewTblView setHidden:NO];

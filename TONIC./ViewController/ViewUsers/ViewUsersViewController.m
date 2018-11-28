@@ -58,13 +58,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
    
-   
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadusers) name:@"reloadusers" object:nil];
-  
 
     [AppDelegate sharedinstance].arrContactListIDs = [[NSMutableArray alloc] init];
     [AppDelegate sharedinstance].arrSharedOnlineUsers = [[NSMutableArray alloc] init];
-    
     
     arrData = [[NSMutableArray alloc] init];
     arrDialogData = [[NSMutableArray alloc] init];
@@ -81,7 +78,6 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshContent" object:nil];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshdialogs) name:@"refreshdialogs" object:nil];
-    
     
     if(isiPhone4) {
         

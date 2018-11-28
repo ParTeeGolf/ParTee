@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -14,6 +14,9 @@
         </array>
         <array key="Oswald-Bold.ttf">
             <string>Oswald-Bold</string>
+        </array>
+        <array key="Oswald-Regular.ttf">
+            <string>Oswald-Regular</string>
         </array>
         <array key="Ubuntu-R.ttf">
             <string>Ubuntu</string>
@@ -844,7 +847,7 @@
                                     <constraints>
                                         <constraint firstAttribute="height" constant="46" id="FSD-u5-Jn5"/>
                                     </constraints>
-                                    <fontDescription key="fontDescription" name="Oswald-Bold" family="Oswald" pointSize="12"/>
+                                    <fontDescription key="fontDescription" name="Oswald-Regular" family="Oswald" pointSize="27"/>
                                     <state key="normal" title="Save and Search">
                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
@@ -1034,7 +1037,7 @@
                 <constraint firstItem="sRR-7K-4B3" firstAttribute="top" secondItem="Iwf-nS-wQN" secondAttribute="bottom" constant="1" id="z2u-Zs-9MT"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="-4140" y="-2031"/>
+            <point key="canvasLocation" x="-6624" y="-1826.9865067466269"/>
         </view>
         <view contentMode="scaleToFill" id="1VJ-ih-hvB">
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
@@ -1049,7 +1052,7 @@
                 </label>
             </subviews>
             <color key="backgroundColor" red="0.91372549020000005" green="0.91372549020000005" blue="0.91372549020000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-            <point key="canvasLocation" x="-2398" y="-1761"/>
+            <point key="canvasLocation" x="-3836.8000000000002" y="-1584.1079460269866"/>
         </view>
         <view contentMode="scaleToFill" id="gdq-ld-24b">
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
@@ -1104,7 +1107,7 @@
             <connections>
                 <action selector="devModeChanged:" destination="-1" eventType="touchUpInside" id="yWF-Jz-KAr"/>
             </connections>
-            <point key="canvasLocation" x="-2665" y="-1849"/>
+            <point key="canvasLocation" x="-4264" y="-1663.2683658170915"/>
         </button>
         <view contentMode="scaleToFill" id="pUs-wQ-qew">
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>

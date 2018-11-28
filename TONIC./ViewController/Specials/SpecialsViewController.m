@@ -55,7 +55,6 @@ int courseOption;
 
 - (void)viewDidLoad {
     
-   
     [super viewDidLoad];
     shouldLoadNext=YES;
     
@@ -79,12 +78,8 @@ int courseOption;
     imgViewUser1.layer.borderWidth=2.0f;
     [imgViewUser1.layer setMasksToBounds:YES];
     [imgViewUser1.layer setBorderColor:[UIColor whiteColor].CGColor];
-    
     arrData = [[NSMutableArray alloc] init];
     arrCoursesData = [[NSMutableArray alloc] init];
-    
-    
-    
     NSMutableDictionary *dictcoursePreferencesData = [[[NSUserDefaults standardUserDefaults] objectForKey:kcoursePreferencesData] mutableCopy];
     
     [dictcoursePreferencesData setObject:@"0" forKey:@"cf_courseOption"];
@@ -98,10 +93,7 @@ int courseOption;
         
         [tblList setFrame:CGRectMake(tblList.frame.origin.x, tblList.frame.origin.y, tblList.frame.size.width, tblList.frame.size.height-88)];
     }
-    
     [self createRecordBaseView];
-    
-    
 }
 
 -(void) viewWillAppear:(BOOL)animated {
@@ -109,8 +101,6 @@ int courseOption;
     
     courseOption = ((AppDelegate*)[UIApplication sharedApplication].delegate).courseOptionSelected;
     [[AppDelegate sharedinstance] showLoader];
-    
-    
     _currentPage=0;
 
     segmentSpecials.selectedSegmentIndex = courseOption;
@@ -171,9 +161,6 @@ int courseOption;
             
         }];
     }
-    
-    
-
     
     lblNotAvailable.frame = CGRectMake((self.view.frame.size.width - lblNotAvailable.frame.size.width )/2, (self.view.frame.size.height - lblNotAvailable.frame.size.height )/2, lblNotAvailable.frame.size.width, lblNotAvailable.frame.size.height);
     
@@ -297,7 +284,7 @@ int courseOption;
                 if([items count]>0) {
                     
                     if(![[items objectAtIndex:0] isEqualToString:@"Any"]) {
-                        [getRequestObjectCount setObject: items forKey:@"amenities_temp[in]"];
+                        [getRequestObjectCount setObject: items forKey:@"Amenities[in]"];
                         
                     }
                 }
@@ -352,9 +339,6 @@ int courseOption;
             
             recordLbl.text = recordcountStr;
         }
-        
-        
-        
         
         if([strIsMyCourses isEqualToString:@"1"]) {
             [self getMySpecials];
@@ -498,7 +482,7 @@ int courseOption;
                 if([items count]>0) {
                     
                     if(![[items objectAtIndex:0] isEqualToString:@"Any"]) {
-                        [getRequest setObject: items forKey:@"amenities_temp[in]"];
+                        [getRequest setObject: items forKey:@"Amenities[in]"];
                         
                     }
                 }
@@ -1026,8 +1010,6 @@ int courseOption;
         
         /***************** ChetuChange **************/
         
-        
-        
     }
     else {
         // FROM MY
@@ -1201,27 +1183,30 @@ int courseOption;
 
 
 - (void)showGrid {
-    NSInteger numberOfOptions = 4;
+    NSInteger numberOfOptions = 5;
     NSArray *items;
     /*********** ChetuChange ******/
     
     //  Chnage the title of favorite button
-    NSString *favoriteTitle = isFavCourse==YES ? @"Mark Unfavorite" : @"Mark Favorite";
-    
+//    NSString *favoriteTitle = isFavCourse==YES ? @"Mark Unfavorite" : @"Mark Favorite";
+     NSString *favoriteTitle = isFavCourse==YES ? @"Unfavorite" : @"Mark Favorite";
     //  NSString *favoriteTitle = @"Your favorite";
     NSString *favImgStr = @"";
-    if ([favoriteTitle isEqualToString: @"Mark Unfavorite"]) {
-        favImgStr = @"fav.png";
+//    if ([favoriteTitle isEqualToString: @"Mark Unfavorite"]) {
+  
+  if ([favoriteTitle isEqualToString: @"Unfavorite"]) {
+    favImgStr = @"fav.png";
     }else {
         favImgStr = @"unfav";
     }
     items= @[
-             [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:favImgStr] title:@"Your Favorite"],
+             [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:favImgStr] title:favoriteTitle],
              [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:@"info-filled"] title:@"Information"],
              [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:@"viewmap"] title:@"On Map"],
              [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:@"direction"] title:@"Directions"],
              // Remove Photo options as per client requirement.
              //  [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:@"image-placeholder"] title:@"Photos"],
+             [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:kShareImg] title:kShareTitle],
              ];
     
     /*********** ChetuChange ******/
@@ -1250,11 +1235,53 @@ int courseOption;
             [self actionDirection];
             break;
         case kIndexPhoto:
-            [self actionPhoto];
-            break;
+            // [self actionPhoto];
+            [self shareLinkViaSocialApp];
     }
 }
-
+#pragma mark- grid Delegate
+/**
+ @Description
+ * Share artcile link via social networking application available on the device.
+ * @author Chetu India
+ * @return void nothing will return by this method.
+ */
+-(void)shareLinkViaSocialApp
+{
+    
+        // All courses
+        QBCOCustomObject *obj = [arrData objectAtIndex:selectedRow];
+    
+    //  (Title of Event, Date of Event, Location of Event, info text of event.)
+    NSString *courseName = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"Name"]];
+    NSString *address = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"Address"]];
+    NSString *cityName = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"City"]];
+    NSString *websiteName = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"Website"]];
+    NSArray * activityItems = @[[NSString stringWithFormat:@"Check out this Course I found in the ParTee \n\n %@ \n %@ %@ \n %@",courseName, address, cityName, websiteName]];
+    NSArray * applicationActivities = nil;
+    NSArray * excludeActivities = @[UIActivityTypeAssignToContact, UIActivityTypeCopyToPasteboard, UIActivityTypePostToWeibo, UIActivityTypePrint, UIActivityTypeMessage];
+    
+    UIActivityViewController * activityController = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:applicationActivities];
+    activityController.excludedActivityTypes = excludeActivities;
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+    {
+        activityController.popoverPresentationController.sourceView = self.view;
+        
+        [self presentViewController:activityController
+                           animated:YES
+                         completion:nil];
+    }
+    else
+    {
+        [self presentViewController:activityController
+                           animated:YES
+                         completion:nil];
+    }
+     
+   
+    
+}
 -(void) actionPhoto {
     
     CoursePhotoViewController *obj = [[CoursePhotoViewController alloc] initWithNibName:@"CoursePhotoViewController" bundle:nil];

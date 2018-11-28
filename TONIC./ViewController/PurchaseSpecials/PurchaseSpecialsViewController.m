@@ -43,7 +43,7 @@
     [super viewDidLoad];
     firstTimeViewLoad = 0;
     
-    arrAmenities = [[NSMutableArray alloc] init];
+    arrAmenities          = [[NSMutableArray alloc] init];
     proTbl.separatorColor = [UIColor clearColor];
 
     if(isiPhone4) {
@@ -67,109 +67,7 @@
     
 }
 
-#pragma mark- update views programmaticallyy
 
-//update views according to device that have been created using xib
--(void)updateConstarintsProgrammatically {
-    CGFloat width = self.view.frame.size.width;
-   
-    firstTimeViewLoad = 1;
-    imgViewUser1.frame = CGRectMake(34, 23, 70, 70);
-    _keyImg.frame = CGRectMake((width - 40 )/2,23, 40, 68);
-
-    
-    imgViewUser2 = [[UIImageView alloc]initWithFrame:CGRectMake(width - 37 - 70, 23, 70, 70)];
-    imgViewUser2.image = [UIImage imageNamed:@"Placeholder.png"];
-    imgViewUser2.hidden = YES;
-    [scrollViewContainer addSubview:imgViewUser2];
-    
-    btnPlus = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    btnPlus.frame = CGRectMake(17.5 , 17.5, 35, 35);
-    btnPlus.hidden = YES;
-    [btnPlus setBackgroundImage:[UIImage imageNamed:@"Plusadd.png"] forState:UIControlStateNormal];
-    [imgViewUser2 addSubview:btnPlus];
-    
-    btnInfo = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    btnInfo.frame = CGRectMake(width - 20 - 30, 15, 30, 30);
-    [btnInfo setBackgroundImage:[UIImage imageNamed:@"info"] forState:UIControlStateNormal];
-    btnInfo.hidden = true;
-    [scrollViewContainer addSubview:btnInfo];
-    
-    btnViewUser = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-     btnViewUser.frame = CGRectMake(width - 26 - 88, 15, 88, 88);
-    [btnViewUser addTarget:self action:@selector(viewUser:) forControlEvents:UIControlEventTouchUpInside];
-    [scrollViewContainer addSubview:btnViewUser];
-   
-    btnSelectUser = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-     btnSelectUser.frame = CGRectMake(width - 20 - 94, 23, 94, 78);
-    [btnSelectUser addTarget:self action:@selector(selectUser:) forControlEvents:UIControlEventTouchUpInside];
-    [scrollViewContainer addSubview:btnSelectUser];
-    
-    btnViewUser.hidden = YES;
-    btnViewUser.hidden = YES;
-    btnSelectUser.hidden = YES;
-    
-    imageUrl.frame = CGRectMake(0,10 , width, 180);
-    narrowLineView1.frame = CGRectMake(0, 10, width, 180);
-    lblName.frame = CGRectMake(5, 111, width - 10, 54);
-    lblAddress.frame = CGRectMake(5, 33, width - 10, 46);
-    btnFav.frame = CGRectMake(width - 62, 19, 51, 62);
-    btnFavImage.frame = CGRectMake(width - 8 - 27, 46, 27, 27);
-  //  btnFav.backgroundColor = [UIColor redColor];
-  //  btnFavImage.backgroundColor = [UIColor grayColor];
-    narrowlineView2.frame = CGRectMake(0, imageUrl.frame.origin.y + imageUrl.frame.size.height, width, narrowlineView2.frame.size.height);
-   
-    phoneLbl.frame = CGRectMake(phoneLbl.frame.origin.x,imageUrl.frame.origin.y + imageUrl.frame.size.height+ 4 , phoneLbl.frame.size.width, phoneLbl.frame.size.height);
-    lblContactNum.frame = CGRectMake(lblContactNum.frame.origin.x, phoneLbl.frame.origin.y, width - (lblContactNum.frame.origin.x), lblContactNum.frame.size.height);
-    
-    websiteLbl.frame = CGRectMake(websiteLbl.frame.origin.x,phoneLbl.frame.origin.y + phoneLbl.frame.size.height + 4, websiteLbl.frame.size.width, websiteLbl.frame.size.height);
-    lblWebsite.frame = CGRectMake(lblWebsite.frame.origin.x, websiteLbl.frame.origin.y, width - (lblWebsite.frame.origin.x), lblWebsite.frame.size.height);
-  
-    teeTimeLbl.frame = CGRectMake(teeTimeLbl.frame.origin.x,websiteLbl.frame.origin.y + websiteLbl.frame.size.height + 4 , teeTimeLbl.frame.size.width, teeTimeLbl.frame.size.height);
-    lblbooking.frame = CGRectMake(lblbooking.frame.origin.x, teeTimeLbl.frame.origin.y, width - (lblbooking.frame.origin.x), lblbooking.frame.size.height);
-    
-    amentiesLbl.frame = CGRectMake(amentiesLbl.frame.origin.x,teeTimeLbl.frame.origin.y + teeTimeLbl.frame.size.height + 4 , amentiesLbl.frame.size.width, amentiesLbl.frame.size.height);
-    
-    collectionViewData.frame = CGRectMake(collectionViewData.frame.origin.x, amentiesLbl.frame.origin.y + amentiesLbl.frame.size.height + 4 , width, collectionViewData.frame.size.height);
-    
-    proView.frame = CGRectMake(proView.frame.origin.x,amentiesLbl.frame.origin.y + amentiesLbl.frame.size.height + 17 , self.view.frame.size.width, self.view.frame.size.height - (amentiesLbl.frame.origin.y + amentiesLbl.frame.size.height + 17));
-    golfPros.frame = CGRectMake(golfPros.frame.origin.x, golfPros.frame.origin.y, width - (golfPros.frame.origin.x), golfPros.frame.size.height);
-    proBaseView.frame = CGRectMake(proBaseView.frame.origin.x, proBaseView.frame.origin.y, width, proBaseView.frame.size.height);
-    proTbl.frame = CGRectMake(proTbl.frame.origin.x, proTbl.frame.origin.y, width, proView.frame.size.height - (golfPros.frame.size.height + 90));
-    
-    
-      if([arrAmenities count]==0) {
-        
-          [self hideOrShowAmenties:YES];
-          collectionViewData.hidden = YES;
-      }else{
-          [self hideOrShowAmenties:YES];
-          collectionViewData.hidden = YES;
-          
-      //    [self hideOrShowAmenties:NO];
-        //  collectionViewData.hidden = NO;
-      }
-
-    
-}
--(void)hideOrShowAmenties:(BOOL)hide
-{
-    if (hide) {
-    
-        proView.frame = CGRectMake(proView.frame.origin.x,amentiesLbl.frame.origin.y + amentiesLbl.frame.size.height + 17 , self.view.frame.size.width, self.view.frame.size.height - (amentiesLbl.frame.origin.y + amentiesLbl.frame.size.height + 27));
-        golfPros.frame = CGRectMake(golfPros.frame.origin.x, golfPros.frame.origin.y, self.view.frame.size.width - (golfPros.frame.origin.x), golfPros.frame.size.height);
-        proBaseView.frame = CGRectMake(proBaseView.frame.origin.x, proBaseView.frame.origin.y, self.view.frame.size.width, proBaseView.frame.size.height);
-        proTbl.frame = CGRectMake(proTbl.frame.origin.x, proTbl.frame.origin.y, self.view.frame.size.width, proView.frame.size.height - (golfPros.frame.size.height + 70));
-        
-    }else{
-        
-        proView.frame = CGRectMake(proView.frame.origin.x,collectionViewData.frame.origin.y + collectionViewData.frame.size.height + 17 , self.view.frame.size.width, self.view.frame.size.height - (collectionViewData.frame.origin.y + collectionViewData.frame.size.height + 27));
-        golfPros.frame = CGRectMake(golfPros.frame.origin.x, golfPros.frame.origin.y, self.view.frame.size.width - (golfPros.frame.origin.x), golfPros.frame.size.height);
-        proBaseView.frame = CGRectMake(proBaseView.frame.origin.x, proBaseView.frame.origin.y, self.view.frame.size.width, proBaseView.frame.size.height);
-        proTbl.frame = CGRectMake(proTbl.frame.origin.x, proTbl.frame.origin.y, self.view.frame.size.width, proView.frame.size.height - (golfPros.frame.size.height + 70));
-    }
-    
-}
 -(void) viewWillAppear:(BOOL)animated {
     
    
@@ -606,7 +504,10 @@
     str1 = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"booking"]];
     [lblbooking setTitle:str1 forState:UIControlStateNormal];
 
-    str1 = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"amenities_temp"]];
+    
+    // str1 = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"amenities_temp"]];
+    
+    str1 = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"Amenities"]];
     
     NSArray *items = [str1 componentsSeparatedByString:@","];
     
@@ -666,7 +567,109 @@
     
     [collectionViewData reloadData];
 }
+#pragma mark- update views programmaticallyy
 
+//update views according to device that have been created using xib
+-(void)updateConstarintsProgrammatically {
+    CGFloat width = self.view.frame.size.width;
+    
+    firstTimeViewLoad = 1;
+    imgViewUser1.frame = CGRectMake(34, 23, 70, 70);
+    _keyImg.frame = CGRectMake((width - 40 )/2,23, 40, 68);
+    
+    
+    imgViewUser2 = [[UIImageView alloc]initWithFrame:CGRectMake(width - 37 - 70, 23, 70, 70)];
+    imgViewUser2.image = [UIImage imageNamed:@"Placeholder.png"];
+    imgViewUser2.hidden = YES;
+    [scrollViewContainer addSubview:imgViewUser2];
+    
+    btnPlus = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    btnPlus.frame = CGRectMake(17.5 , 17.5, 35, 35);
+    btnPlus.hidden = YES;
+    [btnPlus setBackgroundImage:[UIImage imageNamed:@"Plusadd.png"] forState:UIControlStateNormal];
+    [imgViewUser2 addSubview:btnPlus];
+    
+    btnInfo = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    btnInfo.frame = CGRectMake(width - 20 - 30, 15, 30, 30);
+    [btnInfo setBackgroundImage:[UIImage imageNamed:@"info"] forState:UIControlStateNormal];
+    btnInfo.hidden = true;
+    [scrollViewContainer addSubview:btnInfo];
+    
+    btnViewUser = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    btnViewUser.frame = CGRectMake(width - 26 - 88, 15, 88, 88);
+    [btnViewUser addTarget:self action:@selector(viewUser:) forControlEvents:UIControlEventTouchUpInside];
+    [scrollViewContainer addSubview:btnViewUser];
+    
+    btnSelectUser = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    btnSelectUser.frame = CGRectMake(width - 20 - 94, 23, 94, 78);
+    [btnSelectUser addTarget:self action:@selector(selectUser:) forControlEvents:UIControlEventTouchUpInside];
+    [scrollViewContainer addSubview:btnSelectUser];
+    
+    btnViewUser.hidden = YES;
+    btnViewUser.hidden = YES;
+    btnSelectUser.hidden = YES;
+    
+    imageUrl.frame = CGRectMake(0,10 , width, 180);
+    narrowLineView1.frame = CGRectMake(0, 10, width, 180);
+    lblName.frame = CGRectMake(5, 111, width - 10, 54);
+    lblAddress.frame = CGRectMake(5, 33, width - 10, 46);
+    btnFav.frame = CGRectMake(width - 62, 19, 51, 62);
+    btnFavImage.frame = CGRectMake(width - 8 - 27, 46, 27, 27);
+    //  btnFav.backgroundColor = [UIColor redColor];
+    //  btnFavImage.backgroundColor = [UIColor grayColor];
+    narrowlineView2.frame = CGRectMake(0, imageUrl.frame.origin.y + imageUrl.frame.size.height, width, narrowlineView2.frame.size.height);
+    
+    phoneLbl.frame = CGRectMake(phoneLbl.frame.origin.x,imageUrl.frame.origin.y + imageUrl.frame.size.height+ 4 , phoneLbl.frame.size.width, phoneLbl.frame.size.height);
+    lblContactNum.frame = CGRectMake(lblContactNum.frame.origin.x, phoneLbl.frame.origin.y, width - (lblContactNum.frame.origin.x), lblContactNum.frame.size.height);
+    
+    websiteLbl.frame = CGRectMake(websiteLbl.frame.origin.x,phoneLbl.frame.origin.y + phoneLbl.frame.size.height + 4, websiteLbl.frame.size.width, websiteLbl.frame.size.height);
+    lblWebsite.frame = CGRectMake(lblWebsite.frame.origin.x, websiteLbl.frame.origin.y, width - (lblWebsite.frame.origin.x), lblWebsite.frame.size.height);
+    
+    teeTimeLbl.frame = CGRectMake(teeTimeLbl.frame.origin.x,websiteLbl.frame.origin.y + websiteLbl.frame.size.height + 4 , teeTimeLbl.frame.size.width, teeTimeLbl.frame.size.height);
+    lblbooking.frame = CGRectMake(lblbooking.frame.origin.x, teeTimeLbl.frame.origin.y, width - (lblbooking.frame.origin.x), lblbooking.frame.size.height);
+    
+    amentiesLbl.frame = CGRectMake(amentiesLbl.frame.origin.x,teeTimeLbl.frame.origin.y + teeTimeLbl.frame.size.height + 4 , amentiesLbl.frame.size.width, amentiesLbl.frame.size.height);
+    
+    collectionViewData.frame = CGRectMake(collectionViewData.frame.origin.x, amentiesLbl.frame.origin.y + amentiesLbl.frame.size.height + 4 , width, collectionViewData.frame.size.height);
+    
+    proView.frame = CGRectMake(proView.frame.origin.x,amentiesLbl.frame.origin.y + amentiesLbl.frame.size.height + 17 , self.view.frame.size.width, self.view.frame.size.height - (amentiesLbl.frame.origin.y + amentiesLbl.frame.size.height + 17));
+    golfPros.frame = CGRectMake(golfPros.frame.origin.x, golfPros.frame.origin.y, width - (golfPros.frame.origin.x), golfPros.frame.size.height);
+    proBaseView.frame = CGRectMake(proBaseView.frame.origin.x, proBaseView.frame.origin.y, width, proBaseView.frame.size.height);
+    proTbl.frame = CGRectMake(proTbl.frame.origin.x, proTbl.frame.origin.y, width, proView.frame.size.height - (golfPros.frame.size.height + 90));
+    
+    
+    if([arrAmenities count]==0) {
+        
+        [self hideOrShowAmenties:YES];
+        collectionViewData.hidden = YES;
+    }else{
+//        [self hideOrShowAmenties:YES];
+//        collectionViewData.hidden = YES;
+//
+            [self hideOrShowAmenties:NO];
+          collectionViewData.hidden = NO;
+    }
+    
+    
+}
+-(void)hideOrShowAmenties:(BOOL)hide
+{
+    if (hide) {
+        
+        proView.frame = CGRectMake(proView.frame.origin.x,amentiesLbl.frame.origin.y + amentiesLbl.frame.size.height + 17 , self.view.frame.size.width, self.view.frame.size.height - (amentiesLbl.frame.origin.y + amentiesLbl.frame.size.height + 27));
+        golfPros.frame = CGRectMake(golfPros.frame.origin.x, golfPros.frame.origin.y, self.view.frame.size.width - (golfPros.frame.origin.x), golfPros.frame.size.height);
+        proBaseView.frame = CGRectMake(proBaseView.frame.origin.x, proBaseView.frame.origin.y, self.view.frame.size.width, proBaseView.frame.size.height);
+        proTbl.frame = CGRectMake(proTbl.frame.origin.x, proTbl.frame.origin.y, self.view.frame.size.width, proView.frame.size.height - (golfPros.frame.size.height + 70));
+        
+    }else{
+        
+        proView.frame = CGRectMake(proView.frame.origin.x,collectionViewData.frame.origin.y + collectionViewData.frame.size.height + 17 , self.view.frame.size.width, self.view.frame.size.height - (collectionViewData.frame.origin.y + collectionViewData.frame.size.height + 27));
+        golfPros.frame = CGRectMake(golfPros.frame.origin.x, golfPros.frame.origin.y, self.view.frame.size.width - (golfPros.frame.origin.x), golfPros.frame.size.height);
+        proBaseView.frame = CGRectMake(proBaseView.frame.origin.x, proBaseView.frame.origin.y, self.view.frame.size.width, proBaseView.frame.size.height);
+        proTbl.frame = CGRectMake(proTbl.frame.origin.x, proTbl.frame.origin.y, self.view.frame.size.width, proView.frame.size.height - (golfPros.frame.size.height + 70));
+    }
+    
+}
 //-----------------------------------------------------------------------
 
 -(void)viewUser:(id)sender {
@@ -971,7 +974,7 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section {
     NSString *strName = [arrAmenities objectAtIndex:indexPath.row];
     NSString *trimmedString = [strName stringByTrimmingCharactersInSet:
                                [NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    UIImage *tempImage = [UIImage imageNamed:trimmedString];
+   
     [cell.imgViewUser setImage:[UIImage imageNamed:trimmedString]];
     [cell.lblUserName setText:strName];
     
@@ -1005,18 +1008,31 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section {
 }
 
 - (void)showGrid {
-    NSInteger numberOfOptions = 4;
+    NSInteger numberOfOptions = 5;
     NSArray *items;
     
-    NSString *favoriteTitle = isFavCourse==YES ? @"Mark Unfavorite" : @"Mark Favorite";
+ //   NSString *favoriteTitle = isFavCourse==YES ? @"Mark Unfavorite" : @"Mark Favorite";
     
+   
     
+    NSString *favoriteTitle = isFavCourse==YES ? @"Unfavorite" : @"Mark Favorite";
+   
+    NSString *favImgStr = @"";
+    //    if ([favoriteTitle isEqualToString: @"Mark Unfavorite"]) {
+    
+    if ([favoriteTitle isEqualToString: @"Unfavorite"]) {
+        favImgStr = @"fav.png";
+    }else {
+        favImgStr = @"unfav";
+    }
     items= @[
-             [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:@"unfav"] title:favoriteTitle],
+          //   [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:@"unfav"] title:favoriteTitle],
+              [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:favImgStr] title:favoriteTitle],
              [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:@"info-filled"] title:@"Information"],
              [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:@"viewmap"] title:@"On Map"],
              [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:@"direction"] title:@"Directions"],
            //  [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:@"image-placeholder"] title:@"Photos"],
+              [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:kShareImg] title:kShareTitle]
              ];
     
     
@@ -1045,11 +1061,52 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section {
             [self actionDirection];
             break;
         case kIndexPhoto:
-            [self actionPhoto];
+            // [self actionPhoto];
+            [self shareLinkViaSocialApp];
             break;
     }
 }
-
+#pragma mark- grid Delegate
+/**
+ @Description
+ * Share artcile link via social networking application available on the device.
+ * @author Chetu India
+ * @return void nothing will return by this method.
+ */
+-(void)shareLinkViaSocialApp
+{
+   
+        NSLog(@"%@", courseObject);
+    
+    //  (Title of Event, Date of Event, Location of Event, info text of event.)
+    NSString *courseName = [[AppDelegate sharedinstance] nullcheck:[courseObject.fields objectForKey:@"Name"]];
+    NSString *address = [[AppDelegate sharedinstance] nullcheck:[courseObject.fields objectForKey:@"Address"]];
+     NSString *cityName = [[AppDelegate sharedinstance] nullcheck:[courseObject.fields objectForKey:@"City"]];
+     NSString *websiteName = [[AppDelegate sharedinstance] nullcheck:[courseObject.fields objectForKey:@"Website"]];
+     NSArray * activityItems = @[[NSString stringWithFormat:@"Check out this Course I found in the ParTee \n\n %@ \n %@ %@ \n %@",courseName, address, cityName, websiteName]];
+    
+    NSArray * applicationActivities = nil;
+    NSArray * excludeActivities = @[UIActivityTypeAssignToContact, UIActivityTypeCopyToPasteboard, UIActivityTypePostToWeibo, UIActivityTypePrint, UIActivityTypeMessage];
+    
+    UIActivityViewController * activityController = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:applicationActivities];
+    activityController.excludedActivityTypes = excludeActivities;
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+    {
+        activityController.popoverPresentationController.sourceView = self.view;
+        
+        [self presentViewController:activityController
+                           animated:YES
+                         completion:nil];
+    }
+    else
+    {
+        [self presentViewController:activityController
+                           animated:YES
+                         completion:nil];
+    }
+    
+}
 -(void) actionPhoto {
     
     CoursePhotoViewController *obj = [[CoursePhotoViewController alloc] initWithNibName:@"CoursePhotoViewController" bundle:nil];

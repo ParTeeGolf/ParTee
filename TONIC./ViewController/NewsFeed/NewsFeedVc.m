@@ -69,6 +69,8 @@
         int totalAdvertFeedCount;
         // contain total number of news feed available on quickblox table.
         int feedsCount;
+        // contain No if insta feed not loaded yet.
+        BOOL instaFeedLoad;
         
     }
     @end
@@ -117,11 +119,13 @@
         instaFeeds                                 = [[NSMutableArray alloc]init];
         instagramImgBaseView.hidden                = YES;
         collectionView.scrollEnabled               = NO;
+        instaFeedLoad                              = NO;
         // hide separator lines of table view.
         tblList.separatorColor                     = [UIColor clearColor];
         
         // Call methods after delay.
         [self performSelector:@selector(getDataFromRssFeedUrl) withObject:self afterDelay:0.01 ];
+     
     }
 
     #pragma mark- Get Data Rss Feed
@@ -134,24 +138,31 @@
     -(void)getDataFromRssFeedUrl
     {
         // Initialize array that contain url for rssfeed from which data need to be fetched.
-        NSMutableArray *urlArray = [[NSMutableArray alloc]init];
-        [urlArray addObject:kNewsFeedUrl];
-        [urlArray addObject:kInstaFeedUrl];
-        for (NSString *urlStr in urlArray) {
-            
-            if ([urlStr isEqualToString:kNewsFeedUrl]) {
-                xmlParserTagValue = kZeroValue;
-            }else if ([urlStr isEqualToString:kInstaFeedUrl]){
-                xmlParserTagValue = 1;
-            }
-            // Parser used to parse xml data from url.
-            NSURL *url = [NSURL URLWithString:urlStr];
-            parser = [[NSXMLParser alloc] initWithContentsOfURL:url];
-            [parser setDelegate:self];
-            [parser setShouldResolveExternalEntities:NO];
-            [parser parse];
-            
-        }
+     //   NSMutableArray *urlArray = [[NSMutableArray alloc]init];
+ //       [urlArray addObject:kNewsFeedUrl];
+    //    [urlArray addObject:kInstaFeedUrl];
+//        for (NSString *urlStr in urlArray) {
+//
+//            if ([urlStr isEqualToString:kNewsFeedUrl]) {
+//                xmlParserTagValue = kZeroValue;
+//            }else if ([urlStr isEqualToString:kInstaFeedUrl]){
+//                xmlParserTagValue = 1;
+//            }
+//            // Parser used to parse xml data from url.
+//            NSURL *url = [NSURL URLWithString:urlStr];
+//            parser = [[NSXMLParser alloc] initWithContentsOfURL:url];
+//            [parser setDelegate:self];
+//            [parser setShouldResolveExternalEntities:NO];
+//            [parser parse];
+//
+//        }
+        
+        NSURL *url = [NSURL URLWithString:kNewsFeedUrl];
+        xmlParserTagValue = kZeroValue;
+        parser = [[NSXMLParser alloc] initWithContentsOfURL:url];
+        [parser setDelegate:self];
+        [parser setShouldResolveExternalEntities:NO];
+        [parser parse];
         
     }
     #pragma mark- Delegate Methods NSXMLParser
@@ -197,10 +208,10 @@
             }
         }
     }
-    - (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string {
-        
-        
-        
+
+- (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string {
+    
+    
         if (xmlParserTagValue == 0) {
             if ([element isEqualToString:kFeedTitleParam]) {
                 [title appendString:string];
@@ -282,10 +293,13 @@
                 // Repalce the old dict with new dict.
                 [feeds replaceObjectAtIndex:i withObject:newDict];
             }
-            [collectionView reloadData];
-            [self getAdFeedCount];
+       
+           [self getAdFeedCount];
         }else if (xmlParserTagValue == 1){
-          //  [collectionView reloadData];
+           // xmlParserTagValue = 0;
+            instaFeedLoad = YES;
+            [collectionView reloadData];
+            [[AppDelegate sharedinstance] hideLoader];
          //   [self getAdFeedCount];
             
         }
@@ -331,8 +345,6 @@
         // Create dictionary for parameters to filter out the records from AdEvents table on quickblox
         
         NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
-        
-        
         [getRequest setObject:kAdEventLimit forKey:kEventLimitParam];
         NSString *strPage = [NSString stringWithFormat:@"%d",[kAdEventLimit intValue] * adCurrentPage];
         [getRequest setObject:strPage forKey:kEventSkipParam];
@@ -433,7 +445,6 @@
             
         }
         collectionViewFirstItemIndex = collectionViewLastItemIndex - 3;
-        
     }
 
     /**
@@ -464,12 +475,37 @@
             instaBaseViewHeightConstraints.constant = kZeroValue;
             instagramImgBaseView.hidden = YES;
         }else if (selectedIndex == 1) {
+            // Parser used to parse xml data from url.
             headerTitleLbl.text = kFeedParteeLineTitle;
             instaBaseViewHeightConstraints.constant = 120 ;
             instagramImgBaseView.hidden = NO;
+            
+           
+        
+            // Load instagram account feeds only for first time.
+            if (!instaFeedLoad) {
+                // Show Loader
+                [[AppDelegate sharedinstance] showLoader];
+                // Call method after delay.
+                [self performSelector:@selector(loadInstaFeeds) withObject:self afterDelay:0.01 ];
+            }
         }
     }
-
+#pragma mark - SegmentChangedAction
+/**
+ @Description
+ * This method called to load feed details from instagram account.
+ * @author Chetu India.
+ */
+-(void)loadInstaFeeds
+{
+    NSURL *url = [NSURL URLWithString:kInstaFeedUrl];
+    xmlParserTagValue = 1;
+    parser = [[NSXMLParser alloc] initWithContentsOfURL:url];
+    [parser setDelegate:self];
+    [parser setShouldResolveExternalEntities:NO];
+    [parser parse];
+}
     #pragma mark - Collection view DataSource Methods
 
     - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
@@ -483,7 +519,7 @@
     - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
     {
         UICollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:kCellIdentifier forIndexPath:indexPath];
-        UIImageView *instaImgView = [[UIImageView alloc]initWithFrame:CGRectMake(0,0 , cell.frame.size.width, cell.frame.size.height )];
+        UIImageView *instaImgView = [[UIImageView alloc]initWithFrame:CGRectMake(0,3 , cell.frame.size.width, cell.frame.size.width )];
         // show instagram images on collection view cell.
         if (instaFeeds.count != 0) {
             [instaImgView sd_setImageWithURL:[NSURL URLWithString:[[instaFeeds objectAtIndex:indexPath.item] objectForKey:kInstaFeedThumbnail]] placeholderImage:[UIImage imageNamed:kUnSpecifiedPng]];

@@ -22,7 +22,10 @@ NSString *const constZipcodeLimit = @"Maximum 10 Characters allowed for Zipcode.
 
 
 @interface RegisterViewController ()
-
+{
+    int currentPageCity;
+    NSString *selectedState;
+}
 @end
 
 @implementation RegisterViewController
@@ -57,6 +60,7 @@ NSString *const constZipcodeLimit = @"Maximum 10 Characters allowed for Zipcode.
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+     currentPageCity = 0;
     [self updateViewConstarints];
 
   //[self sampleFillUser];
@@ -125,54 +129,107 @@ NSString *const constZipcodeLimit = @"Maximum 10 Characters allowed for Zipcode.
      
     }
     
-    [self getLocationDataFromServer];
+    //  [self getLocationDataFromServer];
+    [self getStateList];
 }
-#pragma mark- updateViewConstarintd
-// updateViewConstarintd according to device
+#pragma mark- Get State List
+/**
+ @Description
+ * This method will fetch state list from quickblox table.
+ * @author Chetu India
+ * @return void nothing will return by this method.
+ */
+-(void)getStateList {
+    
+    [[AppDelegate sharedinstance] showLoader];
+    
+    
+    [QBRequest objectsWithClassName:@"StateList" extendedRequest:nil successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
+        
+        NSLog(@"Entries %lu",(unsigned long)page.totalEntries);
+        arrData=[objects mutableCopy];
+        
+        for(int i=0;i<[objects count];i++) {
+            QBCOCustomObject *obj = [arrData objectAtIndex:i];
+            
+            NSString *strState = [obj.fields objectForKey:@"StateName"];
+            
+            if(![arrStateList containsObject:strState])
+            {
+                [arrStateList addObject:strState];
+            }
+            
+        }
+        
+        txtState.text = [arrStateList objectAtIndex:0];
+        selectedState  = [arrStateList objectAtIndex:0];
+        [arrStateList sortUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+  //      [arrStateList insertObject:@"All" atIndex:0];
+        [self getcityList];
+     //   [[AppDelegate sharedinstance] hideLoader];
+        
+    } errorBlock:^(QBResponse *response) {
+        // error handling
+        [[AppDelegate sharedinstance] hideLoader];
+        
+        NSLog(@"Response error: %@", [response.error description]);
+    }];
+    
+}
+#pragma mark- Get City List
+/**
+ @Description
+ * This method will fetch city list from GolfCourses table based on state selected.
+ * @author Chetu India
+ * @return void nothing will return by this method.
+ */
+-(void)getcityList
+{
+ //   [[AppDelegate sharedinstance] showLoader];
+    
+    NSMutableDictionary *getRequestObjectCount = [NSMutableDictionary dictionary];
+    [getRequestObjectCount setObject: selectedState forKey:@"State"];
+    
+    [getRequestObjectCount setObject:@"100" forKey:@"limit"];
+    NSString *strPage = [NSString stringWithFormat:@"%d",[@"100" intValue] * currentPageCity];
+    
+    [getRequestObjectCount setObject:strPage forKey:@"skip"];
+    
+    [QBRequest objectsWithClassName:@"GolfCourses" extendedRequest:getRequestObjectCount successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
+        
+        NSLog(@"Entries %lu",(unsigned long)page.totalEntries);
+        arrData=[objects mutableCopy];
+        
+        for(int i=0;i<[objects count];i++) {
+            QBCOCustomObject *obj = [arrData objectAtIndex:i];
+            NSString *strCity = [obj.fields objectForKey:@"City"];
+            
+            if(![arrCityList containsObject:strCity])
+            {
+                [arrCityList addObject:strCity];
+            }
+        }
+        
+        currentPageCity++;
+        if (objects.count < 100) {
+            
+            [arrCityList sortUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+            txtCity.text = [arrCityList objectAtIndex:0];
+            [[AppDelegate sharedinstance] hideLoader];
+            
+        }else {
+            [self getcityList];
+        }
+        
+    } errorBlock:^(QBResponse *response) {
+        // error handling
+        [[AppDelegate sharedinstance] hideLoader];
+        
+        NSLog(@"Response error: %@", [response.error description]);
+    }];
+    
+}
 
--(void)updateViewConstarints {
-    CGRect screenRect = [[UIScreen mainScreen] bounds];
-    CGFloat screenHeight = screenRect.size.height;
-    CGFloat screenWidth = screenRect.size.width;
-    
-    scrollViewContainer.frame = CGRectMake(scrollViewContainer.frame.origin.x, scrollViewContainer.frame.origin.y, screenWidth, screenHeight);
-    
-    imgViewProfilePic.frame =  CGRectMake((screenWidth - 95 )/2, 20, 95, 95);
-    cameraBtn.frame = CGRectMake((screenWidth - 95 )/2, 20, 95, 95);
-    segmentGender.frame = CGRectMake((screenWidth - 222)/2, imgViewProfilePic.frame.origin.y + imgViewProfilePic.frame.size.height + 18, 222, 28);
-    nameBaseView.frame = CGRectMake((screenWidth - 286)/2, nameBaseView.frame.origin.y, 286, 43);
-    mailBaseView.frame = CGRectMake((screenWidth - 286)/2, mailBaseView.frame.origin.y, 286, 43);
-    pwdBaseView.frame = CGRectMake((screenWidth - 286)/2, pwdBaseView.frame.origin.y, 286, 60);
-    dobBaseView.frame = CGRectMake((screenWidth - 286)/2, dobBaseView.frame.origin.y, 286, 60);
-    stateBaseView.frame = CGRectMake((screenWidth - 286)/2, stateBaseView.frame.origin.y, 286, 60);
-    cityBaseView.frame = CGRectMake((screenWidth - 286)/2, cityBaseView.frame.origin.y, 286, 60);
-    homeCourseBaseView.frame = CGRectMake((screenWidth - 286)/2, homeCourseBaseView.frame.origin.y, 286, 60);
-    zipCodeBaseView.frame = CGRectMake((screenWidth - 286)/2, zipCodeBaseView.frame.origin.y, 286, 60);
-    handicapBaseView.frame = CGRectMake((screenWidth - 286)/2, handicapBaseView.frame.origin.y, 286, 60);
-    aboutBaseView.frame = CGRectMake((screenWidth - 286)/2, aboutBaseView.frame.origin.y, 286, 60);
-    saveBaseVieqw.frame = CGRectMake(0, saveBaseVieqw.frame.origin.y, screenWidth, 60);
-    btnCheckmark.frame = CGRectMake(aboutBaseView.frame.origin.x + 19 , btnCheckmark.frame.origin.y, 20, 20);
-    btnCheckBig.frame = CGRectMake(btnCheckmark.frame.origin.x - 11, btnCheckBig.frame.origin.y, 34, 35);
-    agreeBtn.frame = CGRectMake(btnCheckBig.frame.origin.x + 34 + 5, agreeBtn.frame.origin.y, 239, 25);
-    privacyBtn.frame = CGRectMake(btnCheckBig.frame.origin.x + 34 + 5,privacyBtn.frame.origin.y , 239, 20);
-    
-    scrollViewContainer.contentSize = CGSizeMake(screenWidth, saveBaseVieqw.frame.origin.y + saveBaseVieqw.frame.size.height + 200 );
-    doneBtnImg.frame = CGRectMake((screenWidth - 273 )/2, doneBtnImg.frame.origin.y, 273, 46);
-    DoneBtn.frame = CGRectMake((screenWidth - 273 )/2, DoneBtn.frame.origin.y, 273, 46);
-    
-    if (screenWidth == 375) {
-        narrowLineView1.frame = CGRectMake(114 + 34 , narrowLineView1.frame.origin.y, 119, 1);
-        narrowLineView2.frame = CGRectMake( 5 + btnCheckBig.frame.origin.x + btnCheckBig.frame.size.width , narrowLineView2.frame.origin.y, narrowLineView2.frame.size.width, 1);
-    }else if (screenWidth == 414) {
-        narrowLineView1.frame = CGRectMake(114 + 34 , narrowLineView1.frame.origin.y, 119, 1);
-        narrowLineView2.frame = CGRectMake( 5 + btnCheckBig.frame.origin.x + btnCheckBig.frame.size.width , narrowLineView2.frame.origin.y, narrowLineView2.frame.size.width, 1);
-    }else if (screenWidth == 320) {
-        narrowLineView1.frame = CGRectMake(114 + 5 , narrowLineView1.frame.origin.y, 119, 1);
-        narrowLineView2.frame = CGRectMake( 5 + btnCheckBig.frame.origin.x + btnCheckBig.frame.size.width , narrowLineView2.frame.origin.y, narrowLineView2.frame.size.width, 1);
-    }
-    
-    
-}
 -(void) getLocationDataFromServer {
     
     [[AppDelegate sharedinstance] showLoader];
@@ -335,6 +392,52 @@ NSString *const constZipcodeLimit = @"Maximum 10 Characters allowed for Zipcode.
     return YES;
 }
 
+#pragma mark- updateViewConstarintd
+// updateViewConstarintd according to device
+
+-(void)updateViewConstarints {
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    CGFloat screenHeight = screenRect.size.height;
+    CGFloat screenWidth = screenRect.size.width;
+    
+    scrollViewContainer.frame = CGRectMake(scrollViewContainer.frame.origin.x, scrollViewContainer.frame.origin.y, screenWidth, screenHeight);
+    
+    imgViewProfilePic.frame =  CGRectMake((screenWidth - 95 )/2, 20, 95, 95);
+    cameraBtn.frame = CGRectMake((screenWidth - 95 )/2, 20, 95, 95);
+    segmentGender.frame = CGRectMake((screenWidth - 222)/2, imgViewProfilePic.frame.origin.y + imgViewProfilePic.frame.size.height + 18, 222, 28);
+    nameBaseView.frame = CGRectMake((screenWidth - 286)/2, nameBaseView.frame.origin.y, 286, 43);
+    mailBaseView.frame = CGRectMake((screenWidth - 286)/2, mailBaseView.frame.origin.y, 286, 43);
+    pwdBaseView.frame = CGRectMake((screenWidth - 286)/2, pwdBaseView.frame.origin.y, 286, 60);
+    dobBaseView.frame = CGRectMake((screenWidth - 286)/2, dobBaseView.frame.origin.y, 286, 60);
+    stateBaseView.frame = CGRectMake((screenWidth - 286)/2, stateBaseView.frame.origin.y, 286, 60);
+    cityBaseView.frame = CGRectMake((screenWidth - 286)/2, cityBaseView.frame.origin.y, 286, 60);
+    homeCourseBaseView.frame = CGRectMake((screenWidth - 286)/2, homeCourseBaseView.frame.origin.y, 286, 60);
+    zipCodeBaseView.frame = CGRectMake((screenWidth - 286)/2, zipCodeBaseView.frame.origin.y, 286, 60);
+    handicapBaseView.frame = CGRectMake((screenWidth - 286)/2, handicapBaseView.frame.origin.y, 286, 60);
+    aboutBaseView.frame = CGRectMake((screenWidth - 286)/2, aboutBaseView.frame.origin.y, 286, 60);
+    saveBaseVieqw.frame = CGRectMake(0, saveBaseVieqw.frame.origin.y, screenWidth, 60);
+    btnCheckmark.frame = CGRectMake(aboutBaseView.frame.origin.x + 19 , btnCheckmark.frame.origin.y, 20, 20);
+    btnCheckBig.frame = CGRectMake(btnCheckmark.frame.origin.x - 11, btnCheckBig.frame.origin.y, 34, 35);
+    agreeBtn.frame = CGRectMake(btnCheckBig.frame.origin.x + 34 + 5, agreeBtn.frame.origin.y, 239, 25);
+    privacyBtn.frame = CGRectMake(btnCheckBig.frame.origin.x + 34 + 5,privacyBtn.frame.origin.y , 239, 20);
+    
+    scrollViewContainer.contentSize = CGSizeMake(screenWidth, saveBaseVieqw.frame.origin.y + saveBaseVieqw.frame.size.height + 200 );
+    doneBtnImg.frame = CGRectMake((screenWidth - 273 )/2, doneBtnImg.frame.origin.y, 273, 46);
+    DoneBtn.frame = CGRectMake((screenWidth - 273 )/2, DoneBtn.frame.origin.y, 273, 46);
+    
+    if (screenWidth == 375) {
+        narrowLineView1.frame = CGRectMake(114 + 34 , narrowLineView1.frame.origin.y, 119, 1);
+        narrowLineView2.frame = CGRectMake( 5 + btnCheckBig.frame.origin.x + btnCheckBig.frame.size.width , narrowLineView2.frame.origin.y, narrowLineView2.frame.size.width, 1);
+    }else if (screenWidth == 414) {
+        narrowLineView1.frame = CGRectMake(114 + 34 , narrowLineView1.frame.origin.y, 119, 1);
+        narrowLineView2.frame = CGRectMake( 5 + btnCheckBig.frame.origin.x + btnCheckBig.frame.size.width , narrowLineView2.frame.origin.y, narrowLineView2.frame.size.width, 1);
+    }else if (screenWidth == 320) {
+        narrowLineView1.frame = CGRectMake(114 + 5 , narrowLineView1.frame.origin.y, 119, 1);
+        narrowLineView2.frame = CGRectMake( 5 + btnCheckBig.frame.origin.x + btnCheckBig.frame.size.width , narrowLineView2.frame.origin.y, narrowLineView2.frame.size.width, 1);
+    }
+    
+    
+}
 //-----------------------------------------------------------------------
 
 #pragma mark - Custom Methods
@@ -681,9 +784,15 @@ NSString *const constZipcodeLimit = @"Maximum 10 Characters allowed for Zipcode.
     
     if(pickerOption==kPickerState) {
         txtState.text = [arrStateList objectAtIndex:row];
+        selectedState = [arrStateList objectAtIndex:row];
+        currentPageCity = 0;
+        [[AppDelegate sharedinstance] showLoader];
+        [self getcityList];
+        
     }
     else if(pickerOption==kPickerCity) {
         txtCity.text = [arrCityList objectAtIndex:row];
+        
     }
     else if(pickerOption==kPickerHandicap) {
         txtHandicap.text = [arrHandicapList objectAtIndex:row];
@@ -805,22 +914,22 @@ NSString *const constZipcodeLimit = @"Maximum 10 Characters allowed for Zipcode.
     else if(textField==txtCity) {
         pickerOption=kPickerCity;
         
-        NSString *strStateSelected = txtState.text;
+  //      NSString *strStateSelected = txtState.text;
         
-            if([arrCityList count]>0)
-                [arrCityList removeAllObjects];
-            
-            for(int i=0;i<[arrData count];i++) {
-                QBCOCustomObject *obj = [arrData objectAtIndex:i];
-                
-                NSString *strName = [obj.fields objectForKey:@"stateName"];
-                
-                if([strName isEqualToString:strStateSelected]) {
-                    
-                    [arrCityList addObject:[obj.fields objectForKey:@"cityName"]];
-                }
-            }
-            
+//            if([arrCityList count]>0)
+//                [arrCityList removeAllObjects];
+//
+//            for(int i=0;i<[arrData count];i++) {
+//                QBCOCustomObject *obj = [arrData objectAtIndex:i];
+//
+//                NSString *strName = [obj.fields objectForKey:@"stateName"];
+//
+//                if([strName isEqualToString:strStateSelected]) {
+//
+//                    [arrCityList addObject:[obj.fields objectForKey:@"cityName"]];
+//                }
+//            }
+        
             [pickerView reloadAllComponents];
 
     }

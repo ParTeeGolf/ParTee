@@ -254,8 +254,6 @@
     // Create dictionary for parameters to filter out the records from AdEvents table on quickblox
     
     NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
-    
-    
     [getRequest setObject:kAdEventLimit forKey:kEventLimitParam];
     NSString *strPage = [NSString stringWithFormat:@"%d",[kAdEventLimit intValue] * adCurrentPage];
     [getRequest setObject:strPage forKey:kEventSkipParam];
@@ -300,12 +298,6 @@
     
     [getRequestObjectCount setObject:strPage forKey:kEventSkipParam];
     NSString *strCurrentUserID = [[AppDelegate sharedinstance] getCurrentUserId];
-    
-//    NSString *strlat1 = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlat];
-//    strlat1 = [[AppDelegate sharedinstance] nullcheck:strlat1];
-    
-//    NSString *strlong1 = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlong];
-//    strlong1 = [[AppDelegate sharedinstance] nullcheck:strlong1];
     
     strlat = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlat];
     strlat = [[AppDelegate sharedinstance] nullcheck:strlat];
@@ -356,18 +348,10 @@
                     [getRequestObjectCount setObject:strFilterDistance forKey:kEventCoordNear];
                     
                 }
-                else {
-            //        NSString *strFilterDistance = [NSString stringWithFormat:@"%f,%f;%f",[strlong1 floatValue],[strlat1 floatValue],9999999.f];
-                    
-              //      [getRequestObjectCount setObject:strFilterDistance forKey:kEventCoordNear];
-                }
                 
                 if([strcf_isFav isEqualToString:kEventOneStr]) {
-                    //   showOnyFav=YES;
+                    
                     [getRequestObjectCount setObject: strCurrentUserID forKey:kEventFavIn];
-                }
-                else {
-                    //   showOnyFav=NO;
                 }
             }
             break;
@@ -970,6 +954,7 @@
     favInfoMapDirStr = @"SHARE";
     [self getEventCourseDetails:eventCourseId];
     
+    
 }
 
 #pragma mark- Calender Btn Popup
@@ -1057,7 +1042,6 @@
         //Set the lat and long.
         placeCoord.latitude=[strlat doubleValue];
         placeCoord.longitude=[strlong doubleValue];
-        
         desplaceCoord = placeCoord;
         
     }
@@ -1145,12 +1129,7 @@
             
             //  (Title of Event, Date of Event, Location of Event, info text of event.)
             NSString *titleEvent = [[AppDelegate sharedinstance] nullcheck:[sharedobj.fields objectForKey:kEventTitleParam]];
-//            NSString *startDateEvent = [[AppDelegate sharedinstance] nullcheck:[sharedobj.fields objectForKey:kEventStartDate]];
-//            NSString *addressEvent = [[AppDelegate sharedinstance] nullcheck:[objEventGolfCourse.fields objectForKey:kEventAddParam]];
-//
-//            NSString *descEvent = [[AppDelegate sharedinstance] nullcheck:[sharedobj.fields objectForKey:kEventDescParam]];
-
-            NSArray * activityItems = @[[NSString stringWithFormat:@"Check\nout this event I found in the ParTee App! Insert/Populate \n %@",titleEvent]];
+            NSArray * activityItems = @[[NSString stringWithFormat:@"Check out this event I found in the ParTee App! \n\n%@",titleEvent]];
             NSArray * applicationActivities = nil;
             NSArray * excludeActivities = @[UIActivityTypeAssignToContact, UIActivityTypeCopyToPasteboard, UIActivityTypePostToWeibo, UIActivityTypePrint, UIActivityTypeMessage];
             
@@ -1196,6 +1175,7 @@
                 [dateFormatter setDateFormat:kEventDateTblFormat];
                 NSDate *eventDateTime = [dateFormatter dateFromString:eventStartDate];
                 
+                // subtract 24 hours from start of event.
                 NSDate *subtractDayDate = [eventDateTime dateByAddingTimeInterval:-60*60*24];
                 
                 event.startDate = subtractDayDate; //today
@@ -1209,7 +1189,6 @@
                 NSError *err = nil;
                 [store saveEvent:event span:EKSpanThisEvent commit:YES error:&err];
                 NSString *eventId = event.eventIdentifier;  //save the event id if you want to access this later
-                NSLog(@"%@", eventId);
             }];
         }
         
@@ -1294,15 +1273,14 @@
     
     NSString *strCurrentUserID = [[AppDelegate sharedinstance] getCurrentUserId];
     
-    NSString *createNotificationStr = @"";
+ //   NSString *createNotificationStr;
     // It will find event to be favourite or unfavourite yes if user tries to make event as favourite and No if user wants to make it unfavourite.
     if([eventFavUsersArr containsObject:strCurrentUserID]) {
         // already fav, so unfav
-        createNotificationStr = @"NO";
+   //     createNotificationStr = kEventNo;
         [eventFavUsersArr removeObject:strCurrentUserID];
-    }
-    else {
-        createNotificationStr = @"YES";
+    }else {
+   //     createNotificationStr = kEventYes;
         [eventFavUsersArr addObject:strCurrentUserID];
         
     }
@@ -1317,8 +1295,6 @@
     }
     
     [[AppDelegate sharedinstance] showLoader];
-    
-    
     [QBRequest updateObject:obj successBlock:^(QBResponse *response, QBCOCustomObject *object) {
         // object updated
         
@@ -1602,8 +1578,6 @@
             maxAdEventPage = currentPage * maxAdEventPage + totalAdvEventsCount;
             QBCOCustomObject *obj = [arrAdEventsDetails objectAtIndex:maxAdEventPage];
             cell.lblDate.hidden = NO;
-            cell.lblDate.text = @"deateb dsd jkhas";
-            cell.lblDate.backgroundColor = [UIColor redColor];
             // Set Data from obj in tableview cell
             [cell setAdEventDataFromQbObj:obj];
             

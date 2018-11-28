@@ -50,11 +50,7 @@
 
 -(void) getData1
 {
- 
-    
-    
     arrData1 = [[NSMutableArray alloc] init];
-    
 
     NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
 
@@ -63,7 +59,7 @@
     [getRequest setObject: courseID forKey:@"_parent_id"];
     
     [getRequest setObject: @"Order" forKey:@"sort_asc"];
-
+    
     
     [[AppDelegate sharedinstance] showLoader];
     

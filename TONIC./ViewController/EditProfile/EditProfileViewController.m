@@ -23,7 +23,10 @@
 #define kImageCancel 3
 
 @interface EditProfileViewController ()
-
+{
+    int currentPageCity;
+    NSString *selectedState;
+}
 @end
 
 @implementation EditProfileViewController
@@ -34,7 +37,7 @@ NSDateFormatter *dateFormat;
 - (void)viewDidLoad {
     [super viewDidLoad];
     imageChosen=kImageCancel;
-    
+    currentPageCity = 0;
     viewSave.layer.cornerRadius = 20;
   //  viewSave.layer.borderWidth=1.0f;
     [viewSave.layer setMasksToBounds:YES];
@@ -165,6 +168,104 @@ NSDateFormatter *dateFormat;
     
     
 }
+
+
+#pragma mark- Get State List
+/**
+ @Description
+ * This method will fetch state list from quickblox table.
+ * @author Chetu India
+ * @return void nothing will return by this method.
+ */
+-(void)getStateList {
+    
+    [[AppDelegate sharedinstance] showLoader];
+    
+    
+    [QBRequest objectsWithClassName:@"StateList" extendedRequest:nil successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
+        
+        NSLog(@"Entries %lu",(unsigned long)page.totalEntries);
+        arrData=[objects mutableCopy];
+        
+        for(int i=0;i<[objects count];i++) {
+            QBCOCustomObject *obj = [arrData objectAtIndex:i];
+            
+            NSString *strState = [obj.fields objectForKey:@"StateName"];
+            
+            if(![arrStateList containsObject:strState])
+            {
+                [arrStateList addObject:strState];
+            }
+        }
+      //  txtState.text = [arrStateList objectAtIndex:0];
+        selectedState  = [arrStateList objectAtIndex:0];
+        [arrStateList sortUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+        //      [arrStateList insertObject:@"All" atIndex:0];
+        [self getcityList];
+        //   [[AppDelegate sharedinstance] hideLoader];
+        
+    } errorBlock:^(QBResponse *response) {
+        // error handling
+        [[AppDelegate sharedinstance] hideLoader];
+        
+        NSLog(@"Response error: %@", [response.error description]);
+    }];
+    
+}
+#pragma mark- Get City List
+/**
+ @Description
+ * This method will fetch city list from GolfCourses table based on state selected.
+ * @author Chetu India
+ * @return void nothing will return by this method.
+ */
+-(void)getcityList
+{
+    //   [[AppDelegate sharedinstance] showLoader];
+    
+    NSMutableDictionary *getRequestObjectCount = [NSMutableDictionary dictionary];
+    [getRequestObjectCount setObject: selectedState forKey:@"State"];
+    
+    [getRequestObjectCount setObject:@"100" forKey:@"limit"];
+    NSString *strPage = [NSString stringWithFormat:@"%d",[@"100" intValue] * currentPageCity];
+    
+    [getRequestObjectCount setObject:strPage forKey:@"skip"];
+    
+    [QBRequest objectsWithClassName:@"GolfCourses" extendedRequest:getRequestObjectCount successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
+        
+        NSLog(@"Entries %lu",(unsigned long)page.totalEntries);
+        arrData=[objects mutableCopy];
+        
+        for(int i=0;i<[objects count];i++) {
+            QBCOCustomObject *obj = [arrData objectAtIndex:i];
+            NSString *strCity = [obj.fields objectForKey:@"City"];
+            
+            if(![arrCityList containsObject:strCity])
+            {
+                [arrCityList addObject:strCity];
+            }
+        }
+        
+        currentPageCity++;
+        if (objects.count < 100) {
+            
+            [arrCityList sortUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+       //     txtCity.text = [arrCityList objectAtIndex:0];
+            [[AppDelegate sharedinstance] hideLoader];
+            
+        }else {
+            [self getcityList];
+        }
+        
+    } errorBlock:^(QBResponse *response) {
+        // error handling
+        [[AppDelegate sharedinstance] hideLoader];
+        
+        NSLog(@"Response error: %@", [response.error description]);
+    }];
+    
+}
+
 - (void) bindData {
 
     NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
@@ -224,7 +325,8 @@ NSDateFormatter *dateFormat;
         }
 
         [self localSave];
-        [self getLocationDataFromServer];
+        [self getStateList];
+   //     [self getLocationDataFromServer];
         
         
     } errorBlock:^(QBResponse *response) {
@@ -464,7 +566,7 @@ NSDateFormatter *dateFormat;
 
 //-----------------------------------------------------------------------
 
-- (IBAction)action_PreviewProfile:(id)sender{
+- (IBAction)action_PreviewProfile:(id)sender {
     
     PreviewProfileViewController *obj = [[PreviewProfileViewController alloc] initWithNibName:@"PreviewProfileViewController" bundle:nil];
     
@@ -634,6 +736,11 @@ NSDateFormatter *dateFormat;
     
     if(pickerOption==kPickerState) {
         txtState.text = [arrStateList objectAtIndex:row];
+        selectedState = [arrStateList objectAtIndex:row];
+        txtCity.text =@"";
+        currentPageCity = 0;
+        [[AppDelegate sharedinstance] showLoader];
+        [self getcityList];
     }
     else if(pickerOption==kPickerCity) {
         txtCity.text = [arrCityList objectAtIndex:row];
@@ -732,21 +839,23 @@ NSDateFormatter *dateFormat;
     else if(textField==txtCity) {
         pickerOption=kPickerCity;
         
-        NSString *strStateSelected = txtState.text;
+//        NSString *strStateSelected = txtState.text;
+//
+//        if([arrCityList count]>0)
+//            [arrCityList removeAllObjects];
+//
+//        for(int i=0;i<[arrData count];i++) {
+//            QBCOCustomObject *obj = [arrData objectAtIndex:i];
+//
+//            NSString *strName = [obj.fields objectForKey:@"stateName"];
+//
+//            if([strName isEqualToString:strStateSelected]) {
+//
+//                [arrCityList addObject:[obj.fields objectForKey:@"cityName"]];
+//            }
+//        }
         
-        if([arrCityList count]>0)
-            [arrCityList removeAllObjects];
-        
-        for(int i=0;i<[arrData count];i++) {
-            QBCOCustomObject *obj = [arrData objectAtIndex:i];
-            
-            NSString *strName = [obj.fields objectForKey:@"stateName"];
-            
-            if([strName isEqualToString:strStateSelected]) {
-                
-                [arrCityList addObject:[obj.fields objectForKey:@"cityName"]];
-            }
-        }
+        [pickerView reloadAllComponents];
         
         if([txtCity.text length]==0)
             txtCity.text = [arrCityList objectAtIndex:0];

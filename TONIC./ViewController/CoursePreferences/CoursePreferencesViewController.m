@@ -81,10 +81,8 @@
     myObSliderOutlet.value =0;
 
    //  [self bindData];
-    
     [self getStateList];
-     
-     
+    
 }
 
 -(void) viewWillAppear:(BOOL)animated {
@@ -104,7 +102,13 @@
     
 }
 
-
+#pragma mark- Get State List
+/**
+ @Description
+ * This method will fetch state list from quickblox table.
+ * @author Chetu India
+ * @return void nothing will return by this method.
+ */
 -(void)getStateList {
     
     [[AppDelegate sharedinstance] showLoader];
@@ -140,7 +144,13 @@
     }];
     
 }
-
+#pragma mark- Get City List
+/**
+ @Description
+ * This method will fetch city list from GolfCourses table based on state selected.
+ * @author Chetu India
+ * @return void nothing will return by this method.
+ */
 
 -(void)getTypeList {
     
@@ -162,7 +172,7 @@
         
         [arrTypeList sortUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
         [arrTypeList insertObject:@"All" atIndex:0];
-      //  [self getcityList];
+   
         [self bindData];
         
     } errorBlock:^(QBResponse *response) {
@@ -453,7 +463,7 @@
 
 //-----------------------------------------------------------------------
 
-- (IBAction)action_Menu:(id)sender{
+- (IBAction)action_Menu:(id)sender {
     UIAlertController * alert = [UIAlertController
                                  alertControllerWithTitle:kAppName
                                  message:kBackBtnAlertTitle
@@ -906,7 +916,6 @@
                 
             }else {
                 [ObjCirCell.selectbtnimg setImage:[UIImage imageNamed:@"blue_chk.png"] forState:UIControlStateNormal];
-                
                 [tempArraySelcted addObject:str];
             }
              /**************** Chetu Change ************/
@@ -968,7 +977,6 @@
 }
 
 #pragma mark - Show alert With Title
-/************* ChetuChange ************/
 // Alert used while user select cities and amenties more than 10.
 -(void)showAlert:(NSString *)titleStr
 {
@@ -987,7 +995,6 @@
     
     [self presentViewController:alert animated:YES completion:nil];
 }
-/************ ChetuChange ************/
 
 -(void) viewWillDisappear:(BOOL)animated {
     self.menuContainerViewController.panMode = YES;
@@ -996,7 +1003,10 @@
 -(void) setUpAmenitiesList {
     arramenitiesList = [[NSMutableArray alloc] init];
     
+    [arramenitiesList addObject:@"Women's League"];
+    
     [arramenitiesList addObject:@"18 holes"];
+    [arramenitiesList addObject:@"19th Hole"];
     [arramenitiesList addObject:@"27 holes"];
     [arramenitiesList addObject:@"36 holes"];
     [arramenitiesList addObject:@"ATM"];
@@ -1006,20 +1016,29 @@
     [arramenitiesList addObject:@"Billiards"];
     [arramenitiesList addObject:@"Business Lounge"];
     [arramenitiesList addObject:@"Caddy Hire"];
+    [arramenitiesList addObject:@"Casino"];
+    [arramenitiesList addObject:@"Changing Area"];
+    [arramenitiesList addObject:@"Chipping Green"];
+    [arramenitiesList addObject:@"Clubhouse"];
     [arramenitiesList addObject:@"Club Fittings"];
     [arramenitiesList addObject:@"Club Rental"];
-    
     [arramenitiesList addObject:@"Club Repair"];
     [arramenitiesList addObject:@"Cold Towel"];
+    [arramenitiesList addObject:@"Couple's League"];
     [arramenitiesList addObject:@"Desert"];
     [arramenitiesList addObject:@"Dining"];
 
     
     [arramenitiesList addObject:@"Drink Cart"];
     [arramenitiesList addObject:@"Driving Range"];
+    [arramenitiesList addObject:@"Events"];
+    [arramenitiesList addObject:@"Event Facilities"];
     [arramenitiesList addObject:@"Executive Par 3"];
+    [arramenitiesList addObject:@"Fitness Center"];
+    
     [arramenitiesList addObject:@"Game Room"];
     [arramenitiesList addObject:@"Golf Pro"];
+    [arramenitiesList addObject:@"Golf Shop"];
     [arramenitiesList addObject:@"Gym"];
 
     [arramenitiesList addObject:@"Handicap Cart"];
@@ -1027,6 +1046,7 @@
     [arramenitiesList addObject:@"Lodging On Site"];
     
     [arramenitiesList addObject:@"Lounge"];
+    [arramenitiesList addObject:@"Men's League"];
     [arramenitiesList addObject:@"Online Tee Times"];
     [arramenitiesList addObject:@"Parkland"];
     [arramenitiesList addObject:@"Ping Pong"];
@@ -1035,10 +1055,13 @@
     [arramenitiesList addObject:@"Pub"];
     [arramenitiesList addObject:@"Putting Green"];
     
+    [arramenitiesList addObject:@"4 Restaurants"];
+    [arramenitiesList addObject:@"Restaurant"];
     [arramenitiesList addObject:@"Reception Hall"];
     [arramenitiesList addObject:@"Resort"];
     [arramenitiesList addObject:@"Riding Carts"];
     [arramenitiesList addObject:@"Seaside"];
+    [arramenitiesList addObject:@"Senior League"];
     [arramenitiesList addObject:@"Showers"];
     [arramenitiesList addObject:@"Snack Bar"];
     [arramenitiesList addObject:@"Spa"];
@@ -1049,9 +1072,17 @@
     [arramenitiesList addObject:@"Valet Parking"];
     [arramenitiesList addObject:@"Vending Machine"];
     
+    
     [arramenitiesList addObject:@"Webcam"];
+    [arramenitiesList addObject:@"Weddings"];
     [arramenitiesList addObject:@"WiFi"];
-    [arramenitiesList addObject:@"Any"];
+    
+    [arramenitiesList sortUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+    
+   // [arramenitiesList addObject:@"Any"];
+    [arramenitiesList insertObject:@"Any" atIndex:0];
+    
+    
 
 }
 

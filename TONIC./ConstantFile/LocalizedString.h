@@ -210,6 +210,8 @@ static NSString *const kEventStateTblName       = @"StateList";
 static NSString *const kEventStateName          = @"StateName";
 static NSString *const kCourseState             = @"State";
 static NSString *const kCourseCity              = @"City";
+static NSString *const kEventNo                 = @"NO";
+static NSString *const kEventYes                = @"YES";
 /************* Event Search Screen constants *************/
 
 /************* Event Screen constants *************/
@@ -270,7 +272,7 @@ static NSString *const kInstaFeedCreater = @"creator";
 
 
 static NSString *const kformatOriginal = @"EEE, dd MMM yyyy HH:mm:ss Z";
-static NSString *const kfinalFormat = @"dd-MM-yy";
+static NSString *const kfinalFormat = @"MM-dd-yy";
 static NSString *const kFormatOriginalCreatedDate = @"yyyy-MM-dd HH:mm:ss";
 static NSString *const kAdLink    = @"adLink";
 static NSString *const kAdTitle   = @"adTitle";
