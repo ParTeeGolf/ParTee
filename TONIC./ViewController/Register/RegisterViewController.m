@@ -25,6 +25,7 @@ NSString *const constZipcodeLimit = @"Maximum 10 Characters allowed for Zipcode.
 {
     int currentPageCity;
     NSString *selectedState;
+    int manageEmptyCityAndCourseArr;
 }
 @end
 
@@ -33,6 +34,8 @@ NSString *const constZipcodeLimit = @"Maximum 10 Characters allowed for Zipcode.
 
 -(void) viewWillAppear:(BOOL)animated {
     [AppDelegate sharedinstance].currentScreen = kScreenRegister;
+    
+    manageEmptyCityAndCourseArr = 0;
     
     if(autocompletePlaceStatus == -1) {
         strlat = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlat];
@@ -94,7 +97,8 @@ NSString *const constZipcodeLimit = @"Maximum 10 Characters allowed for Zipcode.
     txtHomeCourse.inputView = pickerView;
 
     txtHandicap.text = @"N/A";
-    txtHomeCourse.text = @"N/A";
+  // txtHomeCourse.text = @"N/A";
+    txtHomeCourse.text = @"";
 
 //    arrStateList = [NSArray arrayWithObjects:@"Montana",nil];
 //    arrCityList = [NSArray arrayWithObjects:@"Bozeman",@"Billings",@"Butte",@"Big Sky",@"Kalispell",@"Livingston",@"All",nil];
@@ -161,12 +165,13 @@ NSString *const constZipcodeLimit = @"Maximum 10 Characters allowed for Zipcode.
             
         }
         
-        txtState.text = [arrStateList objectAtIndex:0];
-        selectedState  = [arrStateList objectAtIndex:0];
+    //    txtState.text = [arrStateList objectAtIndex:0];
+   //     selectedState  = [arrStateList objectAtIndex:0];
         [arrStateList sortUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
-  //      [arrStateList insertObject:@"All" atIndex:0];
-        [self getcityList];
-     //   [[AppDelegate sharedinstance] hideLoader];
+        [arrStateList insertObject:@"Select State" atIndex:0];
+  //   [self getcityList];
+        [pickerView reloadAllComponents];
+        [[AppDelegate sharedinstance] hideLoader];
         
     } errorBlock:^(QBResponse *response) {
         // error handling
@@ -214,7 +219,8 @@ NSString *const constZipcodeLimit = @"Maximum 10 Characters allowed for Zipcode.
         if (objects.count < 100) {
             
             [arrCityList sortUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
-            txtCity.text = [arrCityList objectAtIndex:0];
+            [arrCityList insertObject:@"Select City" atIndex:0];
+            [pickerView reloadAllComponents];
             [[AppDelegate sharedinstance] hideLoader];
             
         }else {
@@ -273,8 +279,6 @@ NSString *const constZipcodeLimit = @"Maximum 10 Characters allowed for Zipcode.
 
 -(void) getCoursesForSelection {
     
-    arrHomeCourses = [[NSMutableArray alloc] init];
-    arrHomeCoursesObjects = [[NSMutableArray alloc] init];
     
     NSString *strCity = txtCity.text;
     
@@ -284,10 +288,11 @@ NSString *const constZipcodeLimit = @"Maximum 10 Characters allowed for Zipcode.
     
     [QBRequest objectsWithClassName:@"GolfCourses" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
         // response processing
-        [[AppDelegate sharedinstance] hideLoader];
+       
         
         // checking user there in custom user table or not.
-        
+        arrHomeCourses = [[NSMutableArray alloc] init];
+        arrHomeCoursesObjects = [[NSMutableArray alloc] init];
         arrHomeCoursesObjects = [objects mutableCopy];
         
         if([objects count]>0) {
@@ -306,8 +311,12 @@ NSString *const constZipcodeLimit = @"Maximum 10 Characters allowed for Zipcode.
             
             [arrHomeCourses addObject:@"N/A"];
         }
-        
+      
+        [arrHomeCourses sortUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+        [arrHomeCourses insertObject:@"Select Golf Course" atIndex:0];
         [pickerView reloadAllComponents];
+        [pickerView selectRow:0 inComponent:0 animated:YES];
+         [[AppDelegate sharedinstance] hideLoader];
     }
                          errorBlock:^(QBResponse *response) {
                              // error handling
@@ -375,6 +384,10 @@ NSString *const constZipcodeLimit = @"Maximum 10 Characters allowed for Zipcode.
         return NO;
     }
     
+    if([[[AppDelegate sharedinstance] nullcheck:txtHomeCourse.text] length]==0) {
+        [[AppDelegate sharedinstance] displayMessage:@"Please fill all the details"];
+        return NO;
+    }
     
     if([[[AppDelegate sharedinstance] nullcheck:tvInfo.text] length]==0) {
         [[AppDelegate sharedinstance] displayMessage:@"Please fill all the details"];
@@ -780,30 +793,57 @@ NSString *const constZipcodeLimit = @"Maximum 10 Characters allowed for Zipcode.
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
-    NSLog(@"Selected Row %d", row);
+    NSLog(@"Selected Row %ld", (long)row);
+    
     
     if(pickerOption==kPickerState) {
-        txtState.text = [arrStateList objectAtIndex:row];
-        selectedState = [arrStateList objectAtIndex:row];
-        currentPageCity = 0;
-        [[AppDelegate sharedinstance] showLoader];
-        [self getcityList];
         
+        if ([[arrStateList objectAtIndex:row] isEqualToString:@"Select State"]) {
+             txtState.text = @"";
+             txtCity.text = @"";
+             txtHomeCourse.text  = @"";
+            
+        }else {
+            txtState.text = [arrStateList objectAtIndex:row];
+            selectedState = [arrStateList objectAtIndex:row];
+            currentPageCity = 0;
+            txtCity.text = @"";
+            
+            [[AppDelegate sharedinstance] showLoader];
+            if([arrCityList count]>0)
+                [arrCityList removeAllObjects];
+            [self getcityList];
+        }
     }
     else if(pickerOption==kPickerCity) {
+        if ([[arrCityList objectAtIndex:row] isEqualToString:@"Select City"]) {
+             txtCity.text = @"";
+             txtHomeCourse.text  = @"";
+            
+        }else {
+            
         txtCity.text = [arrCityList objectAtIndex:row];
-        
+        txtHomeCourse.text = @"";
+        [self getCoursesForSelection];
+       
+        }
     }
     else if(pickerOption==kPickerHandicap) {
         txtHandicap.text = [arrHandicapList objectAtIndex:row];
 
     }
     else if(pickerOption==kPickerCourses) {
-       
-        if([arrHomeCourses count]>0) {
-            txtHomeCourse.text = [arrHomeCourses objectAtIndex:row];
-
+        
+        
+        if ([[arrHomeCourses objectAtIndex:row] isEqualToString:@"Select Golf Course"]) {
+            txtHomeCourse.text  = @"";
+        }else {
+            if([arrHomeCourses count]>0) {
+                txtHomeCourse.text = [arrHomeCourses objectAtIndex:row];
+                
+            }
         }
+        
         
     }
 }
@@ -906,13 +946,56 @@ NSString *const constZipcodeLimit = @"Maximum 10 Characters allowed for Zipcode.
             txtHandicap.text = @"N/A";
     }
     else if(textField==txtState) {
+        [pickerView selectRow:0 inComponent:0 animated:YES];
         pickerOption=kPickerState;
         
-        if([txtState.text length]==0)
-            txtState.text = [arrStateList objectAtIndex:0];
+    //    if([txtState.text length]==0)
+      //      txtState.text = [arrStateList objectAtIndex:0];
     }
     else if(textField==txtCity) {
-        pickerOption=kPickerCity;
+        
+        [txtState resignFirstResponder];
+        
+        if ([txtState.text isEqualToString:@""]) {
+          
+            if (manageEmptyCityAndCourseArr == 0) {
+                manageEmptyCityAndCourseArr = 1;
+                [textField resignFirstResponder];
+                [scrollViewContainer setContentOffset:CGPointZero animated:YES];
+                [[AppDelegate sharedinstance] displayMessage:@"Please Select State first."];
+                
+                return NO;
+            }else{
+                [scrollViewContainer setContentOffset:CGPointZero animated:YES];
+                manageEmptyCityAndCourseArr = 0;
+                [textField resignFirstResponder];
+                
+                return NO;
+            }
+        }else{
+            if([arrCityList count] == 0) {
+                
+                if (manageEmptyCityAndCourseArr == 0) {
+                    manageEmptyCityAndCourseArr = 1;
+                    [textField resignFirstResponder];
+                    [scrollViewContainer setContentOffset:CGPointZero animated:YES];
+                    [[AppDelegate sharedinstance] displayMessage:@"Please Select State first."];
+                    
+                    return NO;
+                }else{
+                    [scrollViewContainer setContentOffset:CGPointZero animated:YES];
+                    manageEmptyCityAndCourseArr = 0;
+                    [textField resignFirstResponder];
+                    
+                    return NO;
+                }
+                
+            }
+        }
+       
+        
+        [pickerView selectRow:0 inComponent:0 animated:YES];
+        pickerOption = kPickerCity;
         
   //      NSString *strStateSelected = txtState.text;
         
@@ -930,16 +1013,58 @@ NSString *const constZipcodeLimit = @"Maximum 10 Characters allowed for Zipcode.
 //                }
 //            }
         
-            [pickerView reloadAllComponents];
+        
 
     }
     else if(textField==txtHomeCourse) {
+        
+        [txtState resignFirstResponder];
+        [txtCity resignFirstResponder];
+        if ([txtState.text isEqualToString:@""] || [txtCity.text isEqualToString:@""]) {
+            
+            if (manageEmptyCityAndCourseArr == 0) {
+                manageEmptyCityAndCourseArr = 1;
+                [textField resignFirstResponder];
+                [scrollViewContainer setContentOffset:CGPointZero animated:YES];
+                [[AppDelegate sharedinstance] displayMessage:@"Please Select State and City first."];
+                return NO;
+                
+            }else{
+                [scrollViewContainer setContentOffset:CGPointZero animated:YES];
+                manageEmptyCityAndCourseArr = 0;
+                [textField resignFirstResponder];
+                return NO;
+            }
+            
+        }else{
+            if([arrHomeCourses count] == 0) {
+                
+                if (manageEmptyCityAndCourseArr == 0) {
+                    manageEmptyCityAndCourseArr = 1;
+                    [textField resignFirstResponder];
+                    [scrollViewContainer setContentOffset:CGPointZero animated:YES];
+                    [[AppDelegate sharedinstance] displayMessage:@"Please Select State and City first."];
+                    return NO;
+                    
+                }else{
+                    [scrollViewContainer setContentOffset:CGPointZero animated:YES];
+                    manageEmptyCityAndCourseArr = 0;
+                    [textField resignFirstResponder];
+                    return NO;
+                }
+                
+            }
+        }
+        
+       
+        
         pickerOption=kPickerCourses;
         
         if([txtHomeCourse.text length]==0)
-            txtHomeCourse.text = @"N/A";
+           // txtHomeCourse.text = @"N/A";
+           txtHomeCourse.text = @"";
         
-        [self getCoursesForSelection];
+        
     
     }
     else {
@@ -957,8 +1082,8 @@ NSString *const constZipcodeLimit = @"Maximum 10 Characters allowed for Zipcode.
     
     if(textField ==txtState) {
         
-        if([arrCityList count]>0)
-            [arrCityList removeAllObjects];
+//        if([arrCityList count]>0)
+//            [arrCityList removeAllObjects];
 
         for(int i=0;i<[arrData count];i++) {
             QBCOCustomObject *obj = [arrData objectAtIndex:i];

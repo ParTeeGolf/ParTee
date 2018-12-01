@@ -823,6 +823,7 @@
         if (buttonIndex == 0) {
             
         } else {
+            NSString *newpassword = [alertView textFieldAtIndex:0].text;
             NSCharacterSet *whitespace = [NSCharacterSet whitespaceAndNewlineCharacterSet];
             NSString *trimmed = [newpassword stringByTrimmingCharactersInSet:whitespace];
             

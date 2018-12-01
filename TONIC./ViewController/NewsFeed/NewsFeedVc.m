@@ -34,6 +34,8 @@
         NSXMLParser *parser;
         // Array to store the feeds details available on rss feed url.
         NSMutableArray *feeds;
+        // Array to store the feeds details available on rss feed url.
+        NSMutableArray *tempFeedsArr;
         // item to store the feeds value in dictionary.
         NSMutableDictionary *item;
         /*********** strings used to store values for the item available on rss feed url. ********/
@@ -61,6 +63,8 @@
         int adCurrentPage;
         // This array contain AdEvents details fetched from the quickblox table.
         NSMutableArray *arrAdFeedDetails;
+        // This array contain AdEvents details fetched from the quickblox table.
+        NSMutableArray *tempAdFeedDetailsArr;
         // total needed adfeed
         int needAdFeedCount;
         // contain total number of ad feed available on quickblox table.
@@ -117,6 +121,8 @@
         // Initialize arrays used to store the data of rss Feeds.
         feeds                                      = [[NSMutableArray alloc] init];
         instaFeeds                                 = [[NSMutableArray alloc]init];
+        tempFeedsArr                               = [[NSMutableArray alloc]init];
+        tempAdFeedDetailsArr                       = [[NSMutableArray alloc]init];
         instagramImgBaseView.hidden                = YES;
         collectionView.scrollEnabled               = NO;
         instaFeedLoad                              = NO;
@@ -258,7 +264,7 @@
                 [item setObject:pubDate forKey:kFeedDateParam];
                 [item setObject:content forKey:kInstaFeedContent];
                 [item setObject:creator forKey:kInstaFeedCreater];
-                [feeds addObject:[item copy]];
+                [tempFeedsArr addObject:[item copy]];
             }
         }else if (xmlParserTagValue == 1){
             if ([elementName isEqualToString:kParserItem]) {
@@ -291,10 +297,11 @@
                 [newDict addEntriesFromDictionary:oldDict];
                 [newDict setObject:imageUrlStr forKey:kFeedDescParam];
                 // Repalce the old dict with new dict.
-                [feeds replaceObjectAtIndex:i withObject:newDict];
+                [tempFeedsArr replaceObjectAtIndex:i withObject:newDict];
             }
        
-           [self getAdFeedCount];
+            [self sortArrayBasedOnDate:tempFeedsArr];
+       // [self getAdFeedCount];
         }else if (xmlParserTagValue == 1){
            // xmlParserTagValue = 0;
             instaFeedLoad = YES;
@@ -305,6 +312,43 @@
         }
     }
 
+-(void)sortArrayBasedOnDate:(NSMutableArray *)feedArr
+{
+   
+    NSMutableArray *dateArray = [[NSMutableArray alloc]init];
+    for (id dict in feedArr) {
+        NSString *pubDate = [dict objectForKey:kFeedDateParam];
+        NSString *strDate = [CommonMethods convertDateToAnotherFormat:pubDate originalFormat:kformatOriginal finalFormat:kfinalFormat];
+        [dateArray addObject:strDate];
+        // MM-dd-yy
+    }
+   
+    NSSortDescriptor *descriptor=[[NSSortDescriptor alloc] initWithKey:@"self" ascending:YES];
+    NSArray *descriptors=[NSArray arrayWithObject: descriptor];
+    NSArray *reverseOrder=[dateArray sortedArrayUsingDescriptors:descriptors];
+    
+    NSLog(@"Array: %@",reverseOrder);
+    
+
+    for (int i = 0; i < feedArr.count; i++) {
+        
+        for (id dict in feedArr) {
+            
+            NSString *pubDate = [dict objectForKey:kFeedDateParam];
+            NSString *strDate = [CommonMethods convertDateToAnotherFormat:pubDate originalFormat:kformatOriginal finalFormat:kfinalFormat];
+            if ([strDate isEqualToString:[dateArray objectAtIndex:i]]) {
+                [feeds addObject:dict];
+                break;
+            }
+            
+        }
+    }
+    
+    feedsCount = (int)feeds.count;
+    NSLog(@"%@", feeds);
+     [self getAdFeedCount];
+    
+}
     #pragma mark- Get AdEvent Count
     /**
      @Description
@@ -353,13 +397,13 @@
             
             NSLog(@"%lu",(unsigned long)objects.count);
             // Add the Ad Event record details in array.
-            [arrAdFeedDetails addObjectsFromArray:[objects mutableCopy]];
-            totalAdfeedAvailable = (int)[arrAdFeedDetails count];
+            [tempAdFeedDetailsArr addObjectsFromArray:[objects mutableCopy]];
+            totalAdfeedAvailable = (int)[tempAdFeedDetailsArr count];
             
             // Arrange events randomly in array so that we able to show the advertisement events randomly on screen.
             for (int x = kZeroValue; x < totalAdfeedAvailable; x++) {
                 int randInt = (arc4random() % (totalAdfeedAvailable - x)) + x;
-                [arrAdFeedDetails exchangeObjectAtIndex:x withObjectAtIndex:randInt];
+                [tempAdFeedDetailsArr exchangeObjectAtIndex:x withObjectAtIndex:randInt];
             }
             
             // get the total number of needed advertisment events so that every 5th events will show as advertisment events on screen.
@@ -372,11 +416,13 @@
                     adCurrentPage++;
                     [self getAdFeedDetails];
                 }else {
+                    [self sortAdFeedArrayBasedOnDate:tempAdFeedDetailsArr];
                     [tblList reloadData];
                     [[AppDelegate sharedinstance] hideLoader];
                 }
                 
             }else {
+                [self sortAdFeedArrayBasedOnDate:tempAdFeedDetailsArr];
                 [tblList reloadData];
                 [[AppDelegate sharedinstance] hideLoader];
             }
@@ -389,6 +435,55 @@
         }];
         
     }
+
+-(void)sortAdFeedArrayBasedOnDate:(NSMutableArray *)adFeedArr
+{
+    
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    NSMutableArray *dateArray = [[NSMutableArray alloc]init];
+    for (QBCOCustomObject *obj in adFeedArr) {
+       // NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+        // set the date format related to what the string already you have
+        
+        [dateFormat setDateFormat:kFormatOriginalCreatedDate];
+        NSString *finalDate = [dateFormat stringFromDate:obj.createdAt];
+        NSString *dateStr = [CommonMethods convertDateToAnotherFormat:finalDate originalFormat:kFormatOriginalCreatedDate finalFormat:kfinalFormat];
+        [dateArray addObject:dateStr];
+        // MM-dd-yy
+    }
+    
+    NSSortDescriptor *descriptor=[[NSSortDescriptor alloc] initWithKey:@"self" ascending:NO];
+    NSArray *descriptors=[NSArray arrayWithObject: descriptor];
+    NSArray *reverseOrder=[dateArray sortedArrayUsingDescriptors:descriptors];
+    
+    NSLog(@"Array: %@",reverseOrder);
+    
+    
+    for (int i = 0; i < adFeedArr.count; i++) {
+        
+        for (QBCOCustomObject *obj in adFeedArr) {
+            
+            
+            // set the date format related to what the string already you have
+            
+            [dateFormat setDateFormat:kFormatOriginalCreatedDate];
+            NSString *finalDate = [dateFormat stringFromDate:obj.createdAt];
+            NSString *dateStr = [CommonMethods convertDateToAnotherFormat:finalDate originalFormat:kFormatOriginalCreatedDate finalFormat:kfinalFormat];
+            [dateArray addObject:dateStr];
+            if ([dateStr isEqualToString:[reverseOrder objectAtIndex:i]]) {
+                [arrAdFeedDetails addObject:obj];
+                break;
+            }
+            
+        }
+    }
+    
+   
+    NSLog(@"%@", arrAdFeedDetails);
+    
+  
+    
+}
     /**
      @Description
      * This method will display previous instagram images on collection views.
@@ -479,8 +574,6 @@
             headerTitleLbl.text = kFeedParteeLineTitle;
             instaBaseViewHeightConstraints.constant = 120 ;
             instagramImgBaseView.hidden = NO;
-            
-           
         
             // Load instagram account feeds only for first time.
             if (!instaFeedLoad) {
@@ -597,6 +690,7 @@
                     if (remainder == 4) {
                         int arrIndex = ((indexValue + 1) /kAdvertisementEventNo) - 1 ;
                         [cell setAdFeedDataFromQbObj:[arrAdFeedDetails objectAtIndex:arrIndex]];
+                     //    cell.adminNameLbl.textColor = [UIColor redColor];
                     }else {
                         int numberadvertFeedsCount = indexValue - (int)(indexValue / kAdvertisementEventNo);
                         [cell setFeedDataFromDict:[feeds objectAtIndex:numberadvertFeedsCount]];

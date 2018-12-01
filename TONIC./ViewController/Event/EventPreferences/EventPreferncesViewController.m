@@ -647,7 +647,7 @@
     
     
 }
-#pragma mark - Savesettings NsDefault
+#pragma mark - Save Settings NsDefault
 /**
  @Description
  * This Method save the all values selected by the user to nsuerdefault and save to userinfo table these valuse on quickblox too.

@@ -32,6 +32,16 @@
                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RW9-Uz-O58">
+                        <rect key="frame" x="296" y="18" width="8" height="27"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="8" id="WXL-wd-znW"/>
+                            <constraint firstAttribute="height" constant="27" id="xcU-yZ-UiD"/>
+                        </constraints>
+                        <state key="normal" backgroundImage="moreopt.png">
+                            <color key="titleColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </state>
+                    </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yhC-OT-L5w">
                         <rect key="frame" x="289" y="18" width="27" height="27"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -39,7 +49,6 @@
                             <constraint firstAttribute="height" constant="27" id="LhE-pN-2Gz"/>
                             <constraint firstAttribute="width" constant="27" id="wwk-68-OPa"/>
                         </constraints>
-                        <state key="normal" image="moreopt.png"/>
                     </button>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -47,11 +56,13 @@
                     <constraint firstItem="YRi-ZI-ENa" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="1" id="FXK-gC-fgM"/>
                     <constraint firstAttribute="bottom" secondItem="YRi-ZI-ENa" secondAttribute="bottom" constant="1" id="L4N-YC-8qd"/>
                     <constraint firstAttribute="trailing" secondItem="YRi-ZI-ENa" secondAttribute="trailing" constant="1" id="MbI-nd-OgH"/>
+                    <constraint firstAttribute="trailing" secondItem="RW9-Uz-O58" secondAttribute="trailing" constant="16" id="QMv-27-VAW"/>
                     <constraint firstItem="9ph-Ly-dDg" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="10" id="cz5-um-pf8"/>
                     <constraint firstItem="yhC-OT-L5w" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="18" id="eZX-ms-VZD"/>
                     <constraint firstAttribute="trailing" secondItem="yhC-OT-L5w" secondAttribute="trailing" constant="4" id="gxA-Q4-dey"/>
                     <constraint firstItem="9ph-Ly-dDg" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="10" id="h09-jZ-MxP"/>
                     <constraint firstItem="YRi-ZI-ENa" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="1" id="rTh-YH-11L"/>
+                    <constraint firstItem="RW9-Uz-O58" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="18" id="uN7-f2-bio"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="aW0-zy-SZf"/>

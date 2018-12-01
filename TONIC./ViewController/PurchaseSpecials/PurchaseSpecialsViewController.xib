@@ -174,9 +174,9 @@
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ka7-KU-ZTj">
-                            <rect key="frame" x="295" y="132" width="8" height="37"/>
+                            <rect key="frame" x="295" y="133" width="8" height="37"/>
                             <autoresizingMask key="autoresizingMask"/>
-                            <state key="normal" image="moreopt.png"/>
+                            <state key="normal" backgroundImage="moreopt.png"/>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XgE-GY-ek0">
                             <rect key="frame" x="269" y="120" width="51" height="62"/>

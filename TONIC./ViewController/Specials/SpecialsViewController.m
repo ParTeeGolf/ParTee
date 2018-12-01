@@ -284,7 +284,8 @@ int courseOption;
                 if([items count]>0) {
                     
                     if(![[items objectAtIndex:0] isEqualToString:@"Any"]) {
-                        [getRequestObjectCount setObject: items forKey:@"Amenities[in]"];
+                         [getRequestObjectCount setObject: items forKey:@"amenities_temp[in]"];
+                     //   [getRequestObjectCount setObject: strcf_amenities forKey:@"Amenities[ctn]"];
                         
                     }
                 }
@@ -482,7 +483,9 @@ int courseOption;
                 if([items count]>0) {
                     
                     if(![[items objectAtIndex:0] isEqualToString:@"Any"]) {
-                        [getRequest setObject: items forKey:@"Amenities[in]"];
+                        
+                         [getRequest setObject: items forKey:@"amenities_temp[in]"];
+                    //    [getRequest setObject: strcf_amenities forKey:@"Amenities[ctn]"];
                         
                     }
                 }
@@ -1257,7 +1260,7 @@ int courseOption;
     NSString *address = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"Address"]];
     NSString *cityName = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"City"]];
     NSString *websiteName = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"Website"]];
-    NSArray * activityItems = @[[NSString stringWithFormat:@"Check out this Course I found in the ParTee \n\n %@ \n %@ %@ \n %@",courseName, address, cityName, websiteName]];
+    NSArray * activityItems = @[[NSString stringWithFormat:@"Check out this Course I found in the ParTee App! \n\n %@ \n %@ %@ \n %@",courseName, address, cityName, websiteName]];
     NSArray * applicationActivities = nil;
     NSArray * excludeActivities = @[UIActivityTypeAssignToContact, UIActivityTypeCopyToPasteboard, UIActivityTypePostToWeibo, UIActivityTypePrint, UIActivityTypeMessage];
     

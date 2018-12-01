@@ -166,11 +166,16 @@
         NSArray *items ;
 
         /************ Chetu Change **********/
+    //    [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:kEventCellImgUrl]]
+        
+        str1  = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"amenities_temp"]];
+        items = [[[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"amenities_temp"]] copy];
+        
     //    str1 = [obj.fields objectForKey:@"amenities_temp"];
-    //    items =[[obj.fields objectForKey:@"amenities_temp"] copy];
+   //     items =[[obj.fields objectForKey:@"amenities_temp"] copy];
          /************ Chetu Change **********/
-        str1 = [obj.fields objectForKey:@"Amenities"];
-        items =[[obj.fields objectForKey:@"Amenities"] copy];
+   //     str1 = [obj.fields objectForKey:@"Amenities"];
+   //     items =[[obj.fields objectForKey:@"Amenities"] copy];
         
         if([str1 isKindOfClass:[NSString class]]) {
             if(![str1 isEqualToString:@""]) {
@@ -378,7 +383,8 @@
     str1 = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"ForPrivate"]];
     [lblForPrivate setText:str1];
     
-    str1 = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"Amenities"]];
+ //   str1 = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"Amenities"]];
+     str1 = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"amenities_temp"]];
     
     NSArray *items = [str1 componentsSeparatedByString:@","];
     NSMutableString * bulletList = [NSMutableString stringWithCapacity:items.count*30];
@@ -505,9 +511,9 @@
     [lblbooking setTitle:str1 forState:UIControlStateNormal];
 
     
-    // str1 = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"amenities_temp"]];
+     str1 = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"amenities_temp"]];
     
-    str1 = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"Amenities"]];
+//    str1 = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"Amenities"]];
     
     NSArray *items = [str1 componentsSeparatedByString:@","];
     
@@ -613,8 +619,8 @@
     narrowLineView1.frame = CGRectMake(0, 10, width, 180);
     lblName.frame = CGRectMake(5, 111, width - 10, 54);
     lblAddress.frame = CGRectMake(5, 33, width - 10, 46);
-    btnFav.frame = CGRectMake(width - 62, 19, 51, 62);
-    btnFavImage.frame = CGRectMake(width - 8 - 27, 46, 27, 27);
+    btnFav.frame = CGRectMake(width - 62, 0, 51, 62);
+    btnFavImage.frame = CGRectMake(width - 8 - 16, 27, 8, 27);
     //  btnFav.backgroundColor = [UIColor redColor];
     //  btnFavImage.backgroundColor = [UIColor grayColor];
     narrowlineView2.frame = CGRectMake(0, imageUrl.frame.origin.y + imageUrl.frame.size.height, width, narrowlineView2.frame.size.height);
@@ -1083,7 +1089,7 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section {
     NSString *address = [[AppDelegate sharedinstance] nullcheck:[courseObject.fields objectForKey:@"Address"]];
      NSString *cityName = [[AppDelegate sharedinstance] nullcheck:[courseObject.fields objectForKey:@"City"]];
      NSString *websiteName = [[AppDelegate sharedinstance] nullcheck:[courseObject.fields objectForKey:@"Website"]];
-     NSArray * activityItems = @[[NSString stringWithFormat:@"Check out this Course I found in the ParTee \n\n %@ \n %@ %@ \n %@",courseName, address, cityName, websiteName]];
+     NSArray * activityItems = @[[NSString stringWithFormat:@"Check out this Course I found in the ParTee App! \n\n %@ \n %@ %@ \n %@",courseName, address, cityName, websiteName]];
     
     NSArray * applicationActivities = nil;
     NSArray * excludeActivities = @[UIActivityTypeAssignToContact, UIActivityTypeCopyToPasteboard, UIActivityTypePostToWeibo, UIActivityTypePrint, UIActivityTypeMessage];
