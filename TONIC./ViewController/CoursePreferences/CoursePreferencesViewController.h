@@ -27,7 +27,8 @@
     NSMutableArray *arrCityList;
     NSMutableArray *arrCityStateList;
 
-    NSMutableArray *tempArraySelcted,*userIdArray,*arrNetworkSelected;
+  //  NSMutableArray *tempArraySelcted,*userIdArray,*arrNetworkSelected;
+    NSMutableArray *userIdArray,*arrNetworkSelected;
     IBOutlet UITableView *tblNetwork,*tblMembers;
 
     NSMutableArray *arrStateList;
@@ -70,6 +71,9 @@
     IBOutlet UIPickerView *pickerView;
     
     int pickerOption;
+    
+ 
+ 
     
 }
 

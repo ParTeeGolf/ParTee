@@ -26,6 +26,10 @@
 
 @interface SettingsViewController ()
 {
+    
+    NSMutableArray *tempCityArraySelcted;
+    NSMutableArray *tempCourseArraySelcted;
+    
     int currentPageState;
     NSString *selectedState;
 }
@@ -40,6 +44,11 @@
     [super viewDidLoad];
     
     currentPageState = 0;
+    
+    tempCityArraySelcted    = [[NSMutableArray alloc]init];
+    tempCourseArraySelcted  = [[NSMutableArray alloc]init];
+    
+    
     UIImage *thumb = [UIImage imageNamed:@"filledcircle"];
     [myObSliderOutlet setThumbImage:thumb forState:UIControlStateNormal];
     [myObSliderOutlet setThumbImage:thumb forState:UIControlStateHighlighted];
@@ -93,7 +102,7 @@
     [btnMale setImage:[UIImage imageNamed:@"guestmale"] forState:UIControlStateNormal];
     [btnFemale setImage:[UIImage imageNamed:@"guestfemale"] forState:UIControlStateNormal];
 
-    tempArraySelcted =[[NSMutableArray alloc]init];
+//    tempArraySelcted =[[NSMutableArray alloc]init];
 
     
     [tblMembers reloadData];
@@ -170,9 +179,6 @@
             [btnPush  setImage:[UIImage imageNamed:@"toggleOn"] forState:UIControlStateNormal];
 
         }
-        
-
-        
         
     }
     errorBlock:^(QBResponse *response) {
@@ -338,6 +344,14 @@
          else {
              [nameTxtFld setText:strGolferName];
          }
+         
+         
+         NSString *strcf_courseName= [[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"Name"]];
+         NSArray *items = [strcf_courseName componentsSeparatedByString:@","];
+         for (id course in items) {
+             [tempCourseArraySelcted addObject:course];
+         }
+        
          [self getStateList];
          
      }
@@ -373,8 +387,30 @@
         
         [arrStateList insertObject:@"All" atIndex:0];
         
-     
-        [[AppDelegate sharedinstance] hideLoader];
+        NSMutableArray *strcf_city= [object.fields objectForKey:@"City"];
+
+        NSMutableArray *copy = [strcf_city mutableCopy];
+        if ([copy containsObject:@"N/A"]) {
+            [copy removeObject:@"N/A"];
+        }
+       
+        strcf_city = [copy mutableCopy];
+        
+    
+       // NSArray *cityItems = [strcf_city componentsSeparatedByString:@","];
+        for (id city in strcf_city) {
+            [tempCityArraySelcted addObject:city];
+        }
+        if ([txtState.text isEqualToString:@"All"]) {
+            [[AppDelegate sharedinstance] hideLoader];
+        }else {
+            [self getcityList];
+
+        }
+        
+        if (strcf_city.count == 0) {
+            txtState.text = @"All";
+        }
         
     } errorBlock:^(QBResponse *response) {
         // error handling
@@ -441,8 +477,6 @@
     }];
     
 }
-
-
 
 -(void) getLocationDataFromServer {
    
@@ -683,8 +717,15 @@
 
 -(IBAction) cityTapped:(id)sender {
     
-    [viewTable setHidden:NO];
+  //  [viewTable setHidden:NO];
+   // [viewToolbar setHidden:NO];
+    
     [viewToolbar setHidden:NO];
+    [viewTable setHidden:NO];
+    [minMaxView setHidden:YES];
+    [minMax setHidden:YES];
+    [pickerView setHidden:YES];
+    
     buttonTapped = kButtonCity;
     
     [self changeData];
@@ -694,17 +735,16 @@
 
 -(IBAction) stateTapped:(id)sender {
     
+    
     [viewToolbar setHidden:NO];
     [viewTable setHidden:YES];
     [minMaxView setHidden:NO];
     [minMax setHidden:YES];
+    [pickerView setHidden:NO];
     
     pickerOption = kPickerState;
-    
     NSInteger selectedRow = [arrStateList indexOfObject:txtState.text];
-    
     [pickerView reloadAllComponents];
-    
     [pickerView selectRow:selectedRow inComponent:0 animated:YES];
     [pickerView reloadComponent:0];
 }
@@ -713,8 +753,13 @@
 
 -(IBAction) homeCourseTapped:(id)sender {
     
-    [viewTable setHidden:NO];
+    
     [viewToolbar setHidden:NO];
+    [viewTable setHidden:NO];
+    [minMaxView setHidden:YES];
+    [minMax setHidden:YES];
+    [pickerView setHidden:YES];
+    
     buttonTapped = kButtonHomeCourse;
     
     [self changeData];
@@ -723,10 +768,12 @@
 //-----------------------------------------------------------------------
 
 -(IBAction) ageTapped:(id)sender {
+   
     [viewToolbar setHidden:NO];
     [viewTable setHidden:YES];
     [minMaxView setHidden:NO];
     [minMax setHidden:NO];
+    [pickerView setHidden:NO];
     
     NSArray* splitAge = [txtAge.text componentsSeparatedByString: @"-"];
     int first = [[splitAge objectAtIndex: 0] intValue];
@@ -846,39 +893,45 @@
     [minMax setHidden:YES];
     
     if(buttonTapped == kButtonCity) {
-        if([tempArraySelcted count]>0)
+        if([tempCityArraySelcted count]>0)
         {
-            if([tempArraySelcted containsObject:@"All"] && [tempArraySelcted count]>1)
+            if([tempCityArraySelcted containsObject:@"All"] && [tempCityArraySelcted count]>1)
             {
                 txtCity.text = @"All";
             }
             else
             {
-                txtCity.text =  [[tempArraySelcted valueForKey:@"description"] componentsJoinedByString:@","];
+                txtCity.text =  [[tempCityArraySelcted valueForKey:@"description"] componentsJoinedByString:@","];
             }
+        }else if ([tempCityArraySelcted count] == 0) {
+            txtCity.text = @"All";
         }
-        
+        [tempCourseArraySelcted removeAllObjects];
         txtCourse.text = @"All";
 
     }
     else if(buttonTapped == kButtonHomeCourse) {
-        if([tempArraySelcted count]>0)
+        if([tempCourseArraySelcted count]>0)
         {
-            if([tempArraySelcted containsObject:@"All"] && [tempArraySelcted count]>1)
+            if([tempCourseArraySelcted containsObject:@"All"] && [tempCourseArraySelcted count]>1)
             {
                 txtCourse.text = @"All";
             }
             else
             {
-                txtCourse.text =  [[tempArraySelcted valueForKey:@"description"] componentsJoinedByString:@","];
+                txtCourse.text =  [[tempCourseArraySelcted valueForKey:@"description"] componentsJoinedByString:@","];
             }
+        }else if ([tempCourseArraySelcted count] == 0) {
+             txtCourse.text = @"All";
         }
     }
     else if(buttonTapped == kButtonType) {
         
-        if([tempArraySelcted count]>0)
-            txtType.text =  [[tempArraySelcted valueForKey:@"description"] componentsJoinedByString:@","];
+//        if([tempArraySelcted count]>0)
+//            txtType.text =  [[tempArraySelcted valueForKey:@"description"] componentsJoinedByString:@","];
 
+    }else if (buttonTapped == kButtonType) {
+        
     }
 }
 
@@ -900,7 +953,18 @@
  //   NSString *strIntHandicap = [txtHandicap.text stringByAppendingString:[NSString stringWithFormat:@":%ld",(long)btnNA.selectedSegmentIndex]];
     NSString *strIntHandicap = [txtHandicap.text stringByAppendingString:[NSString stringWithFormat:@":%ld",(long)switchHandicap.isOn]];
     [object.fields setObject:strIntHandicap forKey:@"Handicap"];
-    [object.fields setObject:[txtCity.text componentsSeparatedByString: @","] forKey:@"City"];
+    
+   
+    NSArray *cityArr = [txtCity.text componentsSeparatedByString: @","];
+  
+    NSMutableArray *copy = [cityArr mutableCopy];
+    if ([copy containsObject:@"N/A"]) {
+        [copy removeObject:@"N/A"];
+    }
+    
+    cityArr = [copy mutableCopy];
+    [object.fields setObject:cityArr forKey:@"City"];
+ //     [object.fields setObject:txtCity.text  forKey:@"City"];
     [object.fields setObject:[NSString stringWithFormat:@"%d",(int)myObSliderOutlet.value] forKey:@"Location"];
 
     [object.fields setObject:@"Course" forKey:@"Location"];
@@ -951,19 +1015,24 @@
 }
 
 -(void) changeData {
-    [tempArraySelcted removeAllObjects];
+//    [tempArraySelcted removeAllObjects];
     [minMaxView setHidden:YES];
     
     
     if(buttonTapped == kButtonCity) {
-        NSString *strStateSelected = txtState.text;
-        selectedState = strStateSelected;
-        currentPageState = 0;
-        if([arrCityList count]>0)
-            [arrCityList removeAllObjects];
-        [self getcityList];
         
-    
+        if ([txtState.text isEqualToString:@"All"]) {
+            [viewTable setHidden:YES];
+            [pickerView setHidden:YES];
+            [viewToolbar setHidden:YES];
+            [[AppDelegate sharedinstance] displayMessage:@"Please Select State first."];
+            
+        }else {
+            [viewTable setHidden:NO];
+            
+        }
+        
+   
        /*
         if([arrCityList count]>0)
             [arrCityList removeAllObjects];
@@ -1001,44 +1070,57 @@
         tblMembers.allowsMultipleSelection = NO;
     }
     else if(buttonTapped == kButtonHomeCourse) {
-        arrHomeCourseList = [[NSMutableArray alloc] init];
-        arrHomeCoursesObjects = [[NSMutableArray alloc] init];
-
-        NSString *strCity = txtCity.text;
-        [[AppDelegate sharedinstance] showLoader];
-        NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
-        [getRequest setObject:strCity forKey:@"City[in]"];
         
-        [QBRequest objectsWithClassName:@"GolfCourses" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
-            // response processing
-            [[AppDelegate sharedinstance] hideLoader];
-            
-            // checking user there in custom user table or not.
-            
-            if([objects count]>0) {
+        if ([txtState.text isEqualToString:@"All"] || [txtCity.text isEqualToString:@"All"]) {
+            [viewTable setHidden:YES];
+            [pickerView setHidden:YES];
+            [viewToolbar setHidden:YES];
+                [[AppDelegate sharedinstance] displayMessage:@"Please Select State and City first."];
+            return;
                 
-                for(QBCOCustomObject *obj in objects) {
+            
+        }else {
+            arrHomeCourseList =     [[NSMutableArray alloc] init];
+            arrHomeCoursesObjects = [[NSMutableArray alloc] init];
+            
+            NSString *strCity = txtCity.text;
+            [[AppDelegate sharedinstance] showLoader];
+            NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
+            [getRequest setObject:strCity forKey:@"City[in]"];
+            
+            [QBRequest objectsWithClassName:@"GolfCourses" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
+                // response processing
+                [[AppDelegate sharedinstance] hideLoader];
+                
+                // checking user there in custom user table or not.
+                
+                if([objects count]>0) {
                     
-                    NSString *strname = [obj.fields objectForKey:@"Name"];
+                    for(QBCOCustomObject *obj in objects) {
+                        
+                        NSString *strname = [obj.fields objectForKey:@"Name"];
+                        
+                        //arrHomeCourses
+                        [arrHomeCourseList addObject:strname];
+                    }
                     
-                    //arrHomeCourses
-                    [arrHomeCourseList addObject:strname];
                 }
                 
+              //  [arrHomeCourseList addObject:@"All"];
+                [arrHomeCourseList insertObject:@"All" atIndex:0];
+                tblMembers.allowsMultipleSelection = NO;
+                [tblMembers reloadData];
+                
             }
-            
-            [arrHomeCourseList addObject:@"All"];
-
-            tblMembers.allowsMultipleSelection = NO;
-            [tblMembers reloadData];
-
+                                 errorBlock:^(QBResponse *response) {
+                                     // error handling
+                                     [[AppDelegate sharedinstance] hideLoader];
+                                     
+                                     NSLog(@"Response error: %@", [response.error description]);
+                                 }];
         }
-                             errorBlock:^(QBResponse *response) {
-                                 // error handling
-                                 [[AppDelegate sharedinstance] hideLoader];
-                                 
-                                 NSLog(@"Response error: %@", [response.error description]);
-                             }];
+        
+       
         
     }
     else if(buttonTapped == kButtonType) {
@@ -1102,6 +1184,9 @@
                                  [nameTxtFld setText:nameTxtFld.text];
                                  [nameTxtFld setText:@"All"];
                                  myObSliderOutlet.value=150;
+                                 
+                                 [tempCityArraySelcted removeAllObjects];
+                                 [tempCourseArraySelcted removeAllObjects];
                                  
                                  [txtHandicap setText:@"-40 - 5"];
                             //     btnNA.selectedSegmentIndex = 0;
@@ -1198,6 +1283,15 @@
 
     if(buttonTapped == kButtonCity) {
         str = [arrCityList objectAtIndex:indexPath.row];
+        if([tempCityArraySelcted containsObject:str])    {
+            [SendMessageCell.selectbtnimg setImage:[UIImage imageNamed:@"blue_chk.png"] forState:UIControlStateNormal];
+            [SendMessageCell.selectbtnimg setHidden:NO];
+        }
+        else
+        {
+            [SendMessageCell.selectbtnimg setImage:[UIImage imageNamed:@"unchecked_circle.png"] forState:UIControlStateNormal];
+            [SendMessageCell.selectbtnimg setHidden:YES];
+        }
      
     }
     else if(buttonTapped == kButtonType) {
@@ -1209,17 +1303,18 @@
     }
     else if(buttonTapped == kButtonHomeCourse) {
         str = [arrHomeCourseList objectAtIndex:indexPath.row];
+        if([tempCourseArraySelcted containsObject:str])    {
+            [SendMessageCell.selectbtnimg setImage:[UIImage imageNamed:@"blue_chk.png"] forState:UIControlStateNormal];
+            [SendMessageCell.selectbtnimg setHidden:NO];
+        }
+        else
+        {
+            [SendMessageCell.selectbtnimg setImage:[UIImage imageNamed:@"unchecked_circle.png"] forState:UIControlStateNormal];
+            [SendMessageCell.selectbtnimg setHidden:YES];
+        }
     }
 
-    if([tempArraySelcted containsObject:str])    {
-        [SendMessageCell.selectbtnimg setImage:[UIImage imageNamed:@"blue_chk.png"] forState:UIControlStateNormal];
-        [SendMessageCell.selectbtnimg setHidden:NO];
-    }
-    else
-    {
-        [SendMessageCell.selectbtnimg setImage:[UIImage imageNamed:@"unchecked_circle.png"] forState:UIControlStateNormal];
-        [SendMessageCell.selectbtnimg setHidden:YES];
-    }
+   
     
     //        [SendMessageCell setBackgroundColor:[UIColor colorWithRed:0/255 green:0/255 blue:0/55 alpha:0.5]];
     
@@ -1242,58 +1337,177 @@
     SendMessageCellTableViewCell *ObjCirCell =(SendMessageCellTableViewCell *) [tableView cellForRowAtIndexPath:indexPath];
     
     [ObjCirCell setSelectionStyle:UITableViewCellSelectionStyleNone];
-    
     NSString *str;
     
     if(buttonTapped == kButtonCity) {
-        str = [arrCityList objectAtIndex:indexPath.row];
+        {
+            str = [arrCityList objectAtIndex:indexPath.row];
+            
+            if ([tempCityArraySelcted containsObject:@"All"]) {
+                
+                if (![str isEqualToString:@"All"]) {
+                    [tempCityArraySelcted removeObject:@"All"];
+                    if ([tempCityArraySelcted containsObject:str]) {
+                        [ObjCirCell.selectbtnimg setImage:[UIImage imageNamed:@"unchecked_circle.png"] forState:UIControlStateNormal];
+                        
+                        [tempCityArraySelcted removeObject:str];
+                    }
+                    else {
+                        /**************** Chetu Change ************/
+                        if (tempCityArraySelcted.count >= 10) {
+                              [[AppDelegate sharedinstance] displayMessage:kMaxTenCitiesSelectAlertTitle];
+                            
+                        }else {
+                            [ObjCirCell.selectbtnimg setImage:[UIImage imageNamed:@"blue_chk.png"] forState:UIControlStateNormal];
+                            [tempCityArraySelcted addObject:str];
+                        }
+                        /**************** Chetu Change ************/
+                    }
+                }else {
+                    [tempCityArraySelcted removeAllObjects];
+                    [tempCourseArraySelcted removeAllObjects];
+                    [tempCityArraySelcted addObject:@"All"];
+                    txtCity.text = @"All";
+                }
+                
+                
+            }else {
+                if ([str isEqualToString:@"All"]) {
+                    [tempCityArraySelcted removeAllObjects];
+                    [tempCourseArraySelcted removeAllObjects];
+                    [tempCityArraySelcted addObject:str];
+                    [tblMembers reloadData];
+                }else {
+                    if ([tempCityArraySelcted containsObject:str]) {
+                        [ObjCirCell.selectbtnimg setImage:[UIImage imageNamed:@"unchecked_circle.png"] forState:UIControlStateNormal];
+                        
+                        [tempCityArraySelcted removeObject:str];
+                    }
+                    else {
+                        /**************** Chetu Change ************/
+                        if (tempCityArraySelcted.count >= 10) {
+                              [[AppDelegate sharedinstance] displayMessage:kMaxTenCitiesSelectAlertTitle];
+                      //      [self showAlert:kMaxTenCitiesSelectAlertTitle];
+                            
+                        }else {
+                            
+                            
+                            [ObjCirCell.selectbtnimg setImage:[UIImage imageNamed:@"blue_chk.png"] forState:UIControlStateNormal];
+                            [tempCityArraySelcted addObject:str];
+                        }
+                        /**************** Chetu Change ************/
+                    }
+                }
+                
+            }
+            
+        }
         
-        if([str isEqualToString:@"All"])
-        {
-            [tempArraySelcted removeAllObjects];
-        }
-        else
-        {
-            [tempArraySelcted removeObject:@"All"];
-        }
-
-        if ([tempArraySelcted containsObject:str]) {
-            [ObjCirCell.selectbtnimg setImage:[UIImage imageNamed:@"unchecked_circle.png"] forState:UIControlStateNormal];
-            
-            [tempArraySelcted removeObject:str];
-        }
-        else {
-            [ObjCirCell.selectbtnimg setImage:[UIImage imageNamed:@"blue_chk.png"] forState:UIControlStateNormal];
-            
-            [tempArraySelcted addObject:str];
-        }
-    }
-    
-       else  if(buttonTapped == kButtonType){
-        [tempArraySelcted removeAllObjects];
-
-        str = [arrTypeList objectAtIndex:indexPath.row];
-        if (![tempArraySelcted containsObject:str]) {
-            
-            [ObjCirCell.selectbtnimg setImage:[UIImage imageNamed:@"blue_chk.png"] forState:UIControlStateNormal];
-            
-            [tempArraySelcted addObject:str];
-        }
+        
+//        if([str isEqualToString:@"All"])
+//        {
+//            [tempCityArraySelcted removeAllObjects];
+//        }
+//        else
+//        {
+//            [tempCityArraySelcted removeObject:@"All"];
+//        }
+//
+//        if ([tempCityArraySelcted containsObject:str]) {
+//            [ObjCirCell.selectbtnimg setImage:[UIImage imageNamed:@"unchecked_circle.png"] forState:UIControlStateNormal];
+//
+//            [tempCityArraySelcted removeObject:str];
+//        }
+//        else {
+//            [ObjCirCell.selectbtnimg setImage:[UIImage imageNamed:@"blue_chk.png"] forState:UIControlStateNormal];
+//
+//            [tempCityArraySelcted addObject:str];
+//        }
+    }else  if(buttonTapped == kButtonType){
+//        [tempArraySelcted removeAllObjects];
+//
+//        str = [arrTypeList objectAtIndex:indexPath.row];
+//        if (![tempArraySelcted containsObject:str]) {
+//
+//            [ObjCirCell.selectbtnimg setImage:[UIImage imageNamed:@"blue_chk.png"] forState:UIControlStateNormal];
+//
+//            [tempArraySelcted addObject:str];
+//        }
     }
    
     else  if(buttonTapped == kButtonHomeCourse) {
-        str = [arrHomeCourseList objectAtIndex:indexPath.row];
         
-        if ([tempArraySelcted containsObject:str]) {
-            [ObjCirCell.selectbtnimg setImage:[UIImage imageNamed:@"unchecked_circle.png"] forState:UIControlStateNormal];
+        
+          str = [arrHomeCourseList objectAtIndex:indexPath.row];
+        
+        if ([tempCourseArraySelcted containsObject:@"All"]) {
             
-            [tempArraySelcted removeObject:str];
-        }
-        else {
-            [ObjCirCell.selectbtnimg setImage:[UIImage imageNamed:@"blue_chk.png"] forState:UIControlStateNormal];
+            if (![str isEqualToString:@"All"]) {
+                [tempCourseArraySelcted removeObject:@"All"];
+                if ([tempCourseArraySelcted containsObject:str]) {
+                    [ObjCirCell.selectbtnimg setImage:[UIImage imageNamed:@"unchecked_circle.png"] forState:UIControlStateNormal];
+                    
+                    [tempCourseArraySelcted removeObject:str];
+                }
+                else {
+                    /**************** Chetu Change ************/
+                    if (tempCourseArraySelcted.count >= 10) {
+                        [[AppDelegate sharedinstance] displayMessage:kMaxTenCitiesSelectAlertTitle];
+                        
+                    }else {
+                        [ObjCirCell.selectbtnimg setImage:[UIImage imageNamed:@"blue_chk.png"] forState:UIControlStateNormal];
+                        [tempCourseArraySelcted addObject:str];
+                    }
+                    /**************** Chetu Change ************/
+                }
+            }else {
+                [tempCourseArraySelcted removeAllObjects];
+                [tempCourseArraySelcted addObject:@"All"];
+                txtCity.text = @"All";
+            }
             
-            [tempArraySelcted addObject:str];
+            
+        }else {
+            if ([str isEqualToString:@"All"]) {
+                [tempCourseArraySelcted removeAllObjects];
+                [tempCourseArraySelcted addObject:str];
+                [tblMembers reloadData];
+            }else {
+                if ([tempCourseArraySelcted containsObject:str]) {
+                    [ObjCirCell.selectbtnimg setImage:[UIImage imageNamed:@"unchecked_circle.png"] forState:UIControlStateNormal];
+                    
+                    [tempCourseArraySelcted removeObject:str];
+                }
+                else {
+                    /**************** Chetu Change ************/
+                    if (tempCourseArraySelcted.count >= 10) {
+                        [[AppDelegate sharedinstance] displayMessage:kMaxTenCitiesSelectAlertTitle];
+                        //      [self showAlert:kMaxTenCitiesSelectAlertTitle];
+                        
+                    }else {
+                        
+                        
+                        [ObjCirCell.selectbtnimg setImage:[UIImage imageNamed:@"blue_chk.png"] forState:UIControlStateNormal];
+                        [tempCourseArraySelcted addObject:str];
+                    }
+                    /**************** Chetu Change ************/
+                }
+            }
+            
         }
+        
+
+        
+//        if ([tempCourseArraySelcted containsObject:str]) {
+//            [ObjCirCell.selectbtnimg setImage:[UIImage imageNamed:@"unchecked_circle.png"] forState:UIControlStateNormal];
+//
+//            [tempCourseArraySelcted removeObject:str];
+//        }
+//        else {
+//            [ObjCirCell.selectbtnimg setImage:[UIImage imageNamed:@"blue_chk.png"] forState:UIControlStateNormal];
+//
+//            [tempCourseArraySelcted addObject:str];
+//        }
     }
 
     
@@ -1621,10 +1835,26 @@
             break;
             
         case kPickerState:
+            
             txtState.text = [arrStateList objectAtIndex:row];
             selectedState = [arrStateList objectAtIndex:row];
             txtCity.text = @"All";
-            [tempArraySelcted removeAllObjects];
+            txtCourse.text = @"All";
+            //   strStateSelected = txtState.text;
+            selectedState = txtState.text;
+            currentPageState = 0;
+            [tempCityArraySelcted removeAllObjects];
+            [tempCourseArraySelcted removeAllObjects];
+            if([arrCityList count]>0)
+                [arrCityList removeAllObjects];
+            
+            
+            if ([selectedState isEqualToString:@"All"]) {
+                
+            }else {
+                [self getcityList];
+            }
+            
             break;
     }
     

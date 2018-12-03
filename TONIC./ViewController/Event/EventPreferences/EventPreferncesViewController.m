@@ -75,7 +75,8 @@
     
     [pickerView setBackgroundColor:[UIColor whiteColor]];
     distanceSlider.value =0;
-    [self getStateList];
+    // [self getStateList];
+    [self getUserDetails];
     // [self getGolfCourseDetails];
 }
 
@@ -108,7 +109,14 @@
         }
         [arrStateList sortUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
         [arrStateList insertObject:kEventAll atIndex:0];
-         [self getUserDetails];
+        // [self getUserDetails];
+        
+        if ([stateTxtFld.text isEqualToString:@"All"]) {
+            [[AppDelegate sharedinstance] hideLoader];
+        }else {
+            [self getcityList];
+            
+        }
         
     } errorBlock:^(QBResponse *response) {
         // error handling
@@ -159,7 +167,7 @@
             [arrCityList insertObject:kEventAll atIndex:0];
             listTblView.allowsMultipleSelection = YES;
             [listTblView reloadData];
-            [viewTblView setHidden:NO];
+         //   [viewTblView setHidden:NO];
             [[AppDelegate sharedinstance] hideLoader];
             
         }else {
@@ -240,7 +248,7 @@
         // checking user there in custom user table or not.
         arrData=objects;
         
-        [[AppDelegate sharedinstance] hideLoader];
+ //       [[AppDelegate sharedinstance] hideLoader];
         
         if([objects count]>0) {
             
@@ -281,17 +289,19 @@
             
             if([str_cf_city length]== kZeroValue) {
                 [cityTxtFld setText:kEventAll];
-                
             }
             else {
                 [cityTxtFld setText:str_cf_city];
             }
             
+            
             if([strState length]== kZeroValue) {
                 [stateTxtFld setText:kEventAll];
+                selectedState = strState;
             }
             else {
                 [stateTxtFld setText:strState];
+                 selectedState = strState;
             }
             
             if([strcf_name length]== kZeroValue) {
@@ -310,6 +320,8 @@
             [favSwitch  setImage:[UIImage imageNamed:kEventPreToggleOn] forState:UIControlStateNormal];
             
         }
+        
+         [self getStateList];
     }
                          errorBlock:^(QBResponse *response) {
                              // error handling
@@ -401,7 +413,7 @@
  * @param sender  the object on which action is perofrmed.
  * @return void nothing will return by this method.
  */
-#pragma mark- Clear search action
+
 - (IBAction)BtnClearSearchAction:(id)sender {
     
     [nameTxtFld setText:nameTxtFld.text];
@@ -423,6 +435,7 @@
                                  [nameTxtFld resignFirstResponder];
                                  [nameTxtFld setText:nameTxtFld.text];
                                  strPush=@"0";
+                                 [tempArraySelcted removeAllObjects];
                                  [favSwitch  setBackgroundImage:[UIImage imageNamed:kEventPreToggleOff] forState:UIControlStateNormal];
                                  
                              }];
@@ -534,6 +547,9 @@
             {
                 cityTxtFld.text =  [[tempArraySelcted valueForKey:kEventPreDesc] componentsJoinedByString:@","];
             }
+        }else if ([tempArraySelcted count] == 0) {
+            
+          cityTxtFld.text = kEventAll;
         }
         
         nameTxtFld.text = kEventAll;
@@ -569,8 +585,8 @@
 
 -(void) changeData {
     
-    [tempArraySelcted removeAllObjects];
-    NSString *strStateSelected;
+//    [tempArraySelcted removeAllObjects];
+//    NSString *strStateSelected;
     [nameTxtFld resignFirstResponder];
     [viewToolBar setHidden:NO];
     
@@ -581,18 +597,19 @@
         [pickerView setHidden:NO];
         [pickerView reloadAllComponents];
     }else if (cityOrStateSelected == 1) {
-        // Hide pickerview and reload tableView to slect state.
+        // Hide pickerview and reload tableView to slect City.
         [viewTblView setHidden:NO];
         [listTblView setHidden:NO];
-        [pickerView setHidden:YES];
+        [pickerView  setHidden:YES];
+        [listTblView reloadData];
         
-        strStateSelected = stateTxtFld.text;
-        selectedState = strStateSelected;
+     //   strStateSelected = stateTxtFld.text;
+      //  selectedState = strStateSelected;
         
-        currentPageCity = kZeroValue;
-        if([arrCityList count]>kZeroValue)
-            [arrCityList removeAllObjects];
-        [self getcityList];
+//        currentPageCity = kZeroValue;
+//        if([arrCityList count]>kZeroValue)
+//            [arrCityList removeAllObjects];
+//        [self getcityList];
         
   /*
         if([arrCityList count]>kZeroValue)
@@ -748,8 +765,28 @@
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
+    
+    
     stateTxtFld.text = [arrStateList objectAtIndex:row];
+    selectedState = [arrStateList objectAtIndex:row];
     cityTxtFld.text = kEventAll;
+  
+    currentPageCity = 0;
+    [tempArraySelcted removeAllObjects];
+    if([arrCityList count]>0)
+        [arrCityList removeAllObjects];
+    
+    
+    if ([selectedState isEqualToString:kEventAll]) {
+        
+    }else {
+        [self getcityList];
+    }
+    
+    
+    
+  //  stateTxtFld.text = [arrStateList objectAtIndex:row];
+   // cityTxtFld.text = kEventAll;
     
     
 }
@@ -819,24 +856,85 @@
     NSString *cityListStr;
     
     cityListStr = [arrCityList objectAtIndex:indexPath.row];
-    // this will show or hide the right checkbox button on the city that user have slected.
-    if ([tempArraySelcted containsObject:cityListStr]) {
-        [ObjCirCell.selectbtnimg setImage:[UIImage imageNamed:kEventPreUnchecked] forState:UIControlStateNormal];
-        // remove city form list of city that have selected by the user.
-        [tempArraySelcted removeObject:cityListStr];
-    }
-    else {
+    
+    
+    if ([tempArraySelcted containsObject:@"All"]) {
         
-        if (tempArraySelcted.count >= 10) {
-            [self showAlert:kEventMaxTenCitiesSelectAlertTitle];
-            
+        if (![cityListStr isEqualToString:@"All"]) {
+            [tempArraySelcted removeObject:@"All"];
+            // this will show or hide the right checkbox button on the city that user have slected.
+            if ([tempArraySelcted containsObject:cityListStr]) {
+                [ObjCirCell.selectbtnimg setImage:[UIImage imageNamed:kEventPreUnchecked] forState:UIControlStateNormal];
+                // remove city form list of city that have selected by the user.
+                [tempArraySelcted removeObject:cityListStr];
+            }
+            else {
+                
+                if (tempArraySelcted.count >= 10) {
+                    [self showAlert:kEventMaxTenCitiesSelectAlertTitle];
+                    
+                }else {
+                    [ObjCirCell.selectbtnimg setImage:[UIImage imageNamed:kEventPreBlueChk] forState:UIControlStateNormal];
+                    // Add city form list of city that have selected by the user.
+                    [tempArraySelcted addObject:cityListStr];
+                }
+            }
+            [listTblView reloadData];
         }else {
-            [ObjCirCell.selectbtnimg setImage:[UIImage imageNamed:kEventPreBlueChk] forState:UIControlStateNormal];
-             // Add city form list of city that have selected by the user.
-            [tempArraySelcted addObject:cityListStr];
+            [tempArraySelcted removeAllObjects];
+            [tempArraySelcted addObject:@"All"];
+            cityTxtFld.text = @"All";
         }
+        
+        
+    }else {
+        if ([cityListStr isEqualToString:@"All"]) {
+            [tempArraySelcted removeAllObjects];
+            [tempArraySelcted addObject:cityListStr];
+            [listTblView reloadData];
+        }else {
+            // this will show or hide the right checkbox button on the city that user have slected.
+            if ([tempArraySelcted containsObject:cityListStr]) {
+                [ObjCirCell.selectbtnimg setImage:[UIImage imageNamed:kEventPreUnchecked] forState:UIControlStateNormal];
+                // remove city form list of city that have selected by the user.
+                [tempArraySelcted removeObject:cityListStr];
+            }
+            else {
+                
+                if (tempArraySelcted.count >= 10) {
+                    [self showAlert:kEventMaxTenCitiesSelectAlertTitle];
+                    
+                }else {
+                    [ObjCirCell.selectbtnimg setImage:[UIImage imageNamed:kEventPreBlueChk] forState:UIControlStateNormal];
+                    // Add city form list of city that have selected by the user.
+                    [tempArraySelcted addObject:cityListStr];
+                }
+            }
+            [listTblView reloadData];
+        }
+        
     }
-  [listTblView reloadData];
+    
+    
+    
+//    // this will show or hide the right checkbox button on the city that user have slected.
+//    if ([tempArraySelcted containsObject:cityListStr]) {
+//        [ObjCirCell.selectbtnimg setImage:[UIImage imageNamed:kEventPreUnchecked] forState:UIControlStateNormal];
+//        // remove city form list of city that have selected by the user.
+//        [tempArraySelcted removeObject:cityListStr];
+//    }
+//    else {
+//
+//        if (tempArraySelcted.count >= 10) {
+//            [self showAlert:kEventMaxTenCitiesSelectAlertTitle];
+//
+//        }else {
+//            [ObjCirCell.selectbtnimg setImage:[UIImage imageNamed:kEventPreBlueChk] forState:UIControlStateNormal];
+//             // Add city form list of city that have selected by the user.
+//            [tempArraySelcted addObject:cityListStr];
+//        }
+//    }
+//  [listTblView reloadData];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
