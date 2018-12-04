@@ -143,26 +143,6 @@
      */
     -(void)getDataFromRssFeedUrl
     {
-        // Initialize array that contain url for rssfeed from which data need to be fetched.
-     //   NSMutableArray *urlArray = [[NSMutableArray alloc]init];
- //       [urlArray addObject:kNewsFeedUrl];
-    //    [urlArray addObject:kInstaFeedUrl];
-//        for (NSString *urlStr in urlArray) {
-//
-//            if ([urlStr isEqualToString:kNewsFeedUrl]) {
-//                xmlParserTagValue = kZeroValue;
-//            }else if ([urlStr isEqualToString:kInstaFeedUrl]){
-//                xmlParserTagValue = 1;
-//            }
-//            // Parser used to parse xml data from url.
-//            NSURL *url = [NSURL URLWithString:urlStr];
-//            parser = [[NSXMLParser alloc] initWithContentsOfURL:url];
-//            [parser setDelegate:self];
-//            [parser setShouldResolveExternalEntities:NO];
-//            [parser parse];
-//
-//        }
-        
         NSURL *url = [NSURL URLWithString:kNewsFeedUrl];
         xmlParserTagValue = kZeroValue;
         parser = [[NSXMLParser alloc] initWithContentsOfURL:url];
@@ -301,13 +281,11 @@
             }
        
             [self sortArrayBasedOnDate:tempFeedsArr];
-       // [self getAdFeedCount];
+            
         }else if (xmlParserTagValue == 1){
-           // xmlParserTagValue = 0;
             instaFeedLoad = YES;
             [collectionView reloadData];
             [[AppDelegate sharedinstance] hideLoader];
-         //   [self getAdFeedCount];
             
         }
     }
@@ -320,7 +298,7 @@
         NSString *pubDate = [dict objectForKey:kFeedDateParam];
         NSString *strDate = [CommonMethods convertDateToAnotherFormat:pubDate originalFormat:kformatOriginal finalFormat:kfinalFormat];
         [dateArray addObject:strDate];
-        // MM-dd-yy
+       
     }
    
     NSSortDescriptor *descriptor=[[NSSortDescriptor alloc] initWithKey:@"self" ascending:YES];
@@ -491,7 +469,6 @@
      */
 
     - (IBAction)prevInstaImagesLoad:(id)sender {
-        
         
         // Check wheather need to load first three record or not.
         if ((collectionViewFirstItemIndex) <= 3) {
@@ -690,7 +667,7 @@
                     if (remainder == 4) {
                         int arrIndex = ((indexValue + 1) /kAdvertisementEventNo) - 1 ;
                         [cell setAdFeedDataFromQbObj:[arrAdFeedDetails objectAtIndex:arrIndex]];
-                     //    cell.adminNameLbl.textColor = [UIColor redColor];
+        
                     }else {
                         int numberadvertFeedsCount = indexValue - (int)(indexValue / kAdvertisementEventNo);
                         [cell setFeedDataFromDict:[feeds objectAtIndex:numberadvertFeedsCount]];
@@ -707,7 +684,6 @@
                     
                     int arrIndex = ((indexValue + 1) /kAdvertisementEventNo) - 1 ;
                     [cell setAdFeedDataFromQbObj:[arrAdFeedDetails objectAtIndex:arrIndex]];
-                  //  cell.adminNameLbl.textColor = [UIColor redColor];
                 }else {
                     int numberadvertFeedsCount = indexValue - (int)(indexValue / kAdvertisementEventNo);
                     [cell setFeedDataFromDict:[feeds objectAtIndex:numberadvertFeedsCount]];

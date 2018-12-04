@@ -35,6 +35,9 @@
     int tempCurrentPage;
     NSMutableArray *tempCourseArr;
     QBCOCustomObject *courseObject;
+     int objCountUpdated;
+     int CountUpdated;
+    int updateCountObj;
     
 }
 @end
@@ -44,8 +47,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    objCountUpdated = 0;
     tempCurrentPage = 0;
+    CountUpdated = 0;
+    updateCountObj = 0;
+    
     tempCourseArr = [[NSMutableArray alloc]init];
     
     
@@ -495,11 +501,9 @@
 
 - (IBAction) saveTapped:(id)sender {
     
-     [self savesettings];
-   // [self getData];
+    [self savesettings];
+  //  [self getData];
 }
-
-
 
 -(void) getData
 {
@@ -509,26 +513,34 @@
     NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
 
     [getRequest setObject:@"100" forKey:@"limit"];
-    NSString *strPage = [NSString stringWithFormat:@"%d",[@"1" intValue] * tempCurrentPage];
+    NSString *strPage = [NSString stringWithFormat:@"%d",[@"100" intValue] * tempCurrentPage];
     
     [getRequest setObject:strPage forKey:@"skip"];
     
-  
       [[AppDelegate sharedinstance] showLoader];
     
     [QBRequest objectsWithClassName:@"GolfCourses" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
         
         NSLog(@"Entries %lu",(unsigned long)page.totalEntries);
-        
+        tempCourseArr = [[NSMutableArray alloc] init];
         [tempCourseArr addObjectsFromArray:[objects mutableCopy]];
-        
-//        if([objects count] == 0) {
-//           [[AppDelegate sharedinstance] hideLoader];
+          [self updateGolfCourses:tempCourseArr];
+        CountUpdated = (int)tempCourseArr.count;
+
+//        if([tempCourseArr count] == 1000) {
+//            int objCount = 0;
+//            for (QBCOCustomObject * tempObj in tempCourseArr) {
+//                objCount++;
+//                NSLog(@"Object to be update is : %d", objCount);
+//                [self updateGolfCourses:tempObj];
+//            }
+//         //  [[AppDelegate sharedinstance] hideLoader];
 //        }
 //        else {
 //            tempCurrentPage++;
-//            [self getData];
+//         //   [self getData];
 //        }
+       
        
         
     } errorBlock:^(QBResponse *response) {
@@ -540,43 +552,55 @@
     
 }
 
--(void) updateGolfCourses {
+-(void) updateGolfCourses:(NSMutableArray *)tempCourseArr1 {
     
-     QBCOCustomObject *tempCourseObject;
-    tempCourseObject = [tempCourseArr objectAtIndex:0];
-    NSLog(@"%@", tempCourseObject);
-    QBCOCustomObject *updatedCourseObject;
-    [updatedCourseObject.fields setObject:txtCity.text forKey:@"cf_city"];
-    [updatedCourseObject.fields setObject:txtState.text forKey:@"cf_state"];
-    [updatedCourseObject.fields setObject:txtCourseName.text forKey:@"cf_name"];
-    [updatedCourseObject.fields setObject:txtCourseZipcode.text forKey:@"cf_zipcode"];
-    [updatedCourseObject.fields setObject:txtAmenities.text forKey:@"cf_amenities"];
-    [updatedCourseObject.fields setObject:strPush  forKey:@"cf_isFav"];
-    [updatedCourseObject.fields setObject:txtType.text forKey:@"cf_type"];
     
-    // convert miles to metres
-    
-    [updatedCourseObject.fields setObject:[NSString stringWithFormat:@"%d",(int)myObSliderOutlet.value] forKey:@"cf_distance"];
-    
-  //  [[AppDelegate sharedinstance] showLoader];
-    
-    [QBRequest updateObject:updatedCourseObject successBlock:^(QBResponse *response, QBCOCustomObject *object) {
-        
-        NSLog(@"%@", object);
-        [[AppDelegate sharedinstance] hideLoader];
-      
-        
-      
-        
-    } errorBlock:^(QBResponse *response) {
-        // error handling
-        [[AppDelegate sharedinstance] hideLoader];
-        
-        NSLog(@"Response error: %@", [response.error description]);
-    }];
+    [self upadteobj:[tempCourseArr objectAtIndex:0]];
+  
 }
 
-
+-(void)upadteobj:(QBCOCustomObject *) tempObj
+{
+    
+         NSArray *cityArr = [ [[AppDelegate sharedinstance] nullcheck:[tempObj.fields objectForKey:@"Amenities"]] componentsSeparatedByString: @","];
+         
+         
+         NSMutableArray *copy = [cityArr mutableCopy];
+         if ([copy containsObject:@"N/A"]) {
+             [copy removeObject:@"N/A"];
+         }
+         
+         cityArr = [copy mutableCopy];
+         
+         [tempObj.fields setObject:cityArr forKey:@"amenities_temp"];
+         
+         [QBRequest updateObject:tempObj successBlock:^(QBResponse *response, QBCOCustomObject *object) {
+           
+              objCountUpdated++;
+             
+             if (tempCourseArr.count == objCountUpdated) {
+                    tempCurrentPage++;
+                 objCountUpdated = 0;
+                  updateCountObj = (int)tempCourseArr.count;
+                 [[AppDelegate sharedinstance] hideLoader];
+             }else {
+                 NSLog(@"Object updated is : %d", objCountUpdated);
+                 NSLog(@"Continue");
+                
+                
+                 [self upadteobj:[tempCourseArr objectAtIndex:objCountUpdated]];
+                 
+             }
+             
+         } errorBlock:^(QBResponse *response) {
+             // error handling
+             [[AppDelegate sharedinstance] hideLoader];
+             
+             NSLog(@"Response error: %@", [response.error description]);
+         }];
+    
+    
+}
 
 //-----------------------------------------------------------------------
 

@@ -105,6 +105,7 @@
             
             if (userIds.count == 0) {
                [proView setHidden:YES];
+                [golfPros setHidden:YES];
             }else {
                 [QBRequest objectsWithClassName:@"UserInfo" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
                     
@@ -113,6 +114,7 @@
                     if([arrData count]==0) {
                         
                         [proView setHidden:YES];
+                        [golfPros setHidden:YES];
                     }
                     else {
                         [proView setHidden:NO];
@@ -242,6 +244,9 @@
             
         }
         
+        if (items.count == 0) {
+            amentiesLbl.hidden = YES;
+        }
         [imageUrl setShowActivityIndicatorView:YES];
         [imageUrl setIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
         [imageUrl sd_setImageWithURL:[NSURL URLWithString:[obj.fields objectForKey:@"ImageUrl"]] placeholderImage:[UIImage imageNamed:@"imgplaceholder.jpg"]];

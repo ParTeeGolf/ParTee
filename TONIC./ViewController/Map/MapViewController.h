@@ -30,6 +30,7 @@
     CLLocation *loc1;
     GMSPolyline *singleLine ;
     QBCOCustomObject *dictCourseMapData;
+    QBCOCustomObject *tempCourseMapData;
     
     CLLocationCoordinate2D desplaceCoord;
     CLLocationCoordinate2D scrplaceCoord;

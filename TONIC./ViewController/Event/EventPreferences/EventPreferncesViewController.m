@@ -378,7 +378,7 @@
                                           
                                           strPush = @"0";
                                           [self savesettings];
-                                          //   [self.navigationController popViewControllerAnimated:YES];
+                                        
                                       }];
     
     [alert addAction:saveSearchButton];
@@ -386,7 +386,6 @@
     
     [self presentViewController:alert animated:YES completion:nil];
     
-    //  [self.navigationController popViewControllerAnimated:YES];
 }
 -(void) viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:YES];
@@ -585,8 +584,6 @@
 
 -(void) changeData {
     
-//    [tempArraySelcted removeAllObjects];
-//    NSString *strStateSelected;
     [nameTxtFld resignFirstResponder];
     [viewToolBar setHidden:NO];
     
@@ -603,40 +600,6 @@
         [pickerView  setHidden:YES];
         [listTblView reloadData];
         
-     //   strStateSelected = stateTxtFld.text;
-      //  selectedState = strStateSelected;
-        
-//        currentPageCity = kZeroValue;
-//        if([arrCityList count]>kZeroValue)
-//            [arrCityList removeAllObjects];
-//        [self getcityList];
-        
-  /*
-        if([arrCityList count]>kZeroValue)
-            [arrCityList removeAllObjects];
-      // get the details of city within state from arrCityStateList
-        for(NSArray *obj in arrCityStateList)
-        {
-            NSString *strName = obj[1];
-            
-            if([strName isEqualToString:strStateSelected])
-            {
-                if(![arrCityList containsObject:obj[kZeroValue]])
-                {
-                    [arrCityList addObject: obj[kZeroValue]];
-                }
-            }
-        }
-        [arrCityList sortUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
-        
-        [arrCityList insertObject:kEventAll atIndex:kZeroValue];
-        
-        listTblView.allowsMultipleSelection = YES;
-        [viewTblView setHidden:NO];
-        [listTblView reloadData];
-        [pickerView setHidden:NO];
-        
-        */
     }
     
 }
@@ -766,7 +729,6 @@
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
     
-    
     stateTxtFld.text = [arrStateList objectAtIndex:row];
     selectedState = [arrStateList objectAtIndex:row];
     cityTxtFld.text = kEventAll;
@@ -782,11 +744,6 @@
     }else {
         [self getcityList];
     }
-    
-    
-    
-  //  stateTxtFld.text = [arrStateList objectAtIndex:row];
-   // cityTxtFld.text = kEventAll;
     
     
 }
@@ -840,8 +797,7 @@
     
     [SendMessageCell.selectbtnimg setTag:indexPath.row];
     
-    SendMessageCell.lblName.text = elementstr;//[[arrMembers objectAtIndex:indexPath.row] objectForKey:@"Name"];
-    
+    SendMessageCell.lblName.text = elementstr;
     return SendMessageCell;
     
 }
@@ -915,26 +871,6 @@
         
     }
     
-    
-    
-//    // this will show or hide the right checkbox button on the city that user have slected.
-//    if ([tempArraySelcted containsObject:cityListStr]) {
-//        [ObjCirCell.selectbtnimg setImage:[UIImage imageNamed:kEventPreUnchecked] forState:UIControlStateNormal];
-//        // remove city form list of city that have selected by the user.
-//        [tempArraySelcted removeObject:cityListStr];
-//    }
-//    else {
-//
-//        if (tempArraySelcted.count >= 10) {
-//            [self showAlert:kEventMaxTenCitiesSelectAlertTitle];
-//
-//        }else {
-//            [ObjCirCell.selectbtnimg setImage:[UIImage imageNamed:kEventPreBlueChk] forState:UIControlStateNormal];
-//             // Add city form list of city that have selected by the user.
-//            [tempArraySelcted addObject:cityListStr];
-//        }
-//    }
-//  [listTblView reloadData];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

@@ -5,6 +5,7 @@
 //  Copyright (c) 2015 WLc. All rights reserved.
 //
 
+
 #import "MapViewController.h"
 #import "PurchaseSpecialsViewController.h"
 #import <MapKit/MapKit.h>
@@ -18,8 +19,9 @@
 
 @interface MapViewController ()
 {
-    GMSMarker *mymarker;
+    GMSMarker *courseMarker;
     UIImage *newImage;
+   
 }
 @end
 
@@ -30,22 +32,24 @@
 @synthesize arrCourseData;
 @synthesize status;
 
+
 - (void)viewDidLoad {
     
     [super viewDidLoad];
     
-   
+    tempCourseMapData = [[QBCOCustomObject alloc]init];
    //  [[AppDelegate sharedinstance] showLoader];
     [self drawRouteOnMap];
  
 }
 -(void)drawRouteOnMap
 {
+    
+     self.navigationController.navigationBarHidden = YES;
     imgviewLoc.layer.masksToBounds = YES;
     imgviewLoc.layer.cornerRadius = 25.0;
     imgviewLoc.layer.cornerRadius = 25.0;
-    self.navigationController.navigationBarHidden = YES;
-    
+   
     [indicatorLocImage setHidden:YES];
     path = [GMSMutablePath path];
     
@@ -60,7 +64,8 @@
     [indicatorLocImage setHidden:NO];
     
     if([strFromScreen isEqualToString:kScreenCoursesMain]) {
-        
+         dictCourseMapData = [arrCourseData objectAtIndex:(arrCourseData.count - 1)];
+        [arrCourseData removeObjectAtIndex:(arrCourseData.count - 1)];
         [self gotLocationFromMain];
     }
     else {
@@ -68,6 +73,7 @@
         [self gotLocation];
     }
 }
+
 -(void) gotLocationFromMain {
     int n = arrCourseData.count;
     
@@ -77,12 +83,12 @@
     
     for(int i=0;i<n;i++) {
         
-        dictCourseMapData = [arrCourseData objectAtIndex:i];
+        tempCourseMapData = [arrCourseData objectAtIndex:i];
         
-        NSArray *arrCoord = [dictCourseMapData.fields objectForKey:@"coordinates"];
+        NSArray *arrCoord = [tempCourseMapData.fields objectForKey:@"coordinates"];
         
         if([arrCoord count]>0) {
-            NSString *strPinType =[[AppDelegate sharedinstance] nullcheck: [dictCourseMapData.fields objectForKey:@"pin_type"]];
+            NSString *strPinType =[[AppDelegate sharedinstance] nullcheck: [tempCourseMapData.fields objectForKey:@"pin_type"]];
             
             if([strPinType length]==0) {
                 strPinType = @"type-1";
@@ -105,23 +111,16 @@
             
             CLLocationCoordinate2D position = {  placeCoord.latitude, placeCoord.longitude };
             
-            if([strFromScreen isEqualToString:kScreenCoursesMain]) {
-                
-                
-            }
-            else {
-                //                GMSMarker *marker = [GMSMarker markerWithPosition:position];
-                //                marker.icon = [UIImage imageNamed:strPinType];
-                //                marker.title = @"";//[NSString stringWithFormat:@"Marker %i", i];
-                //                marker.appearAnimation = YES;
-                //                marker.flat = YES;
-                //                marker.snippet =  [NSString stringWithFormat:@"%i", i];
-                //                marker.map = mapView;
-                
-                //      [path addCoordinate: marker.position];
-            }
+            GMSMarker *marker = [GMSMarker markerWithPosition:position];
+            marker.icon = [UIImage imageNamed:strPinType];
+            marker.title = @"";//[NSString stringWithFormat:@"Marker %i", i];
+            marker.appearAnimation = YES;
+            marker.flat = YES;
+            marker.snippet =  [NSString stringWithFormat:@"%i", i];
+            marker.map = mapView;
             
-            
+           [path addCoordinate: marker.position];
+        
             strlat = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlat];
             strlat = [[AppDelegate sharedinstance] nullcheck:strlat];
             
@@ -132,26 +131,26 @@
             placeCoord.latitude=[strlat doubleValue];
             placeCoord.longitude=[strlong doubleValue];
             
-            CLLocationCoordinate2D myposition = {  placeCoord.latitude, placeCoord.longitude };
-            scrplaceCoord = myposition;
+     //       CLLocationCoordinate2D myposition = {  placeCoord.latitude, placeCoord.longitude };
+    //        scrplaceCoord = myposition;
             
-            //            GMSMarker *mymarker = [GMSMarker markerWithPosition:myposition];
-            //
-            //            mymarker.icon = [UIImage imageNamed:@"type-my"];
-            //
-            //            mymarker.title = @"";//[NSString stringWithFormat:@"Marker %i", i];
-            //            mymarker.appearAnimation = YES;
-            //            mymarker.flat = YES;
-            //            mymarker.snippet =  [NSString stringWithFormat:@"%i", 0];
-            //            mymarker.map = mapView;
+//                        GMSMarker *mymarker1 = [GMSMarker markerWithPosition:myposition];
+//
+//                        mymarker1.icon = [UIImage imageNamed:@"type-my"];
+//
+//                        mymarker1.title = @"";//[NSString stringWithFormat:@"Marker %i", i];
+//                        mymarker1.appearAnimation = YES;
+//                        mymarker1.flat = YES;
+//                        mymarker1.snippet =  [NSString stringWithFormat:@"%i", 0];
+//                        mymarker1.map = mapView;
             
-            //    [path addCoordinate: mymarker.position];
+            //    [path addCoordinate: mymarker1.position];
             
         }
     }
     
     if([arrCourseData count]>0) {
-        dictCourseMapData = [arrCourseData objectAtIndex:0];
+       
         GMSCoordinateBounds *bounds = [[GMSCoordinateBounds alloc] initWithPath:path];
         [mapView animateWithCameraUpdate:[GMSCameraUpdate fitBounds:bounds]];
         [self gotLocation];
@@ -164,6 +163,7 @@
     NSArray *arrCoord = [dictCourseMapData.fields objectForKey:@"coordinates"];
     
     if([arrCoord count]>0) {
+        
         NSString *strPinType =[[AppDelegate sharedinstance] nullcheck: [dictCourseMapData.fields objectForKey:@"pin_type"]];
         
         if([strPinType length]==0) {
@@ -206,13 +206,23 @@
         marker.map = mapView;
         [path addCoordinate: marker.position];
         
+        
+        strlat = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlat];
+        strlat = [[AppDelegate sharedinstance] nullcheck:strlat];
+        
+        strlong = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlong];
+        strlong = [[AppDelegate sharedinstance] nullcheck:strlong];
+        
+        //Set the lat and long.
+        placeCoord.latitude=[strlat doubleValue];
+        placeCoord.longitude=[strlong doubleValue];
+        
+        
         CLLocationCoordinate2D myposition = {  placeCoord.latitude, placeCoord.longitude };
         scrplaceCoord = myposition;
-        
-        
         UIImage *newBottomImage = [UIImage imageNamed:@"userProfileDefaultImage"];
         UIImage *bottomImage = [self roundedRectImageFromImage:newBottomImage size:CGSizeMake(70.8, 70.8) withCornerRadius:70.8];
-        UIImage *image       = [UIImage imageNamed:kUserMapProfileBackgrooundIcon]; //foreground image
+        UIImage *image   = [UIImage imageNamed:kUserMapProfileBackgrooundIcon]; //foreground image
         
         CGSize newSize = CGSizeMake(150, 150);
         UIGraphicsBeginImageContext( newSize );
@@ -225,15 +235,15 @@
         UIGraphicsEndImageContext();
         
         
-        mymarker = [GMSMarker markerWithPosition:myposition];
-        mymarker.icon = tempImage;
-        mymarker.title = @"";
-        mymarker.appearAnimation = YES;
-        mymarker.flat = YES;
-        mymarker.snippet =  [NSString stringWithFormat:@"%i", 0];
-        mymarker.map = mapView;
+        courseMarker = [GMSMarker markerWithPosition:myposition];
+        courseMarker.icon = tempImage;
+        courseMarker.title = @"";
+        courseMarker.appearAnimation = YES;
+        courseMarker.flat = YES;
+        courseMarker.snippet =  [NSString stringWithFormat:@"%i", 0];
+        courseMarker.map = mapView;
         
-        [path addCoordinate: mymarker.position];
+        [path addCoordinate: courseMarker.position];
         
         
         GMSCoordinateBounds *bounds = [[GMSCoordinateBounds alloc] initWithPath:path];
@@ -316,7 +326,7 @@
                                newImage = UIGraphicsGetImageFromCurrentImageContext();
                                
                                UIGraphicsEndImageContext();
-                               mymarker.icon = newImage;
+                               courseMarker.icon = newImage;
                              
                            });
                        });
@@ -349,7 +359,7 @@
                                newImage = UIGraphicsGetImageFromCurrentImageContext();
                                
                                UIGraphicsEndImageContext();
-                               mymarker.icon = newImage;
+                               courseMarker.icon = newImage;
                           
                                
                            });
@@ -463,6 +473,7 @@
     return YES;
 }
 
+
 - (void)drawRoute
 {
     
@@ -513,6 +524,8 @@
     
     directionsUrlString=[directionsUrlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    
+    
     [manager GET:directionsUrlString
       parameters:nil
          success:^(AFHTTPRequestOperation *operation, id responseObject) {
