@@ -353,7 +353,7 @@
     __block int weeklyConnects = [[dictLocalUserData objectForKey:@"userFreeConnects"] integerValue];
     __block  int userPurchasedConnects = [[dictLocalUserData objectForKey:@"userPurchasedConnects"] integerValue];
  
-    /************* ChetuChange *************/
+   
     
 //    if(![[dictLocalUserData objectForKey:@"userFullMode"] isEqualToString:@"1"]){
 //
@@ -370,7 +370,7 @@
 //        }
 //    }
 //
-     /************* ChetuChange *************/
+    
     
         QBCOCustomObject *obj = dictUserData;//[arrData objectAtIndex:indexPath.row];
         
@@ -378,12 +378,11 @@
         object.className = @"UserConnections";
         
         // Object fields
-     /********** ChetuChange not only comment due to crash here *************/
     
         [object.fields setObject:[[AppDelegate sharedinstance] getCurrentUserEmail] forKey:@"connSenderID"];
         [object.fields setObject:[obj.fields objectForKey:@"userEmail"] forKey:@"connReceiverID"];
         [object.fields setObject:@"1" forKey:@"connStatus"];
-    /********** ChetuChange not only comment due to crash here *************/
+
         [[AppDelegate sharedinstance] showLoader];
         
         [QBRequest createObject:object successBlock:^(QBResponse *response, QBCOCustomObject *object) {

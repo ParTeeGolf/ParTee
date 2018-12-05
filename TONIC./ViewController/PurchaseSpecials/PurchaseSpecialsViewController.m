@@ -26,10 +26,10 @@
      UIButton *btnInfo;
      UIButton *btnSelectUser;
      UIButton *btnViewUser;
-    /********* Chetu Change *******/
+    
     // This variable used to create view only when viewdidload called for first time only
     int firstTimeViewLoad;
-    /********* Chetu Change *******/
+    
 }
 @end
 
@@ -168,16 +168,16 @@
         NSArray *items ;
 
         /************ Chetu Change **********/
-    //    [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:kEventCellImgUrl]]
-        
+  
+        //  We are using amenties_temp data instead of amenties because data on quickblox table for maenties is in string format and we need array data in order to implement amenties functionality.
         str1  = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"amenities_temp"]];
         items = [[[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"amenities_temp"]] copy];
         
-    //    str1 = [obj.fields objectForKey:@"amenities_temp"];
-   //     items =[[obj.fields objectForKey:@"amenities_temp"] copy];
+        //     str1 = [obj.fields objectForKey:@"Amenities"];
+        //     items =[[obj.fields objectForKey:@"Amenities"] copy];
+        
          /************ Chetu Change **********/
-   //     str1 = [obj.fields objectForKey:@"Amenities"];
-   //     items =[[obj.fields objectForKey:@"Amenities"] copy];
+ 
         
         if([str1 isKindOfClass:[NSString class]]) {
             if(![str1 isEqualToString:@""]) {
@@ -351,11 +351,10 @@
     NSString *userImageUrl = [NSString stringWithFormat:@"%@", [dictUserData objectForKey:@"userPicBase"]];
     [ imgViewUser1 sd_setImageWithURL:[NSURL URLWithString:userImageUrl ] placeholderImage:[UIImage imageNamed:@"user"]];
  
-    /******* Chetu Change ********/
     if (firstTimeViewLoad == 0) {
          [self updateConstarintsProgrammatically];
     }
-    /******* Chetu Change ********/
+   
   }
 
 
@@ -851,10 +850,13 @@
     [object.fields setObject:[[AppDelegate sharedinstance] getCurrentUserEmail] forKey:@"courseSenderID"];
     /********** ChetuChange *************/
 
+    // Here application was crashed and for now purcase connect functionlity no more available.
+    
    // [object.fields setObject:[obj.fields objectForKey:@"userEmail"] forKey:@"courseReceiverID"];
     [object.fields setObject:@"TEStValue" forKey:@"courseReceiverID"];
     
      /********** ChetuChange *************/
+    
     [object.fields setObject:@"4" forKey:@"courseStatus"];
     [object.fields setObject:courseObject.ID forKey:@"courseId"];
 

@@ -2,7 +2,7 @@
 //  EventPreferncesViewController.m
 //  ParTee
 //
-//  Created by Admin on 08/09/18.
+//  Created by Chetu India on 08/09/18.
 //  Copyright © 2018 Hooda. All rights reserved.
 //
 
@@ -97,7 +97,6 @@
     
     [QBRequest objectsWithClassName:kEventStateTblName extendedRequest:nil successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
         
-        NSLog(@"Entries %lu",(unsigned long)page.totalEntries);
         arrData=[objects mutableCopy];
         for(int i=0;i<[objects count];i++) {
             QBCOCustomObject *obj = [arrData objectAtIndex:i];
@@ -111,7 +110,7 @@
         [arrStateList insertObject:kEventAll atIndex:0];
         // [self getUserDetails];
         
-        if ([stateTxtFld.text isEqualToString:@"All"]) {
+        if ([stateTxtFld.text isEqualToString:kEventAll]) {
             [[AppDelegate sharedinstance] hideLoader];
         }else {
             [self getcityList];
@@ -141,12 +140,11 @@
     // Create Parameters Dictionary
     NSMutableDictionary *getRequestObjectCount = [NSMutableDictionary dictionary];
     [getRequestObjectCount setObject: selectedState forKey:kCourseState];
-    [getRequestObjectCount setObject:@"100" forKey:kEventLimitParam];
-    NSString *strPage = [NSString stringWithFormat:@"%d",[@"100" intValue] * currentPageCity];
+    [getRequestObjectCount setObject:kAdEventLimit forKey:kEventLimitParam];
+    NSString *strPage = [NSString stringWithFormat:@"%d",[kAdEventLimit intValue] * currentPageCity];
     [getRequestObjectCount setObject:strPage forKey:kEventSkipParam];
     [QBRequest objectsWithClassName:kEventGolfCourse extendedRequest:getRequestObjectCount successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
         
-        NSLog(@"Entries %lu",(unsigned long)page.totalEntries);
         arrData=[objects mutableCopy];
         
         for(int i=0;i<[objects count];i++) {
@@ -167,7 +165,6 @@
             [arrCityList insertObject:kEventAll atIndex:0];
             listTblView.allowsMultipleSelection = YES;
             [listTblView reloadData];
-         //   [viewTblView setHidden:NO];
             [[AppDelegate sharedinstance] hideLoader];
             
         }else {
@@ -651,7 +648,7 @@
     [QBRequest updateObject:object successBlock:^(QBResponse *response, QBCOCustomObject *object) {
         
         [[AppDelegate sharedinstance] hideLoader];
-        [[AppDelegate sharedinstance] displayMessage:@"Details successfully saved"];
+        [[AppDelegate sharedinstance] displayMessage:kDetailsSaved];
         
         NSMutableDictionary *dictcoursePreferencesData = [[[NSUserDefaults standardUserDefaults] objectForKey:kcoursePreferencesData] mutableCopy];
         
@@ -739,13 +736,9 @@
         [arrCityList removeAllObjects];
     
     
-    if ([selectedState isEqualToString:kEventAll]) {
-        
-    }else {
-        [self getcityList];
+    if (![selectedState isEqualToString:kEventAll]) {
+         [self getcityList];
     }
-    
-    
 }
 #pragma mark - UITableViewDataSource
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -814,10 +807,10 @@
     cityListStr = [arrCityList objectAtIndex:indexPath.row];
     
     
-    if ([tempArraySelcted containsObject:@"All"]) {
+    if ([tempArraySelcted containsObject:kEventAll]) {
         
-        if (![cityListStr isEqualToString:@"All"]) {
-            [tempArraySelcted removeObject:@"All"];
+        if (![cityListStr isEqualToString:kEventAll]) {
+            [tempArraySelcted removeObject:kEventAll];
             // this will show or hide the right checkbox button on the city that user have slected.
             if ([tempArraySelcted containsObject:cityListStr]) {
                 [ObjCirCell.selectbtnimg setImage:[UIImage imageNamed:kEventPreUnchecked] forState:UIControlStateNormal];
@@ -838,13 +831,13 @@
             [listTblView reloadData];
         }else {
             [tempArraySelcted removeAllObjects];
-            [tempArraySelcted addObject:@"All"];
-            cityTxtFld.text = @"All";
+            [tempArraySelcted addObject:kEventAll];
+            cityTxtFld.text = kEventAll;
         }
         
         
     }else {
-        if ([cityListStr isEqualToString:@"All"]) {
+        if ([cityListStr isEqualToString:kEventAll]) {
             [tempArraySelcted removeAllObjects];
             [tempArraySelcted addObject:cityListStr];
             [listTblView reloadData];

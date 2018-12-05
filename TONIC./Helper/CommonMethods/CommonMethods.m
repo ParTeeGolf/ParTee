@@ -73,7 +73,7 @@
 {
     
     // Regular expression to verify that a string provided is a valid email or not.
-    NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
+    NSString *emailRegex = kEmailRegExp;
     // Predicates are logical conditions, which you can use to filter collections of objects.
     NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
     return [emailTest evaluateWithObject:email];
@@ -236,13 +236,10 @@
         NSString *linkUrl = [result URL].absoluteString;
         
         if([[linkUrl pathExtension] isEqualToString:@"jpg"]){
-           
-            NSLog(@"image link:%@", linkUrl);
+            
             return linkUrl;
         } else if([[linkUrl pathExtension] isEqualToString:@"png"])
         {
-            
-            NSLog(@"link:%@", linkUrl);
             return linkUrl;
         }
     }

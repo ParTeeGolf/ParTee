@@ -217,7 +217,7 @@ long currentTag = 1;
     UIImage *image = [UIImage imageNamed:@"info-filled.png"];
     [btnImage setImage:image forState:UIControlStateNormal];
     /************ ChetuChange *************/
-  //  [btnImage setTintColor:[UIColor redColor]];
+    // Set the color of info button to green.
     [btnImage setTintColor:[UIColor greenColor]];
      /************ ChetuChange *************/
     

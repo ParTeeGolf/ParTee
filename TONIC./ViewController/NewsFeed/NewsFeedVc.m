@@ -2,7 +2,7 @@
     //  NewsFeedVc.m
     //  ParTee
     //
-    //  Created by Admin on 08/10/18.
+    //  Created by Chetu India on 08/10/18.
     //  Copyright © 2018 Hooda. All rights reserved.
     //
 
@@ -280,7 +280,7 @@
                 [tempFeedsArr replaceObjectAtIndex:i withObject:newDict];
             }
        
-            [self sortArrayBasedOnDate:tempFeedsArr];
+            [self sortFeedArrayBasedOnDate:tempFeedsArr];
             
         }else if (xmlParserTagValue == 1){
             instaFeedLoad = YES;
@@ -289,10 +289,17 @@
             
         }
     }
-
--(void)sortArrayBasedOnDate:(NSMutableArray *)feedArr
+#pragma mark- Get Data Rss Feed
+/**
+ @Description
+ * This method willsort the feed array based on their date of publishing.
+ * @author Chetu India
+  * @param feedArr array of feed details fetched.
+ * @return void nothing will return by this method.
+ */
+-(void)sortFeedArrayBasedOnDate:(NSMutableArray *)feedArr
 {
-   
+   // Create date array to hold the dates of the feeds.
     NSMutableArray *dateArray = [[NSMutableArray alloc]init];
     for (id dict in feedArr) {
         NSString *pubDate = [dict objectForKey:kFeedDateParam];
@@ -300,14 +307,8 @@
         [dateArray addObject:strDate];
        
     }
-   
-    NSSortDescriptor *descriptor=[[NSSortDescriptor alloc] initWithKey:@"self" ascending:YES];
-    NSArray *descriptors=[NSArray arrayWithObject: descriptor];
-    NSArray *reverseOrder=[dateArray sortedArrayUsingDescriptors:descriptors];
-    
-    NSLog(@"Array: %@",reverseOrder);
-    
 
+    // Insert feed details from array based on dates on which they created.
     for (int i = 0; i < feedArr.count; i++) {
         
         for (id dict in feedArr) {
@@ -321,9 +322,9 @@
             
         }
     }
-    
+    // This holds the feed count avaiable.
     feedsCount = (int)feeds.count;
-    NSLog(@"%@", feeds);
+    // Call method to get the advertisement feed details from the quickblox table.
      [self getAdFeedCount];
     
 }
@@ -343,8 +344,8 @@
         [getRequestObjectCount setObject:kEventOneStr forKey:kEventCount];
         
         [QBRequest countObjectsWithClassName:kAdNewsFeedTblName extendedRequest:getRequestObjectCount successBlock:^(QBResponse * _Nonnull response, NSUInteger count) {
+    
             
-            NSLog(@"%lu",(unsigned long)count);
             // Total number of advertisment events available in AdEvent table on Quickblox.
             totalAdvertFeedCount = (int)count;
             [self getAdFeedDetails];
@@ -413,29 +414,33 @@
         }];
         
     }
-
+#pragma mark- Get Data Rss Feed
+/**
+ @Description
+ * This method will sort the adevrtisement feed array based on their date of publishing.
+ * @author Chetu India
+ * @param adFeedArr array of advertisement feed details fetched.
+ * @return void nothing will return by this method.
+ */
 -(void)sortAdFeedArrayBasedOnDate:(NSMutableArray *)adFeedArr
 {
     
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     NSMutableArray *dateArray = [[NSMutableArray alloc]init];
     for (QBCOCustomObject *obj in adFeedArr) {
-       // NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
         // set the date format related to what the string already you have
         
         [dateFormat setDateFormat:kFormatOriginalCreatedDate];
         NSString *finalDate = [dateFormat stringFromDate:obj.createdAt];
         NSString *dateStr = [CommonMethods convertDateToAnotherFormat:finalDate originalFormat:kFormatOriginalCreatedDate finalFormat:kfinalFormat];
         [dateArray addObject:dateStr];
-        // MM-dd-yy
     }
-    
+     // Specifying the key path of the property to be compared and the order of the sort (ascending or descending).
     NSSortDescriptor *descriptor=[[NSSortDescriptor alloc] initWithKey:@"self" ascending:NO];
     NSArray *descriptors=[NSArray arrayWithObject: descriptor];
     NSArray *reverseOrder=[dateArray sortedArrayUsingDescriptors:descriptors];
     
-    NSLog(@"Array: %@",reverseOrder);
-    
+    // Insert advertisement feed details from array based on dates on which they created.
     
     for (int i = 0; i < adFeedArr.count; i++) {
         
@@ -455,12 +460,6 @@
             
         }
     }
-    
-   
-    NSLog(@"%@", arrAdFeedDetails);
-    
-  
-    
 }
     /**
      @Description

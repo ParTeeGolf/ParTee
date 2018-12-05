@@ -30,27 +30,25 @@ int courseOption;
 
 @interface SpecialsViewController ()
 {
-    /********** ChetuChange ************/
     int coursesCount;
-    /********** ChetuChange ************/
+   
 }
-/*********** ChetuChnage ************/
+
 @property (strong, nonatomic) UIButton *fetchPrevRecordBtn;
 @property (strong, nonatomic) UILabel  *recordLbl;
 @property (strong, nonatomic) UIButton *fetchNextRecordBtn;
 @property (strong, nonatomic) UIButton *fecthInitialRecordBtn;
-/*********** ChetuChnage ************/
+
 @end
 
 @implementation SpecialsViewController
 @synthesize status;
 @synthesize strIsMyCourses;
-/*********** ChetuChnage ************/
 @synthesize fetchPrevRecordBtn;
 @synthesize recordLbl;
 @synthesize fetchNextRecordBtn;
 @synthesize fecthInitialRecordBtn;
-/*********** ChetuChnage ************/
+
 
 
 - (void)viewDidLoad {
@@ -63,12 +61,11 @@ int courseOption;
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshContent" object:nil];
     
-    /*********** ChetuChange ***********/
+    
     segmentMode=0;
     searchImgView.hidden = true;
     btnSearchBig.hidden = true;
     btnSearchSmall.hidden = true;
-    /*********** ChetuChange ***********/
     
     self.navigationController.navigationBarHidden=YES;
     tblList.tableFooterView = [UIView new];
@@ -174,12 +171,12 @@ int courseOption;
 
 -(void)hideOrShowSearchBtn:(BOOL)hideShowBool
 {
-    loadRecordBaseV.hidden = hideShowBool;
-    searchImgView.hidden = hideShowBool;
-    btnSearchBig.hidden = hideShowBool;
-    btnSearchSmall.hidden = hideShowBool;
-    btnSearchSmall.hidden = hideShowBool;
-    btnSearchBig.hidden =  hideShowBool;
+    loadRecordBaseV.hidden  = hideShowBool;
+    searchImgView.hidden    = hideShowBool;
+    btnSearchBig.hidden     = hideShowBool;
+    btnSearchSmall.hidden   = hideShowBool;
+    btnSearchSmall.hidden   = hideShowBool;
+    btnSearchBig.hidden     = hideShowBool;
     
     if (hideShowBool) {
          recordLoadBaseViewHeightConst.constant = 0;
@@ -768,12 +765,12 @@ int courseOption;
      [tblList setContentOffset:tblList.contentOffset animated:NO];
     // remove elements from array when segment change. we meed to remove previous segment courses from array and load for new segment.
     [tblList setContentOffset:tblList.contentOffset animated:NO];
-//    [arrData removeAllObjects];
+
     courseOption = (int)selectedSegment;
     ((AppDelegate*)[UIApplication sharedApplication].delegate).courseOptionSelected = courseOption;
     // Hide or show search button
     if (courseOption == 0) {
-    //    arrData = [[NSMutableArray alloc] init];
+        
         [self hideOrShowSearchBtn:YES];
     }else{
         [self hideOrShowSearchBtn:NO];
@@ -983,6 +980,8 @@ int courseOption;
         
         /***************** ChetuChange **************/
         
+        // this featured not available no more. Now maximum 25 records show per page and if user wants to load more then user can use next or previous button.
+        
         // Load featured courses only when last courses reached in the table
         /*
         if (courseOption == 0) {
@@ -1191,11 +1190,9 @@ int courseOption;
     /*********** ChetuChange ******/
     
     //  Chnage the title of favorite button
-//    NSString *favoriteTitle = isFavCourse==YES ? @"Mark Unfavorite" : @"Mark Favorite";
      NSString *favoriteTitle = isFavCourse==YES ? @"Unfavorite" : @"Mark Favorite";
-    //  NSString *favoriteTitle = @"Your favorite";
-    NSString *favImgStr = @"";
-//    if ([favoriteTitle isEqualToString: @"Mark Unfavorite"]) {
+     NSString *favImgStr = @"";
+
   
   if ([favoriteTitle isEqualToString: @"Unfavorite"]) {
     favImgStr = @"fav.png";
@@ -1207,8 +1204,6 @@ int courseOption;
              [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:@"info-filled"] title:@"Information"],
              [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:@"viewmap"] title:@"On Map"],
              [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:@"direction"] title:@"Directions"],
-             // Remove Photo options as per client requirement.
-             //  [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:@"image-placeholder"] title:@"Photos"],
              [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:kShareImg] title:kShareTitle],
              ];
     
@@ -1238,7 +1233,6 @@ int courseOption;
             [self actionDirection];
             break;
         case kIndexPhoto:
-            // [self actionPhoto];
             [self shareLinkViaSocialApp];
     }
 }
@@ -1252,8 +1246,8 @@ int courseOption;
 -(void)shareLinkViaSocialApp
 {
     
-        // All courses
-        QBCOCustomObject *obj = [arrData objectAtIndex:selectedRow];
+    // All courses
+    QBCOCustomObject *obj = [arrData objectAtIndex:selectedRow];
     
     //  (Title of Event, Date of Event, Location of Event, info text of event.)
     NSString *courseName = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"Name"]];

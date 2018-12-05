@@ -1509,7 +1509,7 @@ static AppDelegate *delegate;
 // /*
 // @Description
 // * This Method will create the local notification on device so that user able to recieve
-// * @author Chetu India
+// * @author
 // * @return IBAction nothing will return by this method.
 // */
 //-(void)createLocalNotifEvent:(int)selectedEventIndex
@@ -1567,7 +1567,7 @@ static AppDelegate *delegate;
 ///**
 // @Description
 // * This Method will delete the local notification on device based on identifier.
-// * @author Chetu India
+// * @author 
 // * @return IBAction nothing will return by this method.
 // */
 //-(void)deleteLocalNotification:(int)selectedEventIndex

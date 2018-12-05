@@ -10,10 +10,9 @@
 #import "PDFViewController.h"
 #import "RegisterViewController.h"
 #import "EditProfileViewController.h"
-#import "SKPSMTPMessage.h"
-#import "NSData+Base64Additions.h"
 
-@interface LoginViewController ()<SKPSMTPMessageDelegate, MFMailComposeViewControllerDelegate>
+
+@interface LoginViewController ()<MFMailComposeViewControllerDelegate>
 {
     /********* Chetu Change *******/
     // This variable used to create view only when viewdidload called for first time only
@@ -732,7 +731,6 @@
 /**
  @Description
  * This method open the mail composer if user devices is compatable for mail.
- * @author Chetu India
  * @param emailStr string to which mail will send from the user.
  * @return void nothing will return by this method.
  */
@@ -769,7 +767,6 @@
 /**
  @Description
  * Delegate method of mail composer. called while ser tap on cancel, send, dicard mail button.
- * @author Chetu India
  * @return void nothing will return by this method.
  */
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {
@@ -939,7 +936,7 @@
 //    SKPSMTPMessage *emailMessage = [[SKPSMTPMessage alloc] init];
 //    emailMessage.delegate = self;
 //    emailMessage.fromEmail = @"mohittyagics@gmail.com"; //sender email address
-//    emailMessage.toEmail = @"niteshg@chetu.com";  //receiver email address
+//    emailMessage.toEmail = @"niteshg@.com";  //receiver email address
 //    emailMessage.relayHost = @"smtp.gmail.com";
 //  //emailMessage.ccEmail =@"your cc address";
 //  //emailMessage.bccEmail =@"your bcc address";
@@ -1155,19 +1152,6 @@
     }
     
 }
--(void)messageSent:(SKPSMTPMessage *)message{
-    NSLog(@"delegate - message sent");
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message sent." message:nil delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
-    [alert show];
-}
-// On Failure
--(void)messageFailed:(SKPSMTPMessage *)message error:(NSError *)error{
-    // open an alert with just an OK button
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error!" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
-    [alert show];
-    NSLog(@"delegate - error(%d): %@", [error code], [error localizedDescription]);
-}
-//-----------------------------------------------------------------------
 
 - (IBAction)action_Menu:(id)sender{
     

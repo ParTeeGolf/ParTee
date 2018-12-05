@@ -1354,6 +1354,7 @@
                     }
                     else {
                         /**************** Chetu Change ************/
+                        //user able to select maximum of ten cities now.
                         if (tempCityArraySelcted.count >= 10) {
                               [[AppDelegate sharedinstance] displayMessage:kMaxTenCitiesSelectAlertTitle];
                             
@@ -1385,9 +1386,9 @@
                     }
                     else {
                         /**************** Chetu Change ************/
+                         //user able to select maximum of ten cities now.
                         if (tempCityArraySelcted.count >= 10) {
                               [[AppDelegate sharedinstance] displayMessage:kMaxTenCitiesSelectAlertTitle];
-                      //      [self showAlert:kMaxTenCitiesSelectAlertTitle];
                             
                         }else {
                             
@@ -1404,25 +1405,7 @@
         }
         
         
-//        if([str isEqualToString:@"All"])
-//        {
-//            [tempCityArraySelcted removeAllObjects];
-//        }
-//        else
-//        {
-//            [tempCityArraySelcted removeObject:@"All"];
-//        }
-//
-//        if ([tempCityArraySelcted containsObject:str]) {
-//            [ObjCirCell.selectbtnimg setImage:[UIImage imageNamed:@"unchecked_circle.png"] forState:UIControlStateNormal];
-//
-//            [tempCityArraySelcted removeObject:str];
-//        }
-//        else {
-//            [ObjCirCell.selectbtnimg setImage:[UIImage imageNamed:@"blue_chk.png"] forState:UIControlStateNormal];
-//
-//            [tempCityArraySelcted addObject:str];
-//        }
+
     }else  if(buttonTapped == kButtonType){
 //        [tempArraySelcted removeAllObjects];
 //
@@ -1451,6 +1434,7 @@
                 }
                 else {
                     /**************** Chetu Change ************/
+                     //user able to select maximum of ten cities now.
                     if (tempCourseArraySelcted.count >= 10) {
                         [[AppDelegate sharedinstance] displayMessage:kMaxTenCitiesSelectAlertTitle];
                         
@@ -1480,9 +1464,9 @@
                 }
                 else {
                     /**************** Chetu Change ************/
+                     //user able to select maximum of ten cities now.
                     if (tempCourseArraySelcted.count >= 10) {
                         [[AppDelegate sharedinstance] displayMessage:kMaxTenCitiesSelectAlertTitle];
-                        //      [self showAlert:kMaxTenCitiesSelectAlertTitle];
                         
                     }else {
                         
@@ -1495,19 +1479,6 @@
             }
             
         }
-        
-
-        
-//        if ([tempCourseArraySelcted containsObject:str]) {
-//            [ObjCirCell.selectbtnimg setImage:[UIImage imageNamed:@"unchecked_circle.png"] forState:UIControlStateNormal];
-//
-//            [tempCourseArraySelcted removeObject:str];
-//        }
-//        else {
-//            [ObjCirCell.selectbtnimg setImage:[UIImage imageNamed:@"blue_chk.png"] forState:UIControlStateNormal];
-//
-//            [tempCourseArraySelcted addObject:str];
-//        }
     }
 
     

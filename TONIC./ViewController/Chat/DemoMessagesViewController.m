@@ -63,7 +63,8 @@
 
     [AppDelegate sharedinstance].currentScreen = kScreenChat;
 /***************** ChetuChange ***********/
- //   [QBSettings setStreamResumptionEnabled:YES];
+    // This line was caused to be application crashed because this api is not available in updated version of quickblox framework.
+//    [QBSettings setStreamResumptionEnabled:YES];
 /***************** ChetuChange ***********/
     self.demoData.messages = [[NSMutableArray alloc] init];
     
@@ -547,6 +548,7 @@
     NSMutableDictionary *dictUserData = [[[NSUserDefaults standardUserDefaults] objectForKey:kuserData] mutableCopy];
     params[@"senderNick"] = [[AppDelegate sharedinstance] nullcheck:[dictUserData objectForKey:@"userDisplayName"]];
 /************** ChetuChange *****************/
+    
     [qmessage setCustomParameters:params];
     
     QBChatDialog *dialog = customAmoDialog;

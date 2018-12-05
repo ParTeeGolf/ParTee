@@ -2,7 +2,7 @@
 //  NewsFeedVc.h
 //  ParTee
 //
-//  Created by Admin on 08/10/18.
+//  Created by Chetu India on 08/10/18.
 //  Copyright © 2018 Hooda. All rights reserved.
 //
 
