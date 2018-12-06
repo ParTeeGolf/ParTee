@@ -21,7 +21,7 @@
 {
     GMSMarker *courseMarker;
     UIImage *newImage;
-   
+    
 }
 @end
 
@@ -38,18 +38,18 @@
     [super viewDidLoad];
     
     tempCourseMapData = [[QBCOCustomObject alloc]init];
-   //  [[AppDelegate sharedinstance] showLoader];
+    //  [[AppDelegate sharedinstance] showLoader];
     [self drawRouteOnMap];
- 
+    
 }
 -(void)drawRouteOnMap
 {
     
-     self.navigationController.navigationBarHidden = YES;
+    self.navigationController.navigationBarHidden = YES;
     imgviewLoc.layer.masksToBounds = YES;
     imgviewLoc.layer.cornerRadius = 25.0;
     imgviewLoc.layer.cornerRadius = 25.0;
-   
+    
     [indicatorLocImage setHidden:YES];
     path = [GMSMutablePath path];
     
@@ -64,8 +64,8 @@
     [indicatorLocImage setHidden:NO];
     
     if([strFromScreen isEqualToString:kScreenCoursesMain]) {
-         dictCourseMapData = [arrCourseData objectAtIndex:(arrCourseData.count - 1)];
-        [arrCourseData removeObjectAtIndex:(arrCourseData.count - 1)];
+        dictCourseMapData = [arrCourseData objectAtIndex:0];
+        [arrCourseData removeObjectAtIndex:0];
         [self gotLocationFromMain];
     }
     else {
@@ -86,10 +86,11 @@
         tempCourseMapData = [arrCourseData objectAtIndex:i];
         
         NSArray *arrCoord = [tempCourseMapData.fields objectForKey:@"coordinates"];
-        
+        // pin type is parameter available on golfcurse table on quickblox that we need to ask for.
         if([arrCoord count]>0) {
-            NSString *strPinType =[[AppDelegate sharedinstance] nullcheck: [tempCourseMapData.fields objectForKey:@"pin_type"]];
+            //   NSString *strPinType =[[AppDelegate sharedinstance] nullcheck: [tempCourseMapData.fields objectForKey:@"pin_type"]];
             
+            NSString *strPinType = @"";
             if([strPinType length]==0) {
                 strPinType = @"type-1";
             }
@@ -119,8 +120,8 @@
             marker.snippet =  [NSString stringWithFormat:@"%i", i];
             marker.map = mapView;
             
-           [path addCoordinate: marker.position];
-        
+            [path addCoordinate: marker.position];
+            
             strlat = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlat];
             strlat = [[AppDelegate sharedinstance] nullcheck:strlat];
             
@@ -131,18 +132,18 @@
             placeCoord.latitude=[strlat doubleValue];
             placeCoord.longitude=[strlong doubleValue];
             
-     //       CLLocationCoordinate2D myposition = {  placeCoord.latitude, placeCoord.longitude };
-    //        scrplaceCoord = myposition;
+            //       CLLocationCoordinate2D myposition = {  placeCoord.latitude, placeCoord.longitude };
+            //        scrplaceCoord = myposition;
             
-//                        GMSMarker *mymarker1 = [GMSMarker markerWithPosition:myposition];
-//
-//                        mymarker1.icon = [UIImage imageNamed:@"type-my"];
-//
-//                        mymarker1.title = @"";//[NSString stringWithFormat:@"Marker %i", i];
-//                        mymarker1.appearAnimation = YES;
-//                        mymarker1.flat = YES;
-//                        mymarker1.snippet =  [NSString stringWithFormat:@"%i", 0];
-//                        mymarker1.map = mapView;
+            //                        GMSMarker *mymarker1 = [GMSMarker markerWithPosition:myposition];
+            //
+            //                        mymarker1.icon = [UIImage imageNamed:@"type-my"];
+            //
+            //                        mymarker1.title = @"";//[NSString stringWithFormat:@"Marker %i", i];
+            //                        mymarker1.appearAnimation = YES;
+            //                        mymarker1.flat = YES;
+            //                        mymarker1.snippet =  [NSString stringWithFormat:@"%i", 0];
+            //                        mymarker1.map = mapView;
             
             //    [path addCoordinate: mymarker1.position];
             
@@ -150,7 +151,7 @@
     }
     
     if([arrCourseData count]>0) {
-       
+        
         GMSCoordinateBounds *bounds = [[GMSCoordinateBounds alloc] initWithPath:path];
         [mapView animateWithCameraUpdate:[GMSCameraUpdate fitBounds:bounds]];
         [self gotLocation];
@@ -162,10 +163,12 @@
     
     NSArray *arrCoord = [dictCourseMapData.fields objectForKey:@"coordinates"];
     
+    // pin type is parameter available on golfcurse table on quickblox that we need to ask for.
     if([arrCoord count]>0) {
         
-        NSString *strPinType =[[AppDelegate sharedinstance] nullcheck: [dictCourseMapData.fields objectForKey:@"pin_type"]];
+        //   NSString *strPinType =[[AppDelegate sharedinstance] nullcheck: [dictCourseMapData.fields objectForKey:@"pin_type"]];
         
+        NSString *strPinType = @"";
         if([strPinType length]==0) {
             strPinType = @"type-1";
         }
@@ -300,10 +303,10 @@
     // Show user profile image at users current location according to requirement
     // only profile image only if map screen disply it will not display if user come from three dot popup map screen
     if([strFromScreen isEqualToString:kScreenCoursesSub]) {
-    //    [[AppDelegate sharedinstance] showLoader];
+        //    [[AppDelegate sharedinstance] showLoader];
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
                        ^{
-
+                           
                            NSDictionary *dictUserDetails = [[NSUserDefaults standardUserDefaults] objectForKey:kuserData];
                            NSString *strname = [dictUserDetails objectForKey:@"userPicBase"];
                            NSURL *urlImg = [NSURL URLWithString:strname];
@@ -327,12 +330,12 @@
                                
                                UIGraphicsEndImageContext();
                                courseMarker.icon = newImage;
-                             
+                               
                            });
                        });
         
     }else {
-      //  [[AppDelegate sharedinstance] showLoader];
+        //  [[AppDelegate sharedinstance] showLoader];
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
                        ^{
                            
@@ -347,7 +350,7 @@
                                
                                
                                UIImage *newBottomImage = [UIImage imageWithData:imageData];
-                               UIImage *bottomImage = [self roundedRectImageFromImage:newBottomImage size:CGSizeMake(70.8, 70.8) withCornerRadius:70.8];
+                               UIImage *bottomImage = [self roundedRectImageFromImage:newBottomImage size:CGSizeMake(70.8, 70.8) withCornerRadius:72];
                                UIImage *image       = [UIImage imageNamed:kUserMapProfileBackgrooundIcon]; //foreground image
                                
                                CGSize newSize = CGSizeMake(150, 150);
@@ -360,7 +363,7 @@
                                
                                UIGraphicsEndImageContext();
                                courseMarker.icon = newImage;
-                          
+                               
                                
                            });
                        });
@@ -530,7 +533,7 @@
       parameters:nil
          success:^(AFHTTPRequestOperation *operation, id responseObject) {
              //do stuff
-           
+             
              [[AppDelegate sharedinstance] hideLoader];
              NSDictionary *json = (NSDictionary * ) responseObject;
              
@@ -544,12 +547,12 @@
                  singleLine.strokeColor = [UIColor colorWithRed:0.000 green:0.655 blue:0.247 alpha:1.00];
                  singleLine.map = mapView;
              }
-              [self getUserProfileImage];
+             [self getUserProfileImage];
              
          }
          failure:^(AFHTTPRequestOperation *operation, NSError *error) {
              //show error
-              [self getUserProfileImage];
+             [self getUserProfileImage];
              [[AppDelegate sharedinstance] hideLoader];
              [[AppDelegate sharedinstance] displayMessage:@"Some error occured"];
          }];

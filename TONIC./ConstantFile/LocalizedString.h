@@ -212,8 +212,6 @@ static NSString *const kCourseState             = @"State";
 static NSString *const kCourseCity              = @"City";
 static NSString *const kEventNo                 = @"NO";
 static NSString *const kEventYes                = @"YES";
-static NSString *const kDetailsSaved                =@"Details successfully saved";
-
 /************* Event Search Screen constants *************/
 
 /************* Event Screen constants *************/
@@ -288,7 +286,7 @@ static NSString *const kLargeTitle      = @"Large";
 static NSString *const kSmallTitle      = @"Small";
 static NSString *const kShareTitle      = @"Share";
 static NSString *const kTextSmall       = @"document.getElementsByTagName('body')[0].style.webkitTextFillColor= 'white';document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust='140%%';DOMReady();";
-static NSString *const kEmailRegExp    = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
+
 /************ News feed Constants ************/
 
 

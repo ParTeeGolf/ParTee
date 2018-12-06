@@ -2,17 +2,13 @@
 //  EventTableViewCell.m
 //  ParTee
 //
-//  Created by Chetu India on 03/09/18.
+//  Created by Admin on 03/09/18.
 //  Copyright © 2018 Hooda. All rights reserved.
 //
 
 #import "EventTableViewCell.h"
 
 @implementation EventTableViewCell
-{
-    // outlet for image of the event available in event table on quickblox.
-    IBOutlet UIImageView *imgEvent;
-}
 #pragma mark- awakeFromNib
 /**
  @Description
@@ -35,9 +31,9 @@
 #pragma mark- setDataFromEventObject
 -(void)setEventDataFromQbObj:(QBCOCustomObject *)obj {
   
-    [imgEvent setShowActivityIndicatorView:YES];
-    [imgEvent setIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-    [imgEvent sd_setImageWithURL:[NSURL URLWithString:[[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:kEventCellImgUrl]]] placeholderImage:[UIImage imageNamed:kEventCellDefaultImg]];
+    [self.imgEvent setShowActivityIndicatorView:YES];
+    [self.imgEvent setIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    [self.imgEvent sd_setImageWithURL:[NSURL URLWithString:[[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:kEventCellImgUrl]]] placeholderImage:[UIImage imageNamed:kEventCellDefaultImg]];
 }
 
 /**
@@ -50,9 +46,9 @@
 #pragma mark- setDataFromEventObject
 -(void)setAdEventDataFromQbObj:(QBCOCustomObject *)obj {
     
-    [imgEvent setShowActivityIndicatorView:YES];
-    [imgEvent setIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-    [imgEvent sd_setImageWithURL:[NSURL URLWithString:[[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:kAdEventCellImgUrl]]] placeholderImage:[UIImage imageNamed:kEventCellDefaultImg]];
+    [self.imgEvent setShowActivityIndicatorView:YES];
+    [self.imgEvent setIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    [self.imgEvent sd_setImageWithURL:[NSURL URLWithString:[[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:kAdEventCellImgUrl]]] placeholderImage:[UIImage imageNamed:kEventCellDefaultImg]];
 }
 /**
  @Description

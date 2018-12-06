@@ -27,25 +27,27 @@
     int currentPageGetAllUser;
     int isFromSendRequestToUser;
     
+    
     /************* ChetuChange *********/
 }
-
+/*********** ChetuChnage ************/
 @property (strong, nonatomic) UIButton *fetchPrevRecordBtn;
 @property (strong, nonatomic) UILabel  *recordLbl;
 @property (strong, nonatomic) UIButton *fetchNextRecordBtn;
 @property (strong, nonatomic) UIButton *fecthInitialRecordBtn;
-
+/*********** ChetuChnage ************/
 @end
 
 @implementation ViewUsersViewController
 @synthesize tblList;
 @synthesize strIsMyMatches;
+/*********** ChetuChnage ************/
 @synthesize fetchPrevRecordBtn;
 @synthesize recordLbl;
 @synthesize fetchNextRecordBtn;
 @synthesize fecthInitialRecordBtn;
 @synthesize fecthNextPrevRecordsBaseVIew;
-
+/*********** ChetuChnage ************/
 
 -(void) showcustomnotification{
     
@@ -170,8 +172,6 @@
         [self getAllUsers];
     }
    /************ ChetuChange *************/
-    
-    // set the frame lblNotAvailable dynamically.
     lblNotAvailable.frame = CGRectMake((self.view.frame.size.width - lblNotAvailable.frame.size.width )/2, (self.view.frame.size.height - lblNotAvailable.frame.size.height )/2, lblNotAvailable.frame.size.width, lblNotAvailable.frame.size.height);
     nearMe = @"NO";
     segmentControll.selectedSegmentIndex = 0;
@@ -308,7 +308,7 @@
     }else {
         
     }
-   
+    /************ ChetuChange  ************/
     if([strinterested_in_location length]>0) {
         
         if(![strinterested_in_location isEqualToString:@"150"]) {
@@ -582,19 +582,21 @@
             [getRequest setObject:strinterested_in_home_course forKey:@"home_coursename[in]"];
     }
     /************* ChetuChange ***********/
-    // role 1 defined as professional while 0 is defined as golfers.
     NSString *role = [self IsPro] ? @"1" : @"0";
     
-    // set the user from professional or golfers.
-    [getRequest setObject:role forKey:@"UserRole"];
     
-     // This will find the users within 150 mile range if user select nearme option from segment control.
+    [getRequest setObject:role forKey:@"UserRole"];
+    /************* ChetuChange ***********/
+    
     NSString *strinterested_in_location =[[AppDelegate sharedinstance] nullcheck:[dictUserSearchData objectForKey:@"Location"]];
-   
+    /************ ChetuChange  ************/
+    
+    // This will find the users within 150 mile range if user select nearme option from segment control.
     if ([nearMe isEqualToString: @"YES"]) {
         strinterested_in_location = @"100";
+    }else {
+        
     }
-    
     /************ ChetuChange  ************/
     if([strinterested_in_location length]>0) {
         
@@ -812,17 +814,20 @@
             [getRequest setObject:strinterested_in_home_course forKey:@"home_coursename[in]"];
     }
     /************* ChetuChange ***********/
-      // role 1 defined as professional while 0 is defined as golfers.
     NSString *role = [self IsPro] ? @"1" : @"0";
     
     
     [getRequest setObject:role forKey:@"UserRole"];
-   
-    // This will find the users within 100 mile range if user select nearme option from segment control.
-    NSString *strinterested_in_location =[[AppDelegate sharedinstance] nullcheck:[dictUserSearchData objectForKey:@"Location"]];
+    /************* ChetuChange ***********/
     
+    NSString *strinterested_in_location =[[AppDelegate sharedinstance] nullcheck:[dictUserSearchData objectForKey:@"Location"]];
+    /************ ChetuChange  ************/
+    
+    // This will find the users within 100 mile range if user select nearme option from segment control.
     if ([nearMe isEqualToString: @"YES"]) {
         strinterested_in_location = @"100";
+    }else {
+        
     }
     /************ ChetuChange  ************/
     if([strinterested_in_location length]>0) {
@@ -1053,7 +1058,7 @@
         }
     }
 }
-
+/*********** ChetuChnage ************/
 #pragma mark - Create Record Base View
 // Create Record baseView prograrmmatically
 -(void)createRecordBaseView {
@@ -1109,6 +1114,7 @@
     fecthInitialRecordBtn.hidden = true;
 }
 
+/************* ChetuChange ***********/
 
 - (IBAction)segmentChanged:(id)sender {
     

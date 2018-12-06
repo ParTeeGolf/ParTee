@@ -48,10 +48,10 @@
     BOOL isFavCourse;
     
     QBCOCustomObject *sharedobj ;
-  
+   /*********** ChetuChnage ************/
     IBOutlet UIView *loadRecordBaseV;
     IBOutlet NSLayoutConstraint *recordLoadBaseViewHeightConst;
-   
+    /*********** ChetuChnage ************/
     IBOutlet UIImageView *searchImgView;
     CLLocationCoordinate2D desplaceCoord;
     CLLocationCoordinate2D scrplaceCoord;

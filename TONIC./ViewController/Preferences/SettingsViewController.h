@@ -55,7 +55,7 @@
     IBOutlet UIPickerView *pickerView;
     IBOutlet UIView *minMaxView;
     /*********** ChetuChange **********/
-    // Hide handicap segment as per suggestion after change to switch button.
+    // Hide handicap segment as per suggestion after change to switch
    //  IBOutlet UISegmentedControl *btnNA;
     /*********** ChetuChange **********/
     IBOutlet UISegmentedControl *minMax;

@@ -2,7 +2,7 @@
 //  EventViewController.m
 //  ParTee
 //
-//  Created by Chetu India on 24/08/18.
+//  Created by Admin on 24/08/18.
 //  Copyright © 2018 Hooda. All rights reserved.
 //
 
@@ -228,6 +228,8 @@
     [getRequestObjectCount setObject:kEventOneStr forKey:kEventCount];
     
     [QBRequest countObjectsWithClassName:kAdEventTblName extendedRequest:getRequestObjectCount successBlock:^(QBResponse * _Nonnull response, NSUInteger count) {
+        
+        NSLog(@"%lu",(unsigned long)count);
         
         // Total number of advertisment events available in AdEvent table on Quickblox
         totalAdvertEventCount = (int)count;
@@ -1156,6 +1158,7 @@
             //  (Title of Event, Date of Event, Location of Event, info text of event.)
             NSString *titleEvent = [[AppDelegate sharedinstance] nullcheck:[sharedobj.fields objectForKey:kEventTitleParam]];
             NSString *startDateEvent = [[AppDelegate sharedinstance] nullcheck:[sharedobj.fields objectForKey:kEventStartDate]];
+          //  startDateEvent = @"2018-11-29T15:23:00Z";
             NSString *addressEvent = [[AppDelegate sharedinstance] nullcheck:[objEventGolfCourse.fields objectForKey:kEventAddParam]];
             NSString *descEvent = [[AppDelegate sharedinstance] nullcheck:[sharedobj.fields objectForKey:kEventDescParam]];
             EKEventStore *store = [EKEventStore new];
@@ -1185,7 +1188,7 @@
                 
                 NSError *err = nil;
                 [store saveEvent:event span:EKSpanThisEvent commit:YES error:&err];
-             
+                NSString *eventId = event.eventIdentifier;  //save the event id if you want to access this later
             }];
         }
         
@@ -1298,8 +1301,6 @@
         [arrEventsData replaceObjectAtIndex:totalAdvEventsCount withObject:obj];
         [eventTblView setContentOffset:eventTblView.contentOffset animated:NO];
         [eventTblView reloadData];
-
-        // create Event on calender as suggested but changed.
         
 //        if ([createNotificationStr isEqualToString:@"YES"]) {
 //            [self createLocalNotifEvent:totalAdvEventsCount];

@@ -410,9 +410,6 @@
         NSMutableDictionary *dictUserData = [[[NSUserDefaults standardUserDefaults] objectForKey:kuserData] mutableCopy];
  
         /************ ChetuChange ************/
-        
-        // Purchase connect functionlity hase been removed from the application.
-        
 //        if(![[dictUserData objectForKey:@"userFullMode"] isEqualToString:@"1"]){
 //
 //            NSString *struserWeeklyConnects =  [dictUserData objectForKey:@"userFreeConnects"];

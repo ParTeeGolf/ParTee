@@ -159,14 +159,12 @@
 
 - (IBAction) donePressed:(id)sender  {
  /********** ChetuChange *************/
-    
-    // This condition was wrong implemented.
  //   if([arrSelected count]>0 || arrData.count==0) {
     
-    if([arrSelected count] > 0) {
+    if([arrSelected count]>0) {
 /********** ChetuChange *************/
         [AppDelegate sharedinstance].delegateShareObject = [arrSelected objectAtIndex:0];
-     
+      // [self dismissViewControllerAnimated:YES completion:nil];
         [self.navigationController popViewControllerAnimated:YES];
     }
     else {

@@ -1480,7 +1480,6 @@ NSString *const constZipcodeLimit = @"Maximum 10 Characters allowed for Zipcode.
                 [[AppDelegate sharedinstance] setStringObj:@"0" forKey:@"userPurchasedConnects"];
                 [[AppDelegate sharedinstance] setStringObj:@"10" forKey:@"userFreeConnects"];
  /********** ChetuChange *************/
-                // Set the parameters because due to which records are not fetched coorectly.
                 [localObject.fields setObject:@"0" forKey:@"userPurchasedConnects"];
                 [localObject.fields setObject:@"10" forKey:@"userFreeConnects"];
   /********** ChetuChange *************/
