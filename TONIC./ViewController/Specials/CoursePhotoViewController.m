@@ -57,9 +57,8 @@
     [getRequest setObject:kLimit1 forKey:@"limit"];
 
     [getRequest setObject: courseID forKey:@"_parent_id"];
-    
+
     [getRequest setObject: @"Order" forKey:@"sort_asc"];
-    
     
     [[AppDelegate sharedinstance] showLoader];
     

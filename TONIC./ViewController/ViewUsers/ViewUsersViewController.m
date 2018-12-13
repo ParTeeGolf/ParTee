@@ -26,7 +26,9 @@
     UIView *loadRecordBaseView;
     int currentPageGetAllUser;
     int isFromSendRequestToUser;
-    
+   
+    // this holds the value Yes if user gone to map screen and return back from map screen in order not to refresh the page.
+    BOOL isFromMapScreen;
     
     /************* ChetuChange *********/
 }
@@ -57,7 +59,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-   
+    isFromMapScreen = NO;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadusers) name:@"reloadusers" object:nil];
 
     [AppDelegate sharedinstance].arrContactListIDs = [[NSMutableArray alloc] init];
@@ -95,89 +97,95 @@
 -(BOOL) prefersStatusBarHidden {
     return NO;
 }
-
+isFromMapScreen = YES;
 -(void) viewWillAppear:(BOOL)animated {
 
-    [[AppDelegate sharedinstance] showLoader];
-  //  [tblList setContentOffset:tblList.contentOffset animated:NO];
-    tblList.userInteractionEnabled = NO;
-    [tblList setScrollEnabled: false];
-    _currentPage=0;
-    currentPageGetAllUser = 0;
-    isFromSendRequestToUser = 0;
-    
-    arrData = [[NSMutableArray alloc] init];
- //   arrDialogData = [[NSMutableArray alloc] init];
- //   arrFinalUserData = [[NSMutableArray alloc] init];
- //   arrFinalDialogData = [[NSMutableArray alloc] init];
-    arrConnections = [[NSMutableArray alloc] init];
-
-   
-    [AppDelegate sharedinstance].strIsChatConnected = @"0";
-    if([strIsMyMatches isEqualToString:@"1"]) {
-        nextPrevBaseViewHeightConstraints.constant = 0;
-        loadRecordBaseView.hidden = true;
-        searchImgView.hidden = true;
-        btnSettingsBig.hidden = true;
-        btnSettingsSmall.hidden = true;
+    if (isFromMapScreen) {
         
-        [AppDelegate sharedinstance].currentScreen = kScreenusers;
-
-        [AppDelegate sharedinstance].strIsMyMatches = @"1";
-
-         lblTitle.text = @"My Friends";
-        [btnSettingsBig setHidden:YES];
-        [btnSettingsSmall setHidden:YES];
+        isFromMapScreen = NO;
+    }else{
         
-        QBUUser *currentUser = [QBSession currentSession].currentUser;
-        currentUser.password = [[AppDelegate sharedinstance] getStringObjfromKey:kuserPassword];
+        [[AppDelegate sharedinstance] showLoader];
+      
+        tblList.userInteractionEnabled = NO;
+        [tblList setScrollEnabled: false];
+        _currentPage=0;
+        currentPageGetAllUser = 0;
+        isFromSendRequestToUser = 0;
         
-        if([[[AppDelegate sharedinstance] sharedChatInstance] isConnected]) {
+        arrData = [[NSMutableArray alloc] init];
+        
+        arrConnections = [[NSMutableArray alloc] init];
+        
+        
+        [AppDelegate sharedinstance].strIsChatConnected = @"0";
+        if([strIsMyMatches isEqualToString:@"1"]) {
+            nextPrevBaseViewHeightConstraints.constant = 0;
+            loadRecordBaseView.hidden = true;
+            searchImgView.hidden = true;
+            btnSettingsBig.hidden = true;
+            btnSettingsSmall.hidden = true;
             
-           
-            arrDialogData = [[NSMutableArray alloc] init];
-            [self getContact];
+            [AppDelegate sharedinstance].currentScreen = kScreenusers;
+            
+            [AppDelegate sharedinstance].strIsMyMatches = @"1";
+            
+            lblTitle.text = @"My Friends";
+            [btnSettingsBig setHidden:YES];
+            [btnSettingsSmall setHidden:YES];
+            
+            QBUUser *currentUser = [QBSession currentSession].currentUser;
+            currentUser.password = [[AppDelegate sharedinstance] getStringObjfromKey:kuserPassword];
+            
+            if([[[AppDelegate sharedinstance] sharedChatInstance] isConnected]) {
+                
+                
+                arrDialogData = [[NSMutableArray alloc] init];
+                [self getContact];
+            }
+            else {
+                // if chat is not connecting, other features should work
+                
+                [self performSelector:@selector(letotherfeatureswork) withObject:nil afterDelay:10.f];
+                
+                
+                // connect to Chat
+                [[AppDelegate sharedinstance].sharedChatInstance connectWithUser:currentUser completion:^(NSError * _Nullable error) {
+                    
+                    if(!error) {
+                        [AppDelegate sharedinstance].strIsChatConnected = @"1";
+                        
+                        arrDialogData = [[NSMutableArray alloc] init];
+                        [self getContact];
+                    }
+                    
+                    
+                }];
+            }
+            
+            //[self getMyContacts];
         }
         else {
-            // if chat is not connecting, other features should work
-           
-            [self performSelector:@selector(letotherfeatureswork) withObject:nil afterDelay:10.f];
-
+            [AppDelegate sharedinstance].currentScreen = kScreenOther;
             
-            // connect to Chat
-            [[AppDelegate sharedinstance].sharedChatInstance connectWithUser:currentUser completion:^(NSError * _Nullable error) {
-                
-                if(!error) {
-                    [AppDelegate sharedinstance].strIsChatConnected = @"1";
-                    
-                    arrDialogData = [[NSMutableArray alloc] init];
-                    [self getContact];
-                }
-           
-
-            }];
+            [AppDelegate sharedinstance].strIsMyMatches = @"0";
+            
+            [btnSettingsBig setHidden:NO];
+            [btnSettingsSmall setHidden:NO];
+            lblTitle.text = [self IsPro] ? @"Pros" : @"Golfers";
+            currentPageGetAllUser = 0;
+            [self getAllUsers];
         }
-
-         //[self getMyContacts];
+        
+        lblNotAvailable.frame = CGRectMake((self.view.frame.size.width - lblNotAvailable.frame.size.width )/2, (self.view.frame.size.height - lblNotAvailable.frame.size.height )/2, lblNotAvailable.frame.size.width, lblNotAvailable.frame.size.height);
+        nearMe = @"NO";
+        segmentControll.selectedSegmentIndex = 0;
+        fetchPrevRecordBtn.hidden = true;
+        fecthInitialRecordBtn.hidden = true;
     }
-    else {
-        [AppDelegate sharedinstance].currentScreen = kScreenOther;
+    
 
-        [AppDelegate sharedinstance].strIsMyMatches = @"0";
-
-        [btnSettingsBig setHidden:NO];
-        [btnSettingsSmall setHidden:NO];
-        lblTitle.text = [self IsPro] ? @"Pros" : @"Golfers";
-        currentPageGetAllUser = 0;
-        [self getAllUsers];
-    }
-   /************ ChetuChange *************/
-    lblNotAvailable.frame = CGRectMake((self.view.frame.size.width - lblNotAvailable.frame.size.width )/2, (self.view.frame.size.height - lblNotAvailable.frame.size.height )/2, lblNotAvailable.frame.size.width, lblNotAvailable.frame.size.height);
-    nearMe = @"NO";
-    segmentControll.selectedSegmentIndex = 0;
-    fetchPrevRecordBtn.hidden = true;
-    fecthInitialRecordBtn.hidden = true;
-    /************ ChetuChange *************/
+   
     
 }
 -(void) refreshdialogs {
@@ -1836,6 +1844,7 @@
     }
         
     viewController.strEmailOfUser = userEmail;
+    isFromMapScreen = YES;
     [self.navigationController pushViewController:viewController animated:YES];
     
 }
@@ -1930,7 +1939,7 @@
     
     viewController.userID = sender.proID;
     viewController.strCameFrom = @"6";
-    
+    isFromMapScreen = YES;
     [self.navigationController pushViewController:viewController animated:YES];
 }
 @end

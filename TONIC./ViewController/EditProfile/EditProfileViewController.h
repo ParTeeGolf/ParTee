@@ -24,7 +24,7 @@
     IBOutlet UIView *viewSave;
     NSString *strHomeCourseID;
 
-    NSMutableArray *arrHomeCourses;
+    
     
     NSMutableArray *arrHomeCoursesObjects;
     
@@ -33,11 +33,13 @@
     QBCOCustomObject *object;
     NSArray *arrData;
     
-    NSArray *arrTypeList;
+    NSArray        *arrTypeList;
     NSMutableArray *arrCityList;
     NSMutableArray *arrStateList;
     NSMutableArray *arrHandicapList;
-
+    NSMutableArray *arrHomeCourses;
+    
+    
     int imageChosen;
 
     IBOutlet UIPickerView *pickerView;

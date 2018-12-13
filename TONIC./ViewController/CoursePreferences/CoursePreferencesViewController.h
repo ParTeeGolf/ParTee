@@ -36,6 +36,7 @@
     NSMutableArray *arrNameList;
     NSMutableArray *arrzipcodeList;
     NSMutableArray *arramenitiesList;
+    NSMutableArray *arrHolesList;
     
     
     IBOutlet UIScrollView *scrollViewContainer;

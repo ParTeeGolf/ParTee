@@ -21,7 +21,11 @@
 
 @interface PurchaseSpecialsViewController ()
 {
-     UIImageView *imgViewUser2;
+ 
+    IBOutlet UIImageView *imgViewHole;
+    IBOutlet UILabel *lblHoel;
+    NSString *strHoles;
+    UIImageView *imgViewUser2;
      UIButton *btnPlus;
      UIButton *btnInfo;
      UIButton *btnSelectUser;
@@ -41,6 +45,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    strHoles = @"";
     firstTimeViewLoad = 0;
     
     arrAmenities          = [[NSMutableArray alloc] init];
@@ -144,6 +149,8 @@
         str1 = [str1 uppercaseString];
         [lblName setText:str1];
         
+     //   lblName.text = @"njklh sdghkjkbn ijhd ksh djabh ajd jkbas j jk j bk abdgs dhadgs ash hbv ckh";
+        
         str1 = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"Address"]];
         
         NSString *strCity= [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"City"]];
@@ -152,6 +159,8 @@
         
         str1 = [NSString stringWithFormat:@"%@, %@, %@ %@",str1,strCity,strState,strZipCode];
         [lblAddress setText:str1];
+   
+     //    lblAddress.text = @"njklh sdghkjkbn ijhd ksh djabh ajd jkbas j jk j bk abdgs dhadgs ash hbv ckh";
         
         str1 = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"ContactNumber"]];
         [lblContactNum setTitle:str1 forState:UIControlStateNormal];
@@ -165,6 +174,8 @@
         str1 = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"booking"]];
         [lblbooking setTitle:str1 forState:UIControlStateNormal];
  
+         NSString *numberOfHolesAvailCourse =  [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"NumberHoles"]];
+        lblHoel.text = [NSString stringWithFormat:@"%@", numberOfHolesAvailCourse];
         NSArray *items ;
 
         /************ Chetu Change **********/
@@ -172,6 +183,7 @@
         
         str1  = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"amenities_temp"]];
         items = [[[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"amenities_temp"]] copy];
+       
         
     //    str1 = [obj.fields objectForKey:@"amenities_temp"];
    //     items =[[obj.fields objectForKey:@"amenities_temp"] copy];
@@ -205,9 +217,10 @@
                 }
                 
                 [collectionViewData reloadData];
-            }
-            else {
-             //   [btnNext setHidden:YES];
+            }else {
+              
+                    amentiesLbl.hidden = YES;
+               
             }
             
         }
@@ -239,14 +252,14 @@
                 [collectionViewData reloadData];
             }
             else {
+                
+                  amentiesLbl.hidden = YES;
              //   [btnNext setHidden:YES];
             }
             
         }
         
-        if (items.count == 0) {
-            amentiesLbl.hidden = YES;
-        }
+       
         [imageUrl setShowActivityIndicatorView:YES];
         [imageUrl setIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
         [imageUrl sd_setImageWithURL:[NSURL URLWithString:[obj.fields objectForKey:@"ImageUrl"]] placeholderImage:[UIImage imageNamed:@"imgplaceholder.jpg"]];
@@ -367,6 +380,11 @@
     str1 = [str1 uppercaseString];
     [lblName setText:str1];
     
+    
+   
+    
+   //  lblName.text = @"njklh sdghkjkbn ijhd ksh djabh ajd jkbas j jk j bk abdgs dhadgs ash hbv ckh";
+    
     str1 = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"Address"]];
     
     NSString *strCity= [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"City"]];
@@ -375,6 +393,11 @@
     
     str1 = [NSString stringWithFormat:@"%@, %@, %@ %@",str1,strCity,strState,strZipCode];
     [lblAddress setText:str1];
+    
+    
+ //   lblAddress.text = @"njklh sdghkjkbn ijhd ksh djabh ajd jkbas j jk j bk abdgs dhadgs ash hbv ckh";
+    
+    
     
     str1 = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"ContactNumber"]];
     [lblContactNum setTitle:str1 forState:UIControlStateNormal];
@@ -391,6 +414,8 @@
  //   str1 = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"Amenities"]];
      str1 = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"amenities_temp"]];
     
+     NSString *numberOfHolesAvailCourse =  [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"NumberHoles"]];
+     lblHoel.text = [NSString stringWithFormat:@"%@", numberOfHolesAvailCourse];
     NSArray *items = [str1 componentsSeparatedByString:@","];
     NSMutableString * bulletList = [NSMutableString stringWithCapacity:items.count*30];
     
@@ -402,6 +427,16 @@
     tvAmenities.text = bulletList;
     arrAmenities = [items mutableCopy];
     
+    for (NSString *strHole in arrAmenities) {
+        
+        
+        if ([strHole localizedCaseInsensitiveContainsString:@"hole"]) {
+            
+            strHoles = [NSString stringWithFormat:@"%@\n%@", strHoles, strHole];
+        }
+    }
+   
+    //   lblHole.text = strHoles;
     if([arrAmenities count]==0) {
         [collectionViewData setHidden:YES];
         [self hideOrShowAmenties:YES];
@@ -500,8 +535,13 @@
     str1 = [str1 uppercaseString];
     [lblName setText:str1];
 
+    //  lblName.text = @"njklh sdghkjkbn ijhd ksh djabh ajd jkbas j jk j bk abdgs dhadgs ash hbv ckh";
+    
     str1 = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"Address"]];
     [lblAddress setText:str1];
+    
+    
+//    lblAddress.text = @"njklh sdghkjkbn ijhd ksh djabh ajd jkbas j jk j bk abdgs dhadgs ash hbv ckh";
     
     str1 = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"ContactNumber"]];
     [lblContactNum setTitle:str1 forState:UIControlStateNormal];
@@ -518,6 +558,8 @@
     
      str1 = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"amenities_temp"]];
     
+     NSString *numberOfHolesAvailCourse =  [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"NumberHoles"]];
+     lblHoel.text = [NSString stringWithFormat:@"%@", numberOfHolesAvailCourse];
 //    str1 = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"Amenities"]];
     
     NSArray *items = [str1 componentsSeparatedByString:@","];
@@ -555,6 +597,20 @@
     
     arrAmenities = [items mutableCopy];
 
+    for (NSString *strHole in arrAmenities) {
+        
+        
+        if ([strHole localizedCaseInsensitiveContainsString:@"hole"]) {
+            
+            strHoles = [NSString stringWithFormat:@"%@\n%@", strHoles, strHole];
+        }
+    }
+    
+    if ([strHoles isEqualToString:@""]) {
+     //  lblHole.hidden = YES;
+    }
+    
+    //  lblHole.text = strHoles;
     if([arrAmenities count]==0) {
         [collectionViewData setHidden:YES];
           [self hideOrShowAmenties:YES];
@@ -578,7 +634,6 @@
     
     [collectionViewData reloadData];
 }
-#pragma mark- update views programmaticallyy
 
 //update views according to device that have been created using xib
 -(void)updateConstarintsProgrammatically {
@@ -622,8 +677,10 @@
     
     imageUrl.frame = CGRectMake(0,10 , width, 180);
     narrowLineView1.frame = CGRectMake(0, 10, width, 180);
-    lblName.frame = CGRectMake(5, 111, width - 10, 54);
-    lblAddress.frame = CGRectMake(5, 33, width - 10, 46);
+    imgViewHole.frame = CGRectMake(10, 30, 100, 100);
+    lblHoel.frame = CGRectMake(50, 68, 40, 40);
+    lblName.frame = CGRectMake(5, 140, width - 10, 30);
+    lblAddress.frame = CGRectMake(5, 160, width - 10, 30);
     btnFav.frame = CGRectMake(width - 62, 0, 51, 62);
     btnFavImage.frame = CGRectMake(width - 8 - 16, 27, 8, 27);
     //  btnFav.backgroundColor = [UIColor redColor];
@@ -986,7 +1043,8 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section {
     NSString *trimmedString = [strName stringByTrimmingCharactersInSet:
                                [NSCharacterSet whitespaceAndNewlineCharacterSet]];
    
-    [cell.imgViewUser setImage:[UIImage imageNamed:trimmedString]];
+    UIImage *amentyImage = [UIImage imageNamed:trimmedString];
+    [cell.imgViewUser setImage:amentyImage];
     [cell.lblUserName setText:strName];
     
     // Return the cell
@@ -1097,10 +1155,8 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section {
      NSArray * activityItems = @[[NSString stringWithFormat:@"Check out this Course I found in the ParTee App! \n\n %@ \n %@ %@ \n %@",courseName, address, cityName, websiteName]];
     
     NSArray * applicationActivities = nil;
-    NSArray * excludeActivities = @[UIActivityTypeAssignToContact, UIActivityTypeCopyToPasteboard, UIActivityTypePostToWeibo, UIActivityTypePrint, UIActivityTypeMessage];
     
     UIActivityViewController * activityController = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:applicationActivities];
-    activityController.excludedActivityTypes = excludeActivities;
     
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
     {

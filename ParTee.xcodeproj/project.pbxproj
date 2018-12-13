@@ -447,21 +447,21 @@
 		3DA1387D1F3DBACF0000189A /* Bar.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DA1384C1F3DBACF0000189A /* Bar.png */; };
 		3DA1387E1F3DBACF0000189A /* Beverage Service.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DA1384D1F3DBACF0000189A /* Beverage Service.png */; };
 		3DA1387F1F3DBACF0000189A /* Billiards.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DA1384E1F3DBACF0000189A /* Billiards.png */; };
-		3DA138801F3DBACF0000189A /* Business Lounge.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DA1384F1F3DBACF0000189A /* Business Lounge.png */; };
+		3DA138801F3DBACF0000189A /* Business Center.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DA1384F1F3DBACF0000189A /* Business Center.png */; };
 		3DA138811F3DBACF0000189A /* Caddy Hire.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DA138501F3DBACF0000189A /* Caddy Hire.png */; };
 		3DA138821F3DBACF0000189A /* Club Fittings.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DA138511F3DBACF0000189A /* Club Fittings.png */; };
 		3DA138831F3DBACF0000189A /* Club Rental.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DA138521F3DBACF0000189A /* Club Rental.png */; };
 		3DA138841F3DBACF0000189A /* Club Repair.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DA138531F3DBACF0000189A /* Club Repair.png */; };
 		3DA138851F3DBACF0000189A /* Cold Towel.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DA138541F3DBACF0000189A /* Cold Towel.png */; };
 		3DA138861F3DBACF0000189A /* Desert.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DA138551F3DBACF0000189A /* Desert.png */; };
-		3DA138871F3DBACF0000189A /* Dining.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DA138561F3DBACF0000189A /* Dining.png */; };
+		3DA138871F3DBACF0000189A /* Fine Dining.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DA138561F3DBACF0000189A /* Fine Dining.png */; };
 		3DA138881F3DBACF0000189A /* Drink Cart.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DA138571F3DBACF0000189A /* Drink Cart.png */; };
 		3DA138891F3DBACF0000189A /* Driving Range.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DA138581F3DBACF0000189A /* Driving Range.png */; };
 		3DA1388A1F3DBACF0000189A /* Eco-Friendly.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DA138591F3DBACF0000189A /* Eco-Friendly.png */; };
 		3DA1388B1F3DBACF0000189A /* Executive Par 3.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DA1385A1F3DBACF0000189A /* Executive Par 3.png */; };
-		3DA1388C1F3DBACF0000189A /* Game Room.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DA1385B1F3DBACF0000189A /* Game Room.png */; };
+		3DA1388C1F3DBACF0000189A /* Casino.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DA1385B1F3DBACF0000189A /* Casino.png */; };
 		3DA1388D1F3DBACF0000189A /* Golf Pro.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DA1385C1F3DBACF0000189A /* Golf Pro.png */; };
-		3DA1388E1F3DBACF0000189A /* Gym.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DA1385D1F3DBACF0000189A /* Gym.png */; };
+		3DA1388E1F3DBACF0000189A /* Fitness Center.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DA1385D1F3DBACF0000189A /* Fitness Center.png */; };
 		3DA1388F1F3DBACF0000189A /* Handicap Cart.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DA1385E1F3DBACF0000189A /* Handicap Cart.png */; };
 		3DA138901F3DBACF0000189A /* Locker Room.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DA1385F1F3DBACF0000189A /* Locker Room.png */; };
 		3DA138911F3DBACF0000189A /* Lodging On Site.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DA138601F3DBACF0000189A /* Lodging On Site.png */; };
@@ -472,12 +472,12 @@
 		3DA138961F3DBACF0000189A /* Pool.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DA138651F3DBACF0000189A /* Pool.png */; };
 		3DA138971F3DBACF0000189A /* Pro Shop.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DA138661F3DBACF0000189A /* Pro Shop.png */; };
 		3DA138981F3DBACF0000189A /* Pub.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DA138671F3DBACF0000189A /* Pub.png */; };
-		3DA1389A1F3DBACF0000189A /* Reception Hall.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DA138691F3DBACF0000189A /* Reception Hall.png */; };
+		3DA1389A1F3DBACF0000189A /* Event Facilities.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DA138691F3DBACF0000189A /* Event Facilities.png */; };
 		3DA1389B1F3DBACF0000189A /* Resort.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DA1386A1F3DBACF0000189A /* Resort.png */; };
 		3DA1389C1F3DBACF0000189A /* Riding Carts.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DA1386B1F3DBACF0000189A /* Riding Carts.png */; };
 		3DA1389D1F3DBACF0000189A /* Seaside.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DA1386C1F3DBACF0000189A /* Seaside.png */; };
 		3DA1389E1F3DBACF0000189A /* Showers.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DA1386D1F3DBACF0000189A /* Showers.png */; };
-		3DA1389F1F3DBACF0000189A /* Snack Bar.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DA1386E1F3DBACF0000189A /* Snack Bar.png */; };
+		3DA1389F1F3DBACF0000189A /* Restaurant.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DA1386E1F3DBACF0000189A /* Restaurant.png */; };
 		3DA138A01F3DBACF0000189A /* Spa.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DA1386F1F3DBACF0000189A /* Spa.png */; };
 		3DA138A11F3DBACF0000189A /* Television.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DA138701F3DBACF0000189A /* Television.png */; };
 		3DA138A21F3DBACF0000189A /* Tennis Courts.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DA138711F3DBACF0000189A /* Tennis Courts.png */; };
@@ -621,6 +621,7 @@
 		84FA39DC215BBB73003F465B /* Quickblox.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 84FA39D9215BBB67003F465B /* Quickblox.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		84FD50D4213D8D6900EF389F /* EventTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FD50D2213D8D6900EF389F /* EventTableViewCell.m */; };
 		84FD50D5213D8D6900EF389F /* EventTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84FD50D3213D8D6900EF389F /* EventTableViewCell.xib */; };
+		84FDF52321BFF213002B45AE /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84FDF52221BFF213002B45AE /* MessageUI.framework */; };
 		8A535C251F63743A0063B813 /* image-placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = 8A535C241F63743A0063B813 /* image-placeholder.png */; };
 		8A535C291F637FF40063B813 /* CoursePhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A535C271F637FF40063B813 /* CoursePhotoViewController.m */; };
 		8A535C2A1F637FF40063B813 /* CoursePhotoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A535C281F637FF40063B813 /* CoursePhotoViewController.xib */; };
@@ -1259,21 +1260,21 @@
 		3DA1384C1F3DBACF0000189A /* Bar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Bar.png; sourceTree = "<group>"; };
 		3DA1384D1F3DBACF0000189A /* Beverage Service.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Beverage Service.png"; sourceTree = "<group>"; };
 		3DA1384E1F3DBACF0000189A /* Billiards.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Billiards.png; sourceTree = "<group>"; };
-		3DA1384F1F3DBACF0000189A /* Business Lounge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Business Lounge.png"; sourceTree = "<group>"; };
+		3DA1384F1F3DBACF0000189A /* Business Center.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Business Center.png"; sourceTree = "<group>"; };
 		3DA138501F3DBACF0000189A /* Caddy Hire.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Caddy Hire.png"; sourceTree = "<group>"; };
 		3DA138511F3DBACF0000189A /* Club Fittings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Club Fittings.png"; sourceTree = "<group>"; };
 		3DA138521F3DBACF0000189A /* Club Rental.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Club Rental.png"; sourceTree = "<group>"; };
 		3DA138531F3DBACF0000189A /* Club Repair.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Club Repair.png"; sourceTree = "<group>"; };
 		3DA138541F3DBACF0000189A /* Cold Towel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Cold Towel.png"; sourceTree = "<group>"; };
 		3DA138551F3DBACF0000189A /* Desert.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Desert.png; sourceTree = "<group>"; };
-		3DA138561F3DBACF0000189A /* Dining.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Dining.png; sourceTree = "<group>"; };
+		3DA138561F3DBACF0000189A /* Fine Dining.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Fine Dining.png"; sourceTree = "<group>"; };
 		3DA138571F3DBACF0000189A /* Drink Cart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Drink Cart.png"; sourceTree = "<group>"; };
 		3DA138581F3DBACF0000189A /* Driving Range.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Driving Range.png"; sourceTree = "<group>"; };
 		3DA138591F3DBACF0000189A /* Eco-Friendly.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Eco-Friendly.png"; sourceTree = "<group>"; };
 		3DA1385A1F3DBACF0000189A /* Executive Par 3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Executive Par 3.png"; sourceTree = "<group>"; };
-		3DA1385B1F3DBACF0000189A /* Game Room.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Game Room.png"; sourceTree = "<group>"; };
+		3DA1385B1F3DBACF0000189A /* Casino.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Casino.png; sourceTree = "<group>"; };
 		3DA1385C1F3DBACF0000189A /* Golf Pro.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Golf Pro.png"; sourceTree = "<group>"; };
-		3DA1385D1F3DBACF0000189A /* Gym.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Gym.png; sourceTree = "<group>"; };
+		3DA1385D1F3DBACF0000189A /* Fitness Center.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Fitness Center.png"; sourceTree = "<group>"; };
 		3DA1385E1F3DBACF0000189A /* Handicap Cart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Handicap Cart.png"; sourceTree = "<group>"; };
 		3DA1385F1F3DBACF0000189A /* Locker Room.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Locker Room.png"; sourceTree = "<group>"; };
 		3DA138601F3DBACF0000189A /* Lodging On Site.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Lodging On Site.png"; sourceTree = "<group>"; };
@@ -1284,12 +1285,12 @@
 		3DA138651F3DBACF0000189A /* Pool.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Pool.png; sourceTree = "<group>"; };
 		3DA138661F3DBACF0000189A /* Pro Shop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Pro Shop.png"; sourceTree = "<group>"; };
 		3DA138671F3DBACF0000189A /* Pub.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Pub.png; sourceTree = "<group>"; };
-		3DA138691F3DBACF0000189A /* Reception Hall.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Reception Hall.png"; sourceTree = "<group>"; };
+		3DA138691F3DBACF0000189A /* Event Facilities.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Event Facilities.png"; sourceTree = "<group>"; };
 		3DA1386A1F3DBACF0000189A /* Resort.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Resort.png; sourceTree = "<group>"; };
 		3DA1386B1F3DBACF0000189A /* Riding Carts.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Riding Carts.png"; sourceTree = "<group>"; };
 		3DA1386C1F3DBACF0000189A /* Seaside.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Seaside.png; sourceTree = "<group>"; };
 		3DA1386D1F3DBACF0000189A /* Showers.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Showers.png; sourceTree = "<group>"; };
-		3DA1386E1F3DBACF0000189A /* Snack Bar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Snack Bar.png"; sourceTree = "<group>"; };
+		3DA1386E1F3DBACF0000189A /* Restaurant.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Restaurant.png; sourceTree = "<group>"; };
 		3DA1386F1F3DBACF0000189A /* Spa.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Spa.png; sourceTree = "<group>"; };
 		3DA138701F3DBACF0000189A /* Television.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Television.png; sourceTree = "<group>"; };
 		3DA138711F3DBACF0000189A /* Tennis Courts.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Tennis Courts.png"; sourceTree = "<group>"; };
@@ -1464,6 +1465,7 @@
 		84FD50D1213D8D6900EF389F /* EventTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EventTableViewCell.h; sourceTree = "<group>"; };
 		84FD50D2213D8D6900EF389F /* EventTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EventTableViewCell.m; sourceTree = "<group>"; };
 		84FD50D3213D8D6900EF389F /* EventTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventTableViewCell.xib; sourceTree = "<group>"; };
+		84FDF52221BFF213002B45AE /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		8A535C241F63743A0063B813 /* image-placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "image-placeholder.png"; sourceTree = "<group>"; };
 		8A535C261F637FF40063B813 /* CoursePhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoursePhotoViewController.h; sourceTree = "<group>"; };
 		8A535C271F637FF40063B813 /* CoursePhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoursePhotoViewController.m; sourceTree = "<group>"; };
@@ -1486,6 +1488,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84FDF52321BFF213002B45AE /* MessageUI.framework in Frameworks */,
 				3D8D61191D7DCC6E0010A6CB /* EventKit.framework in Frameworks */,
 				84FA39DB215BBB73003F465B /* Quickblox.framework in Frameworks */,
 				3D707BDA1D56E7BE00591BF6 /* SystemConfiguration.framework in Frameworks */,
@@ -2330,6 +2333,7 @@
 		3D8FD0441F30F2920028F8AB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				84FDF52221BFF213002B45AE /* MessageUI.framework */,
 				3D8FD0531F30F5680028F8AB /* GoogleMaps.framework */,
 				3D8FD0511F30F2D40028F8AB /* QuartzCore.framework */,
 				3D8FD04F1F30F2C50028F8AB /* OpenGLES.framework */,
@@ -2849,21 +2853,21 @@
 				3DA1384C1F3DBACF0000189A /* Bar.png */,
 				3DA1384D1F3DBACF0000189A /* Beverage Service.png */,
 				3DA1384E1F3DBACF0000189A /* Billiards.png */,
-				3DA1384F1F3DBACF0000189A /* Business Lounge.png */,
+				3DA1384F1F3DBACF0000189A /* Business Center.png */,
 				3DA138501F3DBACF0000189A /* Caddy Hire.png */,
 				3DA138511F3DBACF0000189A /* Club Fittings.png */,
 				3DA138521F3DBACF0000189A /* Club Rental.png */,
 				3DA138531F3DBACF0000189A /* Club Repair.png */,
 				3DA138541F3DBACF0000189A /* Cold Towel.png */,
 				3DA138551F3DBACF0000189A /* Desert.png */,
-				3DA138561F3DBACF0000189A /* Dining.png */,
+				3DA138561F3DBACF0000189A /* Fine Dining.png */,
 				3DA138571F3DBACF0000189A /* Drink Cart.png */,
 				3DA138581F3DBACF0000189A /* Driving Range.png */,
 				3DA138591F3DBACF0000189A /* Eco-Friendly.png */,
 				3DA1385A1F3DBACF0000189A /* Executive Par 3.png */,
-				3DA1385B1F3DBACF0000189A /* Game Room.png */,
+				3DA1385B1F3DBACF0000189A /* Casino.png */,
 				3DA1385C1F3DBACF0000189A /* Golf Pro.png */,
-				3DA1385D1F3DBACF0000189A /* Gym.png */,
+				3DA1385D1F3DBACF0000189A /* Fitness Center.png */,
 				3DA1385E1F3DBACF0000189A /* Handicap Cart.png */,
 				3DA1385F1F3DBACF0000189A /* Locker Room.png */,
 				3DA138601F3DBACF0000189A /* Lodging On Site.png */,
@@ -2874,12 +2878,12 @@
 				3DA138651F3DBACF0000189A /* Pool.png */,
 				3DA138661F3DBACF0000189A /* Pro Shop.png */,
 				3DA138671F3DBACF0000189A /* Pub.png */,
-				3DA138691F3DBACF0000189A /* Reception Hall.png */,
+				3DA138691F3DBACF0000189A /* Event Facilities.png */,
 				3DA1386A1F3DBACF0000189A /* Resort.png */,
 				3DA1386B1F3DBACF0000189A /* Riding Carts.png */,
 				3DA1386C1F3DBACF0000189A /* Seaside.png */,
 				3DA1386D1F3DBACF0000189A /* Showers.png */,
-				3DA1386E1F3DBACF0000189A /* Snack Bar.png */,
+				3DA1386E1F3DBACF0000189A /* Restaurant.png */,
 				3DA1386F1F3DBACF0000189A /* Spa.png */,
 				3DA138701F3DBACF0000189A /* Television.png */,
 				3DA138711F3DBACF0000189A /* Tennis Courts.png */,
@@ -3105,7 +3109,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3DA1389A1F3DBACF0000189A /* Reception Hall.png in Resources */,
+				3DA1389A1F3DBACF0000189A /* Event Facilities.png in Resources */,
 				3D87C5931EB4440700CC362C /* guestmalefilled.png in Resources */,
 				3DA138A51F3DBACF0000189A /* Valet Parking.png in Resources */,
 				3D514D4F1F3EC5D4008DD014 /* type-10@2x.png in Resources */,
@@ -3250,7 +3254,7 @@
 				3D0F3AC61EB0CE7200327C58 /* userBG.png in Resources */,
 				3DC65E8D1D57658F008A0ADC /* 2.png in Resources */,
 				3D707B871D56DC7C00591BF6 /* SFCompactDisplay-Bold.ttf in Resources */,
-				3DA1389F1F3DBACF0000189A /* Snack Bar.png in Resources */,
+				3DA1389F1F3DBACF0000189A /* Restaurant.png in Resources */,
 				3D514D491F3EC5D4008DD014 /* type-2@2x.png in Resources */,
 				3D15C4471F2B52AE0001EBC3 /* Silde 5_4s.png in Resources */,
 				3D8173561F1F61F40095EDC7 /* connect-1.png in Resources */,
@@ -3265,7 +3269,7 @@
 				3D707BBA1D56DDAB00591BF6 /* bg button@2x.png in Resources */,
 				3DC65E961D57658F008A0ADC /* dot-opacity@2x.png in Resources */,
 				3DC65E4C1D572D49008A0ADC /* Logo Washington.png in Resources */,
-				3DA1388E1F3DBACF0000189A /* Gym.png in Resources */,
+				3DA1388E1F3DBACF0000189A /* Fitness Center.png in Resources */,
 				3D92C8341D5B5B24005C8CAE /* JSQMessagesCollectionViewCellIncoming.xib in Resources */,
 				3DC4210F1D7D27D10040D387 /* ConnectssViewController.xib in Resources */,
 				3D8C23E81D6D5F860003A8D2 /* missing-profile-photo.png in Resources */,
@@ -3290,7 +3294,7 @@
 				3D5A17D01EB75C3100AD181A /* blue_chk.png in Resources */,
 				3D15C44F1F2B52AE0001EBC3 /* Slide 3.png in Resources */,
 				3DA138781F3DBACF0000189A /* 9 Holes.png in Resources */,
-				3DA1388C1F3DBACF0000189A /* Game Room.png in Resources */,
+				3DA1388C1F3DBACF0000189A /* Casino.png in Resources */,
 				3D9CF8891F2C4FFD00811D34 /* homecourse.png in Resources */,
 				3D81734B1F1F5E8E0095EDC7 /* 4_glow_effects_golf_ball_symbol04.png in Resources */,
 				3D707BA81D56DC7C00591BF6 /* SFUIText-Light.ttf in Resources */,
@@ -3319,7 +3323,7 @@
 				3D707BA91D56DC7C00591BF6 /* SFUIText-LightItalic.ttf in Resources */,
 				3D30D9281D58B1FA00D4286B /* fill.png in Resources */,
 				3D15C44E1F2B52AE0001EBC3 /* Slide 2.png in Resources */,
-				3DA138801F3DBACF0000189A /* Business Lounge.png in Resources */,
+				3DA138801F3DBACF0000189A /* Business Center.png in Resources */,
 				3DC65E931D57658F008A0ADC /* Dot-active.png in Resources */,
 				3D30D92A1D58B1FA00D4286B /* Tonic-logo.png in Resources */,
 				3DA5DD0A1F21B03700BD8199 /* imgplaceholder_mini.jpg in Resources */,
@@ -3438,7 +3442,7 @@
 				3DA1388B1F3DBACF0000189A /* Executive Par 3.png in Resources */,
 				3D707A691D56D57300591BF6 /* Assets.xcassets in Resources */,
 				3DA138831F3DBACF0000189A /* Club Rental.png in Resources */,
-				3DA138871F3DBACF0000189A /* Dining.png in Resources */,
+				3DA138871F3DBACF0000189A /* Fine Dining.png in Resources */,
 				84FD50D5213D8D6900EF389F /* EventTableViewCell.xib in Resources */,
 				3DA138A41F3DBACF0000189A /* Umbrella.png in Resources */,
 				3D9F54821ED5C79700CEE90C /* iap3.png in Resources */,

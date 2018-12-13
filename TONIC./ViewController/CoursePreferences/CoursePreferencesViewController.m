@@ -19,7 +19,8 @@
 
 #define kPickerState 1
 #define kPickerType 2
-
+#define kPickerHoles 3
+#define kButtonHoles 7
 
 #define kScreenViewUsers @"1"
 #define kScreenMenu @"2"
@@ -39,6 +40,7 @@
     int CountUpdated;
     int updateCountObj;
     
+    IBOutlet UITextField *txtFldHolesCourses;
 }
 @end
 
@@ -90,8 +92,8 @@
     arrStateList = [[NSMutableArray alloc] init];
     arrHomeCourseList = [[NSMutableArray alloc] init];
     arramenitiesList = [[NSMutableArray alloc] init];
-    
-    [self setUpAmenitiesList];
+    arrHolesList = [[NSMutableArray alloc]init];
+   // [self setUpAmenitiesList];
     
     //  tempArraySelcted=[[NSMutableArray alloc]init];
     
@@ -104,7 +106,8 @@
     
     //  [self bindData];
     // Get the state details from quickblox table.
-    [self getStateList];
+ // [self getStateList];
+    [self getAmentiesList];
     
 }
 
@@ -128,13 +131,80 @@
 #pragma mark- Get State List
 /**
  @Description
+ * This method will fetch Amenties list from quickblox table.
+ * @author Chetu India
+ * @return void nothing will return by this method.
+ */
+-(void)getAmentiesList {
+    
+    [[AppDelegate sharedinstance] showLoader];
+    
+    [QBRequest objectsWithClassName:kCourseAmenties extendedRequest:nil successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
+        
+       
+        
+        for (QBCOCustomObject *obj  in objects) {
+            
+            [arramenitiesList addObject:[obj.fields objectForKey:@"Amenties"]];
+        }
+      
+        // sort the state list.
+        [arramenitiesList sortUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+        [arramenitiesList insertObject:@"Any" atIndex:0];
+        
+        [self getHolesList];
+        
+    } errorBlock:^(QBResponse *response) {
+        // error handling
+        [[AppDelegate sharedinstance] hideLoader];
+        
+        NSLog(@"Response error: %@", [response.error description]);
+    }];
+    
+}
+#pragma mark- Get State List
+/**
+ @Description
+ * This method will fetch Amenties list from quickblox table.
+ * @author Chetu India
+ * @return void nothing will return by this method.
+ */
+-(void)getHolesList {
+    
+    [QBRequest objectsWithClassName:kCourseHoles extendedRequest:nil successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
+        
+       
+        for (QBCOCustomObject *obj  in objects) {
+            
+            [arrHolesList addObject:[obj.fields objectForKey:@"NoOfHoles"]];
+        }
+        
+        // sort the state list.
+      
+        
+        [arrHolesList insertObject:@"All" atIndex:0];
+        
+        [self getStateList];
+    } errorBlock:^(QBResponse *response) {
+        // error handling
+        [[AppDelegate sharedinstance] hideLoader];
+        
+        NSLog(@"Response error: %@", [response.error description]);
+    }];
+    
+}
+
+
+#pragma mark- Get State List
+/**
+ @Description
  * This method will fetch state list from quickblox table.
  * @author Chetu India
  * @return void nothing will return by this method.
  */
 -(void)getStateList {
     
-    [[AppDelegate sharedinstance] showLoader];
+   // [[AppDelegate sharedinstance] showLoader];
     
     [QBRequest objectsWithClassName:kEventStateTblName extendedRequest:nil successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
         
@@ -206,7 +276,6 @@
             [arrCityList insertObject:kEventAll atIndex:0];
             [tblMembers reloadData];
             tblMembers.allowsMultipleSelection = YES;
-            
             
             [[AppDelegate sharedinstance] hideLoader];
             
@@ -372,6 +441,14 @@
             
             NSString *strcf_name = [[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"cf_name"]];
             NSString *strcf_zipcode= [[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"cf_zipcode"]];
+            NSString *strcf_HolesAvailable = [[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"cf_Holes"]];
+            
+            if([strcf_HolesAvailable length]==0) {
+                [txtFldHolesCourses setText:@"All"];
+            }else {
+                [txtFldHolesCourses setText:strcf_HolesAvailable];
+            }
+            
             
             if([strcf_zipcode length]==0 || [strcf_zipcode isEqualToString:@"All"] ) {
                 [txtCourseZipcode setText:@"All"];
@@ -496,90 +573,183 @@
 - (IBAction) saveTapped:(id)sender {
     
     [self savesettings];
-    //  [self getData];
+ //    [[AppDelegate sharedinstance] showLoader];
+   //   [self getData];
 }
 
-//-----------------------------------------------------------------------
-/************* Updated Amenties data string to amenties_temp data. **********/
-//-(void) getData
-//{
-//
-//    NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
-//
-//    [getRequest setObject:@"100" forKey:@"limit"];
-//    NSString *strPage = [NSString stringWithFormat:@"%d",[@"100" intValue] * tempCurrentPage];
-//
-//    [getRequest setObject:strPage forKey:@"skip"];
-//
-//      [[AppDelegate sharedinstance] showLoader];
-//
-//    [QBRequest objectsWithClassName:@"GolfCourses" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
-//
-//        NSLog(@"Entries %lu",(unsigned long)page.totalEntries);
-//        tempCourseArr = [[NSMutableArray alloc] init];
-//        [tempCourseArr addObjectsFromArray:[objects mutableCopy]];
-//          [self updateGolfCourses:tempCourseArr];
-//        CountUpdated = (int)tempCourseArr.count;
-//
-//
-//    } errorBlock:^(QBResponse *response) {
-//        // error handling
-//        [[AppDelegate sharedinstance] hideLoader];
-//
-//        NSLog(@"Response error: %@", [response.error description]);
-//    }];
-//
-//}
-//
-//-(void) updateGolfCourses:(NSMutableArray *)tempCourseArr1 {
-//
-//
-//    [self upadteobj:[tempCourseArr objectAtIndex:0]];
-//
-//}
-//
-//-(void)upadteobj:(QBCOCustomObject *) tempObj
-//{
-//
-//         NSArray *cityArr = [ [[AppDelegate sharedinstance] nullcheck:[tempObj.fields objectForKey:@"Amenities"]] componentsSeparatedByString: @","];
-//
-//
-//         NSMutableArray *copy = [cityArr mutableCopy];
-//         if ([copy containsObject:@"N/A"]) {
-//             [copy removeObject:@"N/A"];
-//         }
-//
-//         cityArr = [copy mutableCopy];
-//
-//         [tempObj.fields setObject:cityArr forKey:@"amenities_temp"];
-//
-//         [QBRequest updateObject:tempObj successBlock:^(QBResponse *response, QBCOCustomObject *object) {
-//
-//              objCountUpdated++;
-//
-//             if (tempCourseArr.count == objCountUpdated) {
-//                    tempCurrentPage++;
-//                 objCountUpdated = 0;
-//                  updateCountObj = (int)tempCourseArr.count;
-//                 [[AppDelegate sharedinstance] hideLoader];
-//             }else {
-//                 NSLog(@"Object updated is : %d", objCountUpdated);
-//                 NSLog(@"Continue");
-//
-//
-//                 [self upadteobj:[tempCourseArr objectAtIndex:objCountUpdated]];
-//
-//             }
-//
-//         } errorBlock:^(QBResponse *response) {
-//             // error handling
-//             [[AppDelegate sharedinstance] hideLoader];
-//
-//             NSLog(@"Response error: %@", [response.error description]);
-//         }];
-//
-//
-//}
+////-----------------------------------------------------------------------
+///************* Updated Amenties data string to amenties_temp data. **********/
+-(void) getData
+{
+
+    NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
+
+    [getRequest setObject:@"100" forKey:@"limit"];
+    NSString *strPage = [NSString stringWithFormat:@"%d",[@"100" intValue] * tempCurrentPage];
+
+    [getRequest setObject:strPage forKey:@"skip"];
+
+    [QBRequest objectsWithClassName:@"GolfCourses" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
+
+        if (objects.count == 0) {
+              [[AppDelegate sharedinstance] hideLoader];
+        }else {
+            NSLog(@"Entries %lu",(unsigned long)page.totalEntries);
+            tempCourseArr = [[NSMutableArray alloc] init];
+            [tempCourseArr addObjectsFromArray:[objects mutableCopy]];
+            [self updateGolfCourses:tempCourseArr];
+            CountUpdated = (int)tempCourseArr.count;
+        }
+
+    } errorBlock:^(QBResponse *response) {
+        // error handling
+        [[AppDelegate sharedinstance] hideLoader];
+
+        NSLog(@"Response error: %@", [response.error description]);
+    }];
+
+}
+
+-(void) updateGolfCourses:(NSMutableArray *)tempCourseArr1 {
+
+
+    [self upadteobj:[tempCourseArr objectAtIndex:0]];
+
+}
+
+-(void)upadteobj:(QBCOCustomObject *) tempObj
+{
+
+         NSArray *amentyArr = [ [[AppDelegate sharedinstance] nullcheck:[tempObj.fields objectForKey:@"Amenities"]] componentsSeparatedByString: @","];
+
+
+         NSMutableArray *copy = [amentyArr mutableCopy];
+         if ([copy containsObject:@"N/A"]) {
+             [copy removeObject:@"N/A"];
+         }
+         NSMutableArray *tempCopyArr = [copy mutableCopy];
+
+    
+    
+    
+    for (id holeStr in tempCopyArr) {
+
+        if ([holeStr localizedCaseInsensitiveContainsString:@"hole"]) {
+
+            [copy removeObject:holeStr];
+        }
+    }
+
+    NSMutableArray *FinalAmentyArr = [[NSMutableArray alloc]init];
+    NSCharacterSet *whitespace = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+    
+    for (NSString *amentyStr in tempCopyArr) {
+        
+        NSString *trimmed = [amentyStr stringByTrimmingCharactersInSet:whitespace];
+        [FinalAmentyArr addObject:trimmed];
+    }
+    
+//    if ([copy containsObject:@"Chipping Green"]) {
+//        [copy removeObject:@"Chipping Green"];
+//    }
+ 
+    if ([FinalAmentyArr containsObject:@"Chipping Green"] ||
+        [FinalAmentyArr containsObject:@"4 Restaurants"] ||
+        [FinalAmentyArr containsObject:@"Beverage Service"] ||
+        [FinalAmentyArr containsObject:@"Changing Area"] ||
+        [FinalAmentyArr containsObject:@"Club Rentals"] ||
+        [FinalAmentyArr containsObject:@"Cold Towel"] ||
+        [FinalAmentyArr containsObject:@"Couple's League"] ||
+        [FinalAmentyArr containsObject:@"Desert"] ||
+        [FinalAmentyArr containsObject:@"Events"] ||
+        [FinalAmentyArr containsObject:@"Golf Shop"] ||
+        [FinalAmentyArr containsObject:@"Gym"] ||
+        [FinalAmentyArr containsObject:@"Locker Rooms"] ||
+        [FinalAmentyArr containsObject:@"Men's League"] ||
+        [FinalAmentyArr containsObject:@"Parkland"] ||
+        [FinalAmentyArr containsObject:@"Ping Pong"] ||
+        [FinalAmentyArr containsObject:@"Pub"] ||
+        [FinalAmentyArr containsObject:@"Reception Hall"] ||
+        [FinalAmentyArr containsObject:@"Resort"] ||
+        [FinalAmentyArr containsObject:@"Seaside"] ||
+        [FinalAmentyArr containsObject:@"Senior League"] ||
+        [FinalAmentyArr containsObject:@"Snack Bar"] ||
+        [FinalAmentyArr containsObject:@"Television"] ||
+        [FinalAmentyArr containsObject:@"Twilight"] ||
+        [FinalAmentyArr containsObject:@"Umbrella"] ||
+        [FinalAmentyArr containsObject:@"Vending Machine"] ||
+        [FinalAmentyArr containsObject:@"Web Special Tee Times"] ||
+        [FinalAmentyArr containsObject:@"Weddings"] ||
+        [FinalAmentyArr containsObject:@"Women's League"]) {
+        
+        
+        [FinalAmentyArr removeObject:@"Chipping Green"];
+        [FinalAmentyArr removeObject:@"4 Restaurants"];
+        [FinalAmentyArr removeObject:@"Beverage Service"];
+        [FinalAmentyArr removeObject:@"Changing Area"];
+        [FinalAmentyArr removeObject:@"Club Rentals"];
+        [FinalAmentyArr removeObject:@"Cold Towel"];
+        [FinalAmentyArr removeObject:@"Couple's League"];
+        [FinalAmentyArr removeObject:@"Desert"];
+        [FinalAmentyArr removeObject:@"Events"];
+        [FinalAmentyArr removeObject:@"Golf Shop"];
+        [FinalAmentyArr removeObject:@"Gym"];
+        [FinalAmentyArr removeObject:@"Locker Rooms"];
+        [FinalAmentyArr removeObject:@"Men's League"];
+        [FinalAmentyArr removeObject:@"Parkland"];
+        [FinalAmentyArr removeObject:@"Ping Pong"];
+        [FinalAmentyArr removeObject:@"Pub"];
+        [FinalAmentyArr removeObject:@"Reception Hall"];
+        [FinalAmentyArr removeObject:@"Resort"];
+        [FinalAmentyArr removeObject:@"Seaside"];
+        [FinalAmentyArr removeObject:@"Senior League"];
+        [FinalAmentyArr removeObject:@"Snack Bar"];
+        [FinalAmentyArr removeObject:@"Television"];
+        [FinalAmentyArr removeObject:@"Twilight"];
+        [FinalAmentyArr removeObject:@"Umbrella"];
+        [FinalAmentyArr removeObject:@"Vending Machine"];
+        [FinalAmentyArr removeObject:@"Web Special Tee Times"];
+        [FinalAmentyArr removeObject:@"Weddings"];
+        [FinalAmentyArr removeObject:@"Women's League"];
+        
+    }
+  
+         amentyArr = FinalAmentyArr;
+
+
+          NSString *amentyStr =  [[amentyArr valueForKey:@"description"] componentsJoinedByString:@","];
+
+         [tempObj.fields setObject:amentyArr forKey:@"amenities_temp"];
+         [tempObj.fields setObject:amentyStr forKey:@"Amenities"];
+         [QBRequest updateObject:tempObj successBlock:^(QBResponse *response, QBCOCustomObject *object) {
+
+              objCountUpdated++;
+
+             if (tempCourseArr.count == objCountUpdated) {
+                    tempCurrentPage++;
+                    objCountUpdated = 0;
+                    updateCountObj = (int)tempCourseArr.count;
+                    [self getData];
+
+
+             }else {
+                 NSLog(@"Object updated is : %d", objCountUpdated);
+                 NSLog(@"Continue");
+
+
+                 [self upadteobj:[tempCourseArr objectAtIndex:objCountUpdated]];
+
+             }
+
+         } errorBlock:^(QBResponse *response) {
+             // error handling
+             [[AppDelegate sharedinstance] hideLoader];
+
+             NSLog(@"Response error: %@", [response.error description]);
+         }];
+
+
+}
 
 /************* Updated Amenties data string to amenties_temp data. **********/
 //-----------------------------------------------------------------------
@@ -607,6 +777,7 @@
                                           [txtState setText:@"All"];
                                           [txtCourseZipcode setText:@"All"];
                                           [txtAmenities setText:@"Any"];
+                                          [txtFldHolesCourses setText:@"All"];
                                           [lblDistanceValue setText:@"∞"];
                                           myObSliderOutlet.value=150;
                                           
@@ -685,6 +856,11 @@
     [self changeData];
     
 }
+- (IBAction)selectHolesCourse:(id)sender {
+    buttonTapped = kButtonHoles;
+    pickerOption = kPickerHoles;
+    [self changeData];
+}
 
 //-----------------------------------------------------------------------
 
@@ -748,7 +924,7 @@
     [object.fields setObject:txtAmenities.text forKey:@"cf_amenities"];
     [object.fields setObject:strPush  forKey:@"cf_isFav"];
     [object.fields setObject:txtType.text forKey:@"cf_type"];
-    
+    [object.fields setObject:txtFldHolesCourses.text forKey:@"cf_Holes"];
     // convert miles to metres
     
     [object.fields setObject:[NSString stringWithFormat:@"%d",(int)myObSliderOutlet.value] forKey:@"cf_distance"];
@@ -775,6 +951,7 @@
         [dictcoursePreferencesData setObject:strPush  forKey:@"cf_isFav"];
         [dictcoursePreferencesData setObject:[NSString stringWithFormat:@"%d",(int)myObSliderOutlet.value] forKey:@"cf_distance"];
         [dictcoursePreferencesData setObject:@"3" forKey:@"cf_courseOption"];
+        [dictcoursePreferencesData setObject:txtFldHolesCourses.text forKey:@"cf_Holes"];
         
         [[NSUserDefaults standardUserDefaults] setObject:dictcoursePreferencesData forKey:kcoursePreferencesData];
         [[NSUserDefaults standardUserDefaults] synchronize];
@@ -864,7 +1041,7 @@
             if ([txtAmenities.text isEqualToString:@"Any"]) {
                 [tempAmentiesSelctedArr removeAllObjects];
             }
-            [self setUpAmenitiesList];
+        //    [self setUpAmenitiesList];
             
             tblMembers.allowsMultipleSelection = YES;
             [viewTable setHidden:NO];
@@ -873,6 +1050,11 @@
             [pickerView selectRow:0 inComponent:0 animated:YES];
             [pickerView setHidden:NO];
             
+            break;
+            
+        case kButtonHoles:
+            [pickerView selectRow:0 inComponent:0 animated:YES];
+            [pickerView setHidden:NO];
             break;
     }
     
@@ -1347,6 +1529,9 @@
         case kPickerType:
             return arrTypeList.count;
             break;
+        case kPickerHoles:
+            return arrHolesList.count;
+            break;
     }
     
     return 10;
@@ -1367,6 +1552,9 @@
             break;
         case kPickerType:
             return arrTypeList[row];
+            break;
+        case kPickerHoles:
+            return arrHolesList[row];
             break;
     }
     
@@ -1404,6 +1592,10 @@
             
         case kPickerType:
             txtType.text = [arrTypeList objectAtIndex:row];
+            break;
+        case kPickerHoles:
+            txtFldHolesCourses.text = [arrHolesList objectAtIndex:row];
+           
             break;
     }
     

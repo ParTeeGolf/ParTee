@@ -111,7 +111,7 @@
         [arrStateList insertObject:kEventAll atIndex:0];
         // [self getUserDetails];
         
-        if ([stateTxtFld.text isEqualToString:@"All"]) {
+        if ([stateTxtFld.text isEqualToString:kEventAll]) {
             [[AppDelegate sharedinstance] hideLoader];
         }else {
             [self getcityList];
@@ -814,10 +814,10 @@
     cityListStr = [arrCityList objectAtIndex:indexPath.row];
     
     
-    if ([tempArraySelcted containsObject:@"All"]) {
+    if ([tempArraySelcted containsObject:kEventAll]) {
         
-        if (![cityListStr isEqualToString:@"All"]) {
-            [tempArraySelcted removeObject:@"All"];
+        if (![cityListStr isEqualToString:kEventAll]) {
+            [tempArraySelcted removeObject:kEventAll];
             // this will show or hide the right checkbox button on the city that user have slected.
             if ([tempArraySelcted containsObject:cityListStr]) {
                 [ObjCirCell.selectbtnimg setImage:[UIImage imageNamed:kEventPreUnchecked] forState:UIControlStateNormal];
@@ -838,13 +838,13 @@
             [listTblView reloadData];
         }else {
             [tempArraySelcted removeAllObjects];
-            [tempArraySelcted addObject:@"All"];
-            cityTxtFld.text = @"All";
+            [tempArraySelcted addObject:kEventAll];
+            cityTxtFld.text = kEventAll;
         }
         
         
     }else {
-        if ([cityListStr isEqualToString:@"All"]) {
+        if ([cityListStr isEqualToString:kEventAll]) {
             [tempArraySelcted removeAllObjects];
             [tempArraySelcted addObject:cityListStr];
             [listTblView reloadData];

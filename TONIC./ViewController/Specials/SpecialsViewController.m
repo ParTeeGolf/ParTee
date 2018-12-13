@@ -14,6 +14,7 @@
 #import "CoursePreferencesViewController.h"
 #import "CoursePhotoViewController.h"
 #import "Constant.h"
+#import <MessageUI/MessageUI.h>
 #define kLimit @"25"
 
 #define kIndexFav 0
@@ -28,10 +29,13 @@
 
 int courseOption;
 
-@interface SpecialsViewController ()
+@interface SpecialsViewController ()<MFMessageComposeViewControllerDelegate>
 {
     /********** ChetuChange ************/
+    // Contains the courses available in golf course table on quickblox.
     int coursesCount;
+    // this holds the value Yes if user gone to map screen and return back from map screen in order not to refresh the page.
+    BOOL isFromMapScreen;
     /********** ChetuChange ************/
 }
 /*********** ChetuChnage ************/
@@ -57,6 +61,7 @@ int courseOption;
     
     [super viewDidLoad];
     shouldLoadNext=YES;
+    isFromMapScreen = NO;
     
     ((AppDelegate*)[UIApplication sharedApplication].delegate).courseOptionSelected = 0;
     courseOption = ((AppDelegate*)[UIApplication sharedApplication].delegate).courseOptionSelected;
@@ -97,79 +102,86 @@ int courseOption;
 }
 
 -(void) viewWillAppear:(BOOL)animated {
-    self.menuContainerViewController.panMode=YES;
     
-    courseOption = ((AppDelegate*)[UIApplication sharedApplication].delegate).courseOptionSelected;
-    [[AppDelegate sharedinstance] showLoader];
-    _currentPage=0;
-
-    segmentSpecials.selectedSegmentIndex = courseOption;
-    shouldLoadNext = YES;
-    
-    [AppDelegate sharedinstance].strIsChatConnected = @"0";
-    
-    QBUUser *currentUser = [QBSession currentSession].currentUser;
-    currentUser.password = [[AppDelegate sharedinstance] getStringObjfromKey:kuserPassword];
-    
-    NSMutableDictionary *dictcoursePreferencesData = [[[NSUserDefaults standardUserDefaults] objectForKey:kcoursePreferencesData] mutableCopy];
-    
-    NSString *strCourseOption = [dictcoursePreferencesData objectForKey:@"cf_courseOption"];
-    
-    fetchPrevRecordBtn.hidden = YES;
-    fecthInitialRecordBtn.hidden = YES;
-    
-    if([strCourseOption length] > 0)
-    {
-        courseOption = [strCourseOption intValue];
-         courseOption = ((AppDelegate*)[UIApplication sharedApplication].delegate).courseOptionSelected;
-    }
-    
-    if([[[AppDelegate sharedinstance] sharedChatInstance] isConnected])
-    {
-        
-        if([strIsMyCourses isEqualToString:@"1"]) {
-            [btnSearchSmall setHidden:YES];
-            [btnSearchBig setHidden:YES];
-            
-            [self getMySpecials];
-        }
-        else {
-            [btnSearchSmall setHidden:NO];
-            [btnSearchBig setHidden:NO];
-            //  [self getData];
-            [self getCoursesRecordCount];
-        }
-    }
-    else
-    {
-        [[AppDelegate sharedinstance] showLoader];
-        
-        [self performSelector:@selector(letotherfeatureswork) withObject:nil afterDelay:10.f];
-        
-        // connect to Chat
-        [[AppDelegate sharedinstance].sharedChatInstance connectWithUser:currentUser completion:^(NSError * _Nullable error) {
-            [AppDelegate sharedinstance].strIsChatConnected = @"1";
-            
-            [self getCoursesRecordCount];
-            
-            //            if([strIsMyCourses isEqualToString:@"1"]) {
-            //                [self getMySpecials];
-            //            }
-            //            else {
-            //                [self getData];
-            //            }
-            
-        }];
-    }
-    
-    lblNotAvailable.frame = CGRectMake((self.view.frame.size.width - lblNotAvailable.frame.size.width )/2, (self.view.frame.size.height - lblNotAvailable.frame.size.height )/2, lblNotAvailable.frame.size.width, lblNotAvailable.frame.size.height);
-    
-  
-    if (courseOption == 0) {
-        [self hideOrShowSearchBtn:YES];
+    if (isFromMapScreen) {
+      
+        isFromMapScreen = NO;
     }else{
-        [self hideOrShowSearchBtn:NO];
+        self.menuContainerViewController.panMode=YES;
+        
+        courseOption = ((AppDelegate*)[UIApplication sharedApplication].delegate).courseOptionSelected;
+        [[AppDelegate sharedinstance] showLoader];
+        _currentPage=0;
+        
+        segmentSpecials.selectedSegmentIndex = courseOption;
+        shouldLoadNext = YES;
+        
+        [AppDelegate sharedinstance].strIsChatConnected = @"0";
+        
+        QBUUser *currentUser = [QBSession currentSession].currentUser;
+        currentUser.password = [[AppDelegate sharedinstance] getStringObjfromKey:kuserPassword];
+        
+        NSMutableDictionary *dictcoursePreferencesData = [[[NSUserDefaults standardUserDefaults] objectForKey:kcoursePreferencesData] mutableCopy];
+        
+        NSString *strCourseOption = [dictcoursePreferencesData objectForKey:@"cf_courseOption"];
+        
+        fetchPrevRecordBtn.hidden = YES;
+        fecthInitialRecordBtn.hidden = YES;
+        
+        if([strCourseOption length] > 0)
+        {
+            courseOption = [strCourseOption intValue];
+            courseOption = ((AppDelegate*)[UIApplication sharedApplication].delegate).courseOptionSelected;
+        }
+        
+        if([[[AppDelegate sharedinstance] sharedChatInstance] isConnected])
+        {
+            
+            if([strIsMyCourses isEqualToString:@"1"]) {
+                [btnSearchSmall setHidden:YES];
+                [btnSearchBig setHidden:YES];
+                
+                [self getMySpecials];
+            }
+            else {
+                [btnSearchSmall setHidden:NO];
+                [btnSearchBig setHidden:NO];
+                //  [self getData];
+                [self getCoursesRecordCount];
+            }
+        }
+        else
+        {
+            [[AppDelegate sharedinstance] showLoader];
+            
+            [self performSelector:@selector(letotherfeatureswork) withObject:nil afterDelay:10.f];
+            
+            // connect to Chat
+            [[AppDelegate sharedinstance].sharedChatInstance connectWithUser:currentUser completion:^(NSError * _Nullable error) {
+                [AppDelegate sharedinstance].strIsChatConnected = @"1";
+                
+                [self getCoursesRecordCount];
+                
+                //            if([strIsMyCourses isEqualToString:@"1"]) {
+                //                [self getMySpecials];
+                //            }
+                //            else {
+                //                [self getData];
+                //            }
+                
+            }];
+        }
+        
+        lblNotAvailable.frame = CGRectMake((self.view.frame.size.width - lblNotAvailable.frame.size.width )/2, (self.view.frame.size.height - lblNotAvailable.frame.size.height )/2, lblNotAvailable.frame.size.width, lblNotAvailable.frame.size.height);
+        
+        
+        if (courseOption == 0) {
+            [self hideOrShowSearchBtn:YES];
+        }else{
+            [self hideOrShowSearchBtn:NO];
+        }
     }
+  
 }
 
 -(void)hideOrShowSearchBtn:(BOOL)hideShowBool
@@ -186,6 +198,44 @@ int courseOption;
     }else {
          recordLoadBaseViewHeightConst.constant = 30;
     }
+}
+
+-(NSMutableArray *)getNumberOfHolesArr:(NSString *)strHoles
+{
+    NSMutableArray *numberofHolesArr = [[NSMutableArray alloc]init];
+    if ([strHoles isEqualToString:@"0-9 Holes"]) {
+        
+        for (int i = 0; i <= 9; i++) {
+            [numberofHolesArr addObject:[NSString stringWithFormat:@"%d", i]];
+        }
+        
+    }else if ([strHoles isEqualToString:@"0-18 Holes"]) {
+       
+        for (int i = 0; i <= 18; i++) {
+            [numberofHolesArr addObject:[NSString stringWithFormat:@"%d", i]];
+        }
+        
+    }else if ([strHoles isEqualToString:@"18-27 Holes"]) {
+        
+        for (int i = 18; i <= 27; i++) {
+            [numberofHolesArr addObject:[NSString stringWithFormat:@"%d", i]];
+        }
+        
+    }else if ([strHoles isEqualToString:@"18-36 Holes"]) {
+        for (int i = 18; i <= 36; i++) {
+            [numberofHolesArr addObject:[NSString stringWithFormat:@"%d", i]];
+        }
+    }else if ([strHoles isEqualToString:@"27-36 Holes"]){
+        for (int i = 27; i <= 36; i++) {
+            [numberofHolesArr addObject:[NSString stringWithFormat:@"%d", i]];
+        }
+    }else if ([strHoles isEqualToString:@"36+ Holes"]) {
+        for (int i = 0; i <= 36; i++) {
+            [numberofHolesArr addObject:[NSString stringWithFormat:@"%d", i]];
+        }
+    }
+    
+    return numberofHolesArr;
 }
 -(void)getCoursesRecordCount
 {
@@ -222,7 +272,7 @@ int courseOption;
     float metresDistance = 99999999999.34f;
     NSString *filterDistance = [NSString stringWithFormat:@"%f,%f;%f",[strlong floatValue],[strlat floatValue],metresDistance];
     
-    
+
     switch(courseOption)
     {
         case 0:
@@ -250,6 +300,39 @@ int courseOption;
                 NSString *strcf_distance= [dictcoursePreferencesData  objectForKey:@"cf_distance"];
                 NSString *strcf_type= [dictcoursePreferencesData  objectForKey:@"cf_type"];
                 NSString *strcf_isFav= [dictcoursePreferencesData  objectForKey:@"cf_isFav"];
+                NSString *strcf_Holes= [dictcoursePreferencesData  objectForKey:@"cf_Holes"];
+                
+                
+                if(![strcf_Holes isEqualToString:@"All"]) {
+                    
+                    if ([strcf_Holes isEqualToString:@"0-9 Holes"]) {
+                        
+                        [getRequestObjectCount setObject: @"10" forKey:@"NumberHoles[lt]"];
+                        
+                    }else if ([strcf_Holes isEqualToString:@"0-18 Holes"]) {
+                        [getRequestObjectCount setObject: @"19" forKey:@"NumberHoles[lt]"];
+                        
+                    }else if ([strcf_Holes isEqualToString:@"18-27 Holes"]) {
+                        
+                        [getRequestObjectCount setObject: @"17" forKey:@"NumberHoles[gt]"];
+                        [getRequestObjectCount setObject: @"28" forKey:@"NumberHoles[lt]"];
+                        
+                        
+                    }else if ([strcf_Holes isEqualToString:@"18-36 Holes"]) {
+                        [getRequestObjectCount setObject: @"17" forKey:@"NumberHoles[gt]"];
+                        [getRequestObjectCount setObject: @"37" forKey:@"NumberHoles[lt]"];
+                        
+                    }else if ([strcf_Holes isEqualToString:@"27-36 Holes"]){
+                        [getRequestObjectCount setObject: @"26" forKey:@"NumberHoles[gt]"];
+                        [getRequestObjectCount setObject: @"37" forKey:@"NumberHoles[lt]"];
+                        
+                    }else if ([strcf_Holes isEqualToString:@"36+ Holes"]) {
+                        [getRequestObjectCount setObject: @"36" forKey:@"NumberHoles[gt]"];
+                        
+                    }
+                    
+                }
+                
                 
                 if([strcf_type isEqualToString:@"1"]) {
                     [getRequestObjectCount setObject: @"Public" forKey:@"CourseType"];
@@ -449,6 +532,37 @@ int courseOption;
                 NSString *strcf_distance= [dictcoursePreferencesData  objectForKey:@"cf_distance"];
                 NSString *strcf_type= [dictcoursePreferencesData  objectForKey:@"cf_type"];
                 NSString *strcf_isFav= [dictcoursePreferencesData  objectForKey:@"cf_isFav"];
+                NSString *strcf_Holes= [dictcoursePreferencesData  objectForKey:@"cf_Holes"];
+                
+                if(![strcf_Holes isEqualToString:@"All"]) {
+                    
+                    if ([strcf_Holes isEqualToString:@"0-9 Holes"]) {
+                        
+                        [getRequest setObject: @"10" forKey:@"NumberHoles[lt]"];
+                        
+                    }else if ([strcf_Holes isEqualToString:@"0-18 Holes"]) {
+                        [getRequest setObject: @"19" forKey:@"NumberHoles[lt]"];
+                        
+                    }else if ([strcf_Holes isEqualToString:@"18-27 Holes"]) {
+                       
+                        [getRequest setObject: @"17" forKey:@"NumberHoles[gt]"];
+                        [getRequest setObject: @"28" forKey:@"NumberHoles[lt]"];
+                        
+                        
+                    }else if ([strcf_Holes isEqualToString:@"18-36 Holes"]) {
+                        [getRequest setObject: @"17" forKey:@"NumberHoles[gt]"];
+                        [getRequest setObject: @"37" forKey:@"NumberHoles[lt]"];
+                        
+                    }else if ([strcf_Holes isEqualToString:@"27-36 Holes"]){
+                        [getRequest setObject: @"26" forKey:@"NumberHoles[gt]"];
+                        [getRequest setObject: @"37" forKey:@"NumberHoles[lt]"];
+                        
+                    }else if ([strcf_Holes isEqualToString:@"36+ Holes"]) {
+                        [getRequest setObject: @"36" forKey:@"NumberHoles[gt]"];
+                        
+                    }
+                    
+                }
                 
                 if([strcf_type isEqualToString:@"1"]) {
                     [getRequest setObject: @"Public" forKey:@"CourseType"];
@@ -818,6 +932,7 @@ int courseOption;
     MapViewController *obj = [[MapViewController alloc] initWithNibName:@"MapViewController" bundle:nil];
     obj.arrCourseData = arrData;
     obj.strFromScreen = @"1";
+    isFromMapScreen = YES;
     [self.navigationController pushViewController:obj animated:YES];
     
 }
@@ -1242,6 +1357,8 @@ int courseOption;
             [self shareLinkViaSocialApp];
     }
 }
+
+
 #pragma mark- grid Delegate
 /**
  @Description
@@ -1251,26 +1368,28 @@ int courseOption;
  */
 -(void)shareLinkViaSocialApp
 {
-    
-        // All courses
-        QBCOCustomObject *obj = [arrData objectAtIndex:selectedRow];
-    
+
+    // All courses
+    QBCOCustomObject *obj = [arrData objectAtIndex:selectedRow];
+
     //  (Title of Event, Date of Event, Location of Event, info text of event.)
     NSString *courseName = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"Name"]];
     NSString *address = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"Address"]];
     NSString *cityName = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"City"]];
+    NSString *stateName = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"State"]];
+     NSString *zipcode = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"ZipCode"]];
+     NSString *phoneNumber = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"ContactNumber"]];
     NSString *websiteName = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"Website"]];
-    NSArray * activityItems = @[[NSString stringWithFormat:@"Check out this Course I found in the ParTee App! \n\n %@ \n %@ %@ \n %@",courseName, address, cityName, websiteName]];
+    NSArray * activityItems = @[[NSString stringWithFormat:@"Check out this course I found in the ParTee App!\n\n%@\n%@\n%@, %@, %@\n%@\n%@",courseName, address, cityName,stateName,zipcode, phoneNumber, websiteName]];
     NSArray * applicationActivities = nil;
-    NSArray * excludeActivities = @[UIActivityTypeAssignToContact, UIActivityTypeCopyToPasteboard, UIActivityTypePostToWeibo, UIActivityTypePrint, UIActivityTypeMessage];
-    
+
     UIActivityViewController * activityController = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:applicationActivities];
-    activityController.excludedActivityTypes = excludeActivities;
-    
+
+
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
     {
         activityController.popoverPresentationController.sourceView = self.view;
-        
+
         [self presentViewController:activityController
                            animated:YES
                          completion:nil];
@@ -1281,10 +1400,10 @@ int courseOption;
                            animated:YES
                          completion:nil];
     }
-     
-   
-    
+
 }
+
+
 -(void) actionPhoto {
     
     CoursePhotoViewController *obj = [[CoursePhotoViewController alloc] initWithNibName:@"CoursePhotoViewController" bundle:nil];
@@ -1298,6 +1417,7 @@ int courseOption;
     MapViewController *obj = [[MapViewController alloc] initWithNibName:@"MapViewController" bundle:nil];
     obj.dictCourseMapData =sharedobj;
     obj.strFromScreen = @"2";
+    isFromMapScreen = YES;
     [self.navigationController pushViewController:obj animated:YES];
     
 }
@@ -1346,6 +1466,7 @@ int courseOption;
     //
     //    NSString *googleMapUrlString = [NSString stringWithFormat:@"https://www.google.com/maps/place/%@",strPlaceName];
     
+    isFromMapScreen = YES;
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:googleMapUrlString] options:[[NSDictionary alloc] init] completionHandler:nil];
     
 }

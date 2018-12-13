@@ -172,6 +172,7 @@ static NSString *const kEventID                 = @"ID";
 static NSString *const kEventMapVc              = @"MapViewController";
 static NSString *const kEventNoCourseAv         = @"No courses available";
 static NSString *const kEventDescParam          = @"Description";
+static NSString *const kEventNameParam          = @"Name";
 static NSString *const kEventTitleParam         = @"Title";
 static NSString *const kEventStartDate          = @"StartDate";
 static NSString *const kEventEndDateParam       = @"EndDate";
@@ -212,6 +213,7 @@ static NSString *const kCourseState             = @"State";
 static NSString *const kCourseCity              = @"City";
 static NSString *const kEventNo                 = @"NO";
 static NSString *const kEventYes                = @"YES";
+
 /************* Event Search Screen constants *************/
 
 /************* Event Screen constants *************/
@@ -286,6 +288,10 @@ static NSString *const kLargeTitle      = @"Large";
 static NSString *const kSmallTitle      = @"Small";
 static NSString *const kShareTitle      = @"Share";
 static NSString *const kTextSmall       = @"document.getElementsByTagName('body')[0].style.webkitTextFillColor= 'white';document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust='140%%';DOMReady();";
+
+
+static NSString *const kCourseHoles             = @"Course_Holes";
+static NSString *const kCourseAmenties          = @"Course_Amenties";
 
 /************ News feed Constants ************/
 

@@ -44,11 +44,10 @@
         NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
         [dateFormat setDateFormat:kFormatOriginalCreatedDate];
         NSString *finalDate = [dateFormat stringFromDate:_AdFeedObj.createdAt];
-        NSString *dateStr = [CommonMethods convertDateToAnotherFormat:finalDate originalFormat:kFormatOriginalCreatedDate finalFormat:kfinalFormat];
         titleStr = [[AppDelegate sharedinstance] nullcheck:[_AdFeedObj.fields objectForKey:kAdTitle]];
         descStr  = [[AppDelegate sharedinstance] nullcheck:[_AdFeedObj.fields objectForKey:kAdDesc]];
         contentStr =  [[AppDelegate sharedinstance] nullcheck:[_AdFeedObj.fields objectForKey:kAdContent]];
-        pubDate = dateStr;
+        pubDate = [CommonMethods convertDateToAnotherFormat:finalDate originalFormat:kFormatOriginalCreatedDate finalFormat:kfinalFormat];
      //   guidStr = [[AppDelegate sharedinstance] nullcheck:[_AdFeedObj.fields objectForKey:kAdCreater]];
         linkStr = [[AppDelegate sharedinstance] nullcheck:[_AdFeedObj.fields objectForKey:kAdLink]];
     }else{
@@ -182,12 +181,31 @@
  */
 -(void)shareLinkViaSocialApp
 {
-    NSArray * activityItems = @[[NSString stringWithFormat:@"%@",linkStr]];
+  //  NSArray * activityItems = @[[NSString stringWithFormat:@"%@",linkStr]];
     NSArray * applicationActivities = nil;
-    NSArray * excludeActivities = @[UIActivityTypeAssignToContact, UIActivityTypeCopyToPasteboard, UIActivityTypePostToWeibo, UIActivityTypePrint, UIActivityTypeMessage];
     
+    NSString *strDate = @"";
+    if (self.adFeedVal) {
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:kFormatOriginalCreatedDate];
+    NSString *finalDate = [dateFormat stringFromDate:_AdFeedObj.createdAt];
+    strDate  =  [CommonMethods convertDateToAnotherFormat:finalDate originalFormat:kFormatOriginalCreatedDate finalFormat:kfinalFormat];
+    }else {
+       strDate = [CommonMethods convertDateToAnotherFormat:pubDate originalFormat:kformatOriginal finalFormat:kfinalFormat];
+    }
+ 
+    NSArray *listItems = [contentStr componentsSeparatedByString:@"\""];
+    NSString *strContent = contentStr;
+    if (listItems.count == 3) {
+       
+        strContent = @"";
+    }
+    
+    [descWebView  loadHTMLString:[NSString stringWithFormat:@"<html><body><span style=\"text-align:justify\">%@</span></body></html>",contentStr] baseURL:nil];
+    
+    NSArray * activityItems = @[[NSString stringWithFormat:@"Check out this article I found in the ParTee App!”\n\n%@\n\n%@\n\n%@\n\n%@",titleStr, strDate, linkStr,strContent]];
+
     UIActivityViewController * activityController = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:applicationActivities];
-    activityController.excludedActivityTypes = excludeActivities;
     
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
     {

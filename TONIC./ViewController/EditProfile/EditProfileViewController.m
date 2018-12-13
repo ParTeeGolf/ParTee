@@ -26,6 +26,7 @@
 {
     int currentPageCity;
     NSString *selectedState;
+    int manageEmptyCityAndCourseArr;
 }
 @end
 
@@ -36,6 +37,9 @@ NSDateFormatter *dateFormat;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    manageEmptyCityAndCourseArr = 0;
+    
     imageChosen=kImageCancel;
     currentPageCity = 0;
     viewSave.layer.cornerRadius = 20;
@@ -86,8 +90,12 @@ NSDateFormatter *dateFormat;
     
     self.menuContainerViewController.panMode = YES;
     
-    arrStateList = [[NSMutableArray alloc] init];
-    arrCityList = [[NSMutableArray alloc] init];
+    txtHandicap.text = @"N/A";
+    txtHomeCourse.text = @"";
+    
+    arrStateList   = [[NSMutableArray alloc] init];
+    arrCityList    = [[NSMutableArray alloc] init];
+    arrHomeCourses = [[NSMutableArray alloc] init];
     
 //    arrStateList = [NSArray arrayWithObjects:@"Montana",nil];
 //    arrCityList = [NSArray arrayWithObjects:@"Bozeman",@"Billings",@"Butte",@"Big Sky",@"Kalispell",@"Livingston",@"All",nil];
@@ -200,10 +208,9 @@ NSDateFormatter *dateFormat;
       //  txtState.text = [arrStateList objectAtIndex:0];
         selectedState  = [arrStateList objectAtIndex:0];
         [arrStateList sortUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
-        //      [arrStateList insertObject:@"All" atIndex:0];
-        [self getcityList];
-        //   [[AppDelegate sharedinstance] hideLoader];
-        
+        [arrStateList insertObject:@"Select State" atIndex:0];
+        [pickerView reloadAllComponents];
+        [[AppDelegate sharedinstance] hideLoader];
     } errorBlock:^(QBResponse *response) {
         // error handling
         [[AppDelegate sharedinstance] hideLoader];
@@ -250,7 +257,8 @@ NSDateFormatter *dateFormat;
         if (objects.count < 100) {
             
             [arrCityList sortUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
-       //     txtCity.text = [arrCityList objectAtIndex:0];
+            [arrCityList insertObject:@"Select City" atIndex:0];
+            [pickerView reloadAllComponents];
             [[AppDelegate sharedinstance] hideLoader];
             
         }else {
@@ -294,7 +302,7 @@ NSDateFormatter *dateFormat;
         txtHomeCourse.text = [[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"home_coursename"]];
         
         if([txtHomeCourse.text length]==0) {
-             txtHomeCourse.text = @"N/A";
+             txtHomeCourse.text = @"";
         }
         
         txtZipCode.text = [[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"userZipcode"]];
@@ -595,8 +603,6 @@ NSDateFormatter *dateFormat;
 
 -(void) getCoursesForSelection {
     
-    arrHomeCourses = [[NSMutableArray alloc] init];
-    arrHomeCoursesObjects = [[NSMutableArray alloc] init];
     
     NSString *strCity = txtCity.text;
     
@@ -604,13 +610,15 @@ NSDateFormatter *dateFormat;
     NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
     [getRequest setObject:strCity forKey:@"City"];
     
+    
     [QBRequest objectsWithClassName:@"GolfCourses" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
-        // response processing
-        [[AppDelegate sharedinstance] hideLoader];
         
-        // checking user there in custom user table or not.
         
+        arrHomeCourses = [[NSMutableArray alloc] init];
+        arrHomeCoursesObjects = [[NSMutableArray alloc] init];
         arrHomeCoursesObjects = [objects mutableCopy];
+        
+       
         
         if([objects count]>0) {
             
@@ -629,7 +637,13 @@ NSDateFormatter *dateFormat;
             [arrHomeCourses addObject:@"N/A"];
         }
         
+        
+        [arrHomeCourses sortUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+        [arrHomeCourses insertObject:@"Select Golf Course" atIndex:0];
         [pickerView reloadAllComponents];
+        [pickerView selectRow:0 inComponent:0 animated:YES];
+        [[AppDelegate sharedinstance] hideLoader];
+        
     }
                          errorBlock:^(QBResponse *response) {
                              // error handling
@@ -735,15 +749,39 @@ NSDateFormatter *dateFormat;
     NSLog(@"Selected Row %d", row);
     
     if(pickerOption==kPickerState) {
-        txtState.text = [arrStateList objectAtIndex:row];
-        selectedState = [arrStateList objectAtIndex:row];
-        txtCity.text =@"";
-        currentPageCity = 0;
-        [[AppDelegate sharedinstance] showLoader];
-        [self getcityList];
+       
+            if ([[arrStateList objectAtIndex:row] isEqualToString:@"Select State"]) {
+                txtState.text = @"";
+                txtCity.text = @"";
+                txtHomeCourse.text  = @"";
+                
+            }else {
+                txtState.text = [arrStateList objectAtIndex:row];
+                selectedState = [arrStateList objectAtIndex:row];
+                currentPageCity = 0;
+                txtCity.text = @"";
+                txtHomeCourse.text  = @"";
+                [[AppDelegate sharedinstance] showLoader];
+                if([arrCityList count]>0)
+                    [arrCityList removeAllObjects];
+                [self getcityList];
+            }
+        
+        
     }
     else if(pickerOption==kPickerCity) {
-        txtCity.text = [arrCityList objectAtIndex:row];
+        
+        if ([[arrCityList objectAtIndex:row] isEqualToString:@"Select City"]) {
+            txtCity.text = @"";
+            txtHomeCourse.text  = @"";
+            
+        }else {
+            
+            txtCity.text = [arrCityList objectAtIndex:row];
+            txtHomeCourse.text = @"";
+            [self getCoursesForSelection];
+            
+        }
     }
     else if(pickerOption==kPickerHandicap) {
         txtHandicap.text = [arrHandicapList objectAtIndex:row];
@@ -751,10 +789,16 @@ NSDateFormatter *dateFormat;
     }
     else if(pickerOption==kPickerCourses) {
         
-        if([arrHomeCourses count]>0) {
-            txtHomeCourse.text = [arrHomeCourses objectAtIndex:row];
-            
+        
+        if ([[arrHomeCourses objectAtIndex:row] isEqualToString:@"Select Golf Course"]) {
+            txtHomeCourse.text  = @"";
+        }else {
+            if([arrHomeCourses count]>0) {
+                txtHomeCourse.text = [arrHomeCourses objectAtIndex:row];
+                
+            }
         }
+        
         
     }
 
@@ -830,43 +874,104 @@ NSDateFormatter *dateFormat;
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
     
     if(textField==txtState) {
+        [pickerView selectRow:0 inComponent:0 animated:YES];
         pickerOption=kPickerState;
-        
-//        if([txtState.text length]==0)
-//            txtState.text = [arrStateList objectAtIndex:0];
-        
     }
     else if(textField==txtCity) {
-        pickerOption=kPickerCity;
         
-//        NSString *strStateSelected = txtState.text;
-//
-//        if([arrCityList count]>0)
-//            [arrCityList removeAllObjects];
-//
-//        for(int i=0;i<[arrData count];i++) {
-//            QBCOCustomObject *obj = [arrData objectAtIndex:i];
-//
-//            NSString *strName = [obj.fields objectForKey:@"stateName"];
-//
-//            if([strName isEqualToString:strStateSelected]) {
-//
-//                [arrCityList addObject:[obj.fields objectForKey:@"cityName"]];
-//            }
-//        }
+        [txtState resignFirstResponder];
         
-        [pickerView reloadAllComponents];
+        if ([txtState.text isEqualToString:@""]) {
+            
+            if (manageEmptyCityAndCourseArr == 0) {
+                manageEmptyCityAndCourseArr = 1;
+                [textField resignFirstResponder];
+                [scrollViewContainer setContentOffset:CGPointZero animated:YES];
+                [[AppDelegate sharedinstance] displayMessage:@"Please Select State first."];
+                
+                return NO;
+            }else{
+                [scrollViewContainer setContentOffset:CGPointZero animated:YES];
+                manageEmptyCityAndCourseArr = 0;
+                [textField resignFirstResponder];
+                
+                return NO;
+            }
+        }else{
+            if([arrCityList count] == 0) {
+                
+                if (manageEmptyCityAndCourseArr == 0) {
+                    manageEmptyCityAndCourseArr = 1;
+                    [textField resignFirstResponder];
+                    [scrollViewContainer setContentOffset:CGPointZero animated:YES];
+                    [[AppDelegate sharedinstance] displayMessage:@"Please Select State first."];
+                    
+                    return NO;
+                }else{
+                    [scrollViewContainer setContentOffset:CGPointZero animated:YES];
+                    manageEmptyCityAndCourseArr = 0;
+                    [textField resignFirstResponder];
+                    
+                    return NO;
+                }
+                
+            }
+        }
         
-        if([txtCity.text length]==0)
-            txtCity.text = [arrCityList objectAtIndex:0];
+        
+        [pickerView selectRow:0 inComponent:0 animated:YES];
+        pickerOption = kPickerCity;
+        
     }
     else if(textField==txtHomeCourse) {
+        
+        [txtState resignFirstResponder];
+        [txtCity resignFirstResponder];
+        if ([txtState.text isEqualToString:@""] || [txtCity.text isEqualToString:@""]) {
+            
+            if (manageEmptyCityAndCourseArr == 0) {
+                manageEmptyCityAndCourseArr = 1;
+                [textField resignFirstResponder];
+                [scrollViewContainer setContentOffset:CGPointZero animated:YES];
+                [[AppDelegate sharedinstance] displayMessage:@"Please Select State and City first."];
+                return NO;
+                
+            }else{
+                [scrollViewContainer setContentOffset:CGPointZero animated:YES];
+                manageEmptyCityAndCourseArr = 0;
+                [textField resignFirstResponder];
+                return NO;
+            }
+            
+        }else{
+            if([arrHomeCourses count] == 0) {
+                
+                if (manageEmptyCityAndCourseArr == 0) {
+                    manageEmptyCityAndCourseArr = 1;
+                    [textField resignFirstResponder];
+                    [scrollViewContainer setContentOffset:CGPointZero animated:YES];
+                    [[AppDelegate sharedinstance] displayMessage:@"Please Select State and City first."];
+                    return NO;
+                    
+                }else{
+                    [scrollViewContainer setContentOffset:CGPointZero animated:YES];
+                    manageEmptyCityAndCourseArr = 0;
+                    [textField resignFirstResponder];
+                    return NO;
+                }
+                
+            }
+        }
+        
+        
+        
         pickerOption=kPickerCourses;
         
         if([txtHomeCourse.text length]==0)
-            txtHomeCourse.text = @"N/A";
+            // txtHomeCourse.text = @"N/A";
+            txtHomeCourse.text = @"";
         
-        [self getCoursesForSelection];
+        
         
     }
     else if(textField==txtHandicap) {
@@ -913,9 +1018,22 @@ NSDateFormatter *dateFormat;
 
 - (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
     
-    if(textField == txtState) {
+    NSString *strStateSelected = txtState.text;
+    
+    if(textField ==txtState) {
         
-        txtCity.text =@"";
+        for(int i=0;i<[arrData count];i++) {
+            QBCOCustomObject *obj = [arrData objectAtIndex:i];
+            
+            NSString *strName = [obj.fields objectForKey:@"stateName"];
+            
+            if([strName isEqualToString:strStateSelected]) {
+                
+                [arrCityList addObject:[obj.fields objectForKey:@"cityName"]];
+            }
+        }
+        
+        [pickerView reloadAllComponents];
     }
     
     return YES;

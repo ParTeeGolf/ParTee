@@ -303,11 +303,7 @@
    
     NSSortDescriptor *descriptor=[[NSSortDescriptor alloc] initWithKey:@"self" ascending:YES];
     NSArray *descriptors=[NSArray arrayWithObject: descriptor];
-    NSArray *reverseOrder=[dateArray sortedArrayUsingDescriptors:descriptors];
     
-    NSLog(@"Array: %@",reverseOrder);
-    
-
     for (int i = 0; i < feedArr.count; i++) {
         
         for (id dict in feedArr) {
@@ -434,9 +430,6 @@
     NSArray *descriptors=[NSArray arrayWithObject: descriptor];
     NSArray *reverseOrder=[dateArray sortedArrayUsingDescriptors:descriptors];
     
-    NSLog(@"Array: %@",reverseOrder);
-    
-    
     for (int i = 0; i < adFeedArr.count; i++) {
         
         for (QBCOCustomObject *obj in adFeedArr) {
@@ -455,11 +448,6 @@
             
         }
     }
-    
-   
-    NSLog(@"%@", arrAdFeedDetails);
-    
-  
     
 }
     /**

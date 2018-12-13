@@ -1015,8 +1015,7 @@ NSString *const constZipcodeLimit = @"Maximum 10 Characters allowed for Zipcode.
         
         
 
-    }
-    else if(textField==txtHomeCourse) {
+    }else if(textField==txtHomeCourse) {
         
         [txtState resignFirstResponder];
         [txtCity resignFirstResponder];

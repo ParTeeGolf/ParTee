@@ -112,7 +112,8 @@
     UIButton *fecthInitialRecordBtn;
     // this will show the total number of records and current records showing in screen.
     UILabel  *recordLbl;
-  
+    // this holds the value Yes if user gone to map screen and return back from map screen in order not to refresh the page.
+    BOOL isFromMapScreen;
 }
 
 @end
@@ -122,36 +123,44 @@
 
 - (void)viewDidLoad {
     
+    isFromMapScreen = NO;
     ((AppDelegate*)[UIApplication sharedApplication].delegate).eventOptionSelected = 0;
     [super viewDidLoad];
-    [self initializeDataForScreen];
+    [self initializeData];
     [self createRecordBaseView];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:YES];
-    // hide info popup
-    viewBlurInfo.hidden = true;
-    viewInfoBase.hidden = true;
-    // courseOption set selected segment to all events
-    currentPage = kZeroValue;
-    adCurrentPage = kZeroValue;
-    eventOption = ((AppDelegate*)[UIApplication sharedApplication].delegate).eventOptionSelected;
-    if (eventOption == 0) {
-        [self hideOrShowSearchBtn:YES];
-    }else{
-        [self hideOrShowSearchBtn:NO];
-    }
-    segmentControl.selectedSegmentIndex = eventOption;
-    shouldLoadNext = NO;
-    fetchPrevRecordBtn.hidden = true;
-    fecthInitialRecordBtn.hidden = true;
     
-    constraintWidthContactBtn.constant = (self.view.frame.size.width - 40) /2;
-    constraintWidthWebsiteBtn.constant = (viewAdvertiseInfoPopup.frame.size.width - 40) /2;
-    // Call getAdEventRecordsCount method to fetch Advertisment event details
-    [self getAdEventRecordsCount];
+    if (isFromMapScreen) {
+        isFromMapScreen = NO;
+    }else {
+        // hide info popup
+        viewBlurInfo.hidden = true;
+        viewInfoBase.hidden = true;
+        // courseOption set selected segment to all events
+        currentPage = kZeroValue;
+        adCurrentPage = kZeroValue;
+        eventOption = ((AppDelegate*)[UIApplication sharedApplication].delegate).eventOptionSelected;
+        if (eventOption == 0) {
+            [self hideOrShowSearchBtn:YES];
+        }else{
+            [self hideOrShowSearchBtn:NO];
+        }
+        segmentControl.selectedSegmentIndex = eventOption;
+        shouldLoadNext = NO;
+        fetchPrevRecordBtn.hidden = true;
+        fecthInitialRecordBtn.hidden = true;
+        
+        constraintWidthContactBtn.constant = (self.view.frame.size.width - 40) /2;
+        constraintWidthWebsiteBtn.constant = (viewAdvertiseInfoPopup.frame.size.width - 40) /2;
+        // Call getAdEventRecordsCount method to fetch Advertisment event details
+        [self getAdEventRecordsCount];
+    }
+    
+  
 }
 #pragma mark- initialize Data
 /**
@@ -174,7 +183,7 @@
  * @author Chetu India
  * @return void nothing will return by this method.
  */
--(void)initializeDataForScreen
+-(void)initializeData
 {
     /******** set Initial values ********/
     cityStateCourseFilter = kZeroValue;
@@ -888,6 +897,7 @@
         
         UIApplication *application = [UIApplication sharedApplication];
         [application openURL:[NSURL URLWithString: str] options:@{} completionHandler:nil];
+        isFromMapScreen = NO;
         viewBlurInfo.hidden = true;
         viewAdvertiseInfoPopup.hidden = true;
         viewInfoBase.hidden = true;
@@ -954,7 +964,6 @@
     favInfoMapDirStr = @"SHARE";
     [self getEventCourseDetails:eventCourseId];
     
-    
 }
 
 #pragma mark- Calender Btn Popup
@@ -969,8 +978,6 @@
     NSString *eventCourseId = [[AppDelegate sharedinstance] nullcheck:[sharedobj.fields objectForKey:kEventCourseId]];
     favInfoMapDirStr = @"CALENDAR";
     [self getEventCourseDetails:eventCourseId];
-    
-    
     
 }
 
@@ -1048,7 +1055,7 @@
     
     
     NSString *googleMapUrlString = [NSString stringWithFormat:@"http://maps.apple.com/?saddr=%f,%f&daddr=%f,%f", scrplaceCoord.latitude, scrplaceCoord.longitude, desplaceCoord.latitude, desplaceCoord.longitude];
-    
+    isFromMapScreen = NO;
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:googleMapUrlString] options:[[NSDictionary alloc] init] completionHandler:nil];
 }
 #pragma mark- Get Event Details
@@ -1091,7 +1098,7 @@
     [[AppDelegate sharedinstance] showLoader];
     
     [QBRequest objectsWithClassName:kEventGolfCourse extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
-        
+          [[AppDelegate sharedinstance] hideLoader];
         if ( [favInfoMapDirStr isEqualToString:@"INFO"]) {
             objEventGolfCourse = [objects objectAtIndex:0];
             favInfoMapDirStr= kEmptyStr;
@@ -1101,6 +1108,7 @@
             objEventGolfCourse = [objects objectAtIndex:0];
             favInfoMapDirStr= kEmptyStr;
             MapViewController *mapVC = [[MapViewController alloc] initWithNibName:kEventMapVc bundle:nil];
+            isFromMapScreen = YES;
             mapVC.dictCourseMapData = objEventGolfCourse;
             mapVC.strFromScreen = @"2";
             [self.navigationController pushViewController:mapVC animated:YES];
@@ -1120,6 +1128,7 @@
             }
             
             MapViewController *obj = [[MapViewController alloc] initWithNibName:kEventMapVc bundle:nil];
+            isFromMapScreen = YES;
             obj.arrCourseData = allEventCourseEvents;
             obj.strFromScreen = kEventOneStr;
             [self.navigationController pushViewController:obj animated:YES];
@@ -1127,15 +1136,26 @@
         }else if ([favInfoMapDirStr isEqualToString:@"SHARE"]){
             objEventGolfCourse = [objects objectAtIndex:0];
             
+            
+            NSString *descEvent = [[AppDelegate sharedinstance] nullcheck:[sharedobj.fields objectForKey:kEventDescParam]];
+            
+            NSString *eventCourseName = [[AppDelegate sharedinstance] nullcheck:[objEventGolfCourse.fields objectForKey:kEventNameParam]];
+            
+            NSString *startDateEvent = [[AppDelegate sharedinstance] nullcheck:[sharedobj.fields objectForKey:kEventStartDate]];
+            
+            startDateEvent = [CommonMethods convertDateToAnotherFormat:startDateEvent originalFormat:kEventDateFormatOriginal finalFormat:kfinalFormat];
+            
+             NSString *endDateEvent = [[AppDelegate sharedinstance] nullcheck:[sharedobj.fields objectForKey:kEventEndDateParam]];
+            
+             endDateEvent = [CommonMethods convertDateToAnotherFormat:endDateEvent originalFormat:kEventDateFormatOriginal finalFormat:kfinalFormat];
+            
             //  (Title of Event, Date of Event, Location of Event, info text of event.)
             NSString *titleEvent = [[AppDelegate sharedinstance] nullcheck:[sharedobj.fields objectForKey:kEventTitleParam]];
-            NSArray * activityItems = @[[NSString stringWithFormat:@"Check out this event I found in the ParTee App! \n\n%@",titleEvent]];
+            NSArray * activityItems = @[[NSString stringWithFormat:@"Check out this event I found in the ParTee App! \n\n%@\n%@ to %@\n%@\n%@",titleEvent,startDateEvent,endDateEvent, descEvent,eventCourseName]];
             NSArray * applicationActivities = nil;
-            NSArray * excludeActivities = @[UIActivityTypeAssignToContact, UIActivityTypeCopyToPasteboard, UIActivityTypePostToWeibo, UIActivityTypePrint, UIActivityTypeMessage];
-            
+           
             UIActivityViewController * activityController = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:applicationActivities];
-            activityController.excludedActivityTypes = excludeActivities;
-            
+          
             if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
             {
                 activityController.popoverPresentationController.sourceView = self.view;
@@ -1158,7 +1178,6 @@
             //  (Title of Event, Date of Event, Location of Event, info text of event.)
             NSString *titleEvent = [[AppDelegate sharedinstance] nullcheck:[sharedobj.fields objectForKey:kEventTitleParam]];
             NSString *startDateEvent = [[AppDelegate sharedinstance] nullcheck:[sharedobj.fields objectForKey:kEventStartDate]];
-          //  startDateEvent = @"2018-11-29T15:23:00Z";
             NSString *addressEvent = [[AppDelegate sharedinstance] nullcheck:[objEventGolfCourse.fields objectForKey:kEventAddParam]];
             NSString *descEvent = [[AppDelegate sharedinstance] nullcheck:[sharedobj.fields objectForKey:kEventDescParam]];
             EKEventStore *store = [EKEventStore new];
@@ -1188,12 +1207,14 @@
                 
                 NSError *err = nil;
                 [store saveEvent:event span:EKSpanThisEvent commit:YES error:&err];
-                NSString *eventId = event.eventIdentifier;  //save the event id if you want to access this later
+                dispatch_async(dispatch_get_main_queue(), ^{
+                  [[AppDelegate sharedinstance] hideLoader];
+                  [[AppDelegate sharedinstance] displayMessage:@"Event added to calendar"];
+                });
+         
+           //     NSString *eventId = event.eventIdentifier;  //save the event id if you want to access this later
             }];
         }
-        
-        
-        [[AppDelegate sharedinstance] hideLoader];
         
         
     } errorBlock:^(QBResponse *response) {

@@ -42,6 +42,7 @@
                 <outlet property="txtCity" destination="Ea8-i6-WKo" id="gxk-Sa-Hsu"/>
                 <outlet property="txtCourseName" destination="gW0-kd-R7x" id="tcX-28-132"/>
                 <outlet property="txtCourseZipcode" destination="2Nl-9V-icp" id="32e-Jz-OJ7"/>
+                <outlet property="txtFldHolesCourses" destination="YLx-Cs-Bmm" id="YM2-1A-Nhy"/>
                 <outlet property="txtState" destination="lxO-SB-hEy" id="Fh9-v6-uj8"/>
                 <outlet property="txtType" destination="GIe-DE-UCd" id="z7P-Lt-iBC"/>
                 <outlet property="view" destination="kQ2-JO-dcV" id="IMi-bo-BLU"/>
@@ -378,11 +379,11 @@
                                     </constraints>
                                 </view>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="All" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GIe-DE-UCd">
-                                    <rect key="frame" x="118" y="6" width="185" height="30"/>
+                                    <rect key="frame" x="79" y="6" width="224" height="30"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="30" id="VEL-MT-jGT"/>
-                                        <constraint firstAttribute="width" constant="185" id="sir-0z-o1G"/>
+                                        <constraint firstAttribute="width" constant="224" id="sir-0z-o1G"/>
                                     </constraints>
                                     <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <fontDescription key="fontDescription" name="Montserrat-Light" family="Montserrat" pointSize="15"/>
@@ -431,26 +432,32 @@
                             <rect key="frame" x="0.0" y="181" width="320" height="44"/>
                             <subviews>
                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="All" borderStyle="roundedRect" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="YLx-Cs-Bmm">
-                                    <rect key="frame" x="118" y="6" width="185" height="30"/>
+                                    <rect key="frame" x="87" y="6" width="224" height="30"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="30" id="VPU-MW-P2t"/>
-                                        <constraint firstAttribute="width" constant="185" id="oKX-s6-jHV"/>
+                                        <constraint firstAttribute="width" constant="224" id="oKX-s6-jHV"/>
                                     </constraints>
                                     <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <fontDescription key="fontDescription" name="Montserrat-Light" family="Montserrat" pointSize="15"/>
                                     <textInputTraits key="textInputTraits"/>
+                                    <connections>
+                                        <outlet property="delegate" destination="-1" id="K8P-SW-gfy"/>
+                                    </connections>
                                 </textField>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AvY-PE-XCR">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AvY-PE-XCR">
                                     <rect key="frame" x="16" y="8" width="296" height="32"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="32" id="e5s-WR-THn"/>
                                     </constraints>
-                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                    <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="16"/>
                                     <state key="normal" title="HOLES">
                                         <color key="titleColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </state>
+                                    <connections>
+                                        <action selector="selectHolesCourse:" destination="-1" eventType="touchUpInside" id="sfn-SL-3x8"/>
+                                    </connections>
                                 </button>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wJi-CR-06X">
                                     <rect key="frame" x="0.0" y="41" width="320" height="1"/>
@@ -462,7 +469,7 @@
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
-                                <constraint firstAttribute="trailing" secondItem="YLx-Cs-Bmm" secondAttribute="trailing" constant="17" id="0ox-sJ-QWL"/>
+                                <constraint firstAttribute="trailing" secondItem="YLx-Cs-Bmm" secondAttribute="trailing" constant="9" id="0ox-sJ-QWL"/>
                                 <constraint firstItem="AvY-PE-XCR" firstAttribute="top" secondItem="pe3-J7-dOw" secondAttribute="top" constant="8" id="1ac-av-rTq"/>
                                 <constraint firstAttribute="height" constant="44" id="1xP-cR-spf"/>
                                 <constraint firstAttribute="trailing" secondItem="wJi-CR-06X" secondAttribute="trailing" id="252-sJ-bZx"/>
@@ -691,7 +698,7 @@
                         <constraint firstItem="V4X-Ly-I6T" firstAttribute="top" secondItem="LMp-vq-crM" secondAttribute="bottom" constant="1" id="B16-5p-9QC"/>
                         <constraint firstItem="0vZ-C7-rkg" firstAttribute="top" secondItem="Q5g-gm-dvd" secondAttribute="bottom" constant="1" id="Cyc-S7-BQ9"/>
                         <constraint firstAttribute="trailing" secondItem="0vZ-C7-rkg" secondAttribute="trailing" id="E1x-EK-7Cl"/>
-                        <constraint firstItem="pe3-J7-dOw" firstAttribute="top" secondItem="gUg-Dg-qQR" secondAttribute="bottom" constant="1" id="GKw-Rs-B76"/>
+                        <constraint firstItem="pe3-J7-dOw" firstAttribute="top" secondItem="gUg-Dg-qQR" secondAttribute="bottom" id="GKw-Rs-B76"/>
                         <constraint firstItem="LMp-vq-crM" firstAttribute="trailing" secondItem="gUg-Dg-qQR" secondAttribute="trailing" id="Iru-N4-iQJ"/>
                         <constraint firstItem="V4X-Ly-I6T" firstAttribute="top" secondItem="LMp-vq-crM" secondAttribute="bottom" constant="1" id="JNj-4a-nMc"/>
                         <constraint firstAttribute="trailing" secondItem="q2k-nH-8od" secondAttribute="trailing" id="NJQ-8A-1bi"/>
