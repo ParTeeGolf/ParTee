@@ -22,7 +22,6 @@
 #define kIndexMap 2
 #define kIndexDirection 3
 #define kIndexPhoto 4
-
 #define kFeatured 0;
 #define kNearMe 1;
 #define kFavorite 2;
@@ -91,7 +90,7 @@ int courseOption;
     
     [[NSUserDefaults standardUserDefaults] setObject:dictcoursePreferencesData forKey:kcoursePreferencesData];
     [[NSUserDefaults standardUserDefaults] synchronize];
-     [tblList setContentOffset:tblList.contentOffset animated:NO];
+    [tblList setContentOffset:tblList.contentOffset animated:NO];
     [tblList reloadData];
     
     if(isiPhone4) {
@@ -104,7 +103,7 @@ int courseOption;
 -(void) viewWillAppear:(BOOL)animated {
     
     if (isFromMapScreen) {
-      
+        
         isFromMapScreen = NO;
     }else{
         self.menuContainerViewController.panMode=YES;
@@ -181,7 +180,7 @@ int courseOption;
             [self hideOrShowSearchBtn:NO];
         }
     }
-  
+    
 }
 
 -(void)hideOrShowSearchBtn:(BOOL)hideShowBool
@@ -194,9 +193,9 @@ int courseOption;
     btnSearchBig.hidden =  hideShowBool;
     
     if (hideShowBool) {
-         recordLoadBaseViewHeightConst.constant = 0;
+        recordLoadBaseViewHeightConst.constant = 0;
     }else {
-         recordLoadBaseViewHeightConst.constant = 30;
+        recordLoadBaseViewHeightConst.constant = 30;
     }
 }
 
@@ -210,7 +209,7 @@ int courseOption;
         }
         
     }else if ([strHoles isEqualToString:@"0-18 Holes"]) {
-       
+        
         for (int i = 0; i <= 18; i++) {
             [numberofHolesArr addObject:[NSString stringWithFormat:@"%d", i]];
         }
@@ -264,7 +263,7 @@ int courseOption;
         strlat = @"45.62076121";
         strlong = @"-111.12052917";
     }
-   
+    
     NSMutableDictionary *dictcoursePreferencesData;
     NSString *strFilterDistance;
     NSString *strCurrentUserID = [[AppDelegate sharedinstance] getCurrentUserId];
@@ -272,12 +271,12 @@ int courseOption;
     float metresDistance = 99999999999.34f;
     NSString *filterDistance = [NSString stringWithFormat:@"%f,%f;%f",[strlong floatValue],[strlat floatValue],metresDistance];
     
-
+    
     switch(courseOption)
     {
         case 0:
             [getRequestObjectCount setObject: @"true" forKey:@"featured"];
-          //  [getRequestObjectCount setObject: @"order" forKey:@"sort_asc"];
+            //  [getRequestObjectCount setObject: @"order" forKey:@"sort_asc"];
             [getRequestObjectCount setObject:filterDistance forKey:@"coordinates[near]"];
             break;
         case 1:
@@ -367,8 +366,8 @@ int courseOption;
                 if([items count]>0) {
                     
                     if(![[items objectAtIndex:0] isEqualToString:@"Any"]) {
-                         [getRequestObjectCount setObject: items forKey:@"amenities_temp[in]"];
-                     //   [getRequestObjectCount setObject: strcf_amenities forKey:@"Amenities[ctn]"];
+                        [getRequestObjectCount setObject: items forKey:@"amenities_temp[in]"];
+                        //   [getRequestObjectCount setObject: strcf_amenities forKey:@"Amenities[ctn]"];
                         
                     }
                 }
@@ -383,8 +382,8 @@ int courseOption;
                     
                 }
                 else {
-            //        NSString *strFilterDistance = [NSString stringWithFormat:@"%f,%f;%f",[strlong1 floatValue],[strlat1 floatValue],9999999.f];
-             //       [getRequestObjectCount setObject:strFilterDistance forKey:@"coordinates[near]"];
+                    //        NSString *strFilterDistance = [NSString stringWithFormat:@"%f,%f;%f",[strlong1 floatValue],[strlat1 floatValue],9999999.f];
+                    //       [getRequestObjectCount setObject:strFilterDistance forKey:@"coordinates[near]"];
                 }
                 
                 if([strcf_isFav isEqualToString:@"1"]) {
@@ -397,8 +396,8 @@ int courseOption;
                 
             }
             else {
-          //      NSString *strFilterDistance = [NSString stringWithFormat:@"%f,%f;%f",[strlong1 floatValue],[strlat1 floatValue],9999999.f];
-        //        [getRequestObjectCount setObject:strFilterDistance forKey:@"coordinates[near]"];
+                //      NSString *strFilterDistance = [NSString stringWithFormat:@"%f,%f;%f",[strlong1 floatValue],[strlat1 floatValue],9999999.f];
+                //        [getRequestObjectCount setObject:strFilterDistance forKey:@"coordinates[near]"];
             }
             break;
     }
@@ -503,7 +502,7 @@ int courseOption;
     
     float metresDistance = 99999999999.34f;
     NSString *filterDistance = [NSString stringWithFormat:@"%f,%f;%f",[strlong floatValue],[strlat floatValue],metresDistance];
-  
+    
     
     switch(courseOption)
     {
@@ -544,7 +543,7 @@ int courseOption;
                         [getRequest setObject: @"19" forKey:@"NumberHoles[lt]"];
                         
                     }else if ([strcf_Holes isEqualToString:@"18-27 Holes"]) {
-                       
+                        
                         [getRequest setObject: @"17" forKey:@"NumberHoles[gt]"];
                         [getRequest setObject: @"28" forKey:@"NumberHoles[lt]"];
                         
@@ -598,8 +597,8 @@ int courseOption;
                     
                     if(![[items objectAtIndex:0] isEqualToString:@"Any"]) {
                         
-                         [getRequest setObject: items forKey:@"amenities_temp[in]"];
-                    //    [getRequest setObject: strcf_amenities forKey:@"Amenities[ctn]"];
+                        [getRequest setObject: items forKey:@"amenities_temp[in]"];
+                        //    [getRequest setObject: strcf_amenities forKey:@"Amenities[ctn]"];
                         
                     }
                 }
@@ -614,8 +613,8 @@ int courseOption;
                     
                 }
                 else {
-               //     NSString *strFilterDistance = [NSString stringWithFormat:@"%f,%f;%f",[strlong1 floatValue],[strlat1 floatValue],9999999.f];
-              //      [getRequest setObject:strFilterDistance forKey:@"coordinates[near]"];
+                    //     NSString *strFilterDistance = [NSString stringWithFormat:@"%f,%f;%f",[strlong1 floatValue],[strlat1 floatValue],9999999.f];
+                    //      [getRequest setObject:strFilterDistance forKey:@"coordinates[near]"];
                 }
                 
                 if([strcf_isFav isEqualToString:@"1"]) {
@@ -628,8 +627,8 @@ int courseOption;
                 
             }
             else {
-           //     NSString *strFilterDistance = [NSString stringWithFormat:@"%f,%f;%f",[strlong1 floatValue],[strlat1 floatValue],9999999.f];
-       //         [getRequest setObject:strFilterDistance forKey:@"coordinates[near]"];
+                //     NSString *strFilterDistance = [NSString stringWithFormat:@"%f,%f;%f",[strlong1 floatValue],[strlat1 floatValue],9999999.f];
+                //         [getRequest setObject:strFilterDistance forKey:@"coordinates[near]"];
             }
             break;
     }
@@ -641,11 +640,11 @@ int courseOption;
         
         NSLog(@"Entries %lu",(unsigned long)page.totalEntries);
         if (courseOption != 0) {
-              arrData = [[NSMutableArray alloc] init];
+            arrData = [[NSMutableArray alloc] init];
         }
         if (courseOption == 0) {
-             arrData = [[NSMutableArray alloc] init];
-                // [self hideOrShowSearchBtn:YES];
+            arrData = [[NSMutableArray alloc] init];
+            // [self hideOrShowSearchBtn:YES];
         }
         [[AppDelegate sharedinstance] hideLoader];
         
@@ -820,8 +819,8 @@ int courseOption;
     if (_currentPage == 0) {
         
     }else {
-//         [fetchPrevRecordBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
-//         [fecthInitialRecordBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+        //         [fetchPrevRecordBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+        //         [fecthInitialRecordBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
         fetchPrevRecordBtn.hidden = true;
         fecthInitialRecordBtn.hidden = true;
         _currentPage=0;
@@ -829,8 +828,8 @@ int courseOption;
         
         [self getCoursesRecordCount];
     }
-  
-   
+    
+    
 }
 
 #pragma mark - load Prev 25 Records
@@ -844,8 +843,8 @@ int courseOption;
         [self getCoursesRecordCount];
         
         if (_currentPage == 0) {
-//            [fetchPrevRecordBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
-//            [fecthInitialRecordBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+            //            [fetchPrevRecordBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+            //            [fecthInitialRecordBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
             fetchPrevRecordBtn.hidden = true;
             fecthInitialRecordBtn.hidden = true;
         }
@@ -864,8 +863,8 @@ int courseOption;
         [self getCoursesRecordCount];
         
         if (_currentPage != 0) {
-//            [fetchPrevRecordBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-//            [fecthInitialRecordBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            //            [fetchPrevRecordBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            //            [fecthInitialRecordBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             fetchPrevRecordBtn.hidden = false;
             fecthInitialRecordBtn.hidden = false;
         }
@@ -875,19 +874,19 @@ int courseOption;
 
 
 - (IBAction)segmentSwitch:(id)sender {
-  
+    
     UISegmentedControl *segmentedControl = (UISegmentedControl *) sender;
     NSInteger selectedSegment = segmentedControl.selectedSegmentIndex;
     /*********** ChetuChange **********/
-     [tblList setContentOffset:tblList.contentOffset animated:NO];
+    [tblList setContentOffset:tblList.contentOffset animated:NO];
     // remove elements from array when segment change. we meed to remove previous segment courses from array and load for new segment.
     [tblList setContentOffset:tblList.contentOffset animated:NO];
-//    [arrData removeAllObjects];
+    //    [arrData removeAllObjects];
     courseOption = (int)selectedSegment;
     ((AppDelegate*)[UIApplication sharedApplication].delegate).courseOptionSelected = courseOption;
     // Hide or show search button
     if (courseOption == 0) {
-    //    arrData = [[NSMutableArray alloc] init];
+        //    arrData = [[NSMutableArray alloc] init];
         [self hideOrShowSearchBtn:YES];
     }else{
         [self hideOrShowSearchBtn:NO];
@@ -941,9 +940,9 @@ int courseOption;
     
     CoursePreferencesViewController *obj = [[CoursePreferencesViewController alloc] initWithNibName:@"CoursePreferencesViewController" bundle:nil];
     if (courseOption == 2) {
-      obj.isFromFavCourseSearch = 1;
+        obj.isFromFavCourseSearch = 1;
     }else {
-     obj.isFromFavCourseSearch = 0;
+        obj.isFromFavCourseSearch = 0;
     }
     
     [self.navigationController pushViewController:obj animated:YES];
@@ -964,7 +963,7 @@ int courseOption;
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     
-
+    
     if (courseOption == 0) {
         
         if (arrData.count > 10) {
@@ -990,12 +989,12 @@ int courseOption;
     
     
     return arrCoursesData.count;
-  
     
-//    if([strIsMyCourses isEqualToString:@"0"])
-//        return arrData.count;
-//
-//    return arrCoursesData.count;
+    
+    //    if([strIsMyCourses isEqualToString:@"0"])
+    //        return arrData.count;
+    //
+    //    return arrCoursesData.count;
     
 }
 
@@ -1100,31 +1099,31 @@ int courseOption;
         
         // Load featured courses only when last courses reached in the table
         /*
-        if (courseOption == 0) {
-            NSString *str11= [[arrData objectAtIndex:indexPath.row] description];
-            NSString *str22= [[arrData lastObject] description];
-            
-            BOOL lastItemReached;
-            
-            if([str11 isEqualToString:str22]  && indexPath.row == (arrData.count - 1)) {
-                lastItemReached=YES;
-            }
-            else {
-                lastItemReached=NO;
-                
-            }
-            
-            if (lastItemReached && indexPath.row == [arrData count] - 1) {
-                
-                if(shouldLoadNext) {
-                    _currentPage++;
-                    
-                    [self getCoursesRecordCount];
-                }
-            }
-        }
-        
-        */
+         if (courseOption == 0) {
+         NSString *str11= [[arrData objectAtIndex:indexPath.row] description];
+         NSString *str22= [[arrData lastObject] description];
+         
+         BOOL lastItemReached;
+         
+         if([str11 isEqualToString:str22]  && indexPath.row == (arrData.count - 1)) {
+         lastItemReached=YES;
+         }
+         else {
+         lastItemReached=NO;
+         
+         }
+         
+         if (lastItemReached && indexPath.row == [arrData count] - 1) {
+         
+         if(shouldLoadNext) {
+         _currentPage++;
+         
+         [self getCoursesRecordCount];
+         }
+         }
+         }
+         
+         */
         
         /***************** ChetuChange **************/
         
@@ -1180,6 +1179,7 @@ int courseOption;
         
         
         viewController.courseObject=obj;
+         isFromMapScreen = YES;
         [self.navigationController pushViewController:viewController animated:YES];
         
     }
@@ -1204,7 +1204,7 @@ int courseOption;
                 break;
             }
         }
-        
+         isFromMapScreen = YES;
         [self.navigationController pushViewController:viewController animated:YES];
         
     }
@@ -1306,14 +1306,14 @@ int courseOption;
     /*********** ChetuChange ******/
     
     //  Chnage the title of favorite button
-//    NSString *favoriteTitle = isFavCourse==YES ? @"Mark Unfavorite" : @"Mark Favorite";
-     NSString *favoriteTitle = isFavCourse==YES ? @"Unfavorite" : @"Mark Favorite";
+    //    NSString *favoriteTitle = isFavCourse==YES ? @"Mark Unfavorite" : @"Mark Favorite";
+    NSString *favoriteTitle = isFavCourse==YES ? @"Unfavorite" : @"Mark Favorite";
     //  NSString *favoriteTitle = @"Your favorite";
     NSString *favImgStr = @"";
-//    if ([favoriteTitle isEqualToString: @"Mark Unfavorite"]) {
-  
-  if ([favoriteTitle isEqualToString: @"Unfavorite"]) {
-    favImgStr = @"fav.png";
+    //    if ([favoriteTitle isEqualToString: @"Mark Unfavorite"]) {
+    
+    if ([favoriteTitle isEqualToString: @"Unfavorite"]) {
+        favImgStr = @"fav.png";
     }else {
         favImgStr = @"unfav";
     }
@@ -1368,28 +1368,28 @@ int courseOption;
  */
 -(void)shareLinkViaSocialApp
 {
-
+    
     // All courses
     QBCOCustomObject *obj = [arrData objectAtIndex:selectedRow];
-
+    
     //  (Title of Event, Date of Event, Location of Event, info text of event.)
     NSString *courseName = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"Name"]];
     NSString *address = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"Address"]];
     NSString *cityName = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"City"]];
     NSString *stateName = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"State"]];
-     NSString *zipcode = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"ZipCode"]];
-     NSString *phoneNumber = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"ContactNumber"]];
+    NSString *zipcode = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"ZipCode"]];
+    NSString *phoneNumber = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"ContactNumber"]];
     NSString *websiteName = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"Website"]];
     NSArray * activityItems = @[[NSString stringWithFormat:@"Check out this course I found in the ParTee App!\n\n%@\n%@\n%@, %@, %@\n%@\n%@",courseName, address, cityName,stateName,zipcode, phoneNumber, websiteName]];
     NSArray * applicationActivities = nil;
-
+    
     UIActivityViewController * activityController = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:applicationActivities];
-
-
+    
+    
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
     {
         activityController.popoverPresentationController.sourceView = self.view;
-
+        
         [self presentViewController:activityController
                            animated:YES
                          completion:nil];
@@ -1400,7 +1400,7 @@ int courseOption;
                            animated:YES
                          completion:nil];
     }
-
+    
 }
 
 
@@ -1633,7 +1633,7 @@ int courseOption;
         
         if([strIsMyCourses isEqualToString:@"0"]) {
             [arrData replaceObjectAtIndex:selectedRow withObject:obj];
-           
+            
         }
         else {
             //    [arrData replaceObjectAtIndex:indexPath.row withObject:obj];
@@ -1644,7 +1644,7 @@ int courseOption;
             [self getData];
         }
         else {
-           
+            
             if (courseOption == 2) {
                 [self getCoursesRecordCount];
             }else{
@@ -1652,7 +1652,7 @@ int courseOption;
                 [tblList setContentOffset:tblList.contentOffset animated:NO];
                 [tblList reloadData];
             }
-           
+            
         }
         
     } errorBlock:^(QBResponse *response) {
@@ -1665,3 +1665,4 @@ int courseOption;
 }
 
 @end
+

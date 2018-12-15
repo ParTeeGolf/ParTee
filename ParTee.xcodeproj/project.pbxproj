@@ -589,6 +589,11 @@
 		843EF919216B9B29000604EE /* NewsFeedVc.xib in Resources */ = {isa = PBXBuildFile; fileRef = 843EF917216B9B29000604EE /* NewsFeedVc.xib */; };
 		843EF91E216BA863000604EE /* ArticleDetailsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 843EF91C216BA863000604EE /* ArticleDetailsVC.m */; };
 		843EF91F216BA863000604EE /* ArticleDetailsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 843EF91D216BA863000604EE /* ArticleDetailsVC.xib */; };
+		846B600621C4060A000AC594 /* Silde 5X.png in Resources */ = {isa = PBXBuildFile; fileRef = 846B600121C4060A000AC594 /* Silde 5X.png */; };
+		846B600721C4060A000AC594 /* Slide 1X.png in Resources */ = {isa = PBXBuildFile; fileRef = 846B600221C4060A000AC594 /* Slide 1X.png */; };
+		846B600821C4060A000AC594 /* Slide 2X.png in Resources */ = {isa = PBXBuildFile; fileRef = 846B600321C4060A000AC594 /* Slide 2X.png */; };
+		846B600921C4060A000AC594 /* Slide 3X.png in Resources */ = {isa = PBXBuildFile; fileRef = 846B600421C4060A000AC594 /* Slide 3X.png */; };
+		846B600A21C4060A000AC594 /* Slide 4X.png in Resources */ = {isa = PBXBuildFile; fileRef = 846B600521C4060A000AC594 /* Slide 4X.png */; };
 		8481C31A21563D1300957727 /* Ubuntu-B.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8481C30D21563D1300957727 /* Ubuntu-B.ttf */; };
 		8481C31B21563D1300957727 /* Ubuntu-BI.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8481C30E21563D1300957727 /* Ubuntu-BI.ttf */; };
 		8481C31C21563D1300957727 /* Ubuntu-C.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8481C30F21563D1300957727 /* Ubuntu-C.ttf */; };
@@ -1426,6 +1431,11 @@
 		843EF91C216BA863000604EE /* ArticleDetailsVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ArticleDetailsVC.m; sourceTree = "<group>"; };
 		843EF91D216BA863000604EE /* ArticleDetailsVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ArticleDetailsVC.xib; sourceTree = "<group>"; };
 		844F444C212B0E4E00BDEF6A /* Constant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constant.h; sourceTree = "<group>"; };
+		846B600121C4060A000AC594 /* Silde 5X.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Silde 5X.png"; sourceTree = "<group>"; };
+		846B600221C4060A000AC594 /* Slide 1X.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Slide 1X.png"; sourceTree = "<group>"; };
+		846B600321C4060A000AC594 /* Slide 2X.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Slide 2X.png"; sourceTree = "<group>"; };
+		846B600421C4060A000AC594 /* Slide 3X.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Slide 3X.png"; sourceTree = "<group>"; };
+		846B600521C4060A000AC594 /* Slide 4X.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Slide 4X.png"; sourceTree = "<group>"; };
 		8481C30D21563D1300957727 /* Ubuntu-B.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Ubuntu-B.ttf"; sourceTree = "<group>"; };
 		8481C30E21563D1300957727 /* Ubuntu-BI.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Ubuntu-BI.ttf"; sourceTree = "<group>"; };
 		8481C30F21563D1300957727 /* Ubuntu-C.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Ubuntu-C.ttf"; sourceTree = "<group>"; };
@@ -1575,6 +1585,7 @@
 		3D15C43B1F2B52AE0001EBC3 /* tour */ = {
 			isa = PBXGroup;
 			children = (
+				846B600021C4060A000AC594 /* iphoneX */,
 				3D15C43C1F2B52AE0001EBC3 /* 4s */,
 				3D15C4421F2B52AE0001EBC3 /* Silde 5.png */,
 				3D15C4431F2B52AE0001EBC3 /* Slide 1.png */,
@@ -2953,6 +2964,18 @@
 			path = TONIC./ConstantFile;
 			sourceTree = SOURCE_ROOT;
 		};
+		846B600021C4060A000AC594 /* iphoneX */ = {
+			isa = PBXGroup;
+			children = (
+				846B600121C4060A000AC594 /* Silde 5X.png */,
+				846B600221C4060A000AC594 /* Slide 1X.png */,
+				846B600321C4060A000AC594 /* Slide 2X.png */,
+				846B600421C4060A000AC594 /* Slide 3X.png */,
+				846B600521C4060A000AC594 /* Slide 4X.png */,
+			);
+			path = iphoneX;
+			sourceTree = "<group>";
+		};
 		8481C30C21563D1300957727 /* Font_Ubuntu */ = {
 			isa = PBXGroup;
 			children = (
@@ -3225,6 +3248,7 @@
 				3D707B941D56DC7C00591BF6 /* SFCompactText-LightItalic.ttf in Resources */,
 				3DAABBAD1F24F1E20009E6C7 /* bg1@2x.png in Resources */,
 				3DC65E9C1D5770E0008A0ADC /* Blur.png in Resources */,
+				846B600A21C4060A000AC594 /* Slide 4X.png in Resources */,
 				3D707BA01D56DC7C00591BF6 /* SFUIDisplay-Regular.ttf in Resources */,
 				3D514D511F3EC680008DD014 /* type-my@2x.png in Resources */,
 				3DC65E571D573E6B008A0ADC /* sepG@2x.png in Resources */,
@@ -3276,6 +3300,7 @@
 				3D42BDEF1EAB111000203FD9 /* Montserrat-Regular.ttf in Resources */,
 				3D92C8911D5B5D55005C8CAE /* pause@2x.png in Resources */,
 				8A535C251F63743A0063B813 /* image-placeholder.png in Resources */,
+				846B600921C4060A000AC594 /* Slide 3X.png in Resources */,
 				3D707B8A1D56DC7C00591BF6 /* SFCompactDisplay-Medium.ttf in Resources */,
 				3D707B8F1D56DC7C00591BF6 /* SFCompactText-Bold.ttf in Resources */,
 				3D92C8991D5B5D55005C8CAE /* typing.png in Resources */,
@@ -3342,6 +3367,7 @@
 				3DBF15C31EAB631D00D92C2B /* ico-handicap.png in Resources */,
 				3D92C87F1D5B5D55005C8CAE /* bubble_regular@3x.png in Resources */,
 				8A943E8D1F68CFF2000FF957 /* dimple.png in Resources */,
+				846B600721C4060A000AC594 /* Slide 1X.png in Resources */,
 				3D3205061F2E0B70008DE028 /* filledcircle@2x.png in Resources */,
 				3D707BB91D56DDAB00591BF6 /* bg button.png in Resources */,
 				3DCD78441D73E9A80077E911 /* ViewSpecialInvite.xib in Resources */,
@@ -3455,6 +3481,7 @@
 				3D707B881D56DC7C00591BF6 /* SFCompactDisplay-Heavy.ttf in Resources */,
 				3D30D8F81D58A8D300D4286B /* Roboto-Medium.ttf in Resources */,
 				3D92C87E1D5B5D55005C8CAE /* bubble_regular@2x.png in Resources */,
+				846B600621C4060A000AC594 /* Silde 5X.png in Resources */,
 				3D8C23DE1D6D3BCB0003A8D2 /* special1.png in Resources */,
 				3DA138BD1F3DDFFF0000189A /* unfav.png in Resources */,
 				3DA138C61F3E0C860000189A /* MapViewController.xib in Resources */,
@@ -3469,6 +3496,7 @@
 				3D95D52D1F1E38900038DFD7 /* noti-iconfilled.png in Resources */,
 				8481C31B21563D1300957727 /* Ubuntu-BI.ttf in Resources */,
 				3DC65E721D574D63008A0ADC /* Female User2@2x.png in Resources */,
+				846B600821C4060A000AC594 /* Slide 2X.png in Resources */,
 				3D9F54811ED5C79700CEE90C /* iap2.png in Resources */,
 				3D143E3F1F2A2EA700D98C98 /* pageDot@2x.png in Resources */,
 				3D15C44A1F2B52AE0001EBC3 /* Slide 3_4s.png in Resources */,

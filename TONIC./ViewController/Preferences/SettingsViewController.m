@@ -45,8 +45,8 @@
     
     currentPageState = 0;
     
-    tempCityArraySelcted    = [[NSMutableArray alloc]init];
-    tempCourseArraySelcted  = [[NSMutableArray alloc]init];
+    tempCityArraySelcted = [[NSMutableArray alloc]init];
+    tempCourseArraySelcted = [[NSMutableArray alloc]init];
     
     
     UIImage *thumb = [UIImage imageNamed:@"filledcircle"];
@@ -462,7 +462,7 @@
             
             tblMembers.allowsMultipleSelection = YES;
             [tblMembers reloadData];
-            [viewTable setHidden:NO];
+            [viewTable setHidden:YES];
             [[AppDelegate sharedinstance] hideLoader];
             
         }else {

@@ -21,6 +21,7 @@
 {
     GMSMarker *courseMarker;
     UIImage *newImage;
+    NSMutableArray *arrCourseDetails;
     
 }
 @end
@@ -37,6 +38,8 @@
     
     [super viewDidLoad];
     
+    arrCourseDetails = [[NSMutableArray alloc]init];
+   
     tempCourseMapData = [[QBCOCustomObject alloc]init];
     //  [[AppDelegate sharedinstance] showLoader];
     [self drawRouteOnMap];
@@ -64,8 +67,9 @@
     [indicatorLocImage setHidden:NO];
     
     if([strFromScreen isEqualToString:kScreenCoursesMain]) {
-        dictCourseMapData = [arrCourseData objectAtIndex:0];
-        [arrCourseData removeObjectAtIndex:0];
+        arrCourseDetails = [arrCourseData mutableCopy];
+        dictCourseMapData = [arrCourseDetails objectAtIndex:0];
+        [arrCourseDetails removeObjectAtIndex:0];
         [self gotLocationFromMain];
     }
     else {
@@ -75,15 +79,15 @@
 }
 
 -(void) gotLocationFromMain {
-    int n = arrCourseData.count;
+    int n = arrCourseDetails.count;
     
-    if([arrCourseData count]>50) {
+    if([arrCourseDetails count]>50) {
         n=50;
     }
     
     for(int i=0;i<n;i++) {
         
-        tempCourseMapData = [arrCourseData objectAtIndex:i];
+        tempCourseMapData = [arrCourseDetails objectAtIndex:i];
         
         NSArray *arrCoord = [tempCourseMapData.fields objectForKey:@"coordinates"];
         // pin type is parameter available on golfcurse table on quickblox that we need to ask for.
@@ -150,7 +154,7 @@
         }
     }
     
-    if([arrCourseData count]>0) {
+    if([arrCourseDetails count]>0) {
         
         GMSCoordinateBounds *bounds = [[GMSCoordinateBounds alloc] initWithPath:path];
         [mapView animateWithCameraUpdate:[GMSCameraUpdate fitBounds:bounds]];
@@ -425,7 +429,7 @@
     if([strFromScreen isEqualToString:kScreenCoursesMain]) {
         NSString *strIdx = marker.snippet;
         
-        dictCourseMapData= [arrCourseData objectAtIndex:[strIdx integerValue]];
+        dictCourseMapData= [arrCourseDetails objectAtIndex:[strIdx integerValue]];
         
         [indicatorLocImage startAnimating];
         [indicatorLocImage setHidden:NO];

@@ -431,8 +431,8 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pe3-J7-dOw" userLabel="holes">
                             <rect key="frame" x="0.0" y="181" width="320" height="44"/>
                             <subviews>
-                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="All" borderStyle="roundedRect" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="YLx-Cs-Bmm">
-                                    <rect key="frame" x="87" y="6" width="224" height="30"/>
+                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="All" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="YLx-Cs-Bmm">
+                                    <rect key="frame" x="79" y="6" width="224" height="30"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="30" id="VPU-MW-P2t"/>
@@ -469,7 +469,7 @@
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
-                                <constraint firstAttribute="trailing" secondItem="YLx-Cs-Bmm" secondAttribute="trailing" constant="9" id="0ox-sJ-QWL"/>
+                                <constraint firstAttribute="trailing" secondItem="YLx-Cs-Bmm" secondAttribute="trailing" constant="17" id="0ox-sJ-QWL"/>
                                 <constraint firstItem="AvY-PE-XCR" firstAttribute="top" secondItem="pe3-J7-dOw" secondAttribute="top" constant="8" id="1ac-av-rTq"/>
                                 <constraint firstAttribute="height" constant="44" id="1xP-cR-spf"/>
                                 <constraint firstAttribute="trailing" secondItem="wJi-CR-06X" secondAttribute="trailing" id="252-sJ-bZx"/>

@@ -18,7 +18,7 @@
     /********* Chetu Change *******/
     // This variable used to create view only when viewdidload called for first time only
     int firstTimeViewLoad;
-     /********* Chetu Change *******/
+    /********* Chetu Change *******/
 }
 @property (nonatomic, strong) UITextField * pwdtxtfld;
 @property (nonatomic, strong) UITextField * mailtxtfld;
@@ -36,8 +36,8 @@
     
     firstTimeViewLoad = 0;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gotLocationLogin) name:@"gotLocationLogin" object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(manualAdd) name:@"manualAdd" object:nil];  
-   
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(manualAdd) name:@"manualAdd" object:nil];
+    
 }
 
 -(void) viewWillAppear:(BOOL)animated {
@@ -54,73 +54,17 @@
     [self.keyboardControls setDelegate:self];
     
     
-//    if(isiPhone4) {
-//        [scrollViewContainer setContentSize:CGSizeMake(320, 750)];
-//        
-//    }
+    //    if(isiPhone4) {
+    //        [scrollViewContainer setContentSize:CGSizeMake(320, 750)];
+    //
+    //    }
     
-    BOOL isFirstTime = [[NSUserDefaults standardUserDefaults] boolForKey:kIsFirstTime];
     
-    if(isFirstTime) {
-        
-        
-    }
-    else {
-        
-        // basic
-        EAIntroPage *page1 = [EAIntroPage page];
-        page1.title = @"";
-        page1.desc = @"";
-        
-        // basic
-        EAIntroPage *page2 = [EAIntroPage page];
-        page2.title = @"";
-        page2.desc = @"";
-        
-        EAIntroPage *page3 = [EAIntroPage page];
-        page3.title = @"";
-        page3.desc = @"";
-        
-        EAIntroPage *page4 = [EAIntroPage page];
-        page4.title = @"";
-        page4.desc = @"";
-        
-        EAIntroPage *page5 = [EAIntroPage page];
-        
-        if(isiPhone4) {
-            page1.bgImage = [UIImage imageNamed:@"Slide 1_4s"];
-            page2.bgImage = [UIImage imageNamed:@"Slide 2_4s"];
-            page3.bgImage = [UIImage imageNamed:@"Slide 3_4s"];
-            page4.bgImage = [UIImage imageNamed:@"Slide 4_4s"];
-            page5.bgImage = [UIImage imageNamed:@"Silde 5_4s"];
-            
-        }
-        else {
-            page1.bgImage = [UIImage imageNamed:@"Slide 1"];
-            page2.bgImage = [UIImage imageNamed:@"Slide 2"];
-            page3.bgImage = [UIImage imageNamed:@"Slide 3"];
-            page4.bgImage = [UIImage imageNamed:@"Slide 4"];
-            page5.bgImage = [UIImage imageNamed:@"Silde 5"];
-            
-        }
-        
-        EAIntroView *intro = [[EAIntroView alloc] initWithFrame:self.view.bounds andPages:@[page1,page2,page3,page4,page5]];
-        UIFont *font = [UIFont fontWithName:@"Montserrat-Regular" size:15];
-        [intro.skipButton.titleLabel setFont:font];
-        [intro.skipButton setTitle:@"SKIP" forState:UIControlStateNormal];
-        [intro.skipButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [intro setDelegate:self];
-        [intro showInView:self.view animateDuration:0.0];
-        
-        [[NSUserDefaults standardUserDefaults]  setBool:YES forKey:kIsFirstTime];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        
-    }
     
     [AppDelegate sharedinstance].currentScreen = kScreenLogin;
-
+    
     self.navigationController.navigationBarHidden=YES;
-
+    
     self.menuContainerViewController.panMode = NO;
     
     if(autocompletePlaceStatus == -1) {
@@ -130,7 +74,7 @@
         strlong = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlong];
         strlong = [[AppDelegate sharedinstance] nullcheck:strlong];
         
-       if([strlat length]==0)
+        if([strlat length]==0)
         {
             // Show 2 options to get location
             
@@ -142,24 +86,24 @@
             
             
             UIAlertAction* autoButton = [UIAlertAction
-                                        actionWithTitle:@"Detect automatically"
-                                        style:UIAlertActionStyleDefault
-                                        handler:^(UIAlertAction * action) {
-                                            [[AppDelegate sharedinstance] locationInit];
-                                        }];
+                                         actionWithTitle:@"Detect automatically"
+                                         style:UIAlertActionStyleDefault
+                                         handler:^(UIAlertAction * action) {
+                                             [[AppDelegate sharedinstance] locationInit];
+                                         }];
             
             UIAlertAction* manuallyButton = [UIAlertAction
-                                       actionWithTitle:@"Add manually"
-                                       style:UIAlertActionStyleDefault
-                                       handler:^(UIAlertAction * action) {
-                                           [self manualAdd];
-                                       }];
+                                             actionWithTitle:@"Add manually"
+                                             style:UIAlertActionStyleDefault
+                                             handler:^(UIAlertAction * action) {
+                                                 [self manualAdd];
+                                             }];
             
             [alert addAction:autoButton];
             [alert addAction:manuallyButton];
             
             [self presentViewController:alert animated:YES completion:nil];
-           
+            
         }
     }
     else if(autocompletePlaceStatus==2)  {
@@ -180,7 +124,7 @@
     
     NSString *regex = @"[^@]+@[A-Za-z0-9.-]+\\.[A-Za-z]+";
     NSPredicate *emailPredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
- 
+    
     if (![emailPredicate evaluateWithObject:mailtxtfld.text]){
         errorMessage = @"Please enter a valid email address";
         
@@ -269,156 +213,156 @@
 
 
 
- -(void) login {
-     
-        [[AppDelegate sharedinstance] showLoader];
+-(void) login {
+    
+    [[AppDelegate sharedinstance] showLoader];
+    
+    [QBRequest logInWithUserEmail:mailtxtfld.text password:pwdtxtfld.text successBlock:^(QBResponse *response, QBUUser *user) {
         
-        [QBRequest logInWithUserEmail:mailtxtfld.text password:pwdtxtfld.text successBlock:^(QBResponse *response, QBUUser *user) {
-            
-            NSString *email = user.email;
-            [[AppDelegate sharedinstance] setStringObj:email forKey:kuserEmail];
-            [[AppDelegate sharedinstance] setStringObj:pwdtxtfld.text forKey:kuserPassword];
-            
-            NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
-            [getRequest setObject:[[AppDelegate sharedinstance] getCurrentUserEmail] forKey:@"userEmail"];
-            
-            [QBRequest objectsWithClassName:@"UserInfo" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
-                
-                // response processing
-                object =  [objects objectAtIndex:0];
-                
-                // user ID
-                NSString *strID = [NSString stringWithFormat:@"%lu",(unsigned long)user.ID];
-                [[AppDelegate sharedinstance] setStringObj:strID forKey:kuserDBID];
-                [[AppDelegate sharedinstance] setStringObj:strID forKey:@"userQuickbloxID"];
-                
-                // user info obj ID
-                [[AppDelegate sharedinstance] setStringObj:object.ID forKey:kuserInfoID];
-                
-                NSString *strName= [[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"userDisplayName"]];
-                NSString *strState = [[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"userState"]];
-                NSString *strCity = [[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"userCity"]];
-                NSString *strZipCode = [[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"userZipcode"]];
-                NSString *strHandicap = [[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"userHandicap"]];
-                NSString *strInfo = [[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"userInfo"]];
-                
-                NSString *strHomeCourseId = [[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"home_course_id"]];
-                
-                NSString *strHomeCourseName = [[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"home_coursename"]];
-                
-                NSString *imageUrl ;
-                
-                if([[[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"userPicBase"]] length]>0) {
-                    
-                    imageUrl = [NSString stringWithFormat:@"%@", [object.fields objectForKey:@"userPicBase"]];
-                }
-                
-                NSString *userFullMode= [[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"userFullMode"]];
-                if([userFullMode isEqualToString:@"1"]) {
-                    
-                    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kIAPFULLVERSION];
-                    [[NSUserDefaults standardUserDefaults] synchronize];
-                }
-                else {
-                    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kIAPFULLVERSION];
-                    [[NSUserDefaults standardUserDefaults] synchronize];
-                }
-                
-                NSMutableDictionary *dictUserDetails = [[NSMutableDictionary alloc] init];
-                [dictUserDetails setObject:strName forKey:@"userDisplayName"];
-                [dictUserDetails setObject:strCity forKey:@"userCity"];
-                [dictUserDetails setObject:strState forKey:@"userState"];
-                [dictUserDetails setObject:strZipCode forKey:@"userZipcode"];
-                [dictUserDetails setObject:strHandicap forKey:@"userHandicap"];
-                [dictUserDetails setObject:strInfo forKey:@"userInfo"];
-                [dictUserDetails setObject:[[AppDelegate sharedinstance] nullcheck:[object.fields  objectForKey:@"userPicBase"]] forKey:@"userPicBase"];
-
-                [dictUserDetails setObject:userFullMode forKey:@"userFullMode"];
-               
+        NSString *email = user.email;
+        [[AppDelegate sharedinstance] setStringObj:email forKey:kuserEmail];
+        [[AppDelegate sharedinstance] setStringObj:pwdtxtfld.text forKey:kuserPassword];
         
-                [dictUserDetails setObject:[object.fields objectForKey:@"userPurchasedConnects"]forKey:@"userPurchasedConnects"];
-                [dictUserDetails setObject:[object.fields objectForKey:@"userFreeConnects"]forKey:@"userFreeConnects"];
+        NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
+        [getRequest setObject:[[AppDelegate sharedinstance] getCurrentUserEmail] forKey:@"userEmail"];
+        
+        [QBRequest objectsWithClassName:@"UserInfo" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
+            
+            // response processing
+            object =  [objects objectAtIndex:0];
+            
+            // user ID
+            NSString *strID = [NSString stringWithFormat:@"%lu",(unsigned long)user.ID];
+            [[AppDelegate sharedinstance] setStringObj:strID forKey:kuserDBID];
+            [[AppDelegate sharedinstance] setStringObj:strID forKey:@"userQuickbloxID"];
+            
+            // user info obj ID
+            [[AppDelegate sharedinstance] setStringObj:object.ID forKey:kuserInfoID];
+            
+            NSString *strName= [[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"userDisplayName"]];
+            NSString *strState = [[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"userState"]];
+            NSString *strCity = [[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"userCity"]];
+            NSString *strZipCode = [[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"userZipcode"]];
+            NSString *strHandicap = [[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"userHandicap"]];
+            NSString *strInfo = [[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"userInfo"]];
+            
+            NSString *strHomeCourseId = [[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"home_course_id"]];
+            
+            NSString *strHomeCourseName = [[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"home_coursename"]];
+            
+            NSString *imageUrl ;
+            
+            if([[[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"userPicBase"]] length]>0) {
                 
-                [dictUserDetails setObject:strID forKey:@"userInfoId"];
+                imageUrl = [NSString stringWithFormat:@"%@", [object.fields objectForKey:@"userPicBase"]];
+            }
+            
+            NSString *userFullMode= [[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"userFullMode"]];
+            if([userFullMode isEqualToString:@"1"]) {
                 
-                [dictUserDetails setObject:strHomeCourseName forKey:@"home_coursename"];
-                [dictUserDetails setObject:strHomeCourseId forKey:@"home_course_id"];
-                
-                [dictUserDetails setObject:[object.fields objectForKey:@"userPush"] forKey:@"userPush"];
-                
-                strlat = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlat];
-                strlat = [[AppDelegate sharedinstance] nullcheck:strlat];
-                
-                strlong = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlong];
-                strlong = [[AppDelegate sharedinstance] nullcheck:strlong];
-                
-                NSString *strPoint = [NSString stringWithFormat:@"%f,%f",[strlong floatValue],[strlat floatValue]];
-                [object.fields setObject:strPoint forKey:@"current_location"];
-                
-                [dictUserDetails setObject:[[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"isDevelopment"]] forKey:@"isDevelopment"];
-                
-                [[NSUserDefaults standardUserDefaults] setObject:dictUserDetails forKey:kuserData];
+                [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kIAPFULLVERSION];
                 [[NSUserDefaults standardUserDefaults] synchronize];
+            }
+            else {
+                [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kIAPFULLVERSION];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+            }
+            
+            NSMutableDictionary *dictUserDetails = [[NSMutableDictionary alloc] init];
+            [dictUserDetails setObject:strName forKey:@"userDisplayName"];
+            [dictUserDetails setObject:strCity forKey:@"userCity"];
+            [dictUserDetails setObject:strState forKey:@"userState"];
+            [dictUserDetails setObject:strZipCode forKey:@"userZipcode"];
+            [dictUserDetails setObject:strHandicap forKey:@"userHandicap"];
+            [dictUserDetails setObject:strInfo forKey:@"userInfo"];
+            [dictUserDetails setObject:[[AppDelegate sharedinstance] nullcheck:[object.fields  objectForKey:@"userPicBase"]] forKey:@"userPicBase"];
+            
+            [dictUserDetails setObject:userFullMode forKey:@"userFullMode"];
+            
+            
+            [dictUserDetails setObject:[object.fields objectForKey:@"userPurchasedConnects"]forKey:@"userPurchasedConnects"];
+            [dictUserDetails setObject:[object.fields objectForKey:@"userFreeConnects"]forKey:@"userFreeConnects"];
+            
+            [dictUserDetails setObject:strID forKey:@"userInfoId"];
+            
+            [dictUserDetails setObject:strHomeCourseName forKey:@"home_coursename"];
+            [dictUserDetails setObject:strHomeCourseId forKey:@"home_course_id"];
+            
+            [dictUserDetails setObject:[object.fields objectForKey:@"userPush"] forKey:@"userPush"];
+            
+            strlat = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlat];
+            strlat = [[AppDelegate sharedinstance] nullcheck:strlat];
+            
+            strlong = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlong];
+            strlong = [[AppDelegate sharedinstance] nullcheck:strlong];
+            
+            NSString *strPoint = [NSString stringWithFormat:@"%f,%f",[strlong floatValue],[strlat floatValue]];
+            [object.fields setObject:strPoint forKey:@"current_location"];
+            
+            [dictUserDetails setObject:[[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"isDevelopment"]] forKey:@"isDevelopment"];
+            
+            [[NSUserDefaults standardUserDefaults] setObject:dictUserDetails forKey:kuserData];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            
+            [self bindSearchData:object searchType: @"User"];
+            [self bindSearchData:object searchType: @"Pro"];
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshContent" object:nil];
+            
+            [self  registerForNotifications];
+            
+            [QBRequest updateObject:object successBlock:^(QBResponse *response, QBCOCustomObject *object1) {
+                // object updated
                 
-                [self bindSearchData:object searchType: @"User"];
-                [self bindSearchData:object searchType: @"Pro"];
+                SpecialsViewController *vc = [[SpecialsViewController alloc] initWithNibName:@"SpecialsViewController" bundle:nil];
+                ((SpecialsViewController*)vc).strIsMyCourses=@"0";
                 
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshContent" object:nil];
+                UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
                 
-                [self  registerForNotifications];
+                SideMenuViewController *leftMenuViewController;
+                leftMenuViewController = [[SideMenuViewController alloc] initWithNibName:@"SideMenuViewController" bundle:nil];
+                MFSideMenuContainerViewController *container = [MFSideMenuContainerViewController
+                                                                containerWithCenterViewController:nav
+                                                                leftMenuViewController:leftMenuViewController
+                                                                rightMenuViewController:nil];
+                container.panMode=YES;
                 
-                [QBRequest updateObject:object successBlock:^(QBResponse *response, QBCOCustomObject *object1) {
-                    // object updated
-                    
-                    SpecialsViewController *vc = [[SpecialsViewController alloc] initWithNibName:@"SpecialsViewController" bundle:nil];
-                    ((SpecialsViewController*)vc).strIsMyCourses=@"0";
-                    
-                    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
-                    
-                    SideMenuViewController *leftMenuViewController;
-                    leftMenuViewController = [[SideMenuViewController alloc] initWithNibName:@"SideMenuViewController" bundle:nil];
-                    MFSideMenuContainerViewController *container = [MFSideMenuContainerViewController
-                                                                    containerWithCenterViewController:nav
-                                                                    leftMenuViewController:leftMenuViewController
-                                                                    rightMenuViewController:nil];
-                    container.panMode=YES;
-                    
-                    [[AppDelegate sharedinstance].window setRootViewController:container];
-                    
-                    [[AppDelegate sharedinstance] hideLoader];
-           
-                    
-                } errorBlock:^(QBResponse *response) {
-                    // error handling
-                    [[AppDelegate sharedinstance] hideLoader];
-                    [[AppDelegate sharedinstance] displayServerErrorMessage];
-                    NSLog(@"Response error: %@", [response.error description]);
-                }];
-                //                    ViewUsersViewController *viewController=[[ViewUsersViewController alloc] initWithNibName:@"ViewUsersViewController" bundle:nil];
-                //                    viewController.strIsMyMatches=@"1";
+                [[AppDelegate sharedinstance].window setRootViewController:container];
                 
+                [[AppDelegate sharedinstance] hideLoader];
                 
                 
             } errorBlock:^(QBResponse *response) {
                 // error handling
                 [[AppDelegate sharedinstance] hideLoader];
                 [[AppDelegate sharedinstance] displayServerErrorMessage];
-                
                 NSLog(@"Response error: %@", [response.error description]);
             }];
+            //                    ViewUsersViewController *viewController=[[ViewUsersViewController alloc] initWithNibName:@"ViewUsersViewController" bundle:nil];
+            //                    viewController.strIsMyMatches=@"1";
+            
             
             
         } errorBlock:^(QBResponse *response) {
-            
+            // error handling
             [[AppDelegate sharedinstance] hideLoader];
+            [[AppDelegate sharedinstance] displayServerErrorMessage];
             
-            [[AppDelegate sharedinstance] displayMessage:@"Email or password is not correct"];
-            
-            autocompletePlaceStatus=3;
-            [self dismissViewControllerAnimated:YES completion:nil];
-            
+            NSLog(@"Response error: %@", [response.error description]);
         }];
-     
+        
+        
+    } errorBlock:^(QBResponse *response) {
+        
+        [[AppDelegate sharedinstance] hideLoader];
+        
+        [[AppDelegate sharedinstance] displayMessage:@"Email or password is not correct"];
+        
+        autocompletePlaceStatus=3;
+        [self dismissViewControllerAnimated:YES completion:nil];
+        
+    }];
+    
 }
 
 -(void) bindSearchData:(QBCOCustomObject *) userObject searchType:(NSString *) searchType
@@ -435,8 +379,8 @@
              
              NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
              [getRequest setObject: @"User" forKey:@"Default"];
-        
-            /********** ChetuChange *************/
+             
+             /********** ChetuChange *************/
              
              [QBRequest objectsWithClassName:@"UserSearch" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page)
               {
@@ -489,7 +433,7 @@
          if([strinterested_in_Handicap length]>0) {
              [dictUserDetails setObject:[object.fields objectForKey:@"Handicap"] forKey:@"Handicap"];
          }
-        // [dictUserDetails setObject:[object.fields objectForKey:@"userPush"] forKey:@"userPush"];
+         // [dictUserDetails setObject:[object.fields objectForKey:@"userPush"] forKey:@"userPush"];
          
          NSString *strinterested_in_location =[[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"Location"]];
          
@@ -497,11 +441,11 @@
              [dictUserDetails setObject:[object.fields objectForKey:@"Location"] forKey:@"Location"];
          }
          
-        /* NSString *strinterested_in_home_coursename =[[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"interested_in_home_coursename"]];
-         
-         if([strinterested_in_home_coursename length]>0) {
-             [dictUserDetails setObject:[object.fields objectForKey:@"interested_in_home_coursename"] forKey:@"interested_in_home_coursename"];
-         }*/
+         /* NSString *strinterested_in_home_coursename =[[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"interested_in_home_coursename"]];
+          
+          if([strinterested_in_home_coursename length]>0) {
+          [dictUserDetails setObject:[object.fields objectForKey:@"interested_in_home_coursename"] forKey:@"interested_in_home_coursename"];
+          }*/
          
          NSString *searchDataType = [searchType isEqualToString:@"User"] ? kuserSearchUser : kuserSearchPro;
          
@@ -512,7 +456,7 @@
          
          [self  registerForNotifications];
          
-        
+         
      }
                          errorBlock:^(QBResponse *response) {
                              // error handling
@@ -538,7 +482,7 @@
 }
 
 -(void)ChangePasswordDirectly:(UIAlertView *)alertView {
- 
+    
     NSString *newpassword = [alertView textFieldAtIndex:0].text;;
     NSCharacterSet *whitespace = [NSCharacterSet whitespaceAndNewlineCharacterSet];
     NSString *trimmed = [newpassword stringByTrimmingCharactersInSet:whitespace];
@@ -558,25 +502,25 @@
             
             
             
-                            SpecialsViewController *vc = [[SpecialsViewController alloc] initWithNibName:@"SpecialsViewController" bundle:nil];
-                            ((SpecialsViewController*)vc).strIsMyCourses=@"0";
+            SpecialsViewController *vc = [[SpecialsViewController alloc] initWithNibName:@"SpecialsViewController" bundle:nil];
+            ((SpecialsViewController*)vc).strIsMyCourses=@"0";
             
-                            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
             
-                            SideMenuViewController *leftMenuViewController;
-                            leftMenuViewController = [[SideMenuViewController alloc] initWithNibName:@"SideMenuViewController" bundle:nil];
-                            MFSideMenuContainerViewController *container = [MFSideMenuContainerViewController
-                                                                            containerWithCenterViewController:nav
-                                                                            leftMenuViewController:leftMenuViewController
-                                                                            rightMenuViewController:nil];
-                            container.panMode=YES;
+            SideMenuViewController *leftMenuViewController;
+            leftMenuViewController = [[SideMenuViewController alloc] initWithNibName:@"SideMenuViewController" bundle:nil];
+            MFSideMenuContainerViewController *container = [MFSideMenuContainerViewController
+                                                            containerWithCenterViewController:nav
+                                                            leftMenuViewController:leftMenuViewController
+                                                            rightMenuViewController:nil];
+            container.panMode=YES;
             
-                            [[AppDelegate sharedinstance].window setRootViewController:container];
+            [[AppDelegate sharedinstance].window setRootViewController:container];
             
             
             
             [[AppDelegate sharedinstance] hideLoader];
-          //  [[AppDelegate sharedinstance] displayMessage:@"Password successfully changed."];
+            //  [[AppDelegate sharedinstance] displayMessage:@"Password successfully changed."];
             NSLog(@"Change Password successfully");
             
         } errorBlock:^(QBResponse *response) {
@@ -690,10 +634,10 @@
             [QBRequest updateObject:object successBlock:^(QBResponse *response, QBCOCustomObject *object1) {
                 // object updated
                 
-              
+                
                 
                 [self ChangePasswordDirectly:alertView];
-              //  [[AppDelegate sharedinstance] hideLoader];
+                //  [[AppDelegate sharedinstance] hideLoader];
                 
                 
             } errorBlock:^(QBResponse *response) {
@@ -757,7 +701,7 @@
                                                                        message:@"Email is not configurable on device. please configure EmailId."
                                                                 preferredStyle:UIAlertControllerStyleAlert];
         
-       
+        
         UIAlertAction* okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
             
         }];
@@ -773,7 +717,7 @@
  * @return void nothing will return by this method.
  */
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {
-  
+    
     [controller dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -787,11 +731,11 @@
     
     UIAlertController* alert = [UIAlertController alertControllerWithTitle:kAppName
                                                                    message:@"Please Provide Registered EmailId."
-                                                        preferredStyle:UIAlertControllerStyleAlert];
+                                                            preferredStyle:UIAlertControllerStyleAlert];
     
     [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
         textField.placeholder = @"Email Id";
-    
+        
     }];
     
     UIAlertAction* okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
@@ -800,7 +744,7 @@
         //     [self loginTesting:alertView];
         
         // Open mail composer
-       //  [[alert textFields][0] text];
+        //  [[alert textFields][0] text];
         [self sendEmail:[[alert textFields][0] text]];
     }];
     
@@ -815,16 +759,16 @@
     [self presentViewController:alert animated:YES completion:nil];
     
     
-//    UIAlertView *forgotpasswordAlert = [[UIAlertView alloc]initWithTitle:kAppName message:@"Enter your new password"  delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
-//    forgotpasswordAlert.tag=300;
-//
-//    forgotpasswordAlert.alertViewStyle = UIAlertViewStylePlainTextInput;
-//    UITextField* textField = [forgotpasswordAlert textFieldAtIndex:0];
-//    textField.placeholder=@"Enter Regitered EmailId";
-//    textField.secureTextEntry=YES;
-//    [forgotpasswordAlert show];
+    //    UIAlertView *forgotpasswordAlert = [[UIAlertView alloc]initWithTitle:kAppName message:@"Enter your new password"  delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
+    //    forgotpasswordAlert.tag=300;
+    //
+    //    forgotpasswordAlert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    //    UITextField* textField = [forgotpasswordAlert textFieldAtIndex:0];
+    //    textField.placeholder=@"Enter Regitered EmailId";
+    //    textField.secureTextEntry=YES;
+    //    [forgotpasswordAlert show];
     
-
+    
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
@@ -834,7 +778,7 @@
         //     [self loginTesting:alertView];
         
         // Open mail composer
-  //      [self sendEmail:alertView];
+        //      [self sendEmail:alertView];
         
         
     }
@@ -843,8 +787,8 @@
 -(void)forgotBtnTapped:(UIButton *)sender {
     
     
-//   [self ShowAlertWithNewPassWord];
-  
+    //   [self ShowAlertWithNewPassWord];
+    
     
     
     
@@ -935,39 +879,39 @@
     [self presentViewController:alert animated:YES completion:nil];
     
     
-//    NSLog(@"Start Sending");
-//    SKPSMTPMessage *emailMessage = [[SKPSMTPMessage alloc] init];
-//    emailMessage.delegate = self;
-//    emailMessage.fromEmail = @"mohittyagics@gmail.com"; //sender email address
-//    emailMessage.toEmail = @"niteshg@chetu.com";  //receiver email address
-//    emailMessage.relayHost = @"smtp.gmail.com";
-//  //emailMessage.ccEmail =@"your cc address";
-//  //emailMessage.bccEmail =@"your bcc address";
-//  //emailMessage.relayPorts =
-//    emailMessage.requiresAuth = YES;
-//    emailMessage.login = @"mohittyagics@gmail.com"; //sender email address
-//    emailMessage.pass = @"8218Mkt940178"; //sender email password
-//    emailMessage.subject =@"Test application";
-//    emailMessage.wantsSecure = YES;
-//    emailMessage.delegate = self; // you must include <SKPSMTPMessageDelegate> to your class
-//    NSString *messageBody = @"your email body message";
-//    //for example :   NSString *messageBody = [NSString stringWithFormat:@"Tour Name: %@\nName: %@\nEmail: %@\nContact No: %@\nAddress: %@\nNote: %@",selectedTour,nameField.text,emailField.text,foneField.text,addField.text,txtView.text];
-//    // Now creating plain text email message
-//    NSDictionary *plainMsg = [NSDictionary
-//                              dictionaryWithObjectsAndKeys:@"text/plain",kSKPSMTPPartContentTypeKey,
-//                              messageBody,kSKPSMTPPartMessageKey,@"8bit",kSKPSMTPPartContentTransferEncodingKey,nil];
-//    emailMessage.parts = [NSArray arrayWithObjects:plainMsg,nil];
-//    //in addition : Logic for attaching file with email message.
-//    /*
-//     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"filename" ofType:@"JPG"];
-//     NSData *fileData = [NSData dataWithContentsOfFile:filePath];
-//     NSDictionary *fileMsg = [NSDictionary dictionaryWithObjectsAndKeys:@"text/directory;\r\n\tx-
-//     unix-mode=0644;\r\n\tname=\"filename.JPG\"",kSKPSMTPPartContentTypeKey,@"attachment;\r\n\tfilename=\"filename.JPG\"",kSKPSMTPPartContentDispositionKey,[fileData encodeBase64ForData],kSKPSMTPPartMessageKey,@"base64",kSKPSMTPPartContentTransferEncodingKey,nil];
-//     emailMessage.parts = [NSArray arrayWithObjects:plainMsg,fileMsg,nil]; //including plain msg and attached file msg
-//     */
-//    [emailMessage send];
-//    // sending email- will take little time to send so its better to use indicator with message showing sending...
-
+    //    NSLog(@"Start Sending");
+    //    SKPSMTPMessage *emailMessage = [[SKPSMTPMessage alloc] init];
+    //    emailMessage.delegate = self;
+    //    emailMessage.fromEmail = @"mohittyagics@gmail.com"; //sender email address
+    //    emailMessage.toEmail = @"niteshg@chetu.com";  //receiver email address
+    //    emailMessage.relayHost = @"smtp.gmail.com";
+    //  //emailMessage.ccEmail =@"your cc address";
+    //  //emailMessage.bccEmail =@"your bcc address";
+    //  //emailMessage.relayPorts =
+    //    emailMessage.requiresAuth = YES;
+    //    emailMessage.login = @"mohittyagics@gmail.com"; //sender email address
+    //    emailMessage.pass = @"8218Mkt940178"; //sender email password
+    //    emailMessage.subject =@"Test application";
+    //    emailMessage.wantsSecure = YES;
+    //    emailMessage.delegate = self; // you must include <SKPSMTPMessageDelegate> to your class
+    //    NSString *messageBody = @"your email body message";
+    //    //for example :   NSString *messageBody = [NSString stringWithFormat:@"Tour Name: %@\nName: %@\nEmail: %@\nContact No: %@\nAddress: %@\nNote: %@",selectedTour,nameField.text,emailField.text,foneField.text,addField.text,txtView.text];
+    //    // Now creating plain text email message
+    //    NSDictionary *plainMsg = [NSDictionary
+    //                              dictionaryWithObjectsAndKeys:@"text/plain",kSKPSMTPPartContentTypeKey,
+    //                              messageBody,kSKPSMTPPartMessageKey,@"8bit",kSKPSMTPPartContentTransferEncodingKey,nil];
+    //    emailMessage.parts = [NSArray arrayWithObjects:plainMsg,nil];
+    //    //in addition : Logic for attaching file with email message.
+    //    /*
+    //     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"filename" ofType:@"JPG"];
+    //     NSData *fileData = [NSData dataWithContentsOfFile:filePath];
+    //     NSDictionary *fileMsg = [NSDictionary dictionaryWithObjectsAndKeys:@"text/directory;\r\n\tx-
+    //     unix-mode=0644;\r\n\tname=\"filename.JPG\"",kSKPSMTPPartContentTypeKey,@"attachment;\r\n\tfilename=\"filename.JPG\"",kSKPSMTPPartContentDispositionKey,[fileData encodeBase64ForData],kSKPSMTPPartMessageKey,@"base64",kSKPSMTPPartContentTransferEncodingKey,nil];
+    //     emailMessage.parts = [NSArray arrayWithObjects:plainMsg,fileMsg,nil]; //including plain msg and attached file msg
+    //     */
+    //    [emailMessage send];
+    //    // sending email- will take little time to send so its better to use indicator with message showing sending...
+    
 }
 #pragma mark create View
 
@@ -1092,6 +1036,7 @@
     
     UIImageView *orImgView = [[UIImageView alloc]initWithFrame:CGRectMake(50,signInBtn.frame.size.height + signInBtn.frame.origin.y + 33 , lowerBaseView.frame.size.width - 100, 35)];
     orImgView.image = [UIImage imageNamed:@"OR-1.png"];
+    orImgView.contentMode = UIViewContentModeScaleAspectFill;
     [lowerBaseView addSubview:orImgView];
     
     
@@ -1154,6 +1099,82 @@
         scrollViewContainer.contentSize = CGSizeMake(self.view.frame.size.width, lowerBaseView.frame.size.height + lowerBaseView.frame.origin.y);
     }
     
+    
+    [self createIntroView];
+}
+
+-(void)createIntroView {
+    
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    
+    
+    BOOL isFirstTime = [[NSUserDefaults standardUserDefaults] boolForKey:kIsFirstTime];
+    
+    
+    if(isFirstTime) {
+        
+        
+    }
+    else {
+        
+        // basic
+        EAIntroPage *page1 = [EAIntroPage page];
+        page1.title = @"";
+        page1.desc = @"";
+        
+        // basic
+        EAIntroPage *page2 = [EAIntroPage page];
+        page2.title = @"";
+        page2.desc = @"";
+        
+        EAIntroPage *page3 = [EAIntroPage page];
+        page3.title = @"";
+        page3.desc = @"";
+        
+        EAIntroPage *page4 = [EAIntroPage page];
+        page4.title = @"";
+        page4.desc = @"";
+        
+        EAIntroPage *page5 = [EAIntroPage page];
+        
+        if(isiPhone4) {
+            page1.bgImage = [UIImage imageNamed:@"Slide 1_4s"];
+            page2.bgImage = [UIImage imageNamed:@"Slide 2_4s"];
+            page3.bgImage = [UIImage imageNamed:@"Slide 3_4s"];
+            page4.bgImage = [UIImage imageNamed:@"Slide 4_4s"];
+            page5.bgImage = [UIImage imageNamed:@"Silde 5_4s"];
+            
+        } if (isiPhoneX){
+            
+            page1.bgImage = [UIImage imageNamed:@"Slide 1X"];
+            page2.bgImage = [UIImage imageNamed:@"Slide 2X"];
+            page3.bgImage = [UIImage imageNamed:@"Slide 3X"];
+            page4.bgImage = [UIImage imageNamed:@"Slide 4X"];
+            page5.bgImage = [UIImage imageNamed:@"Silde 5X"];
+            
+        }else {
+            page1.bgImage = [UIImage imageNamed:@"Slide 1"];
+            page2.bgImage = [UIImage imageNamed:@"Slide 2"];
+            page3.bgImage = [UIImage imageNamed:@"Slide 3"];
+            page4.bgImage = [UIImage imageNamed:@"Slide 4"];
+            page5.bgImage = [UIImage imageNamed:@"Silde 5"];
+            
+        }
+        
+        EAIntroView *intro = [[EAIntroView alloc] initWithFrame:screenRect andPages:@[page1,page2,page3,page4,page5]];
+        
+        UIFont *font = [UIFont fontWithName:@"Montserrat-Regular" size:15];
+        [intro.skipButton.titleLabel setFont:font];
+        [intro.skipButton setTitle:@"SKIP" forState:UIControlStateNormal];
+        [intro.skipButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [intro setDelegate:self];
+        [intro showInView:self.view animateDuration:0.0];
+        
+        
+        [[NSUserDefaults standardUserDefaults]  setBool:YES forKey:kIsFirstTime];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+    }
 }
 -(void)messageSent:(SKPSMTPMessage *)message{
     NSLog(@"delegate - message sent");
@@ -1222,7 +1243,7 @@
             [UIView beginAnimations:nil context:NULL];
             [UIView setAnimationBeginsFromCurrentState:YES];
             [UIView setAnimationDuration:.5];
-           [scrollViewContainer setContentOffset:CGPointMake(0, field.center.y+120)animated:NO];
+            [scrollViewContainer setContentOffset:CGPointMake(0, field.center.y+120)animated:NO];
             [UIView commitAnimations];
             
         }
@@ -1251,13 +1272,13 @@
                 [UIView beginAnimations:nil context:NULL];
                 [UIView setAnimationBeginsFromCurrentState:YES];
                 [UIView setAnimationDuration:.5];
-            [scrollViewContainer setContentOffset:CGPointMake(0, 0) animated:NO];
+                [scrollViewContainer setContentOffset:CGPointMake(0, 0) animated:NO];
                 [UIView commitAnimations];
                 
             }
         }
     }
-   
+    
 }
 
 //-----------------------------------------------------------------------
@@ -1321,11 +1342,11 @@
             [UIView beginAnimations:nil context:NULL];
             [UIView setAnimationBeginsFromCurrentState:YES];
             [UIView setAnimationDuration:.5];
-           [scrollViewContainer setContentOffset:CGPointMake(0, textField.center.y+60)animated:NO];
+            [scrollViewContainer setContentOffset:CGPointMake(0, textField.center.y+60)animated:NO];
             [UIView commitAnimations];
-        
+            
             [self.keyboardControls setActiveField:textField];
-        
+            
         }
     }
     
@@ -1354,7 +1375,7 @@
     strlong = [[AppDelegate sharedinstance] getStringObjfromKey:klocationlong];
     strlong = [[AppDelegate sharedinstance] nullcheck:strlong];
     
-  //  [self loginTemp];
+    //  [self loginTemp];
 }
 
 //-----------------------------------------------------------------------
@@ -1363,7 +1384,7 @@
 - (void)viewController:(GMSAutocompleteViewController *)viewController
 didAutocompleteWithPlace:(GMSPlace *)place {
     autocompletePlaceStatus=2;
-
+    
     NSString *strLat = [NSString stringWithFormat:@"%f", place.coordinate.latitude];
     NSString *strLong = [NSString stringWithFormat:@"%f",place.coordinate.longitude];
     
@@ -1374,15 +1395,15 @@ didAutocompleteWithPlace:(GMSPlace *)place {
     NSLog(@"Place name %@", place.name);
     NSLog(@"Place address %@", place.formattedAddress);
     
-   // txtAddress.text = place.formattedAddress;
+    // txtAddress.text = place.formattedAddress;
     
     NSLog(@"Place attributions %@", place.attributions.string);
     
-
+    
     
     [self login];
-
-   // [self dismissViewControllerAnimated:YES completion:nil];
+    
+    // [self dismissViewControllerAnimated:YES completion:nil];
     
 }
 
@@ -1408,5 +1429,6 @@ didFailAutocompleteWithError:(NSError *)error {
 }
 
 @end
+
 
 

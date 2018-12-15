@@ -21,6 +21,7 @@
 #define isiPhone4  ([[UIScreen mainScreen] bounds].size.height == 480)?TRUE:FALSE
 #define isiPhone5  ([[UIScreen mainScreen] bounds].size.height == 568)?TRUE:FALSE
 #define isiPhone6  ([[UIScreen mainScreen] bounds].size.height == 667)?TRUE:FALSE
+#define isiPhoneX  ([[UIScreen mainScreen] bounds].size.height >= 812)?TRUE:FALSE
 #define isiPhone6Plus  ([[UIScreen mainScreen] bounds].size.height == 736)?TRUE:FALSE
 #define adColor [UIColor colorWithRed:0.7020 green:0.9176 blue:0.7922 alpha:1.0]
 #define infoPopupColor [UIColor colorWithRed:0.8392 green:0.8549 blue:0.8471 alpha:1.0]
