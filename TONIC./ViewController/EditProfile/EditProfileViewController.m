@@ -259,6 +259,7 @@ NSDateFormatter *dateFormat;
             [arrCityList sortUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
             [arrCityList insertObject:@"Select City" atIndex:0];
             [pickerView reloadAllComponents];
+             pickerView.userInteractionEnabled = YES;
             [[AppDelegate sharedinstance] hideLoader];
             
         }else {
@@ -641,7 +642,7 @@ NSDateFormatter *dateFormat;
         [arrHomeCourses sortUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
         [arrHomeCourses insertObject:@"Select Golf Course" atIndex:0];
         [pickerView reloadAllComponents];
-        [pickerView selectRow:0 inComponent:0 animated:YES];
+        pickerView.userInteractionEnabled = YES;
         [[AppDelegate sharedinstance] hideLoader];
         
     }
@@ -764,6 +765,7 @@ NSDateFormatter *dateFormat;
                 [[AppDelegate sharedinstance] showLoader];
                 if([arrCityList count]>0)
                     [arrCityList removeAllObjects];
+                pickerView.userInteractionEnabled = NO;
                 [self getcityList];
             }
         
@@ -779,6 +781,7 @@ NSDateFormatter *dateFormat;
             
             txtCity.text = [arrCityList objectAtIndex:row];
             txtHomeCourse.text = @"";
+             pickerView.userInteractionEnabled = NO;
             [self getCoursesForSelection];
             
         }

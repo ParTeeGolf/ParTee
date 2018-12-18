@@ -38,7 +38,7 @@
                             <constraint firstAttribute="width" constant="8" id="WXL-wd-znW"/>
                             <constraint firstAttribute="height" constant="27" id="xcU-yZ-UiD"/>
                         </constraints>
-                        <state key="normal" backgroundImage="moreopt.png">
+                        <state key="normal" backgroundImage="threeDotImg1">
                             <color key="titleColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </state>
                     </button>
@@ -75,6 +75,6 @@
     </objects>
     <resources>
         <image name="course.png" width="1080" height="720"/>
-        <image name="moreopt.png" width="8" height="37"/>
+        <image name="threeDotImg1" width="8" height="36"/>
     </resources>
 </document>

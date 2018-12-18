@@ -67,7 +67,7 @@
                                     <constraint firstAttribute="width" constant="10" id="lnP-e9-gup"/>
                                     <constraint firstAttribute="height" constant="34" id="uiA-Bk-l8l"/>
                                 </constraints>
-                                <state key="normal" image="threeDot">
+                                <state key="normal" backgroundImage="threeDotImg1">
                                     <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
@@ -159,6 +159,6 @@
     <resources>
         <image name="Points.png" width="96" height="106"/>
         <image name="course.png" width="1080" height="720"/>
-        <image name="threeDot" width="8" height="36"/>
+        <image name="threeDotImg1" width="8" height="36"/>
     </resources>
 </document>

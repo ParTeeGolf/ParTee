@@ -110,7 +110,7 @@
 -(void)displayMessage:(NSString *) strMessage;
 - (BOOL)connected;
 -(void) checkConnection ;
--(BOOL) checkSubstring:(NSString *) substring containedIn:(NSString*) string;
+- (BOOL) checkSubstring:(NSString *) substring containedIn:(NSString*) string;
 -(NSDictionary *) getDictObjfromKey:(NSString*) strKey;
 -(NSString *) getStringObjfromKey:(NSString*) strKey;
 -(void) setStringObj:(NSString *) data forKey: (NSString*) strKey;
@@ -120,7 +120,7 @@
 - (void)saveFileData : (NSData*)data withFileName : (NSString*)name atDir:(NSString *) strDirectoryName;
 -(BOOL) fileExists : (NSString*)filename  AtDir:(NSString*) strDirectoryName;
 -(NSString*)getDirectory:(NSString*) strDirectoryName;
--(BOOL) isUserLogIn;
+- (BOOL) isUserLogIn;
 -(void) setProIcons:(NSMutableDictionary*)proIcons;
 -(NSData *) getProIcons:(NSString *)key;
 

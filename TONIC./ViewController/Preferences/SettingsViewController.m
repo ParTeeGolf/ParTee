@@ -463,6 +463,7 @@
             tblMembers.allowsMultipleSelection = YES;
             [tblMembers reloadData];
             [viewTable setHidden:YES];
+             pickerView.userInteractionEnabled = YES;
             [[AppDelegate sharedinstance] hideLoader];
             
         }else {
@@ -1033,37 +1034,7 @@
         }
         
    
-       /*
-        if([arrCityList count]>0)
-            [arrCityList removeAllObjects];
-        
-        for(NSArray *obj in arrCityStateList)
-        {
-            
-            NSString *strName = obj[1];
-            
-            if([strName isEqualToString:strStateSelected])
-            {
-                if(![arrCityList containsObject:obj[0]])
-                {
-                    [arrCityList addObject: obj[0]];
-                }
-            }
-        }
-        
-        [arrCityList sortUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
-        
-        [arrCityList insertObject:@"All" atIndex:0];
-        
-        tblMembers.allowsMultipleSelection = YES;
-        
-        NSArray *citiesSelected = [txtCity.text componentsSeparatedByString: @","];
-        
-        for(NSString *str in citiesSelected)
-        {
-            [tempArraySelcted addObject:str];
-        }
-       */
+  
     }
     else if(buttonTapped == kButtonState) {
 
@@ -1852,6 +1823,7 @@
             if ([selectedState isEqualToString:@"All"]) {
                 
             }else {
+                pickerView.userInteractionEnabled = NO;
                 [self getcityList];
             }
             

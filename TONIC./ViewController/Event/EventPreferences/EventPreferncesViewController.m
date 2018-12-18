@@ -167,7 +167,7 @@
             [arrCityList insertObject:kEventAll atIndex:0];
             listTblView.allowsMultipleSelection = YES;
             [listTblView reloadData];
-         //   [viewTblView setHidden:NO];
+            pickerView.userInteractionEnabled = YES;
             [[AppDelegate sharedinstance] hideLoader];
             
         }else {
@@ -742,6 +742,7 @@
     if ([selectedState isEqualToString:kEventAll]) {
         
     }else {
+        pickerView.userInteractionEnabled = NO;
         [self getcityList];
     }
     

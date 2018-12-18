@@ -276,7 +276,7 @@
             [arrCityList insertObject:kEventAll atIndex:0];
             [tblMembers reloadData];
             tblMembers.allowsMultipleSelection = YES;
-            
+             pickerView.userInteractionEnabled = YES;
             [[AppDelegate sharedinstance] hideLoader];
             
         }else {
@@ -329,62 +329,7 @@
 
 -(void) bindData {
     
-    /*
-     [[AppDelegate sharedinstance] showLoader];
-     NSMutableDictionary *getRequestObjectCount = [NSMutableDictionary dictionary];
-     //  [getRequestObjectCount setObject:@"1" forKey:@"count"];
-     //  [getRequestObjectCount setObject: @"" forKey:@"State"];
-     
-     [getRequestObjectCount setObject:@"100" forKey:@"limit"];
-     NSString *strPage = [NSString stringWithFormat:@"%d",[@"100" intValue] * currentPage];
-     
-     [getRequestObjectCount setObject:strPage forKey:@"skip"];
-     
-     [QBRequest objectsWithClassName:@"GolfCourses" extendedRequest:nil successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
-     
-     NSLog(@"Entries %lu",(unsigned long)page.totalEntries);
-     arrData=[objects mutableCopy];
-     
-     for(int i=0;i<[objects count];i++) {
-     QBCOCustomObject *obj = [arrData objectAtIndex:i];
-     NSString *strType = [obj.fields objectForKey:@"CourseType"];
-     NSString *strState = [obj.fields objectForKey:@"State"];
-     NSString *strCity = [obj.fields objectForKey:@"City"];
-     
-     NSArray *cityState = @[strCity, strState];
-     
-     if(![arrTypeList containsObject:strType])
-     {
-     [arrTypeList addObject:strType];
-     }
-     
-     if(![arrStateList containsObject:strState])
-     {
-     [arrStateList addObject:strState];
-     }
-     
-     if(![arrCityStateList containsObject:cityState])
-     {
-     [arrCityStateList addObject:cityState];
-     }
-     }
-     
-     [arrStateList sortUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
-     [arrTypeList sortUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
-     
-     [arrStateList insertObject:@"All" atIndex:0];
-     [arrTypeList insertObject:@"All" atIndex:0];
-     
-     
-     
-     } errorBlock:^(QBResponse *response) {
-     // error handling
-     [[AppDelegate sharedinstance] hideLoader];
-     
-     NSLog(@"Response error: %@", [response.error description]);
-     }];
-     
-     */
+    
     
     //  [[AppDelegate sharedinstance] showLoader];
     NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
@@ -1011,40 +956,7 @@
                 
             }
             
-            
-            //            strStateSelected = txtState.text;
-            //            selectedState = strStateSelected;
-            //            currentPage = 0;
-            //            if([arrCityList count]>0)
-            //                [arrCityList removeAllObjects];
-            //            [self getcityList];
-            
-            /*
-             
-             if([arrCityList count]>0)
-             [arrCityList removeAllObjects];
-             
-             for(NSArray *obj in arrCityStateList)
-             {
-             
-             NSString *strName = obj[1];
-             
-             if([strName isEqualToString:strStateSelected])
-             {
-             if(![arrCityList containsObject:obj[0]])
-             {
-             [arrCityList addObject: obj[0]];
-             }
-             }
-             }
-             
-             [arrCityList sortUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
-             
-             [arrCityList insertObject:@"All" atIndex:0];
-             
-             tblMembers.allowsMultipleSelection = YES;
-             [viewTable setHidden:NO];
-             */
+          
             break;
         case kButtonState:
             [pickerView selectRow:0 inComponent:0 animated:YES];
@@ -1600,6 +1512,7 @@
             if ([selectedState isEqualToString:@"All"]) {
                 
             }else {
+                pickerView.userInteractionEnabled = NO;
                 [self getcityList];
             }
             

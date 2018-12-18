@@ -221,6 +221,7 @@ NSString *const constZipcodeLimit = @"Maximum 10 Characters allowed for Zipcode.
             [arrCityList sortUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
             [arrCityList insertObject:@"Select City" atIndex:0];
             [pickerView reloadAllComponents];
+             pickerView.userInteractionEnabled = YES;
             [[AppDelegate sharedinstance] hideLoader];
             
         }else {
@@ -315,7 +316,7 @@ NSString *const constZipcodeLimit = @"Maximum 10 Characters allowed for Zipcode.
         [arrHomeCourses sortUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
         [arrHomeCourses insertObject:@"Select Golf Course" atIndex:0];
         [pickerView reloadAllComponents];
-        //      [pickerView selectRow:0 inComponent:0 animated:YES];
+         pickerView.userInteractionEnabled = YES;
         [[AppDelegate sharedinstance] hideLoader];
     }
                          errorBlock:^(QBResponse *response) {
@@ -812,6 +813,7 @@ NSString *const constZipcodeLimit = @"Maximum 10 Characters allowed for Zipcode.
             [[AppDelegate sharedinstance] showLoader];
             if([arrCityList count]>0)
                 [arrCityList removeAllObjects];
+            pickerView.userInteractionEnabled = NO;
             [self getcityList];
         }
     }
@@ -824,6 +826,7 @@ NSString *const constZipcodeLimit = @"Maximum 10 Characters allowed for Zipcode.
             
             txtCity.text = [arrCityList objectAtIndex:row];
             txtHomeCourse.text = @"";
+             pickerView.userInteractionEnabled = NO;
             [self getCoursesForSelection];
             
         }

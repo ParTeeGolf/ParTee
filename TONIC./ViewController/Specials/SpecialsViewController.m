@@ -236,8 +236,8 @@ int courseOption;
     
     return numberofHolesArr;
 }
--(void)getCoursesRecordCount
-{
+-(void)getCoursesRecordCount {
+    
     NSMutableDictionary *getRequestObjectCount = [NSMutableDictionary dictionary];
     [getRequestObjectCount setObject:@"1" forKey:@"count"];
     
@@ -425,8 +425,7 @@ int courseOption;
         
         if([strIsMyCourses isEqualToString:@"1"]) {
             [self getMySpecials];
-        }
-        else {
+        }else {
             [self getData];
         }
         

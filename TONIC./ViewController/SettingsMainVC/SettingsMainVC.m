@@ -813,6 +813,7 @@
             
             self.menuContainerViewController.panMode=NO;
             
+            
             [self.menuContainerViewController setMenuState:MFSideMenuStateClosed];
         }
     }

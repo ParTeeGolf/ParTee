@@ -176,7 +176,7 @@
                             <rect key="frame" x="52" y="168" width="40" height="40"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="30"/>
+                            <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="22"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -191,9 +191,9 @@
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ka7-KU-ZTj">
-                            <rect key="frame" x="295" y="133" width="8" height="37"/>
+                            <rect key="frame" x="295" y="135" width="8" height="36"/>
                             <autoresizingMask key="autoresizingMask"/>
-                            <state key="normal" backgroundImage="moreopt.png"/>
+                            <state key="normal" backgroundImage="threeDotImg1"/>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XgE-GY-ek0">
                             <rect key="frame" x="269" y="120" width="51" height="62"/>
@@ -463,7 +463,7 @@
         <image name="ico-back.png" width="21" height="39"/>
         <image name="ico-sendreq.png" width="50" height="50"/>
         <image name="listBackground.png" width="640" height="1136"/>
-        <image name="moreopt.png" width="8" height="37"/>
         <image name="right-arr@2.png" width="60" height="60"/>
+        <image name="threeDotImg1" width="8" height="36"/>
     </resources>
 </document>

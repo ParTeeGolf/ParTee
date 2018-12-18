@@ -313,8 +313,6 @@ isFromMapScreen = YES;
     // This will find the users within 150 mile range if user select nearme option from segment control.
     if ([nearMe isEqualToString: @"YES"]) {
         strinterested_in_location = @"100";
-    }else {
-        
     }
     /************ ChetuChange  ************/
     if([strinterested_in_location length]>0) {

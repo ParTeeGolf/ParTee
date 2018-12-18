@@ -191,42 +191,43 @@
         //     str1 = [obj.fields objectForKey:@"Amenities"];
         //     items =[[obj.fields objectForKey:@"Amenities"] copy];
         
-        //        [arrAmenities addObject:@"ATM"];
-        //        [arrAmenities addObject:@"Bar"];
-        //        [arrAmenities addObject:@"Billiards"];
-        //        [arrAmenities addObject:@"Business Center"];
-        //        [arrAmenities addObject:@"Caddy Hire"];
-        //        [arrAmenities addObject:@"Casino"];
-        //        [arrAmenities addObject:@"Club Fittings"];
-        //        [arrAmenities addObject:@"Club Rental"];
-        //        [arrAmenities addObject:@"Club Repair"];
-        //        [arrAmenities addObject:@"Clubhouse"];
-        //        [arrAmenities addObject:@"Fine Dining"];
-        //        [arrAmenities addObject:@"Drink Cart"];
-        //        [arrAmenities addObject:@"Driving Range"];
-        //        [arrAmenities addObject:@"Event Facilities"];
-        //        [arrAmenities addObject:@"Executive Par 3"];
-        //        [arrAmenities addObject:@"Fitness Center"];
-        //        [arrAmenities addObject:@"Game Room"];
-        //        [arrAmenities addObject:@"Golf Pro"];
-        //        [arrAmenities addObject:@"Handicap Cart"];
-        //        [arrAmenities addObject:@"Locker Room"];
-        //        [arrAmenities addObject:@"Lodging On Site"];
-        //        [arrAmenities addObject:@"Lounge"];
-        //        [arrAmenities addObject:@"Online Tee Times"];
-        //        [arrAmenities addObject:@"Pool"];
-        //        [arrAmenities addObject:@"Pro Shop"];
-        //        [arrAmenities addObject:@"Putting Green"];
-        //        [arrAmenities addObject:@"Restaurant"];
-        //        [arrAmenities addObject:@"Riding Carts"];
-        //        [arrAmenities addObject:@"Showers"];
-        //        [arrAmenities addObject:@"Spa"];
-        //        [arrAmenities addObject:@"Tennis Courts"];
-        //        [arrAmenities addObject:@"Valet Parking"];
-        //        [arrAmenities addObject:@"Webcam"];
-        //        [arrAmenities addObject:@"WiFi"];
-        
-        
+  /*
+        [arrAmenities addObject:@"ATM"];
+                [arrAmenities addObject:@"Bar"];
+                [arrAmenities addObject:@"Billiards"];
+                [arrAmenities addObject:@"Business Center"];
+                [arrAmenities addObject:@"Caddy Hire"];
+                [arrAmenities addObject:@"Casino"];
+                [arrAmenities addObject:@"Club Fittings"];
+                [arrAmenities addObject:@"Club Rental"];
+                [arrAmenities addObject:@"Club Repair"];
+                [arrAmenities addObject:@"Clubhouse"];
+                [arrAmenities addObject:@"Fine Dining"];
+                [arrAmenities addObject:@"Drink Cart"];
+                [arrAmenities addObject:@"Driving Range"];
+                [arrAmenities addObject:@"Event Facilities"];
+                [arrAmenities addObject:@"Executive Par 3"];
+                [arrAmenities addObject:@"Fitness Center"];
+                [arrAmenities addObject:@"Game Room"];
+                [arrAmenities addObject:@"Golf Pro"];
+                [arrAmenities addObject:@"Handicap Cart"];
+                [arrAmenities addObject:@"Locker Room"];
+                [arrAmenities addObject:@"Lodging On Site"];
+                [arrAmenities addObject:@"Lounge"];
+                [arrAmenities addObject:@"Online Tee Times"];
+                [arrAmenities addObject:@"Pool"];
+                [arrAmenities addObject:@"Pro Shop"];
+                [arrAmenities addObject:@"Putting Green"];
+                [arrAmenities addObject:@"Restaurant"];
+                [arrAmenities addObject:@"Riding Carts"];
+                [arrAmenities addObject:@"Showers"];
+                [arrAmenities addObject:@"Spa"];
+                [arrAmenities addObject:@"Tennis Courts"];
+                [arrAmenities addObject:@"Valet Parking"];
+                [arrAmenities addObject:@"Webcam"];
+                [arrAmenities addObject:@"WiFi"];
+       */
+  
         if([str1 isKindOfClass:[NSString class]]) {
             if(![str1 isEqualToString:@""]) {
                 items= [str1 componentsSeparatedByString:@","];
@@ -715,8 +716,8 @@
     
     imageUrl.frame = CGRectMake(0,10 , width, 180);
     narrowLineView1.frame = CGRectMake(0, 10, width, 180);
-    imgViewHole.frame = CGRectMake(10, 30, 100, 100);
-    lblHoel.frame = CGRectMake(50, 68, 40, 40);
+    imgViewHole.frame = CGRectMake(10, 50, 60, 60);
+    lblHoel.frame = CGRectMake(35, 73, 25, 25);
     lblName.frame = CGRectMake(5, 140, width - 10, 30);
     lblAddress.frame = CGRectMake(5, 160, width - 10, 30);
     btnFav.frame = CGRectMake(width - 62, 0, 51, 62);
@@ -1082,6 +1083,10 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section {
                                [NSCharacterSet whitespaceAndNewlineCharacterSet]];
     
     UIImage *amentyImage = [UIImage imageNamed:trimmedString];
+    if (amentyImage == nil) {
+       amentyImage = [UIImage imageNamed:@"amenitiesDefault"];
+    }
+    
     [cell.imgViewUser setImage:amentyImage];
     [cell.lblUserName setText:strName];
     
