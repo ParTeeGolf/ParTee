@@ -10,10 +10,8 @@
 #import "PDFViewController.h"
 #import "RegisterViewController.h"
 #import "EditProfileViewController.h"
-#import "SKPSMTPMessage.h"
-#import "NSData+Base64Additions.h"
 
-@interface LoginViewController ()<SKPSMTPMessageDelegate, MFMailComposeViewControllerDelegate>
+@interface LoginViewController ()<MFMailComposeViewControllerDelegate>
 {
     /********* Chetu Change *******/
     // This variable used to create view only when viewdidload called for first time only
@@ -1176,18 +1174,7 @@
         
     }
 }
--(void)messageSent:(SKPSMTPMessage *)message{
-    NSLog(@"delegate - message sent");
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message sent." message:nil delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
-    [alert show];
-}
-// On Failure
--(void)messageFailed:(SKPSMTPMessage *)message error:(NSError *)error{
-    // open an alert with just an OK button
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error!" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
-    [alert show];
-    NSLog(@"delegate - error(%d): %@", [error code], [error localizedDescription]);
-}
+
 //-----------------------------------------------------------------------
 
 - (IBAction)action_Menu:(id)sender{
