@@ -610,11 +610,6 @@
 		8487A93621300F9700E4C38E /* EventViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8487A93421300F9700E4C38E /* EventViewController.m */; };
 		8487A93721300F9700E4C38E /* EventViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8487A93521300F9700E4C38E /* EventViewController.xib */; };
 		848F8D7821145FE600013263 /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 848F8D7721145FE400013263 /* GoogleMaps.bundle */; };
-		8499E97C21A43C490005CD72 /* Base64Transcoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 8499E97321A43C490005CD72 /* Base64Transcoder.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		8499E97D21A43C490005CD72 /* HSK_CFUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 8499E97521A43C490005CD72 /* HSK_CFUtilities.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		8499E97E21A43C490005CD72 /* NSData+Base64Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8499E97721A43C490005CD72 /* NSData+Base64Additions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		8499E97F21A43C490005CD72 /* NSStream+SKPSMTPExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8499E97921A43C490005CD72 /* NSStream+SKPSMTPExtensions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		8499E98021A43C490005CD72 /* SKPSMTPMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 8499E97B21A43C490005CD72 /* SKPSMTPMessage.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		84BEFDAF2119F28F003240E4 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84BEFDAE2119F28F003240E4 /* LoginViewController.xib */; };
 		84BEFDB12119F90D003240E4 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84BEFDB02119F90D003240E4 /* Launch Screen.storyboard */; };
 		84BEFDB32119FA42003240E4 /* LaunchImages.png in Resources */ = {isa = PBXBuildFile; fileRef = 84BEFDB22119FA41003240E4 /* LaunchImages.png */; };
@@ -1454,16 +1449,6 @@
 		8487A93421300F9700E4C38E /* EventViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EventViewController.m; sourceTree = "<group>"; };
 		8487A93521300F9700E4C38E /* EventViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventViewController.xib; sourceTree = "<group>"; };
 		848F8D7721145FE400013263 /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GoogleMaps.bundle; path = GoogleMaps.framework/Versions/A/Resources/GoogleMaps.bundle; sourceTree = SOURCE_ROOT; };
-		8499E97221A43C490005CD72 /* Base64Transcoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base64Transcoder.h; sourceTree = "<group>"; };
-		8499E97321A43C490005CD72 /* Base64Transcoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Base64Transcoder.m; sourceTree = "<group>"; };
-		8499E97421A43C490005CD72 /* HSK_CFUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSK_CFUtilities.h; sourceTree = "<group>"; };
-		8499E97521A43C490005CD72 /* HSK_CFUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSK_CFUtilities.m; sourceTree = "<group>"; };
-		8499E97621A43C490005CD72 /* NSData+Base64Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Base64Additions.h"; sourceTree = "<group>"; };
-		8499E97721A43C490005CD72 /* NSData+Base64Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Base64Additions.m"; sourceTree = "<group>"; };
-		8499E97821A43C490005CD72 /* NSStream+SKPSMTPExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSStream+SKPSMTPExtensions.h"; sourceTree = "<group>"; };
-		8499E97921A43C490005CD72 /* NSStream+SKPSMTPExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSStream+SKPSMTPExtensions.m"; sourceTree = "<group>"; };
-		8499E97A21A43C490005CD72 /* SKPSMTPMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKPSMTPMessage.h; sourceTree = "<group>"; };
-		8499E97B21A43C490005CD72 /* SKPSMTPMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKPSMTPMessage.m; sourceTree = "<group>"; };
 		84BEFDAE2119F28F003240E4 /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
 		84BEFDB02119F90D003240E4 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		84BEFDB22119FA41003240E4 /* LaunchImages.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LaunchImages.png; sourceTree = "<group>"; };
@@ -2077,7 +2062,6 @@
 		3D707B3E1D56D99900591BF6 /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				8499E97121A43C490005CD72 /* SMTPLibrary */,
 				3D707B3F1D56D99900591BF6 /* LoginViewController.h */,
 				3D707B401D56D99900591BF6 /* LoginViewController.m */,
 				84BEFDAE2119F28F003240E4 /* LoginViewController.xib */,
@@ -3011,23 +2995,6 @@
 			path = Event;
 			sourceTree = "<group>";
 		};
-		8499E97121A43C490005CD72 /* SMTPLibrary */ = {
-			isa = PBXGroup;
-			children = (
-				8499E97221A43C490005CD72 /* Base64Transcoder.h */,
-				8499E97321A43C490005CD72 /* Base64Transcoder.m */,
-				8499E97421A43C490005CD72 /* HSK_CFUtilities.h */,
-				8499E97521A43C490005CD72 /* HSK_CFUtilities.m */,
-				8499E97621A43C490005CD72 /* NSData+Base64Additions.h */,
-				8499E97721A43C490005CD72 /* NSData+Base64Additions.m */,
-				8499E97821A43C490005CD72 /* NSStream+SKPSMTPExtensions.h */,
-				8499E97921A43C490005CD72 /* NSStream+SKPSMTPExtensions.m */,
-				8499E97A21A43C490005CD72 /* SKPSMTPMessage.h */,
-				8499E97B21A43C490005CD72 /* SKPSMTPMessage.m */,
-			);
-			path = SMTPLibrary;
-			sourceTree = "<group>";
-		};
 		84E2304B2143DFBB00E51483 /* EventPreferences */ = {
 			isa = PBXGroup;
 			children = (
@@ -3611,7 +3578,6 @@
 				3D707B2D1D56D7A200591BF6 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				3D8651631D65F34A0097C096 /* ViewUsersViewController.m in Sources */,
 				3D92C8181D5B5B24005C8CAE /* NSString+JSQMessages.m in Sources */,
-				8499E97C21A43C490005CD72 /* Base64Transcoder.m in Sources */,
 				3D65B5CA1F1D0D8C00852FD9 /* DGActivityIndicatorNineDotsAnimation.m in Sources */,
 				3D92C8211D5B5B24005C8CAE /* JSQMessagesTimestampFormatter.m in Sources */,
 				3D92C82D1D5B5B24005C8CAE /* JSQMessagesBubbleImage.m in Sources */,
@@ -3669,7 +3635,6 @@
 				3D707B011D56D7A200591BF6 /* AFURLRequestSerialization.m in Sources */,
 				3DCD78431D73E9A80077E911 /* ViewSpecialInvite.m in Sources */,
 				3D3F11951F307B6C00DE428E /* Harpy.m in Sources */,
-				8499E97D21A43C490005CD72 /* HSK_CFUtilities.m in Sources */,
 				3D707B271D56D7A200591BF6 /* SideMenuViewController.m in Sources */,
 				3D6C18681D66AAFE00F87998 /* InviteViewController.m in Sources */,
 				3D92C8301D5B5B24005C8CAE /* JSQMessagesCellTextView.m in Sources */,
@@ -3690,7 +3655,6 @@
 				3DFF3C071F404FC9003B51DE /* CoursePreferencesViewController.m in Sources */,
 				3D707A611D56D57300591BF6 /* AppDelegate.m in Sources */,
 				3D1AF1261D71B64B005EEAE7 /* CVCell.m in Sources */,
-				8499E97E21A43C490005CD72 /* NSData+Base64Additions.m in Sources */,
 				3D30D9171D58B0E900D4286B /* PurchasedViewController.m in Sources */,
 				3D95D5251F1E09210038DFD7 /* YBHud.m in Sources */,
 				3D65B5CC1F1D0D8C00852FD9 /* DGActivityIndicatorRotatingSquaresAnimation.m in Sources */,
@@ -3720,7 +3684,6 @@
 				3D92C8281D5B5B24005C8CAE /* JSQAudioMediaItem.m in Sources */,
 				3D707B2B1D56D7A200591BF6 /* UIImageView+UIActivityIndicatorForSDWebImage.m in Sources */,
 				3DC65E7B1D5764AA008A0ADC /* MyMatchesViewController.m in Sources */,
-				8499E97F21A43C490005CD72 /* NSStream+SKPSMTPExtensions.m in Sources */,
 				3D92C8321D5B5B24005C8CAE /* JSQMessagesCollectionViewCell.m in Sources */,
 				3DAABBA31F24EAD00009E6C7 /* EARestrictedScrollView.m in Sources */,
 				3D707B141D56D7A200591BF6 /* MKAnnotationView+WebCache.m in Sources */,
@@ -3746,7 +3709,6 @@
 				3D92C81F1D5B5B24005C8CAE /* JSQMessagesBubbleImageFactory.m in Sources */,
 				3D30D9011D58AD0400D4286B /* PurchaseSpecialsViewController.m in Sources */,
 				843EF918216B9B29000604EE /* NewsFeedVc.m in Sources */,
-				8499E98021A43C490005CD72 /* SKPSMTPMessage.m in Sources */,
 				3D92C84E1D5B5B69005C8CAE /* NSUserDefaults+DemoSettings.m in Sources */,
 				3D65B5D21F1D0D8C00852FD9 /* DGActivityIndicatorTwoDotsAnimation.m in Sources */,
 				3D92C82C1D5B5B24005C8CAE /* JSQMessagesAvatarImage.m in Sources */,
