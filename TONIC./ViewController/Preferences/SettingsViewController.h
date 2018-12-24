@@ -71,7 +71,7 @@
 
     IBOutlet UIButton *btnAge,*btnType,*btnCity;
     
-    int buttonTapped;
+    int       buttonTapped;
     NSString *strFromScreen;
     IBOutlet UIButton *btnBack;
     IBOutlet UIButton *btnDevOn;

@@ -175,7 +175,14 @@
         [lblbooking setTitle:str1 forState:UIControlStateNormal];
         
         NSString *numberOfHolesAvailCourse =  [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"NumberHoles"]];
-        lblHoel.text = [NSString stringWithFormat:@"%@", numberOfHolesAvailCourse];
+        NSString *numberOfHolesTemp = [NSString stringWithFormat:@"%@", numberOfHolesAvailCourse];
+        int numberOfHoles = [numberOfHolesTemp intValue];
+        if (numberOfHoles > 99) {
+            lblHoel.font = [UIFont fontWithName:@"Montserrat-Bold" size:13];
+        }else if (numberOfHoles > 999){
+            lblHoel.font = [UIFont fontWithName:@"Montserrat-Bold" size:9];
+        }
+        lblHoel.text = numberOfHolesTemp;
         NSArray *items ;
         
         /************ Chetu Change **********/
@@ -454,6 +461,16 @@
     str1 = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"amenities_temp"]];
     
     NSString *numberOfHolesAvailCourse =  [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"NumberHoles"]];
+    numberOfHolesAvailCourse = [NSString stringWithFormat:@"%@", numberOfHolesAvailCourse];
+ 
+    NSString *numberOfHolesTemp = [NSString stringWithFormat:@"%@", numberOfHolesAvailCourse];
+    int numberOfHoles = [numberOfHolesTemp intValue];
+    if (numberOfHoles > 99) {
+        lblHoel.font = [UIFont fontWithName:@"Montserrat-Bold" size:13];
+    }else if (numberOfHoles > 999){
+        lblHoel.font = [UIFont fontWithName:@"Montserrat-Bold" size:9];
+    }
+    
     lblHoel.text = [NSString stringWithFormat:@"%@", numberOfHolesAvailCourse];
     NSArray *items = [str1 componentsSeparatedByString:@","];
     NSMutableString * bulletList = [NSMutableString stringWithCapacity:items.count*30];
@@ -598,7 +615,16 @@
     str1 = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"amenities_temp"]];
     
     NSString *numberOfHolesAvailCourse =  [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"NumberHoles"]];
-    lblHoel.text = [NSString stringWithFormat:@"%@", numberOfHolesAvailCourse];
+ 
+    NSString *numberOfHolesTemp = [NSString stringWithFormat:@"%@", numberOfHolesAvailCourse];
+    int numberOfHoles = [numberOfHolesTemp intValue];
+    if (numberOfHoles > 99) {
+        lblHoel.font = [UIFont fontWithName:@"Montserrat-Bold" size:13];
+    }else if (numberOfHoles > 999){
+        lblHoel.font = [UIFont fontWithName:@"Montserrat-Bold" size:9];
+    }
+    
+    lblHoel.text = numberOfHolesTemp;
     //    str1 = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"Amenities"]];
     
     NSArray *items = [str1 componentsSeparatedByString:@","];

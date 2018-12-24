@@ -3,7 +3,7 @@
 //  SR-DIREKT
 //
 //  Created by Amolaksingh on 11/05/16.
-//  Copyright © 2016 SR-DIREKT. All rights reserved.
+//  Copyright © 2016 SR-DIREKT. All rights reserved.ƒ
 //
 
 #import <UIKit/UIKit.h>

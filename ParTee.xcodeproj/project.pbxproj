@@ -3842,7 +3842,7 @@
 				);
 				GCC_PREFIX_HEADER = "$(SRCROOT)/PrefixHeader.pch";
 				INFOPLIST_FILE = TONIC./Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3884,7 +3884,7 @@
 				);
 				GCC_PREFIX_HEADER = "$(SRCROOT)/PrefixHeader.pch";
 				INFOPLIST_FILE = TONIC./Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

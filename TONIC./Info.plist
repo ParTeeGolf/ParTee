@@ -28,14 +28,12 @@
 			<key>CFBundleURLName</key>
 			<string></string>
 			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>prefs</string>
-			</array>
+			<array/>
 		</dict>
 		<dict/>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1.4</string>
+	<string>1.10</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -82,13 +80,13 @@
 	<key>NSCalendarsUsageDescription</key>
 	<string>NSCalendarsUsageDescription</string>
 	<key>NSCameraUsageDescription</key>
-	<string>ParTee needs access</string>
+	<string>ParTee needs camera access to take your profile pic.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>ParTee needs access to show near by courses and golfers</string>
+	<string>ParTee needs location access to show nearby courses and golfers.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>ParTee needs access to show near by courses and golfers</string>
+	<string>ParTee needs location access to show nearby courses and golfers.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>ParTee needs access</string>
+	<string>ParTee needs photo library access for your profile pic.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>UbuntuMono-RI.ttf</string>

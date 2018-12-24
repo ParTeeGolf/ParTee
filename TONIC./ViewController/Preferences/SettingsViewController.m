@@ -89,7 +89,7 @@
     
     arrHandicapList=[[NSMutableArray alloc] init];
     
-    for(int i = -40; i <= 5; ++i)
+    for(int i = 0; i <= 40; i++)
     {
         [arrHandicapList addObject:[NSString stringWithFormat:@"%d",i]];
     }
@@ -322,18 +322,20 @@
          
          if([strHandicap length]==0)
          {
-             strHandicap = @"-40 - 5";
+             strHandicap = @"0 to 40";
              [switchHandicap setOn:NO animated:YES];
            //  [btnNA setSelectedSegmentIndex:0];
          }
          else
          {
-             NSArray* splitHandicap = [strHandicap componentsSeparatedByString: @":"];
-             strHandicap = [splitHandicap objectAtIndex: 0];
-      //        btnNA.selectedSegmentIndex = [[splitHandicap objectAtIndex: 1] intValue];
-              [switchHandicap setOn:[[splitHandicap objectAtIndex: 1] intValue] animated:YES];
+             
+        NSArray* splitHandicap = [strHandicap componentsSeparatedByString: @":"];
+         
+         strHandicap = [splitHandicap objectAtIndex: 0];
+         [switchHandicap setOn:[[splitHandicap objectAtIndex: 1] intValue] animated:YES];
          }
          
+        
          [txtHandicap setText:strHandicap];
          
          
@@ -605,21 +607,75 @@
         return;
     }
     
-    NSArray* splitHandicap = [txtHandicap.text componentsSeparatedByString: @" - "];
-    first = [[splitHandicap objectAtIndex: 0] intValue];
+    NSArray* splitHandicap = [txtHandicap.text componentsSeparatedByString: @" to "];
+    first  = [[splitHandicap objectAtIndex: 0] intValue];
     second = [[splitHandicap objectAtIndex: 1] intValue];
+    
     
     if(second < first)
     {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:kAppName message:@"Invalid Handicap Range" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-        alert.tag=121;
-        [alert show];
-        return;
+        [self showAlert];
+    }else {
+      [self savesettings];
     }
+ 
+    /*
+    if (first >= 0 ) {
+        
+        if (second >= 0) {
+            
+            if (first >= second) {
+                [self showAlert];
+            }else {
+                [self savesettings];
+            }
+        }else if ( second <= 0) {
+            
+            second = -1 * second;
+            
+            if (first >= second) {
+                 [self showAlert];
+            }else {
+              [self savesettings];
+            }
+            
+        }
+    }else if (first <= 0 ){
+        first = -1 * first;
+        
+        if (second <= 0) {
+            
+            second = -1 *second;
+            
+            if (first >= second) {
+                [self showAlert];
+            }else {
+               [self savesettings];
+            }
+            
+            
+        }else if (second >= 0){
+           
+            if (first >= second) {
+                [self showAlert];
+            }else {
+               [self savesettings];
+            }
+            
+        }
+    }
+  
+  */
     
-    [self savesettings];
 }
 
+-(void)showAlert
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:kAppName message:@"Invalid Handicap Range" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+    alert.tag=121;
+    [alert show];
+     return;
+}
 
 
 //-----------------------------------------------------------------------
@@ -677,7 +733,7 @@
                                               [nameTxtFld setText:@"All"];
                                               myObSliderOutlet.value=150;
                                               
-                                              [txtHandicap setText:@"-40 - 5"];
+                                              [txtHandicap setText:@"0 to 40"];
                                     //          btnNA.selectedSegmentIndex = 0;
                                                [switchHandicap setOn:NO animated:YES];
                                               [self savesettings];
@@ -799,7 +855,7 @@
     [minMaxView setHidden:NO];
     [minMax setHidden:NO];
     
-    NSArray* splitAge = [txtHandicap.text componentsSeparatedByString: @" - "];
+    NSArray* splitAge = [txtHandicap.text componentsSeparatedByString: @" to "];
     int first = [[splitAge objectAtIndex: 0] intValue];
     int second = [[splitAge objectAtIndex: 1] intValue];
     
@@ -807,10 +863,20 @@
     
     [pickerView reloadAllComponents];
     
-    [pickerView selectRow:first + 40 inComponent:0 animated:YES];
-    [pickerView reloadComponent:0];
-    [pickerView selectRow:second + 40 inComponent:1 animated:YES];
-    [pickerView reloadComponent:1];
+    if ([txtHandicap.text isEqualToString:@"0 to 40"]) {
+        [pickerView selectRow:0 inComponent:0 animated:YES];
+        [pickerView reloadComponent:0];
+        [pickerView selectRow:40 inComponent:1 animated:YES];
+        [pickerView reloadComponent:1];
+    }else {
+         int indexMin = (int) [arrHandicapList indexOfObject:[NSString stringWithFormat:@"%d",first]];
+         int indexMax = (int) [arrHandicapList indexOfObject:[NSString stringWithFormat:@"%d",second]];
+        [pickerView selectRow:indexMin inComponent:0 animated:YES];
+        [pickerView reloadComponent:0];
+        [pickerView selectRow:indexMax inComponent:1 animated:YES];
+        [pickerView reloadComponent:1];
+    }
+    
     
 }
 
@@ -951,7 +1017,7 @@
     [object.fields setObject:nameTxtFld.text forKey:@"Golfers_name"];
     [object.fields setObject:txtType.text  forKey:@"Type"];
     
- //   NSString *strIntHandicap = [txtHandicap.text stringByAppendingString:[NSString stringWithFormat:@":%ld",(long)btnNA.selectedSegmentIndex]];
+    
     NSString *strIntHandicap = [txtHandicap.text stringByAppendingString:[NSString stringWithFormat:@":%ld",(long)switchHandicap.isOn]];
     [object.fields setObject:strIntHandicap forKey:@"Handicap"];
     
@@ -1159,7 +1225,7 @@
                                  [tempCityArraySelcted removeAllObjects];
                                  [tempCourseArraySelcted removeAllObjects];
                                  
-                                 [txtHandicap setText:@"-40 - 5"];
+                                 [txtHandicap setText:@"0 to 40"];
                             //     btnNA.selectedSegmentIndex = 0;
                                  [switchHandicap setOn:NO animated:YES];
                              }];
@@ -1791,16 +1857,16 @@
             break;
             
         case kPickerHandicap:
-            splitHandicap = [txtHandicap.text componentsSeparatedByString: @" - "];
+            splitHandicap = [txtHandicap.text componentsSeparatedByString: @" to "];
             first = [splitHandicap objectAtIndex: 0];
             second = [splitHandicap objectAtIndex: 1];
             switch(component)
         {
             case 0:
-                txtHandicap.text = [NSString stringWithFormat:@"%@ - %@",[arrHandicapList objectAtIndex:row], second];
+                txtHandicap.text = [NSString stringWithFormat:@"%@ to %@", [arrHandicapList objectAtIndex:row], second];
                 break;
             case 1:
-                txtHandicap.text = [NSString stringWithFormat:@"%@ - %@",first, [arrHandicapList objectAtIndex:row]];
+                txtHandicap.text = [NSString stringWithFormat:@"%@ to %@",first,[arrHandicapList objectAtIndex:row]];
                 break;
         }
             break;

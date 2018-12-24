@@ -465,28 +465,7 @@ static AppDelegate *delegate;
         {
             if (alertView.tag == 100)
             {
-                //            NSString *URL =strWebsite;// lblWebsite.titleLabel.text;
-                //            if([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:URL]])
-                
-                //This will open ios devices location settings
-                // This will open ios devices location settings in iOS 10
-                
-                NSString *strWebsite = @"App-Prefs:root=Privacy&path=LOCATION";
-                NSString *URL =strWebsite;// lblWebsite.titleLabel.text;
-                if([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:URL]])
-                {
-                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:URL]];
-                }
-                else {
-                    
-                    strWebsite = @"prefs:root=LOCATION_SERVICES";
-                    URL =strWebsite;
-                    
-                    if([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:URL]])
-                    {
-                        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:URL]];
-                    }
-                }
+               
                 
             }
             else if (alertView.tag == 200)

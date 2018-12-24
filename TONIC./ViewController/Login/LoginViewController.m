@@ -690,8 +690,10 @@
         } else {
             // Fallback on earlier versions
         }
-        [mailCont setToRecipients:[NSArray arrayWithObject:@"mohiittyagics@gmail.com"]];
-        [mailCont setMessageBody:[NSString stringWithFormat:@"I forgot my password.So please provide the my password.\n My registered email id is %@",emailId] isHTML:NO];
+       
+        
+        [mailCont setToRecipients:[NSArray arrayWithObject:@"forgotpassword@partee.golf"]];
+        [mailCont setMessageBody:[NSString stringWithFormat:@"I forgot my password.\n My registered email id is %@.",emailId] isHTML:NO];
         
         [self presentViewController:mailCont animated:YES completion:nil];
     }else {
@@ -775,8 +777,8 @@
         // Change password just by providing the email id.
         //     [self loginTesting:alertView];
         
-        // Open mail composer
-        //      [self sendEmail:alertView];
+   //      Open mail composer
+              [self sendEmail:alertView];
         
         
     }
@@ -785,7 +787,7 @@
 -(void)forgotBtnTapped:(UIButton *)sender {
     
     
-    //   [self ShowAlertWithNewPassWord];
+    
     
     
     
@@ -839,7 +841,10 @@
                                    }
                                    else
                                    {
+                                         [self sendEmail:[[alert textFields][0] text]];
                                        
+                                //     [self ShowAlertWithNewPassWord];
+                                       /*
                                        
                                        [[AppDelegate sharedinstance] showLoader];
                                        
@@ -861,6 +866,8 @@
                                            }
                                        }];
                                        
+                                       */
+                                       
                                    }
                                }];
     
@@ -877,38 +884,7 @@
     [self presentViewController:alert animated:YES completion:nil];
     
     
-    //    NSLog(@"Start Sending");
-    //    SKPSMTPMessage *emailMessage = [[SKPSMTPMessage alloc] init];
-    //    emailMessage.delegate = self;
-    //    emailMessage.fromEmail = @"mohittyagics@gmail.com"; //sender email address
-    //    emailMessage.toEmail = @"niteshg@chetu.com";  //receiver email address
-    //    emailMessage.relayHost = @"smtp.gmail.com";
-    //  //emailMessage.ccEmail =@"your cc address";
-    //  //emailMessage.bccEmail =@"your bcc address";
-    //  //emailMessage.relayPorts =
-    //    emailMessage.requiresAuth = YES;
-    //    emailMessage.login = @"mohittyagics@gmail.com"; //sender email address
-    //    emailMessage.pass = @"8218Mkt940178"; //sender email password
-    //    emailMessage.subject =@"Test application";
-    //    emailMessage.wantsSecure = YES;
-    //    emailMessage.delegate = self; // you must include <SKPSMTPMessageDelegate> to your class
-    //    NSString *messageBody = @"your email body message";
-    //    //for example :   NSString *messageBody = [NSString stringWithFormat:@"Tour Name: %@\nName: %@\nEmail: %@\nContact No: %@\nAddress: %@\nNote: %@",selectedTour,nameField.text,emailField.text,foneField.text,addField.text,txtView.text];
-    //    // Now creating plain text email message
-    //    NSDictionary *plainMsg = [NSDictionary
-    //                              dictionaryWithObjectsAndKeys:@"text/plain",kSKPSMTPPartContentTypeKey,
-    //                              messageBody,kSKPSMTPPartMessageKey,@"8bit",kSKPSMTPPartContentTransferEncodingKey,nil];
-    //    emailMessage.parts = [NSArray arrayWithObjects:plainMsg,nil];
-    //    //in addition : Logic for attaching file with email message.
-    //    /*
-    //     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"filename" ofType:@"JPG"];
-    //     NSData *fileData = [NSData dataWithContentsOfFile:filePath];
-    //     NSDictionary *fileMsg = [NSDictionary dictionaryWithObjectsAndKeys:@"text/directory;\r\n\tx-
-    //     unix-mode=0644;\r\n\tname=\"filename.JPG\"",kSKPSMTPPartContentTypeKey,@"attachment;\r\n\tfilename=\"filename.JPG\"",kSKPSMTPPartContentDispositionKey,[fileData encodeBase64ForData],kSKPSMTPPartMessageKey,@"base64",kSKPSMTPPartContentTransferEncodingKey,nil];
-    //     emailMessage.parts = [NSArray arrayWithObjects:plainMsg,fileMsg,nil]; //including plain msg and attached file msg
-    //     */
-    //    [emailMessage send];
-    //    // sending email- will take little time to send so its better to use indicator with message showing sending...
+  
     
 }
 #pragma mark create View

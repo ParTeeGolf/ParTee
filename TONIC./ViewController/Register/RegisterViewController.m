@@ -1340,63 +1340,14 @@ https://www.linkedin.com/in/hoodacreations/
 
 -(void) setupHandicapArray {
     arrHandicapList = [[NSMutableArray alloc] init];
-    
     [arrHandicapList addObject:@"N/A"];
-    [arrHandicapList addObject:@"-40"];
-    [arrHandicapList addObject:@"-39"];
-    [arrHandicapList addObject:@"-38"];
-    [arrHandicapList addObject:@"-37"];
-    [arrHandicapList addObject:@"-36"];
-    [arrHandicapList addObject:@"-35"];
-    [arrHandicapList addObject:@"-34"];
-    [arrHandicapList addObject:@"-33"];
-    [arrHandicapList addObject:@"-32"];
-    [arrHandicapList addObject:@"-31"];
-    [arrHandicapList addObject:@"-30"];
-    [arrHandicapList addObject:@"-29"];
-    [arrHandicapList addObject:@"-28"];
-    [arrHandicapList addObject:@"-27"];
-    [arrHandicapList addObject:@"-26"];
-    [arrHandicapList addObject:@"-25"];
-    [arrHandicapList addObject:@"-24"];
-    [arrHandicapList addObject:@"-23"];
-    [arrHandicapList addObject:@"-22"];
-    [arrHandicapList addObject:@"-21"];
-    [arrHandicapList addObject:@"-20"];
-    [arrHandicapList addObject:@"-19"];
-    [arrHandicapList addObject:@"-18"];
-    [arrHandicapList addObject:@"-17"];
-    [arrHandicapList addObject:@"-16"];
-    [arrHandicapList addObject:@"-15"];
-    [arrHandicapList addObject:@"-14"];
-    [arrHandicapList addObject:@"-13"];
-    [arrHandicapList addObject:@"-12"];
-    [arrHandicapList addObject:@"-11"];
-    [arrHandicapList addObject:@"-10"];
+
+    for(int i = 0; i <= 40; i++)
+    {
+        [arrHandicapList addObject:[NSString stringWithFormat:@"%d",i]];
+    }
     
-    [arrHandicapList addObject:@"-9"];
-    [arrHandicapList addObject:@"-8"];
-    [arrHandicapList addObject:@"-7"];
-    [arrHandicapList addObject:@"-6"];
-    [arrHandicapList addObject:@"-5"];
-    [arrHandicapList addObject:@"-4"];
-    [arrHandicapList addObject:@"-3"];
-    [arrHandicapList addObject:@"-2"];
-    [arrHandicapList addObject:@"-1"];
-    [arrHandicapList addObject:@"0"];
-    
-    [arrHandicapList addObject:@"1"];
-    [arrHandicapList addObject:@"2"];
-    [arrHandicapList addObject:@"3"];
-    [arrHandicapList addObject:@"4"];
-    [arrHandicapList addObject:@"5"];
-    [arrHandicapList addObject:@"6"];
-    [arrHandicapList addObject:@"7"];
-    [arrHandicapList addObject:@"8"];
-    [arrHandicapList addObject:@"9"];
-    [arrHandicapList addObject:@"10"];
-    
-    
+ 
 }
 
 //-----------------------------------------------------------------------

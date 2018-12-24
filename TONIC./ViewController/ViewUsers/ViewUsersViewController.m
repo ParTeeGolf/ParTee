@@ -113,7 +113,7 @@ isFromMapScreen = YES;
         currentPageGetAllUser = 0;
         isFromSendRequestToUser = 0;
         
-        arrData = [[NSMutableArray alloc] init];
+    //    arrData = [[NSMutableArray alloc] init];
         
         arrConnections = [[NSMutableArray alloc] init];
         
@@ -240,7 +240,7 @@ isFromMapScreen = YES;
     
     _currentDialog=0;
     
-    arrData = [[NSMutableArray alloc] init];
+ //   arrData = [[NSMutableArray alloc] init];
     
     //    arrFinalUserData = [[NSMutableArray alloc] init];
     //  arrFinalDialogData = [[NSMutableArray alloc] init];
@@ -468,7 +468,7 @@ isFromMapScreen = YES;
         
         arrConnections = [arrTemp mutableCopy];
         [tblList setContentOffset:tblList.contentOffset animated:NO];
-        arrData = [[NSMutableArray alloc] init];
+    //    arrData = [[NSMutableArray alloc] init];
         // [self getPagedUsers:0];
         [self getCoursesRecordCount:_currentPage];
     } errorBlock:^(QBResponse *response) {
@@ -533,7 +533,7 @@ isFromMapScreen = YES;
         NSString *handicapRange = [splitHandicap objectAtIndex: 0];
         NSString *includeNA = [splitHandicap objectAtIndex: 1];
         
-        NSArray* splitRange = [handicapRange componentsSeparatedByString: @" - "];
+        NSArray* splitRange = [handicapRange componentsSeparatedByString: @" to "];
         lowerlimit = [[splitRange objectAtIndex: 0] intValue];
         upperlimit = [[splitRange objectAtIndex: 1] intValue];
         
@@ -766,7 +766,7 @@ isFromMapScreen = YES;
         NSString *handicapRange = [splitHandicap objectAtIndex: 0];
         NSString *includeNA = [splitHandicap objectAtIndex: 1];
         
-        NSArray* splitRange = [handicapRange componentsSeparatedByString: @" - "];
+         NSArray* splitRange = [handicapRange componentsSeparatedByString: @" to "];
         lowerlimit = [[splitRange objectAtIndex: 0] intValue];
         upperlimit = [[splitRange objectAtIndex: 1] intValue];
         

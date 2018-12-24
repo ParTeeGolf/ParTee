@@ -598,7 +598,7 @@
                                         <constraint firstAttribute="height" constant="1" id="BPu-kb-hxj"/>
                                     </constraints>
                                 </view>
-                                <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="-40 -5" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cf5-JW-ydl">
+                                <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="0 to 40" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cf5-JW-ydl">
                                     <rect key="frame" x="8" y="10" width="219" height="20"/>
                                     <accessibility key="accessibilityConfiguration">
                                         <accessibilityTraits key="traits" notEnabled="YES"/>
