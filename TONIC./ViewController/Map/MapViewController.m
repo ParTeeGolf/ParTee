@@ -39,9 +39,7 @@
     [super viewDidLoad];
     
     arrCourseDetails = [[NSMutableArray alloc]init];
-   
     tempCourseMapData = [[QBCOCustomObject alloc]init];
-    //  [[AppDelegate sharedinstance] showLoader];
     [self drawRouteOnMap];
     
 }
@@ -92,7 +90,6 @@
         NSArray *arrCoord = [tempCourseMapData.fields objectForKey:@"coordinates"];
         // pin type is parameter available on golfcurse table on quickblox that we need to ask for.
         if([arrCoord count]>0) {
-            //   NSString *strPinType =[[AppDelegate sharedinstance] nullcheck: [tempCourseMapData.fields objectForKey:@"pin_type"]];
             
             NSString *strPinType = @"";
             if([strPinType length]==0) {
@@ -136,21 +133,6 @@
             placeCoord.latitude=[strlat doubleValue];
             placeCoord.longitude=[strlong doubleValue];
             
-            //       CLLocationCoordinate2D myposition = {  placeCoord.latitude, placeCoord.longitude };
-            //        scrplaceCoord = myposition;
-            
-            //                        GMSMarker *mymarker1 = [GMSMarker markerWithPosition:myposition];
-            //
-            //                        mymarker1.icon = [UIImage imageNamed:@"type-my"];
-            //
-            //                        mymarker1.title = @"";//[NSString stringWithFormat:@"Marker %i", i];
-            //                        mymarker1.appearAnimation = YES;
-            //                        mymarker1.flat = YES;
-            //                        mymarker1.snippet =  [NSString stringWithFormat:@"%i", 0];
-            //                        mymarker1.map = mapView;
-            
-            //    [path addCoordinate: mymarker1.position];
-            
         }
     }
     
@@ -169,8 +151,6 @@
     
     // pin type is parameter available on golfcurse table on quickblox that we need to ask for.
     if([arrCoord count]>0) {
-        
-        //   NSString *strPinType =[[AppDelegate sharedinstance] nullcheck: [dictCourseMapData.fields objectForKey:@"pin_type"]];
         
         NSString *strPinType = @"";
         if([strPinType length]==0) {

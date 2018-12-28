@@ -85,23 +85,13 @@ static AppDelegate *delegate;
 
     if([[AppDelegate    sharedinstance] isUserLogIn]) {
         
-//        ViewUsersViewController *viewController    = [[ViewUsersViewController alloc] initWithNibName:@"ViewUsersViewController" bundle:nil];
-//        ((ViewUsersViewController*)viewController).strIsMyMatches=@"1";
-////
-//       return viewController;
-        
-      //  return [[InviteViewController alloc] initWithNibName:@"InviteViewController" bundle:nil];
 
- //    return [[CoursePreferencesViewController alloc] initWithNibName:@"CoursePreferencesViewController" bundle:nil];
         
     SpecialsViewController *svc = [[SpecialsViewController alloc] initWithNibName:@"SpecialsViewController" bundle:nil];
     svc.strIsMyCourses=@"0";
      return svc;
         
-        //        return [[MyMatchesViewController alloc] initWithNibName:@"MyMatchesViewController" bundle:nil];
-        
- 
-        
+      
         
         return [[SpecialsViewController alloc] initWithNibName:@"SpecialsViewController" bundle:nil];
         
@@ -111,7 +101,6 @@ static AppDelegate *delegate;
         DemoMessagesViewController *vc = [DemoMessagesViewController messagesViewController];
         return vc;
         
-        // return [[ProfileViewController alloc] initWithNibName:@"ProfileViewController" bundle:nil];
     }
     
     return [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
@@ -120,34 +109,7 @@ static AppDelegate *delegate;
     return [[RegisterViewController alloc] initWithNibName:@"RegisterViewController" bundle:nil];
     
     
-    //return [[InviteViewController alloc] initWithNibName:@"InviteViewController" bundle:nil];
-    
-    //  return [[ViewUsersViewController alloc] initWithNibName:@"ViewUsersViewController" bundle:nil];
-    
-    //return [[ViewProfileViewController alloc] initWithNibName:@"ViewProfileViewController" bundle:nil];
-    
-    
-    // return [[HomeViewController alloc] initWithNibName:@"HomeViewController" bundle:nil];
-    
-    
-    //return [[SettingsViewController alloc] initWithNibName:@"SettingsViewController" bundle:nil];
-    
-    // return [[MyMatchesViewController alloc] initWithNibName:@"MyMatchesViewController" bundle:nil];
-    
-    //return [[SpecialsViewController alloc] initWithNibName:@"SpecialsViewController" bundle:nil];
-    
-    //    return [[PurchaseSpecialsViewController alloc] initWithNibName:@"PurchaseSpecialsViewController" bundle:nil];
-    
-    //    return [[PurchasedViewController alloc] initWithNibName:@"PurchasedViewController" bundle:nil];
-    
-    // return [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
-    
-    //    return [[ChatVC alloc] initWithNibName:@"ChatVC" bundle:nil];
-    
-    //  DemoMessagesViewController *vc = [DemoMessagesViewController messagesViewController];
-    //  [self.navigationController pushViewController:vc animated:YES];
-    
-    // return vc;//[[DemoMessagesViewController alloc] initWithNibName:@"DemoMessagesViewController" bundle:nil];
+   
     
 }
 
@@ -193,10 +155,6 @@ static AppDelegate *delegate;
   
     self.strisDevelopment=@"0";
     
- //   [NSThread sleepForTimeInterval:2.f];
-    
-//    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kIAPFULLVERSION];
-//    [[NSUserDefaults standardUserDefaults] synchronize];
     [Fabric with:@[[Crashlytics class]]];
     sharedChatInstance = [QBChat instance];
     
@@ -600,7 +558,6 @@ static AppDelegate *delegate;
             }
         }
 
-     //   [[AppDelegate sharedinstance] displayMessage:strMessage];
         [[AppDelegate sharedinstance] displayCustomNotificationWithTitle:strMessage andMessage:strMessageText];
     }
     
@@ -640,7 +597,7 @@ static AppDelegate *delegate;
         [[AppDelegate sharedinstance] showLoader];
         
         [[AppDelegate sharedinstance].sharedChatInstance connectWithUser:currentUser completion:^(NSError * _Nullable error) {
-            //            [[AppDelegate sharedinstance] hideLoader];
+            
             
             if(self.currentScreen == kScreenChat) {
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"customAmoCode" object:nil];
@@ -683,15 +640,13 @@ static AppDelegate *delegate;
         if(isOneSignalPush==0) {
             NSString *notificationBody = [[userInfo objectForKey:@"aps"] objectForKey:@"alert"];
             
-            // if push is for message and if screen is my friednds/contacts, then refresh the screen
-            
-            // [[AppDelegate sharedinstance] displayMessage:notificationBody];
+           
             
             [[AppDelegate sharedinstance] displayCustomNotification:notificationBody];
             
             if(self.currentScreen == kScreenusers) {
                 
-                //       [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshdialogs" object:nil];
+                
                 
             }
         }
@@ -699,41 +654,6 @@ static AppDelegate *delegate;
    
 }
 
-//
-//    NSString *notificationBody = [[[userInfo objectForKey:@"aps"] objectForKey:@"alert"] objectForKey:@"body"];
-//    NSString *notificationTitle= [[[userInfo objectForKey:@"aps"] objectForKey:@"alert"] objectForKey:@"title"];
-//
-//    UIApplicationState state = [application applicationState];
-//
-//    if (state == UIApplicationStateActive) {
-//
-//            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:notificationTitle message:notificationBody delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-//            [alertView show];
-//
-//    }
-//
-//    if([[userInfo objectForKey:@"custom"] valueForKey:@"a"] != nil) {
-//
-//        NSDictionary *dict =[[userInfo objectForKey:@"custom"] valueForKey:@"a"];
-//
-//        if([dict valueForKey:@"link"] != nil) {
-//
-//            NSString *strLink = [dict objectForKey:@"link"];
-//
-//            hasLink=YES;
-//
-//            [[NSUserDefaults standardUserDefaults] setObject:strLink forKey:knotificationlink];
-//            [[NSUserDefaults standardUserDefaults] synchronize];
-//
-//            NSLog(@"customKey: %@", strLink);
-//
-//            [self setRootViewController];
-//
-//        }
-//
-//    }
-//
-//}
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
     BOOL handled = [[FBSDKApplicationDelegate sharedInstance] application:application
@@ -936,10 +856,7 @@ static AppDelegate *delegate;
                     vc   = [[ViewUsersViewController alloc] initWithNibName:@"ViewUsersViewController" bundle:nil];
                     ((ViewUsersViewController*)vc).strIsMyMatches=@"1";
                     
-//                    if(currentScreen==kScreenChat) {
-//                        [[NSNotificationCenter defaultCenter] postNotificationName:@"hidethekeyboard" object:nil];
-//                        
-//                    }
+
                 }
                 
                 UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
@@ -992,8 +909,7 @@ static AppDelegate *delegate;
 //-----------------------------------------------------------------------
 
 -(void) showLoader {
-    // [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeBlack];
- //  [MBProgressHUD showHUDAddedTo:self.window animated:YES];
+  
     
     if(hud) {
         hud.dimAmount = 0.7; //Customization
@@ -1009,8 +925,7 @@ static AppDelegate *delegate;
 //-----------------------------------------------------------------------
 
 -(void) showLoaderForView:(UIView *) topView1 {
-    // [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeBlack];
-    //  [MBProgressHUD showHUDAddedTo:self.window animated:YES];
+   
     
     hud = nil;
     
@@ -1029,8 +944,7 @@ static AppDelegate *delegate;
 -(void) hideLoader {
     topView=nil;
     
-    //[SVProgressHUD  dismiss];
-  //  [MBProgressHUD hideAllHUDsForView:self.window animated:YES];
+   
     [hud dismissAnimated:NO];
 }
 
@@ -1305,7 +1219,6 @@ static AppDelegate *delegate;
     }
 
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber: 0];
-//    [[UIApplication sharedApplication] cancelAllLocalNotifications];
     
     [FBSDKAppEvents activateApp];
     
@@ -1484,97 +1397,5 @@ static AppDelegate *delegate;
     return [ProIcons objectForKey:key];
 }
 
-// #pragma mark- Create Noti Action
-// /*
-// @Description
-// * This Method will create the local notification on device so that user able to recieve
-// * @author Chetu India
-// * @return IBAction nothing will return by this method.
-// */
-//-(void)createLocalNotifEvent:(int)selectedEventIndex
-//{
-//    [[UNUserNotificationCenter currentNotificationCenter] setDelegate:self];
-//    UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
-//    UNAuthorizationOptions options = UNAuthorizationOptionAlert + UNAuthorizationOptionSound;
-//
-//    // Request using shared Notification Center
-//    [center requestAuthorizationWithOptions:options
-//                          completionHandler:^(BOOL granted, NSError * _Nullable error) {
-//                              if (granted) {
-//                                  NSLog(@"Notification Granted");
-//                              }
-//                          }];
-//
-//    // Notification authorization settings
-//    [center getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings * _Nonnull settings) {
-//        if (settings.authorizationStatus == UNAuthorizationStatusAuthorized) {
-//            NSLog(@"Notification allowed");
-//        }
-//    }];
-//
-//
-//    UNMutableNotificationContent *content = [UNMutableNotificationContent new];
-//    content.title = @"Event Notification";
-//    content.body = @"Event Local Recieved";
-//    content.sound = [UNNotificationSound defaultSound];
-//
-//
-//    QBCOCustomObject *obj = [arrEventsData objectAtIndex:selectedEventIndex];
-//    NSString *eventStartDate = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:kEventStartDate]];
-//    NSDate *notificationEventDate = [CommonMethods intervalBwDatesInSec:eventStartDate];
-//    NSString *eventIdStr = [NSString stringWithFormat:@"%@", obj.ID];
-//    // Trigger with date
-//    NSDateComponents *triggerDate = [[NSCalendar currentCalendar]
-//                                     components:NSCalendarUnitYear +
-//                                     NSCalendarUnitMonth + NSCalendarUnitDay +
-//                                     NSCalendarUnitHour + NSCalendarUnitMinute +
-//                                     NSCalendarUnitSecond fromDate:notificationEventDate];
-//    UNCalendarNotificationTrigger *trigger = [UNCalendarNotificationTrigger triggerWithDateMatchingComponents:triggerDate repeats:NO];
-//
-//
-//    // Scheduling the notification
-//    UNNotificationRequest *request = [UNNotificationRequest requestWithIdentifier:eventIdStr content:content trigger:trigger];
-//
-//    [center addNotificationRequest:request withCompletionHandler:^(NSError * _Nullable error) {
-//        if (error != nil) {
-//            NSLog(@"Something went wrong: %@",error);
-//        }
-//    }];
-//
-//}
-//#pragma mark- Delete Noti Action
-///**
-// @Description
-// * This Method will delete the local notification on device based on identifier.
-// * @author Chetu India
-// * @return IBAction nothing will return by this method.
-// */
-//-(void)deleteLocalNotification:(int)selectedEventIndex
-//{
-//
-//    QBCOCustomObject *obj = [arrEventsData objectAtIndex:selectedEventIndex];
-//    NSString *eventIdStr = [NSString stringWithFormat:@"%@", obj.ID];
-//    [[UNUserNotificationCenter currentNotificationCenter]getPendingNotificationRequestsWithCompletionHandler:^(NSArray<UNNotificationRequest *> * _Nonnull requests) {
-//        if (requests.count>0) {
-//
-//
-//            for (UNNotificationRequest *pendingRequest  in requests) {
-//                if ([pendingRequest.identifier isEqualToString:eventIdStr]) {
-//                    [[UNUserNotificationCenter currentNotificationCenter]removePendingNotificationRequestsWithIdentifiers:@[pendingRequest.identifier]];
-//
-//                }
-//            }
-//
-//        }
-//
-//    }];
-//
-//    if (eventOption == 2) {
-//        [self getEventRecordsCount];
-//    }else {
-//        [[AppDelegate sharedinstance] hideLoader];
-//
-//    }
-//}
-// */
+
 @end

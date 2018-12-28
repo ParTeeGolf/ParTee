@@ -65,8 +65,7 @@ NSString *const constZipcodeLimit = @"Maximum 10 Characters allowed for Zipcode.
     [super viewDidLoad];
     currentPageCity = 0;
     [self updateViewConstarints];
-    
-    //[self sampleFillUser];
+
     [btnCheckmark setTag:200];
     
     strImgURLBase=@"";
@@ -97,11 +96,7 @@ NSString *const constZipcodeLimit = @"Maximum 10 Characters allowed for Zipcode.
     txtHomeCourse.inputView = pickerView;
     
     txtHandicap.text = @"N/A";
-    // txtHomeCourse.text = @"N/A";
     txtHomeCourse.text = @"";
-    
-    //    arrStateList = [NSArray arrayWithObjects:@"Montana",nil];
-    //    arrCityList = [NSArray arrayWithObjects:@"Bozeman",@"Billings",@"Butte",@"Big Sky",@"Kalispell",@"Livingston",@"All",nil];
     
     arrStateList = [[NSMutableArray alloc] init];
     arrCityList = [[NSMutableArray alloc] init];
@@ -112,7 +107,6 @@ NSString *const constZipcodeLimit = @"Maximum 10 Characters allowed for Zipcode.
     tvInfo.placeholder = @"Enter something about you";
     
     tvInfo.placeholderTextColor = [UIColor colorWithRed:0.780 green:0.780 blue:0.804 alpha:1.00];
-    //tvInfo.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18.0];
     
     NSArray *fields = @[ txtName,txtEmail,txtPwd,txtBday,txtState,txtCity,txtHomeCourse,txtZipCode,txtHandicap,tvInfo];
     
@@ -127,13 +121,7 @@ NSString *const constZipcodeLimit = @"Maximum 10 Characters allowed for Zipcode.
     
     self.menuContainerViewController.panMode = NO;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gotLocation) name:@"gotLocation" object:nil];
-    
-    if(isiPhone4) {
-        
-        
-    }
-    
-    //  [self getLocationDataFromServer];
+   
     [self getStateList];
 }
 #pragma mark- Get State List
@@ -165,11 +153,9 @@ NSString *const constZipcodeLimit = @"Maximum 10 Characters allowed for Zipcode.
             
         }
         
-        //    txtState.text = [arrStateList objectAtIndex:0];
-        //     selectedState  = [arrStateList objectAtIndex:0];
+       
         [arrStateList sortUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
         [arrStateList insertObject:@"Select State" atIndex:0];
-        //   [self getcityList];
         [pickerView reloadAllComponents];
         [[AppDelegate sharedinstance] hideLoader];
         
@@ -190,7 +176,6 @@ NSString *const constZipcodeLimit = @"Maximum 10 Characters allowed for Zipcode.
  */
 -(void)getcityList
 {
-    //   [[AppDelegate sharedinstance] showLoader];
     
     NSMutableDictionary *getRequestObjectCount = [NSMutableDictionary dictionary];
     [getRequestObjectCount setObject: selectedState forKey:@"State"];
@@ -290,7 +275,6 @@ NSString *const constZipcodeLimit = @"Maximum 10 Characters allowed for Zipcode.
     [QBRequest objectsWithClassName:@"GolfCourses" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
         // response processing
         
-        
         // checking user there in custom user table or not.
         arrHomeCourses = [[NSMutableArray alloc] init];
         arrHomeCoursesObjects = [[NSMutableArray alloc] init];
@@ -301,13 +285,10 @@ NSString *const constZipcodeLimit = @"Maximum 10 Characters allowed for Zipcode.
             for(QBCOCustomObject *obj in objects) {
                 
                 NSString *strname = [obj.fields objectForKey:@"Name"];
-                
                 //arrHomeCourses
                 [arrHomeCourses addObject:strname];
             }
-            
         }
-        
         if([arrHomeCourses count]==0) {
             
             [arrHomeCourses addObject:@"N/A"];
@@ -407,7 +388,6 @@ NSString *const constZipcodeLimit = @"Maximum 10 Characters allowed for Zipcode.
 }
 
 #pragma mark- updateViewConstarintd
-// updateViewConstarintd according to device
 
 -(void)updateViewConstarints {
     CGRect screenRect = [[UIScreen mainScreen] bounds];
@@ -470,26 +450,6 @@ NSString *const constZipcodeLimit = @"Maximum 10 Characters allowed for Zipcode.
     [txtHandicap setText:@"10"];
     [tvInfo setText:@"I'm a golfer"];
     
-    //    [txtName setText:@"Developer"];
-    //    [txtEmail setText:@"hoodacreations@gmail.com"];
-    //    [txtPwd setText:@"12345678"];
-    //    [txtBday setText:@"12/11/1980"];
-    //    [txtState setText:@"Montana"];
-    //    [txtCity setText:@"Kalispell"];
-    //    [txtZipCode setText:@"300010"];
-    //    [txtHandicap setText:@"10"];
-    //    [tvInfo setText:@"I'm a developer"];
-    //
-    //    [txtName setText:@"Demo"];
-    //    [txtEmail setText:@"developer.roadies@gmail.com"];
-    //    [txtPwd setText:@"12345678"];
-    //    [txtBday setText:@"02/11/1980"];
-    //    [txtState setText:@"Montana"];
-    //    [txtCity setText:@"Kalispell"];
-    //    [txtZipCode setText:@"300010"];
-    //    [txtHandicap setText:@"11"];
-    //    [tvInfo setText:@"I'm a good guy"];
-    
 }
 
 -(void) registerForNotifications {
@@ -529,8 +489,6 @@ NSString *const constZipcodeLimit = @"Maximum 10 Characters allowed for Zipcode.
         
         if([strlat length]==0)
         {
-            // Show 2 options to get location
-            
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Location will only be used when app is opened"
                                                             message:@"ParTee needs location access to show near by courses and golfers" delegate:self cancelButtonTitle:nil otherButtonTitles: @"Detect automatically",@"Add manually",nil];
             alert.tag=121;
@@ -569,12 +527,6 @@ NSString *const constZipcodeLimit = @"Maximum 10 Characters allowed for Zipcode.
 
 -(void) sendtagForAgerange {
     
-    //    Age-18-29  (agerange = 1)
-    //    Age-30-39  (agerange = 2)
-    //    Age-40-49 (agerange = 3)
-    //    Age-50-59 (agerange = 4)
-    //    Age-60+ (agerange = 5)
-    
     NSString *stringAgeRange;
     
     if(age>17 && age<30) {
@@ -608,13 +560,6 @@ NSString *const constZipcodeLimit = @"Maximum 10 Characters allowed for Zipcode.
     }
     
     int handicapval = [txtHandicap.text intValue];
-    
-    //    handicap-greaterorequalto0
-    //    handicap-1to-8
-    //    handicap-9to-16
-    //    handicap-17to-24
-    //    handicap-25to-32
-    //    handicap-33to-40
     
     NSString *stringHandicap;
     
@@ -650,11 +595,6 @@ NSString *const constZipcodeLimit = @"Maximum 10 Characters allowed for Zipcode.
 - (IBAction)action_Menu:(id)sender{
     
     [self.navigationController popViewControllerAnimated:YES];
-    
-    //    [self.menuContainerViewController toggleLeftSideMenuCompletion:^{
-    //
-    //    }];
-    //
 }
 
 //-----------------------------------------------------------------------
@@ -687,7 +627,7 @@ NSString *const constZipcodeLimit = @"Maximum 10 Characters allowed for Zipcode.
 -(IBAction)Termstapped:(id)sender {
     NSString *strWebsite = @"https://www.partee.golf/terms-and-conditions";
     
-    NSString *URL =strWebsite;// lblWebsite.titleLabel.text;
+    NSString *URL =strWebsite;
     
     
     if([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:URL]])
@@ -702,8 +642,7 @@ NSString *const constZipcodeLimit = @"Maximum 10 Characters allowed for Zipcode.
 -(IBAction)Privacytapped:(id)sender {
     NSString *strWebsite = @"https://www.partee.golf/privacy";
     
-    NSString *URL =strWebsite;// lblWebsite.titleLabel.text;
-    
+    NSString *URL =strWebsite;
     
     if([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:URL]])
     {
@@ -903,7 +842,6 @@ NSString *const constZipcodeLimit = @"Maximum 10 Characters allowed for Zipcode.
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationBeginsFromCurrentState:YES];
     [UIView setAnimationDuration:.5];
-    //  [scrollViewContainer setContentOffset:CGPointMake(0, 0) animated:NO];
     [UIView commitAnimations];
     [self.view endEditing:YES];
 }
@@ -929,9 +867,6 @@ NSString *const constZipcodeLimit = @"Maximum 10 Characters allowed for Zipcode.
         [UIView beginAnimations:nil context:NULL];
         [UIView setAnimationBeginsFromCurrentState:YES];
         [UIView setAnimationDuration:.5];
-        
-        NSLog(@"%ld",(43*([textField tag]%10)));
-        
         [scrollViewContainer setContentOffset:CGPointMake(0, 80 + (43*(([textField tag]-1)%10))) animated:NO];
         [UIView commitAnimations];
         
@@ -951,9 +886,6 @@ NSString *const constZipcodeLimit = @"Maximum 10 Characters allowed for Zipcode.
     else if(textField==txtState) {
         [pickerView selectRow:0 inComponent:0 animated:YES];
         pickerOption=kPickerState;
-        
-        //    if([txtState.text length]==0)
-        //      txtState.text = [arrStateList objectAtIndex:0];
     }
     else if(textField==txtCity) {
         
@@ -1000,24 +932,6 @@ NSString *const constZipcodeLimit = @"Maximum 10 Characters allowed for Zipcode.
         [pickerView selectRow:0 inComponent:0 animated:YES];
         pickerOption = kPickerCity;
         
-        //      NSString *strStateSelected = txtState.text;
-        
-        //            if([arrCityList count]>0)
-        //                [arrCityList removeAllObjects];
-        //
-        //            for(int i=0;i<[arrData count];i++) {
-        //                QBCOCustomObject *obj = [arrData objectAtIndex:i];
-        //
-        //                NSString *strName = [obj.fields objectForKey:@"stateName"];
-        //
-        //                if([strName isEqualToString:strStateSelected]) {
-        //
-        //                    [arrCityList addObject:[obj.fields objectForKey:@"cityName"]];
-        //                }
-        //            }
-        
-        
-        
     }else if(textField==txtHomeCourse) {
         
         [txtState resignFirstResponder];
@@ -1063,11 +977,8 @@ NSString *const constZipcodeLimit = @"Maximum 10 Characters allowed for Zipcode.
         pickerOption=kPickerCourses;
         
         if([txtHomeCourse.text length]==0)
-            // txtHomeCourse.text = @"N/A";
+           
             txtHomeCourse.text = @"";
-        
-        
-        
     }
     else {
         pickerOption=6;
@@ -1083,9 +994,6 @@ NSString *const constZipcodeLimit = @"Maximum 10 Characters allowed for Zipcode.
     NSString *strStateSelected = txtState.text;
     
     if(textField ==txtState) {
-        
-        //        if([arrCityList count]>0)
-        //            [arrCityList removeAllObjects];
         
         for(int i=0;i<[arrData count];i++) {
             QBCOCustomObject *obj = [arrData objectAtIndex:i];
@@ -1317,20 +1225,12 @@ NSString *const constZipcodeLimit = @"Maximum 10 Characters allowed for Zipcode.
     
     [dictUserDetails setObject:[NSString stringWithFormat:@"%ld",(long)age] forKey:@"userAge"];
     
-    //    [dictUserDetails setObject:@"" forKey:@"isDevelopment"];
-    
-    //    if([[AppDelegate sharedinstance].strisDevelopment  isEqualToString:@"1"]) {
-    //        [dictUserDetails setObject:@"1" forKey:@"isDevelopment"];
-    //    }
-    //    else {
-    //        [dictUserDetails setObject:@"" forKey:@"isDevelopment"];
-    //    }
+
     
     [dictUserDetails setObject:@"" forKey:@"isDevelopment"];
     
     [dictUserDetails setObject:txtHomeCourse.text forKey:@"home_coursename"];
     [dictUserDetails setObject:strHomeCourseID forKey:@"home_course_id"];
-https://www.linkedin.com/in/hoodacreations/
     [[NSUserDefaults standardUserDefaults] setObject:dictUserDetails forKey:kuserData];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
@@ -1470,13 +1370,6 @@ https://www.linkedin.com/in/hoodacreations/
                 [localObject.fields setObject:strPoint forKey:@"current_location"];
                 
                 
-                //                    if([[AppDelegate sharedinstance].strisDevelopment isEqualToString:@"1"]) {
-                //                        [object.fields setObject:@"1" forKey:@"isDevelopment"];
-                //
-                //                    }
-                //                    else {
-                //                        [object.fields setObject:@"" forKey:@"isDevelopment"];
-                //                    }
                 
                 [QBRequest createObject:localObject successBlock:^(QBResponse *response, QBCOCustomObject *object) {
                     [self sendtagForAgerange];
@@ -1493,12 +1386,10 @@ https://www.linkedin.com/in/hoodacreations/
                     [self localSave];
                     
                     [[AppDelegate sharedinstance] hideLoader];
-                    //                        [[AppDelegate sharedinstance] displayMessage:@"Account successfully created"];
                     
                     [self registerForNotifications];
                     
-                    //                        ViewUsersViewController *viewController=[[ViewUsersViewController alloc] initWithNibName:@"ViewUsersViewController" bundle:nil];
-                    //                        viewController.strIsMyMatches=@"1";
+                
                     
                     SpecialsViewController *vc = [[SpecialsViewController alloc] initWithNibName:@"SpecialsViewController" bundle:nil];
                     ((SpecialsViewController*)vc).strIsMyCourses=@"0";
@@ -1584,7 +1475,6 @@ didAutocompleteWithPlace:(GMSPlace *)place {
     NSLog(@"Place name %@", place.name);
     NSLog(@"Place address %@", place.formattedAddress);
     
-    // txtAddress.text = place.formattedAddress;
     NSString *strLat = [NSString stringWithFormat:@"%f", place.coordinate.latitude];
     NSString *strLong = [NSString stringWithFormat:@"%f",place.coordinate.longitude];
     
@@ -1594,7 +1484,6 @@ didAutocompleteWithPlace:(GMSPlace *)place {
     NSLog(@"Place attributions %@", place.attributions.string);
     [self signUpUser];
     
-    //[self dismissViewControllerAnimated:YES completion:nil];
     
 }
 

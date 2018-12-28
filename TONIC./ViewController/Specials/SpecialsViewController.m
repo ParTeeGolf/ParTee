@@ -161,12 +161,6 @@ int courseOption;
                 
                 [self getCoursesRecordCount];
                 
-                //            if([strIsMyCourses isEqualToString:@"1"]) {
-                //                [self getMySpecials];
-                //            }
-                //            else {
-                //                [self getData];
-                //            }
                 
             }];
         }
@@ -366,6 +360,8 @@ int courseOption;
                 if([items count]>0) {
                     
                     if(![[items objectAtIndex:0] isEqualToString:@"Any"]) {
+                        
+                        // Use amenties_temp parameter in the project to filter courses based om amenties.
                         [getRequestObjectCount setObject: items forKey:@"amenities_temp[in]"];
                         //   [getRequestObjectCount setObject: strcf_amenities forKey:@"Amenities[ctn]"];
                         
@@ -381,11 +377,7 @@ int courseOption;
                     [getRequestObjectCount setObject:strFilterDistance forKey:@"coordinates[near]"];
                     
                 }
-                else {
-                    //        NSString *strFilterDistance = [NSString stringWithFormat:@"%f,%f;%f",[strlong1 floatValue],[strlat1 floatValue],9999999.f];
-                    //       [getRequestObjectCount setObject:strFilterDistance forKey:@"coordinates[near]"];
-                }
-                
+
                 if([strcf_isFav isEqualToString:@"1"]) {
                     showOnyFav=YES;
                     [getRequestObjectCount setObject: strCurrentUserID forKey:@"userFavID[in]"];
@@ -394,10 +386,6 @@ int courseOption;
                     showOnyFav=NO;
                 }
                 
-            }
-            else {
-                //      NSString *strFilterDistance = [NSString stringWithFormat:@"%f,%f;%f",[strlong1 floatValue],[strlat1 floatValue],9999999.f];
-                //        [getRequestObjectCount setObject:strFilterDistance forKey:@"coordinates[near]"];
             }
             break;
     }
@@ -611,10 +599,6 @@ int courseOption;
                     [getRequest setObject:strFilterDistance forKey:@"coordinates[near]"];
                     
                 }
-                else {
-                    //     NSString *strFilterDistance = [NSString stringWithFormat:@"%f,%f;%f",[strlong1 floatValue],[strlat1 floatValue],9999999.f];
-                    //      [getRequest setObject:strFilterDistance forKey:@"coordinates[near]"];
-                }
                 
                 if([strcf_isFav isEqualToString:@"1"]) {
                     showOnyFav=YES;
@@ -625,16 +609,10 @@ int courseOption;
                 }
                 
             }
-            else {
-                //     NSString *strFilterDistance = [NSString stringWithFormat:@"%f,%f;%f",[strlong1 floatValue],[strlat1 floatValue],9999999.f];
-                //         [getRequest setObject:strFilterDistance forKey:@"coordinates[near]"];
-            }
+           
             break;
     }
     
-    //  [[AppDelegate sharedinstance] showLoader];
-    
-    //  [getRequest setObject:@"1" forKey:@"count"];
     [QBRequest objectsWithClassName:@"GolfCourses" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
         
         NSLog(@"Entries %lu",(unsigned long)page.totalEntries);
@@ -643,7 +621,6 @@ int courseOption;
         }
         if (courseOption == 0) {
             arrData = [[NSMutableArray alloc] init];
-            // [self hideOrShowSearchBtn:YES];
         }
         [[AppDelegate sharedinstance] hideLoader];
         
@@ -818,8 +795,7 @@ int courseOption;
     if (_currentPage == 0) {
         
     }else {
-        //         [fetchPrevRecordBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
-        //         [fecthInitialRecordBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+       
         fetchPrevRecordBtn.hidden = true;
         fecthInitialRecordBtn.hidden = true;
         _currentPage=0;
@@ -842,8 +818,7 @@ int courseOption;
         [self getCoursesRecordCount];
         
         if (_currentPage == 0) {
-            //            [fetchPrevRecordBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
-            //            [fecthInitialRecordBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+          
             fetchPrevRecordBtn.hidden = true;
             fecthInitialRecordBtn.hidden = true;
         }
@@ -862,8 +837,7 @@ int courseOption;
         [self getCoursesRecordCount];
         
         if (_currentPage != 0) {
-            //            [fetchPrevRecordBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-            //            [fecthInitialRecordBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+           
             fetchPrevRecordBtn.hidden = false;
             fecthInitialRecordBtn.hidden = false;
         }
@@ -989,12 +963,6 @@ int courseOption;
     
     return arrCoursesData.count;
     
-    
-    //    if([strIsMyCourses isEqualToString:@"0"])
-    //        return arrData.count;
-    //
-    //    return arrCoursesData.count;
-    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -1022,6 +990,8 @@ int courseOption;
         /*********** ChetuChange **********/
         
         // set course name maximum up to 3 line as per client requirement.
+        // To manage the golfers name dynamically.
+        
         CGFloat maxLabelWidth = self.view.frame.size.width - 20;
         CGSize neededSize = [cell.lblName sizeThatFits:CGSizeMake(maxLabelWidth, CGFLOAT_MAX)];
         cell.lblName.frame = CGRectMake(10, cell.frame.size.height - 24 - neededSize.height , self.view.frame.size.width - 20, neededSize.height);
@@ -1030,9 +1000,7 @@ int courseOption;
         cell.lblName.numberOfLines = 3;
         
         /*********** ChetuChange **********/
-        //        str1 = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"Points"]];
-        //        [cell.lblPoints setText:str1];
-        
+    
         str1 = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"Address"]];
         
         NSString *strCity= [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"City"]];
@@ -1137,21 +1105,18 @@ int courseOption;
             
             if([ [userObject.fields objectForKey:@"courseId"] isEqualToString:strCourseID]) {
                 
-                NSString *str1 = [[AppDelegate sharedinstance] nullcheck:[courseobj.fields objectForKey:@"Name"]];
+                NSString *titleAdd = [[AppDelegate sharedinstance] nullcheck:[courseobj.fields objectForKey:@"Name"]];
                 
-                [cell.lblName setText:[str1 uppercaseString]];
+                [cell.lblName setText:[titleAdd uppercaseString]];
                 
-                str1 = [[AppDelegate sharedinstance] nullcheck:[courseobj.fields objectForKey:@"Address"]];
+                titleAdd = [[AppDelegate sharedinstance] nullcheck:[courseobj.fields objectForKey:@"Address"]];
                 
                 NSString *strCity= [[AppDelegate sharedinstance] nullcheck:[courseobj.fields objectForKey:@"City"]];
                 NSString *strState= [[AppDelegate sharedinstance] nullcheck:[courseobj.fields objectForKey:@"State"]];
                 NSString *strZipCode= [[AppDelegate sharedinstance] nullcheck:[courseobj.fields objectForKey:@"ZipCode"]];
                 
-                str1 = [NSString stringWithFormat:@"%@, %@, %@ %@",str1,strCity,strState,strZipCode];
-                [cell.lblAddress setText:str1];
-                
-                //    [cell.lblUserName setText:str1];
-                
+                titleAdd = [NSString stringWithFormat:@"%@, %@, %@ %@",titleAdd,strCity,strState,strZipCode];
+                [cell.lblAddress setText:titleAdd];
                 [cell.imageUrl setShowActivityIndicatorView:YES];
                 [cell.imageUrl setIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
                 [cell.imageUrl sd_setImageWithURL:[NSURL URLWithString:[courseobj.fields objectForKey:@"ImageUrl"]] placeholderImage:[UIImage imageNamed:@"imgplaceholder.jpg"]];
@@ -1456,14 +1421,7 @@ int courseOption;
         
     }
     
-    //    NSString *googleMapUrlString = [NSString stringWithFormat:@"http://maps.google.com/?saddr=%f,%f&daddr=%f,%f", scrplaceCoord.latitude, scrplaceCoord.longitude, desplaceCoord.latitude, desplaceCoord.longitude];
-    
     NSString *googleMapUrlString = [NSString stringWithFormat:@"http://maps.apple.com/?saddr=%f,%f&daddr=%f,%f", scrplaceCoord.latitude, scrplaceCoord.longitude, desplaceCoord.latitude, desplaceCoord.longitude];
-    
-    
-    //     NSString *strPlaceName = @"Batumi+Botanical+Garden";
-    //
-    //    NSString *googleMapUrlString = [NSString stringWithFormat:@"https://www.google.com/maps/place/%@",strPlaceName];
     
     isFromMapScreen = YES;
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:googleMapUrlString] options:[[NSDictionary alloc] init] completionHandler:nil];
@@ -1634,10 +1592,6 @@ int courseOption;
             [arrData replaceObjectAtIndex:selectedRow withObject:obj];
             
         }
-        else {
-            //    [arrData replaceObjectAtIndex:indexPath.row withObject:obj];
-        }
-        
         if(showOnyFav) {
             
             [self getData];

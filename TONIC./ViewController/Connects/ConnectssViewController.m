@@ -41,7 +41,7 @@
     arrData = [[NSMutableArray alloc] init];
     [tblList reloadData];
     
-   // [self getData];
+
 }
 
 -(void) viewWillAppear:(BOOL)animated {
@@ -55,14 +55,6 @@
         [btnBack setHidden:YES];
         [btnMenu setHidden:NO];
     }
-    
-//    NSDictionary *dictUserDetails = [[NSUserDefaults standardUserDefaults] objectForKey:kuserData];
-//
-//    NSString *struserWeeklyConnects =  [dictUserDetails objectForKey:@"userFreeConnects"];
-//    NSString *struserPurchasedConnects =  [dictUserDetails objectForKey:@"userPurchasedConnects"];
-//
-//    [lblWeeklyConnects setText:struserWeeklyConnects];
-//    [lblPurchasedConnects setText:struserPurchasedConnects];
 
     [self bindData];
 }

@@ -75,9 +75,9 @@
     
     [pickerView setBackgroundColor:[UIColor whiteColor]];
     distanceSlider.value =0;
-    // [self getStateList];
+    
     [self getUserDetails];
-    // [self getGolfCourseDetails];
+ 
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -109,7 +109,6 @@
         }
         [arrStateList sortUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
         [arrStateList insertObject:kEventAll atIndex:0];
-        // [self getUserDetails];
         
         if ([stateTxtFld.text isEqualToString:kEventAll]) {
             [[AppDelegate sharedinstance] hideLoader];
@@ -248,8 +247,6 @@
         // checking user there in custom user table or not.
         arrData=objects;
         
- //       [[AppDelegate sharedinstance] hideLoader];
-        
         if([objects count]>0) {
             
             [AppDelegate sharedinstance].isUpdate=YES;
@@ -257,7 +254,7 @@
             // If user exists, get info from server
             object =  [arrData objectAtIndex:0];
             
-          // convert distance in mile
+           // convert distance in mile
             NSString *strLocation = [[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:kEventDistance]];
             
             if([strLocation length]==0 || distanceSlider.value>99 || [strLocation isEqualToString:@"500"]) {

@@ -38,7 +38,6 @@
 }
 
 -(void) viewWillAppear:(BOOL)animated {
-    //segmentInvitations.selectedSegmentIndex=0;
 
     if([strIsConnInvite isEqualToString:@"1"]) {
         [segmentInvitations setSelectedSegmentIndex:0];
@@ -192,16 +191,6 @@
         }
         else {
             [self getCourseData];
-
-//            if(isCourseLoaded==0) {
-//                isCourseLoaded=1;
-//                
-//            }
-//            else {
-//                [[AppDelegate sharedinstance] hideLoader];
-//                [tblList reloadData];
-//
-//            }
             
             [lblNotAvailable setHidden:YES];
         }
@@ -410,6 +399,8 @@
         NSMutableDictionary *dictUserData = [[[NSUserDefaults standardUserDefaults] objectForKey:kuserData] mutableCopy];
  
         /************ ChetuChange ************/
+        
+        // Purcahse connect functionality no more available in the application.
 //        if(![[dictUserData objectForKey:@"userFullMode"] isEqualToString:@"1"]){
 //
 //            NSString *struserWeeklyConnects =  [dictUserData objectForKey:@"userFreeConnects"];
@@ -612,7 +603,6 @@
     
     CGPoint rootViewPoint = [sender.superview convertPoint:center toView:tblList];
     NSIndexPath *indexPath = [tblList indexPathForRowAtPoint:rootViewPoint];
-    NSLog(@"%d",indexPath.row);
     
     QBCOCustomObject *obj = [arrData objectAtIndex:indexPath.row];
     QBCOCustomObject *objToUpdate=obj;

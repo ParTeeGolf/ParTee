@@ -59,8 +59,6 @@
     [email setHidden:YES];
     
     [self bindData];
-    
-//    [scrollViewContainer setContentSize:CGSizeMake(320, 568)];
 }
 
 -(void) viewWillAppear:(BOOL)animated {
@@ -73,7 +71,6 @@
 - (void) bindData {
 
     NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
-    //[getRequest setObject:[[AppDelegate sharedinstance] getCurrentUserEmail] forKey:@"userEmail"];
     
     if([strCameFrom isEqualToString:kScreenViewMatch]) {
         [getRequest setObject:strEmailOfUser forKey:@"userEmail"];
@@ -155,10 +152,6 @@
         if([[[AppDelegate sharedinstance] nullcheck:[dictUserData.fields objectForKey:@"userPicBase"]] length]>0) {
             imageUrl = [NSString stringWithFormat:@"%@", [dictUserData.fields objectForKey:@"userPicBase"]];
             
-//            imageUrl =@"https://maps.googleapis.com/maps/api/place/photo?maxwidth=1000&maxheight=1000&photoreference=CmRaAAAAy6l-YWFYlY2Ftfg4yLZoLKx-rWooipnEypAcWksxxet7wsobOLXt5qHsXCzsU3UFCKi7jWmvPzdCHlvTEA_OOtR9ylGxg5WHXCIE3yLdzKghCaX_DAAzpSOUaxVmG1s8EhAOxCEf8kiMeEG8N-V_0AT5GhSZKAM6qbDKyxfy5zzzysprXEjyyA&key= AIzaSyAVEgy3n4h2oK3Knc5I1__YILYshzNWiW4";
-//            imageUrl=[imageUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-
-         //   [imgViewProfilePic sd_setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:[UIImage imageNamed:@"user"]];
             [imgViewProfilePic setShowActivityIndicatorView:YES];
             [imgViewProfilePic setIndicatorStyle:UIActivityIndicatorViewStyleGray];
             
@@ -169,13 +162,7 @@
 
             }];
             
-//            [imgViewProfilePic setImageWithURL:[NSURL URLWithString:imageUrl]
-//                           placeholderImage:[UIImage imageNamed:@"user"]
-//                                  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-//                                      //... completion code here ...
-//                                      [imgViewProfilePic setContentMode:UIViewContentModeCenter];
-//                                      
-//                                  }];
+
             
         }
         else {
@@ -372,14 +359,13 @@
 //
      /************* ChetuChange *************/
     
-        QBCOCustomObject *obj = dictUserData;//[arrData objectAtIndex:indexPath.row];
-        
+        QBCOCustomObject *obj = dictUserData;
         QBCOCustomObject *object = [QBCOCustomObject customObject];
         object.className = @"UserConnections";
         
         // Object fields
      /********** ChetuChange not only comment due to crash here *************/
-    
+    // Find the user connections details form quickblox user connections table.
         [object.fields setObject:[[AppDelegate sharedinstance] getCurrentUserEmail] forKey:@"connSenderID"];
         [object.fields setObject:[obj.fields objectForKey:@"userEmail"] forKey:@"connReceiverID"];
         [object.fields setObject:@"1" forKey:@"connStatus"];
@@ -389,8 +375,7 @@
         [QBRequest createObject:object successBlock:^(QBResponse *response, QBCOCustomObject *object) {
             
             NSString *strPush = [obj.fields objectForKey:@"userPush"];
-            
-            // Checking if user has push notification ON
+
             NSUInteger opponentID = obj.userID;
 
             [[AppDelegate  sharedinstance].sharedChatInstance addUserToContactListRequest:opponentID  completion:^(NSError * _Nullable error) {

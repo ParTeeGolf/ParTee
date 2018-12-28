@@ -32,24 +32,23 @@
     
     /************* ChetuChange *********/
 }
-/*********** ChetuChnage ************/
+
 @property (strong, nonatomic) UIButton *fetchPrevRecordBtn;
 @property (strong, nonatomic) UILabel  *recordLbl;
 @property (strong, nonatomic) UIButton *fetchNextRecordBtn;
 @property (strong, nonatomic) UIButton *fecthInitialRecordBtn;
-/*********** ChetuChnage ************/
+
 @end
 
 @implementation ViewUsersViewController
 @synthesize tblList;
 @synthesize strIsMyMatches;
-/*********** ChetuChnage ************/
 @synthesize fetchPrevRecordBtn;
 @synthesize recordLbl;
 @synthesize fetchNextRecordBtn;
 @synthesize fecthInitialRecordBtn;
 @synthesize fecthNextPrevRecordsBaseVIew;
-/*********** ChetuChnage ************/
+
 
 -(void) showcustomnotification{
     
@@ -71,7 +70,6 @@
     arrFinalDialogData = [[NSMutableArray alloc] init];
 
     self.navigationController.navigationBarHidden=YES;
-    //http://stackoverflow.com/questions/20491084/quickblox-how-to-make-paged-request-of-custom-objects?rq=1
     _currentPage = 0;
     currentPageGetAllUser = 0;
     isFromSendRequestToUser = 0;
@@ -112,8 +110,6 @@ isFromMapScreen = YES;
         _currentPage=0;
         currentPageGetAllUser = 0;
         isFromSendRequestToUser = 0;
-        
-    //    arrData = [[NSMutableArray alloc] init];
         
         arrConnections = [[NSMutableArray alloc] init];
         
@@ -162,8 +158,6 @@ isFromMapScreen = YES;
                     
                 }];
             }
-            
-            //[self getMyContacts];
         }
         else {
             [AppDelegate sharedinstance].currentScreen = kScreenOther;
@@ -240,11 +234,6 @@ isFromMapScreen = YES;
     
     _currentDialog=0;
     
- //   arrData = [[NSMutableArray alloc] init];
-    
-    //    arrFinalUserData = [[NSMutableArray alloc] init];
-    //  arrFinalDialogData = [[NSMutableArray alloc] init];
-    
     NSMutableDictionary *extendedRequest = [NSMutableDictionary dictionary];
     extendedRequest[@"sort_desc"] = @"last_message_date_sent";
     
@@ -300,7 +289,7 @@ isFromMapScreen = YES;
     NSString *strPage = [NSString stringWithFormat:@"%d",[kLimit intValue] * currentPageNum];
     
     [getRequest setObject:strPage forKey:@"skip"];
-    //        [getRequest setObject:@"ID" forKey:@"sort_desc"];
+   
     
     [getRequest setObject:[[arrOccupants valueForKey:@"description"] componentsJoinedByString:@","] forKey:@"user_id[in]"];
     
@@ -422,9 +411,6 @@ isFromMapScreen = YES;
     NSString *strPage = [NSString stringWithFormat:@"%d",[kLimit intValue] * currentPageGetAllUser];
     
     [getRequest setObject:strPage forKey:@"skip"];
-    
-    //  [[AppDelegate sharedinstance] showLoader];
-    
     [QBRequest objectsWithClassName:@"UserConnections" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
         // response processing
         
@@ -468,8 +454,7 @@ isFromMapScreen = YES;
         
         arrConnections = [arrTemp mutableCopy];
         [tblList setContentOffset:tblList.contentOffset animated:NO];
-    //    arrData = [[NSMutableArray alloc] init];
-        // [self getPagedUsers:0];
+   
         [self getCoursesRecordCount:_currentPage];
     } errorBlock:^(QBResponse *response) {
         // error handling
@@ -516,6 +501,8 @@ isFromMapScreen = YES;
         upperlimit = [[splitAge objectAtIndex: 1] intValue] + 1;
         
         /************* ChetuChange ***********/
+        
+        // Set the limit for age to filter users based on age.
         if(lowerlimit>0) {
             [getRequest setObject:[NSNumber numberWithInteger:upperlimit] forKey:@"userAge[lt]"];
             [getRequest setObject:[NSNumber numberWithInteger:lowerlimit] forKey:@"userAge[gt]"];
@@ -588,9 +575,8 @@ isFromMapScreen = YES;
             [getRequest setObject:strinterested_in_home_course forKey:@"home_coursename[in]"];
     }
     /************* ChetuChange ***********/
+    // Set the user weather user is on pro screen or golfers screen.
     NSString *role = [self IsPro] ? @"1" : @"0";
-    
-    
     [getRequest setObject:role forKey:@"UserRole"];
     /************* ChetuChange ***********/
     
@@ -686,7 +672,7 @@ isFromMapScreen = YES;
         
         [getRequest setObject: type forKey:@"user_type"];
     }
-    //   [[AppDelegate sharedinstance] showLoader];
+  
     
     [QBRequest countObjectsWithClassName:@"UserInfo" extendedRequest:getRequest successBlock:^(QBResponse * _Nonnull response, NSUInteger count) {
         
@@ -704,7 +690,7 @@ isFromMapScreen = YES;
                 recordcountStr = [NSString stringWithFormat:@"1 - %@ (%d)", kLimit, coursesCount];
             }
             
-         //   recordLbl.text = recordcountStr;
+         
         }
         [self getPagedUsers:_currentPage];
         
@@ -749,6 +735,7 @@ isFromMapScreen = YES;
         upperlimit = [[splitAge objectAtIndex: 1] intValue] + 1;
         
         /************* ChetuChange ***********/
+        // Set the limit for age to filter users based on age.
         if(lowerlimit>0) {
             [getRequest setObject:[NSNumber numberWithInteger:upperlimit] forKey:@"userAge[lt]"];
             [getRequest setObject:[NSNumber numberWithInteger:lowerlimit] forKey:@"userAge[gt]"];
@@ -820,9 +807,8 @@ isFromMapScreen = YES;
             [getRequest setObject:strinterested_in_home_course forKey:@"home_coursename[in]"];
     }
     /************* ChetuChange ***********/
+    // Set the user weather user is on pro screen or golfers screen.
     NSString *role = [self IsPro] ? @"1" : @"0";
-    
-    
     [getRequest setObject:role forKey:@"UserRole"];
     /************* ChetuChange ***********/
     
@@ -905,19 +891,9 @@ isFromMapScreen = YES;
     //   [[AppDelegate sharedinstance] showLoader];
     
     [QBRequest objectsWithClassName:@"UserInfo" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
-        // response processing
-        
-        //        if(!arrData) {
-        //            arrData = [[NSMutableArray alloc] init];
-        //        }
+     
         arrData = [[NSMutableArray alloc] init];
         [arrData addObjectsFromArray:[objects mutableCopy]];
-        
-        //        if(objects.count >= [kLimit integerValue]) {
-        //
-        //            [self getPagedUsers:++currentPageNum];
-        //            return;
-        //        }
         
         if([objects count]>=[kLimit integerValue]) {
             shouldLoadNext = YES;
@@ -1064,7 +1040,7 @@ isFromMapScreen = YES;
         }
     }
 }
-/*********** ChetuChnage ************/
+
 #pragma mark - Create Record Base View
 // Create Record baseView prograrmmatically
 -(void)createRecordBaseView {
@@ -1119,8 +1095,6 @@ isFromMapScreen = YES;
     fetchPrevRecordBtn.hidden = true;
     fecthInitialRecordBtn.hidden = true;
 }
-
-/************* ChetuChange ***********/
 
 - (IBAction)segmentChanged:(id)sender {
     
@@ -1364,9 +1338,6 @@ isFromMapScreen = YES;
                         tblList.userInteractionEnabled = true;
                         [tblList setScrollEnabled: true];
                         
-                   //     [[AppDelegate sharedinstance] hideLoader];
-                 //       [[AppDelegate sharedinstance] displayMessage:@"Request has been sent successfully"];
-                        
                         
                     } errorBlock:^(QBResponse *response) {
                         
@@ -1423,8 +1394,6 @@ isFromMapScreen = YES;
                         currentPageGetAllUser = 0;
                         isFromSendRequestToUser = 1;
                          [self getAllUsers];
-                      //  [[AppDelegate sharedinstance] hideLoader];
-                  //      [[AppDelegate sharedinstance] displayMessage:@"Request has been sent successfully"];
                         
                         
                     } errorBlock:^(QBResponse *response) {
@@ -1476,11 +1445,7 @@ isFromMapScreen = YES;
                     [self getAllUsers];
                     tblList.userInteractionEnabled = true;
                     [tblList setScrollEnabled: true];
-                    
-               //     [[AppDelegate sharedinstance] hideLoader];
-               //     [[AppDelegate sharedinstance] displayMessage:@"Request has been sent successfully"];
-                    
-                    
+                
                 } errorBlock:^(QBResponse *response) {
                     
                     [[AppDelegate sharedinstance] hideLoader];
@@ -1496,11 +1461,6 @@ isFromMapScreen = YES;
     }];
 }
 
-
-- (void) commonCode {
-    
-    
-}
 
 -(void) letotherfeatureswork {
     

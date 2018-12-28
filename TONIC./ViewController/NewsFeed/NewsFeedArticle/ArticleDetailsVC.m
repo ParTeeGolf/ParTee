@@ -48,7 +48,6 @@
         descStr  = [[AppDelegate sharedinstance] nullcheck:[_AdFeedObj.fields objectForKey:kAdDesc]];
         contentStr =  [[AppDelegate sharedinstance] nullcheck:[_AdFeedObj.fields objectForKey:kAdContent]];
         pubDate = [CommonMethods convertDateToAnotherFormat:finalDate originalFormat:kFormatOriginalCreatedDate finalFormat:kfinalFormat];
-     //   guidStr = [[AppDelegate sharedinstance] nullcheck:[_AdFeedObj.fields objectForKey:kAdCreater]];
         linkStr = [[AppDelegate sharedinstance] nullcheck:[_AdFeedObj.fields objectForKey:kAdLink]];
     }else{
      

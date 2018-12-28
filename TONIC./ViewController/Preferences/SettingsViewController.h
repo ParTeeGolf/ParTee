@@ -56,34 +56,24 @@
     IBOutlet UIView *minMaxView;
     /*********** ChetuChange **********/
     // Hide handicap segment as per suggestion after change to switch
-   //  IBOutlet UISegmentedControl *btnNA;
+    //  IBOutlet UISegmentedControl *btnNA;
     /*********** ChetuChange **********/
     IBOutlet UISegmentedControl *minMax;
-    
     IBOutlet UIView *HandicapView;
-
-
     NSMutableArray *Gender;
-
     NSString *strPush;
     IBOutlet UIView *viewToolbar,*viewTable;
     NSMutableArray *arrHomeCoursesObjects;
-
     IBOutlet UIButton *btnAge,*btnType,*btnCity;
-    
     int       buttonTapped;
     NSString *strFromScreen;
     IBOutlet UIButton *btnBack;
     IBOutlet UIButton *btnDevOn;
-
     NSString *isDev;
     IBOutlet OBSlider *myObSliderOutlet;
-    
     IBOutlet UILabel *lblDistanceValue;
     IBOutlet UILabel *lblTitle;
-    
     int pickerOption;
-    
 }
 
 @property (nonatomic,strong) NSString *cameFromScreen;

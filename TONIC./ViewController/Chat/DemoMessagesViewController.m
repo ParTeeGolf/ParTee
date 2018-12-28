@@ -63,6 +63,7 @@
 
     [AppDelegate sharedinstance].currentScreen = kScreenChat;
 /***************** ChetuChange ***********/
+    // This property is not availble.
  //   [QBSettings setStreamResumptionEnabled:YES];
 /***************** ChetuChange ***********/
     self.demoData.messages = [[NSMutableArray alloc] init];
@@ -85,6 +86,7 @@
     self.navigationController.navigationBar.titleTextAttributes = navBarTextAttributes;
     
     /***********Chetu Change *******/
+    // This property is not availble.
    // self.inputToolbar.contentView.textView.pasteDelegate = self;
       /***********Chetu Change *******/
     /**
@@ -109,11 +111,6 @@
     }
    
     self.showLoadEarlierMessagesHeader = NO;
-
-//    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage jsq_defaultTypingIndicatorImage]
-//                                                                              style:UIBarButtonItemStylePlain
-//                                                                             target:self
-//                                                                             action:@selector(receiveMessagePressed:)];
 
     /**
      *  Register custom menu actions for cells.
@@ -165,20 +162,10 @@
    
     self.collectionView.collectionViewLayout.messageBubbleFont =font;
     self.navigationController.navigationBarHidden=YES;
-    self.view.backgroundColor=[UIColor clearColor];  //[UIColor colorWithRed:0.231 green:0.231 blue:0.239 alpha:1.00];
-    self.collectionView.backgroundColor=[UIColor clearColor];//[UIColor colorWithRed:0.231 green:0.231 blue:0.239 alpha:1.00];
-    //      self.collectionView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"imageName.pnd"]];
+    self.view.backgroundColor=[UIColor clearColor];
+    self.collectionView.backgroundColor=[UIColor clearColor];
     
     self.collectionView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"listBackground"]];
-
-    
-//    UINavigationBar *navbar = [[UINavigationBar alloc]initWithFrame:CGRectMake(0, 0, screenWidth, 70)];
-//    // [navbar setTranslucent:YES];
-//
-//    //do something like background color, title, etc you self
-//    [navbar setBackgroundColor:[UIColor colorWithRed:0.000 green:0.655 blue:0.176 alpha:1.00]];
-//   [navbar setBarTintColor:[UIColor colorWithRed:0.000 green:0.655 blue:0.176 alpha:1.00]];
-    
  
     /**************** Add navigation base View Programmatically *********/
     UIView *navBaseView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, screenWidth, 70)];
@@ -209,8 +196,6 @@
     
     [self.view addSubview:navBaseView];
     
-   // [self.view bringSubviewToFront:navbar];
-    
    self.additionalContentInset = UIEdgeInsetsMake(40, 0, 0, 0);
 
     self.inputToolbar.frame = CGRectMake(self.inputToolbar.frame.origin.x, self.inputToolbar.frame.origin.y - 20, self.inputToolbar.frame.size.width, self.inputToolbar.frame.size.height + 20);
@@ -220,7 +205,6 @@
 -(void) viewDidDisappear:(BOOL)animated {
     self.menuContainerViewController.panMode=YES;
 
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -251,10 +235,6 @@
     strImgUrl  = [otherUserObject.fields objectForKey:@"userPicBase"];
     
     [self customchanges];
-    
-//    self.collectionView.layer.borderColor = [UIColor redColor].CGColor;
-//    self.collectionView.layer.borderWidth=2.f;
-//    
     
     [self initalAmoCode];
 
@@ -489,9 +469,7 @@
     viewController.customShareObj=obj;
     viewController.isMyMatch=NO;
     [self.navigationController pushViewController:viewController animated:YES];
-
     
-   // [self.inputToolbar.contentView.textView becomeFirstResponder];
 }
 
 - (UIStatusBarStyle) preferredStatusBarStyle {
@@ -500,8 +478,6 @@
 
 - (void)closePressed:(UIBarButtonItem *)sender
 {
-    //[self.navigationController popViewControllerAnimated:YES];
-   // [self.delegateModal didDismissJSQDemoViewController:self];
     
     self.inputToolbar.contentView.hidden=YES;
     self.inputToolbar.hidden=YES;
@@ -542,8 +518,7 @@
     params[@"save_to_history"] = @YES;
     
  /************** ChetuChange *****************/
-    // Here we have change the sender nick name to userloggedin username from title of chat screen that was receiver for the message.
- //   params[@"senderNick"] = self.title;
+// Set the parameter for message to be sent.
     NSMutableDictionary *dictUserData = [[[NSUserDefaults standardUserDefaults] objectForKey:kuserData] mutableCopy];
     params[@"senderNick"] = [[AppDelegate sharedinstance] nullcheck:[dictUserData objectForKey:@"userDisplayName"]];
 /************** ChetuChange *****************/
@@ -557,10 +532,9 @@
                                                               text:text];
         
         [self.demoData.messages addObject:message];
-        
         [self finishSendingMessageAnimated:YES];
         [self.collectionView reloadData];
-        
+    
         cntMessage++;
         [dialog sendMessage:qmessage completionBlock:^(NSError * _Nullable error) {
         
@@ -652,8 +626,6 @@
             [self.demoData addAudioMediaMessage];
             break;
     }
-    
-    // [JSQSystemSoundPlayer jsq_playMessageSentSound];
     
     [self finishSendingMessageAnimated:YES];
 }
@@ -986,12 +958,7 @@
 
 
 -(void) initalAmoCode {
-//    self.HUD = [[MBProgressHUD alloc] initWithView:self.view];
-//    [self.view addSubview:self.HUD];
-//    
-//    self.HUD.labelText=@"Connecting ...";
-//    [self.HUD show:YES];
-    
+
     int currentUserQuickbloxId = [[[AppDelegate sharedinstance] getStringObjfromKey:@"userQuickbloxID"] integerValue];
     NSString *strSessToken = [QBSession currentSession].sessionDetails.token;
     
@@ -1016,8 +983,6 @@
         
         filterRequest[@"name"] = [NSString stringWithFormat:@"%d",nameForChatRoom];
         
-//        self.HUD.labelText=@"Connecting ...";
-        
         QBChatDialog *chatDialog = [[QBChatDialog alloc] initWithDialogID:@"null" type:QBChatDialogTypePrivate];
         chatDialog.occupantIDs = @[@(otherUserId)];
         
@@ -1033,8 +998,6 @@
             NSMutableDictionary *filterRequest = [[NSMutableDictionary alloc] init];
             
             filterRequest[@"name"] = [NSString stringWithFormat:@"%d",nameForChatRoom];
-            
-            //        self.HUD.labelText=@"Connecting ...";
             
             QBChatDialog *chatDialog = [[QBChatDialog alloc] initWithDialogID:@"null" type:QBChatDialogTypePrivate];
             chatDialog.occupantIDs = @[@(otherUserId)];
@@ -1069,9 +1032,7 @@
         self.demoData.messages= [[ NSMutableArray alloc] init];
     }
 
-        // self get messages for dialog id
-        
-        NSString *strDialogId = customAmoDialog.ID;
+       NSString *strDialogId = customAmoDialog.ID;
 
         QBResponsePage *resPage = [QBResponsePage responsePageWithLimit:klimit skip:(klimit*currentPageNum)];
     
@@ -1116,26 +1077,10 @@
 
                 [self.collectionView reloadData];
                 [self scrollToBottomAnimated:NO];
-          //      [self.HUD hide:YES];
             
                 [[AppDelegate sharedinstance] hideLoader];
                 
-//                NSString *strSelectedEmail = [otherUserObject.fields objectForKey:@"userEmail"];
-//                
-//                for(QBCOCustomObject *connObj in arrConnections) {
-//                    
-//                    NSString *strEmail = [connObj.fields objectForKey:@"connReceiverID"];
-//                    
-//                    if([[[AppDelegate sharedinstance] getCurrentUserEmail] isEqualToString:strEmail]) {
-//                        strEmail= [connObj.fields objectForKey:@"connSenderID"];
-//                    }
-//                    
-//                    if([strSelectedEmail isEqualToString:strEmail]) {
-//                        objToUpdate = connObj;
-//                        break;
-//                    }
-//                }
-                
+
             } errorBlock:^(QBResponse *response) {
                 NSLog(@"error: %@", response.error);
             }];
@@ -1215,9 +1160,7 @@
         
     }
     else {
-     //   [self.inputToolbar.contentView.textView resignFirstResponder];
-
-        NSString *strOtherUserId =[NSString stringWithFormat:@"%d",otherUserObject.userID];
+      NSString *strOtherUserId =[NSString stringWithFormat:@"%d",otherUserObject.userID];
         
         NSString *strSenderId =[NSString stringWithFormat:@"%d",messageObj.senderID];
         

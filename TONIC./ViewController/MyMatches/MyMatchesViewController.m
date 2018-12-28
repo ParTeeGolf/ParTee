@@ -574,17 +574,12 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section {
     
     if(isfullVersionPurchase)
     {
-        
-        //    int currentPurchasedConnects = [[[NSUserDefaults standardUserDefaults] objectForKey:@"userPurchasedConnects"] integerValue];
-        //    currentPurchasedConnects = currentPurchasedConnects + 4;
      
         QBCOCustomObject *object = [QBCOCustomObject customObject];
         object.className = @"UserInfo";
         object.ID= [[AppDelegate sharedinstance] getStringObjfromKey:kuserInfoID];
         
         [object.fields setObject:[NSString stringWithFormat:@"%d",1]  forKey:@"userFullMode"];
-        
-        //    [object.fields setObject:[NSString stringWithFormat:@"%d",currentPurchasedConnects]  forKey:@"userPurchasedConnects"];
         
         [[AppDelegate sharedinstance] showLoader];
         

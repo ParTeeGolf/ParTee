@@ -15,14 +15,9 @@
 
 @interface LoginViewController : UIViewController <GMSAutocompleteViewControllerDelegate,EAIntroDelegate,BSKeyboardControlsDelegate,UITextFieldDelegate> {
     
- 
     NSString *strlat;
     NSString *strlong;
-    
-   // UIScrollView *scrollViewContainer;
     QBCOCustomObject *object;
-    
-   
     int autocompletePlaceStatus;
 }
 

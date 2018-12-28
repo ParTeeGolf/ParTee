@@ -16,7 +16,7 @@
 }
 /**
  @Description
- * This Method set the data from Dictioanry ofitem avaialble on rss feed in cell.
+ * This Method set the data from Dictioanry of item avaialble on rss feed in cell.
  * @author Chetu India
  * @param dict is type of NSDictionary that contain all the details about a feed to be showed in news feed screen. These objects we are getting from blog.
  * @return void nothing will return by this method.

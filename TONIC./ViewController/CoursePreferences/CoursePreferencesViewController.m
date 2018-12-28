@@ -93,9 +93,6 @@
     arrHomeCourseList = [[NSMutableArray alloc] init];
     arramenitiesList = [[NSMutableArray alloc] init];
     arrHolesList = [[NSMutableArray alloc]init];
-    // [self setUpAmenitiesList];
-    
-    //  tempArraySelcted=[[NSMutableArray alloc]init];
     
     if(isiPhone4) {
         [scrollViewContainer setContentSize:CGSizeMake(320, 650)];
@@ -104,9 +101,6 @@
     [tblMembers reloadData];
     myObSliderOutlet.value =0;
     
-    //  [self bindData];
-    // Get the state details from quickblox table.
-    // [self getStateList];
     [self getAmentiesList];
     
 }
@@ -114,17 +108,6 @@
 -(void) viewWillAppear:(BOOL)animated {
     self.menuContainerViewController.panMode = NO;
     
-    /*
-     if([cameFromScreen isEqualToString:kScreenViewUsers]) {
-     [btnBack setBackgroundImage:[UIImage imageNamed:@"ico-back"] forState:UIControlStateNormal];
-     [btnBack setFrame:CGRectMake(15, 30, 11, 20)];
-     
-     }
-     else {
-     [btnBack setBackgroundImage:[UIImage imageNamed:@"Menu.png"] forState:UIControlStateNormal];
-     [btnBack setFrame:CGRectMake(15, 34, 20, 16)];
-     
-     }*/
     
 }
 
@@ -340,8 +323,6 @@
         
         // checking user there in custom user table or not.
         arrData = objects;
-        
-        //    [[AppDelegate sharedinstance] hideLoader];
         
         if([objects count]>0) {
             
@@ -742,7 +723,6 @@
                                           
                                           strPush=@"0";
                                           [self savesettings];
-                                          //   [self.navigationController popViewControllerAnimated:YES];
                                       }];
     
     [alert addAction:saveSearchButton];
@@ -915,7 +895,6 @@
         [[NSUserDefaults standardUserDefaults] setObject:dictcoursePreferencesData forKey:kcoursePreferencesData];
         [[NSUserDefaults standardUserDefaults] synchronize];
         
-        // if([cameFromScreen isEqualToString:kScreenViewUsers])
         {
             
             [self.navigationController popViewControllerAnimated:YES];
@@ -930,9 +909,6 @@
 }
 
 -(void) changeData {
-    //  [tempArraySelcted removeAllObjects];
-    
-    //   NSString *strStateSelected;
     
     [txtCourseName resignFirstResponder];
     [txtCourseZipcode resignFirstResponder];
@@ -967,7 +943,6 @@
             if ([txtAmenities.text isEqualToString:@"Any"]) {
                 [tempAmentiesSelctedArr removeAllObjects];
             }
-            //    [self setUpAmenitiesList];
             
             tblMembers.allowsMultipleSelection = YES;
             [viewTable setHidden:NO];
@@ -1046,9 +1021,6 @@
     }
     
 }
-
-
-
 
 //-----------------------------------------------------------------------
 
@@ -1137,20 +1109,9 @@
             [SendMessageCell.selectbtnimg setHidden:YES];
         }
     }
-    
-    
-    
-    //        [SendMessageCell setBackgroundColor:[UIColor colorWithRed:0/255 green:0/255 blue:0/55 alpha:0.5]];
-    
+ 
     [SendMessageCell.selectbtnimg setTag:indexPath.row];
-    
-    //    [SendMessageCell.selectbtnimg addTarget:self
-    //                                     action:@selector(checkBtnClicked:)
-    //                           forControlEvents:UIControlEventTouchUpInside];
-    
-    // SendMessageCell.lblName.textColor=PlaceholderRGB;
-    
-    SendMessageCell.lblName.text = str;//[[arrMembers objectAtIndex:indexPath.row] objectForKey:@"Name"];
+    SendMessageCell.lblName.text = str;
     
     return SendMessageCell;
     
@@ -1177,6 +1138,7 @@
                     [tempCitySelctedArr removeObject:str];
                 }
                 else {
+                    // Condition to select maximum of ten cities from the list.
                     /**************** Chetu Change ************/
                     if (tempCitySelctedArr.count >= 10) {
                         [self showAlert:kMaxTenCitiesSelectAlertTitle];
@@ -1207,6 +1169,7 @@
                 }
                 else {
                     /**************** Chetu Change ************/
+                    // Condition to select maximum of ten cities from the list.
                     if (tempCitySelctedArr.count >= 10) {
                         [self showAlert:kMaxTenCitiesSelectAlertTitle];
                         
@@ -1285,31 +1248,10 @@
         
     }
     else  if(buttonTapped == kButtonType){
-        //        [tempArraySelcted removeAllObjects];
-        //
-        //        str = [arrTypeList objectAtIndex:indexPath.row];
-        //        if (![tempArraySelcted containsObject:str]) {
-        //
-        //            [ObjCirCell.selectbtnimg setImage:[UIImage imageNamed:@"blue_chk.png"] forState:UIControlStateNormal];
-        //
-        //            [tempArraySelcted addObject:str];
-        //        }
+       
     }
     else  if(buttonTapped == kButtonState) {
-        //        [tempArraySelcted removeAllObjects];
-        //
-        //        str = [arrStateList objectAtIndex:indexPath.row];
-        //
-        //        if ([tempArraySelcted containsObject:str]) {
-        //            [ObjCirCell.selectbtnimg setImage:[UIImage imageNamed:@"unchecked_circle.png"] forState:UIControlStateNormal];
-        //
-        //            [tempArraySelcted removeObject:str];
-        //        }
-        //        else {
-        //            [ObjCirCell.selectbtnimg setImage:[UIImage imageNamed:@"blue_chk.png"] forState:UIControlStateNormal];
-        //
-        //            [tempArraySelcted addObject:str];
-        //        }
+    
     }
     
     
@@ -1343,16 +1285,15 @@
 -(void) setUpAmenitiesList {
     arramenitiesList = [[NSMutableArray alloc] init];
     
+    
+    // Add Amenties statically to fetch the image from main bundle of the project.
     [arramenitiesList addObject:@"Women's League"];
     // We need to remove the 18/27/36 holes from the list of amenties.
     
-    //    [arramenitiesList addObject:@"18 holes"];
+    
     [arramenitiesList addObject:@"19th Hole"];
-    //   [arramenitiesList addObject:@"27 holes"];
-    //   [arramenitiesList addObject:@"36 holes"];
     [arramenitiesList addObject:@"ATM"];
     [arramenitiesList addObject:@"Bar"];
-    
     [arramenitiesList addObject:@"Beverage Service"];
     [arramenitiesList addObject:@"Billiards"];
     [arramenitiesList addObject:@"Business Lounge"];
@@ -1368,23 +1309,19 @@
     [arramenitiesList addObject:@"Couple's League"];
     [arramenitiesList addObject:@"Desert"];
     [arramenitiesList addObject:@"Dining"];
-    
     [arramenitiesList addObject:@"Drink Cart"];
     [arramenitiesList addObject:@"Driving Range"];
     [arramenitiesList addObject:@"Events"];
     [arramenitiesList addObject:@"Event Facilities"];
     [arramenitiesList addObject:@"Executive Par 3"];
     [arramenitiesList addObject:@"Fitness Center"];
-    
     [arramenitiesList addObject:@"Game Room"];
     [arramenitiesList addObject:@"Golf Pro"];
     [arramenitiesList addObject:@"Golf Shop"];
     [arramenitiesList addObject:@"Gym"];
-    
     [arramenitiesList addObject:@"Handicap Cart"];
     [arramenitiesList addObject:@"Locker Room"];
     [arramenitiesList addObject:@"Lodging On Site"];
-    
     [arramenitiesList addObject:@"Lounge"];
     [arramenitiesList addObject:@"Men's League"];
     [arramenitiesList addObject:@"Online Tee Times"];
@@ -1394,7 +1331,6 @@
     [arramenitiesList addObject:@"Pro Shop"];
     [arramenitiesList addObject:@"Pub"];
     [arramenitiesList addObject:@"Putting Green"];
-    
     [arramenitiesList addObject:@"4 Restaurants"];
     [arramenitiesList addObject:@"Restaurant"];
     [arramenitiesList addObject:@"Reception Hall"];
@@ -1405,20 +1341,15 @@
     [arramenitiesList addObject:@"Showers"];
     [arramenitiesList addObject:@"Snack Bar"];
     [arramenitiesList addObject:@"Spa"];
-    
     [arramenitiesList addObject:@"Television"];
     [arramenitiesList addObject:@"Twilight"];
     [arramenitiesList addObject:@"Umbrella"];
     [arramenitiesList addObject:@"Valet Parking"];
     [arramenitiesList addObject:@"Vending Machine"];
-    
     [arramenitiesList addObject:@"Webcam"];
     [arramenitiesList addObject:@"Weddings"];
     [arramenitiesList addObject:@"WiFi"];
-    
     [arramenitiesList sortUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
-    
-    // [arramenitiesList addObject:@"Any"];
     [arramenitiesList insertObject:@"Any" atIndex:0];
     
 }
@@ -1436,7 +1367,6 @@
 #pragma mark - UIPickerViewDataSource
 
 //-----------------------------------------------------------------------
-
 
 // returns the number of 'columns' to display.
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
@@ -1501,7 +1431,6 @@
             txtState.text = [arrStateList objectAtIndex:row];
             selectedState = [arrStateList objectAtIndex:row];
             txtCity.text = @"All";
-            //   strStateSelected = txtState.text;
             selectedState = txtState.text;
             currentPage = 0;
             [tempCitySelctedArr removeAllObjects];

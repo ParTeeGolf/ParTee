@@ -51,14 +51,6 @@
     [self setKeyboardControls:[[BSKeyboardControls alloc] initWithFields:fields]];
     [self.keyboardControls setDelegate:self];
     
-    
-    //    if(isiPhone4) {
-    //        [scrollViewContainer setContentSize:CGSizeMake(320, 750)];
-    //
-    //    }
-    
-    
-    
     [AppDelegate sharedinstance].currentScreen = kScreenLogin;
     
     self.navigationController.navigationBarHidden=YES;
@@ -336,10 +328,7 @@
                 [[AppDelegate sharedinstance] displayServerErrorMessage];
                 NSLog(@"Response error: %@", [response.error description]);
             }];
-            //                    ViewUsersViewController *viewController=[[ViewUsersViewController alloc] initWithNibName:@"ViewUsersViewController" bundle:nil];
-            //                    viewController.strIsMyMatches=@"1";
-            
-            
+
             
         } errorBlock:^(QBResponse *response) {
             // error handling
@@ -431,19 +420,12 @@
          if([strinterested_in_Handicap length]>0) {
              [dictUserDetails setObject:[object.fields objectForKey:@"Handicap"] forKey:@"Handicap"];
          }
-         // [dictUserDetails setObject:[object.fields objectForKey:@"userPush"] forKey:@"userPush"];
          
          NSString *strinterested_in_location =[[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"Location"]];
          
          if([strinterested_in_location length]>0) {
              [dictUserDetails setObject:[object.fields objectForKey:@"Location"] forKey:@"Location"];
          }
-         
-         /* NSString *strinterested_in_home_coursename =[[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"interested_in_home_coursename"]];
-          
-          if([strinterested_in_home_coursename length]>0) {
-          [dictUserDetails setObject:[object.fields objectForKey:@"interested_in_home_coursename"] forKey:@"interested_in_home_coursename"];
-          }*/
          
          NSString *searchDataType = [searchType isEqualToString:@"User"] ? kuserSearchUser : kuserSearchPro;
          
@@ -518,7 +500,6 @@
             
             
             [[AppDelegate sharedinstance] hideLoader];
-            //  [[AppDelegate sharedinstance] displayMessage:@"Password successfully changed."];
             NSLog(@"Change Password successfully");
             
         } errorBlock:^(QBResponse *response) {
@@ -632,10 +613,7 @@
             [QBRequest updateObject:object successBlock:^(QBResponse *response, QBCOCustomObject *object1) {
                 // object updated
                 
-                
-                
                 [self ChangePasswordDirectly:alertView];
-                //  [[AppDelegate sharedinstance] hideLoader];
                 
                 
             } errorBlock:^(QBResponse *response) {
@@ -644,10 +622,7 @@
                 [[AppDelegate sharedinstance] displayServerErrorMessage];
                 NSLog(@"Response error: %@", [response.error description]);
             }];
-            //                    ViewUsersViewController *viewController=[[ViewUsersViewController alloc] initWithNibName:@"ViewUsersViewController" bundle:nil];
-            //                    viewController.strIsMyMatches=@"1";
-            
-            
+
             
         } errorBlock:^(QBResponse *response) {
             // error handling
@@ -740,11 +715,7 @@
     
     UIAlertAction* okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
         
-        // Change password just by providing the email id.
-        //     [self loginTesting:alertView];
-        
-        // Open mail composer
-        //  [[alert textFields][0] text];
+       
         [self sendEmail:[[alert textFields][0] text]];
     }];
     
@@ -759,14 +730,7 @@
     [self presentViewController:alert animated:YES completion:nil];
     
     
-    //    UIAlertView *forgotpasswordAlert = [[UIAlertView alloc]initWithTitle:kAppName message:@"Enter your new password"  delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
-    //    forgotpasswordAlert.tag=300;
-    //
-    //    forgotpasswordAlert.alertViewStyle = UIAlertViewStylePlainTextInput;
-    //    UITextField* textField = [forgotpasswordAlert textFieldAtIndex:0];
-    //    textField.placeholder=@"Enter Regitered EmailId";
-    //    textField.secureTextEntry=YES;
-    //    [forgotpasswordAlert show];
+   
     
     
 }
@@ -774,10 +738,6 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (alertView.tag == 300)
     {
-        // Change password just by providing the email id.
-        //     [self loginTesting:alertView];
-        
-   //      Open mail composer
               [self sendEmail:alertView];
         
         
@@ -1157,10 +1117,7 @@
     
     [self.navigationController popViewControllerAnimated:YES];
     
-    //    [self.menuContainerViewController toggleLeftSideMenuCompletion:^{
-    //
-    //    }];
-    //
+    
 }
 
 -(void) registerForNotifications {
@@ -1357,17 +1314,10 @@ didAutocompleteWithPlace:(GMSPlace *)place {
     // Do something with the selected place.
     NSLog(@"Place name %@", place.name);
     NSLog(@"Place address %@", place.formattedAddress);
-    
-    // txtAddress.text = place.formattedAddress;
-    
     NSLog(@"Place attributions %@", place.attributions.string);
     
-    
-    
     [self login];
-    
-    // [self dismissViewControllerAnimated:YES completion:nil];
-    
+
 }
 
 //-----------------------------------------------------------------------

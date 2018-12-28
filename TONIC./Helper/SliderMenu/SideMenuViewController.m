@@ -69,9 +69,7 @@ long currentTag = 1;
     self.view.frame = CGRectMake(0, 0, screenRect.size.width, screenHeight);
     tblView.frame = CGRectMake(0, tblView.frame.origin.y, screenRect.size.width, screenHeight);
     
-//    scrollViewContainer.backgroundColor = [UIColor redColor];
-//    self.view.backgroundColor = [UIColor greenColor];
-//    tblView.backgroundColor = [UIColor yellowColor];
+
 }
 
 -(void) refreshContent {
@@ -83,7 +81,6 @@ long currentTag = 1;
             Points = @"10";
         }
     
-        //[lblPoints setText:Points];
     
         [lblName setText: [[AppDelegate sharedinstance] nullcheck:[dictUserData objectForKey:@"userDisplayName"]]];
         

@@ -49,7 +49,7 @@
         // varible to check wheather parser is parsing rss feed or Insta feed. value 0 means parsing feed otherwise parsing instagram feed.
         int xmlParserTagValue;
         /*********** strings used to store values for the Instagram feed item available on rss feed url. ********/
-        NSString *element;
+        NSString        *element;
         NSMutableArray  *instaFeeds;
         NSMutableString *instaTitle;
         NSMutableString *instaLink;
@@ -302,7 +302,6 @@
     }
    
     NSSortDescriptor *descriptor=[[NSSortDescriptor alloc] initWithKey:@"self" ascending:YES];
-    NSArray *descriptors=[NSArray arrayWithObject: descriptor];
     
     for (int i = 0; i < feedArr.count; i++) {
         
@@ -416,7 +415,7 @@
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     NSMutableArray *dateArray = [[NSMutableArray alloc]init];
     for (QBCOCustomObject *obj in adFeedArr) {
-       // NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+      
         // set the date format related to what the string already you have
         
         [dateFormat setDateFormat:kFormatOriginalCreatedDate];

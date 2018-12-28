@@ -51,10 +51,6 @@
 #define DOMessage @"message"
 #define kUsageCounter @"kUsageCounter"
 
-
-// NSString *const kAppName = @"ParTee";
-//NSString *const MySecondConstant = @"SecondConstant";
-
  #define kAppName @"ParTee"
 
 #define klocationlong @"klocationlong"
@@ -290,13 +286,9 @@ static NSString *const kSmallTitle      = @"Small";
 static NSString *const kShareTitle      = @"Share";
 static NSString *const kTextSmall       = @"document.getElementsByTagName('body')[0].style.webkitTextFillColor= 'white';document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust='140%%';DOMReady();";
 
-
 static NSString *const kCourseHoles             = @"Course_Holes";
 static NSString *const kCourseAmenties          = @"Course_Amenties";
-
 /************ News feed Constants ************/
-
-
 
 /**************** Ubuntu Title VC ***********/
 #define ubuntutuTitleFont  [UIFont fontWithName:@"Ubuntu-R" size:22]

@@ -47,8 +47,6 @@
     
     tempCityArraySelcted = [[NSMutableArray alloc]init];
     tempCourseArraySelcted = [[NSMutableArray alloc]init];
-    
-    
     UIImage *thumb = [UIImage imageNamed:@"filledcircle"];
     [myObSliderOutlet setThumbImage:thumb forState:UIControlStateNormal];
     [myObSliderOutlet setThumbImage:thumb forState:UIControlStateHighlighted];
@@ -102,8 +100,6 @@
     [btnMale setImage:[UIImage imageNamed:@"guestmale"] forState:UIControlStateNormal];
     [btnFemale setImage:[UIImage imageNamed:@"guestfemale"] forState:UIControlStateNormal];
 
-//    tempArraySelcted =[[NSMutableArray alloc]init];
-
     
     [tblMembers reloadData];
     myObSliderOutlet.value =0;
@@ -145,8 +141,6 @@
         // checking user there in custom user table or not.
         arrData=objects;
         
-      //  [[AppDelegate sharedinstance] hideLoader];
-        
         if([objects count]>0) {
             
             [AppDelegate sharedinstance].isUpdate=YES;
@@ -187,7 +181,6 @@
             
             NSLog(@"Response error: %@", [response.error description]);
         }];
-   // [self getLocationDataFromServer];
 }
 
 -(void) bindSearchData:(QBCOCustomObject *) userObject searchType:(NSString*) searchType
@@ -201,7 +194,6 @@
     [QBRequest objectsWithClassName:@"UserSearch" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page)
      {
          
-    //     [[AppDelegate sharedinstance] hideLoader];
          if([objects count] == 0)
          {
              NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
@@ -324,7 +316,6 @@
          {
              strHandicap = @"0 to 40";
              [switchHandicap setOn:NO animated:YES];
-           //  [btnNA setSelectedSegmentIndex:0];
          }
          else
          {
@@ -398,8 +389,6 @@
        
         strcf_city = [copy mutableCopy];
         
-    
-       // NSArray *cityItems = [strcf_city componentsSeparatedByString:@","];
         for (id city in strcf_city) {
             [tempCityArraySelcted addObject:city];
         }
@@ -491,6 +480,7 @@
         for(int i=0;i<[objects count];i++) {
             QBCOCustomObject *obj = [arrData objectAtIndex:i];
             /********** ChetuChange *************/
+            // Get user state and city.
             NSString *strState = [obj.fields objectForKey:@"userState"];
             NSString *strCity = [obj.fields objectForKey:@"userCity"];
              /********** ChetuChange *************/
@@ -508,8 +498,6 @@
         }
         
         [arrStateList sortUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
- 
-        
         [arrStateList insertObject:@"All" atIndex:0];
 
         
@@ -619,54 +607,6 @@
       [self savesettings];
     }
  
-    /*
-    if (first >= 0 ) {
-        
-        if (second >= 0) {
-            
-            if (first >= second) {
-                [self showAlert];
-            }else {
-                [self savesettings];
-            }
-        }else if ( second <= 0) {
-            
-            second = -1 * second;
-            
-            if (first >= second) {
-                 [self showAlert];
-            }else {
-              [self savesettings];
-            }
-            
-        }
-    }else if (first <= 0 ){
-        first = -1 * first;
-        
-        if (second <= 0) {
-            
-            second = -1 *second;
-            
-            if (first >= second) {
-                [self showAlert];
-            }else {
-               [self savesettings];
-            }
-            
-            
-        }else if (second >= 0){
-           
-            if (first >= second) {
-                [self showAlert];
-            }else {
-               [self savesettings];
-            }
-            
-        }
-    }
-  
-  */
-    
 }
 
 -(void)showAlert
@@ -696,10 +636,6 @@
         
     if([cameFromScreen isEqualToString:kScreenViewUsers]) {
         
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:kAppName message:@"Do you want to save preferences?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
-//        alert.tag=121;
-//        [alert show];
-        
         [nameTxtFld setText:nameTxtFld.text];
         [nameTxtFld resignFirstResponder];
         UIAlertController * alert = [UIAlertController
@@ -723,7 +659,6 @@
                                               [Gender addObject:@"female"];
                                               [btnMale setImage:[UIImage imageNamed:@"guestmalefilled"] forState:UIControlStateNormal];
                                               [btnFemale setImage:[UIImage imageNamed:@"guestfemalefilled"] forState:UIControlStateNormal];
-                                              
                                               [txtType setText:@"All"];
                                               [txtAge setText:@"18-100"];
                                               [txtCity setText:@"All"];
@@ -732,12 +667,9 @@
                                               [lblDistanceValue setText:@"∞"];
                                               [nameTxtFld setText:@"All"];
                                               myObSliderOutlet.value=150;
-                                              
                                               [txtHandicap setText:@"0 to 40"];
-                                    //          btnNA.selectedSegmentIndex = 0;
                                                [switchHandicap setOn:NO animated:YES];
                                               [self savesettings];
-                                              //   [self.navigationController popViewControllerAnimated:YES];
                                           }];
         
         [alert addAction:saveSearchButton];
@@ -773,9 +705,6 @@
 //-----------------------------------------------------------------------
 
 -(IBAction) cityTapped:(id)sender {
-    
-  //  [viewTable setHidden:NO];
-   // [viewToolbar setHidden:NO];
     
     [viewToolbar setHidden:NO];
     [viewTable setHidden:NO];
@@ -885,13 +814,7 @@
 -(IBAction) typeTapped:(id)sender {
 
     /*********** ChetuChange ********/
-/*
-    [viewTable setHidden:NO];
-    [viewToolbar setHidden:NO];
-    buttonTapped = kButtonType;
-    [self changeData];
 
-  */
     // Show alert with title "Feature Comming Soon"
     [self ComingSoon];
      /*********** ChetuChange ********/
@@ -992,14 +915,6 @@
              txtCourse.text = @"All";
         }
     }
-    else if(buttonTapped == kButtonType) {
-        
-//        if([tempArraySelcted count]>0)
-//            txtType.text =  [[tempArraySelcted valueForKey:@"description"] componentsJoinedByString:@","];
-
-    }else if (buttonTapped == kButtonType) {
-        
-    }
 }
 
 //-----------------------------------------------------------------------
@@ -1031,7 +946,6 @@
     
     cityArr = [copy mutableCopy];
     [object.fields setObject:cityArr forKey:@"City"];
- //     [object.fields setObject:txtCity.text  forKey:@"City"];
     [object.fields setObject:[NSString stringWithFormat:@"%d",(int)myObSliderOutlet.value] forKey:@"Location"];
 
     [object.fields setObject:@"Course" forKey:@"Location"];
@@ -1136,14 +1050,11 @@
                     for(QBCOCustomObject *obj in objects) {
                         
                         NSString *strname = [obj.fields objectForKey:@"Name"];
-                        
-                        //arrHomeCourses
                         [arrHomeCourseList addObject:strname];
                     }
                     
                 }
                 
-              //  [arrHomeCourseList addObject:@"All"];
                 [arrHomeCourseList insertObject:@"All" atIndex:0];
                 tblMembers.allowsMultipleSelection = NO;
                 [tblMembers reloadData];
@@ -1210,7 +1121,6 @@
                                  [Gender addObject:@"female"];
                                  [btnMale setImage:[UIImage imageNamed:@"guestmalefilled"] forState:UIControlStateNormal];
                                  [btnFemale setImage:[UIImage imageNamed:@"guestfemalefilled"] forState:UIControlStateNormal];
-                                 
                                  [txtType setText:@"All"];
                                  [txtAge setText:@"18-100"];
                                  [txtCity setText:@"All"];
@@ -1221,12 +1131,9 @@
                                  [nameTxtFld setText:nameTxtFld.text];
                                  [nameTxtFld setText:@"All"];
                                  myObSliderOutlet.value=150;
-                                 
                                  [tempCityArraySelcted removeAllObjects];
                                  [tempCourseArraySelcted removeAllObjects];
-                                 
                                  [txtHandicap setText:@"0 to 40"];
-                            //     btnNA.selectedSegmentIndex = 0;
                                  [switchHandicap setOn:NO animated:YES];
                              }];
     
@@ -1351,19 +1258,9 @@
         }
     }
 
-   
-    
-    //        [SendMessageCell setBackgroundColor:[UIColor colorWithRed:0/255 green:0/255 blue:0/55 alpha:0.5]];
-    
     [SendMessageCell.selectbtnimg setTag:indexPath.row];
     
-//    [SendMessageCell.selectbtnimg addTarget:self
-//                                     action:@selector(checkBtnClicked:)
-//                           forControlEvents:UIControlEventTouchUpInside];
-    
-   // SendMessageCell.lblName.textColor=PlaceholderRGB;
-    
-    SendMessageCell.lblName.text = str;//[[arrMembers objectAtIndex:indexPath.row] objectForKey:@"Name"];
+    SendMessageCell.lblName.text = str;
     
     return SendMessageCell;
 
@@ -1391,6 +1288,7 @@
                     }
                     else {
                         /**************** Chetu Change ************/
+                        // Condiation to select maximum of ten cities form the list.
                         if (tempCityArraySelcted.count >= 10) {
                               [[AppDelegate sharedinstance] displayMessage:kMaxTenCitiesSelectAlertTitle];
                             
@@ -1422,9 +1320,9 @@
                     }
                     else {
                         /**************** Chetu Change ************/
+                        // Condiation to select maximum of ten cities form the list.
                         if (tempCityArraySelcted.count >= 10) {
                               [[AppDelegate sharedinstance] displayMessage:kMaxTenCitiesSelectAlertTitle];
-                      //      [self showAlert:kMaxTenCitiesSelectAlertTitle];
                             
                         }else {
                             
@@ -1441,38 +1339,10 @@
         }
         
         
-//        if([str isEqualToString:@"All"])
-//        {
-//            [tempCityArraySelcted removeAllObjects];
-//        }
-//        else
-//        {
-//            [tempCityArraySelcted removeObject:@"All"];
-//        }
-//
-//        if ([tempCityArraySelcted containsObject:str]) {
-//            [ObjCirCell.selectbtnimg setImage:[UIImage imageNamed:@"unchecked_circle.png"] forState:UIControlStateNormal];
-//
-//            [tempCityArraySelcted removeObject:str];
-//        }
-//        else {
-//            [ObjCirCell.selectbtnimg setImage:[UIImage imageNamed:@"blue_chk.png"] forState:UIControlStateNormal];
-//
-//            [tempCityArraySelcted addObject:str];
-//        }
+
     }else  if(buttonTapped == kButtonType){
-//        [tempArraySelcted removeAllObjects];
-//
-//        str = [arrTypeList objectAtIndex:indexPath.row];
-//        if (![tempArraySelcted containsObject:str]) {
-//
-//            [ObjCirCell.selectbtnimg setImage:[UIImage imageNamed:@"blue_chk.png"] forState:UIControlStateNormal];
-//
-//            [tempArraySelcted addObject:str];
-//        }
-    }
-   
-    else  if(buttonTapped == kButtonHomeCourse) {
+
+    }else  if(buttonTapped == kButtonHomeCourse) {
         
         
           str = [arrHomeCourseList objectAtIndex:indexPath.row];
@@ -1488,6 +1358,7 @@
                 }
                 else {
                     /**************** Chetu Change ************/
+                    // Condiation to select maximum of ten cities form the list.
                     if (tempCourseArraySelcted.count >= 10) {
                         [[AppDelegate sharedinstance] displayMessage:kMaxTenCitiesSelectAlertTitle];
                         
@@ -1517,9 +1388,9 @@
                 }
                 else {
                     /**************** Chetu Change ************/
+                    // Condiation to select maximum of ten cities form the list.
                     if (tempCourseArraySelcted.count >= 10) {
                         [[AppDelegate sharedinstance] displayMessage:kMaxTenCitiesSelectAlertTitle];
-                        //      [self showAlert:kMaxTenCitiesSelectAlertTitle];
                         
                     }else {
                         
@@ -1532,19 +1403,6 @@
             }
             
         }
-        
-
-        
-//        if ([tempCourseArraySelcted containsObject:str]) {
-//            [ObjCirCell.selectbtnimg setImage:[UIImage imageNamed:@"unchecked_circle.png"] forState:UIControlStateNormal];
-//
-//            [tempCourseArraySelcted removeObject:str];
-//        }
-//        else {
-//            [ObjCirCell.selectbtnimg setImage:[UIImage imageNamed:@"blue_chk.png"] forState:UIControlStateNormal];
-//
-//            [tempCourseArraySelcted addObject:str];
-//        }
     }
 
     
@@ -1726,16 +1584,12 @@
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kIAPFULLVERSION];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
-    //    int currentPurchasedConnects = [[[NSUserDefaults standardUserDefaults] objectForKey:@"userPurchasedConnects"] integerValue];
-    //    currentPurchasedConnects = currentPurchasedConnects + 4;
-    //
     QBCOCustomObject *object = [QBCOCustomObject customObject];
     object.className = @"UserInfo";
     object.ID= [[AppDelegate sharedinstance] getStringObjfromKey:kuserInfoID];
     
     [object.fields setObject:[NSString stringWithFormat:@"%d",1]  forKey:@"userFullMode"];
     
-    //    [object.fields setObject:[NSString stringWithFormat:@"%d",currentPurchasedConnects]  forKey:@"userPurchasedConnects"];
     
     [[AppDelegate sharedinstance] showLoader];
     

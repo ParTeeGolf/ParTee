@@ -104,7 +104,6 @@
     NSString *strPage = [NSString stringWithFormat:@"%d",[kLimit intValue] * currentPageNum];
     
     [getRequest setObject:strPage forKey:@"skip"];
-    //        [getRequest setObject:@"ID" forKey:@"sort_desc"];
     
     [getRequest setObject:[[arrOccupants valueForKey:@"description"] componentsJoinedByString:@","] forKey:@"user_id[in]"];
     
@@ -159,12 +158,12 @@
 
 - (IBAction) donePressed:(id)sender  {
  /********** ChetuChange *************/
+    // Check DataSource wheather it have data or not.
  //   if([arrSelected count]>0 || arrData.count==0) {
     
     if([arrSelected count]>0) {
 /********** ChetuChange *************/
         [AppDelegate sharedinstance].delegateShareObject = [arrSelected objectAtIndex:0];
-      // [self dismissViewControllerAnimated:YES completion:nil];
         [self.navigationController popViewControllerAnimated:YES];
     }
     else {
@@ -200,7 +199,6 @@
     
     CGPoint rootViewPoint = [sender.superview convertPoint:center toView:tblList];
     NSIndexPath *indexPath = [tblList indexPathForRowAtPoint:rootViewPoint];
-    NSLog(@"%d",indexPath.row);
     
     QBCOCustomObject *obj = [arrData objectAtIndex:indexPath.row];
 
@@ -291,24 +289,6 @@
 //    viewController.customShareObj=obj;
 //    viewController.isMyMatch=NO;
 //    [self.navigationController pushViewController:viewController animated:YES];
+    
 }
-
-/*
- NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
- [getRequest setObject:@"1" forKey:@"limit"];
- [getRequest setObject:@"0" forKey:@"skip"];
- 
- [[AppDelegate sharedinstance] showLoader];
- 
- [QBRequest objectsWithClassName:@"UserInfo" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
- // response processing
- 
- [[AppDelegate sharedinstance] hideLoader];
- 
- } errorBlock:^(QBResponse *response) {
- // error handling
- NSLog(@"Response error: %@", [response.error description]);
- }];
- 
- */
 @end

@@ -149,8 +149,6 @@
         str1 = [str1 uppercaseString];
         [lblName setText:str1];
         
-        //   lblName.text = @"njklh sdghkjkbn ijhd ksh djabh ajd jkbas j jk j bk abdgs dhadgs ash hbv ckh";
-        
         str1 = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"Address"]];
         
         NSString *strCity= [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"City"]];
@@ -159,8 +157,6 @@
         
         str1 = [NSString stringWithFormat:@"%@, %@, %@ %@",str1,strCity,strState,strZipCode];
         [lblAddress setText:str1];
-        
-        //    lblAddress.text = @"njklh sdghkjkbn ijhd ksh djabh ajd jkbas j jk j bk abdgs dhadgs ash hbv ckh";
         
         str1 = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"ContactNumber"]];
         [lblContactNum setTitle:str1 forState:UIControlStateNormal];
@@ -186,7 +182,7 @@
         NSArray *items ;
         
         /************ Chetu Change **********/
-        //    [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:kEventCellImgUrl]]
+       
         // Change the amenties data of string into Array data of amenties_tenmp
         str1  = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"amenities_temp"]];
         items = [[[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"amenities_temp"]] copy];
@@ -197,7 +193,8 @@
         /************ Chetu Change **********/
         //     str1 = [obj.fields objectForKey:@"Amenities"];
         //     items =[[obj.fields objectForKey:@"Amenities"] copy];
-        
+       
+        // Add amenties statically to test wheather amenties images showing properly.
   /*
         [arrAmenities addObject:@"ATM"];
                 [arrAmenities addObject:@"Bar"];
@@ -246,19 +243,13 @@
                     [collectionViewData setHidden:YES];
                     [self hideOrShowAmenties:YES];
                     [lblNotFound setHidden:NO];
-                    //  [btnNext setHidden:YES];
+                    
                 }
                 else {
                     [collectionViewData setHidden:NO];
                     [self hideOrShowAmenties:NO];
                     [lblNotFound setHidden:YES];
                     
-                    if([arrAmenities count]<5) {
-                        //   [btnNext setHidden:YES];
-                    }
-                    else {
-                        //     [btnNext setHidden:NO];
-                    }
                 }
                 
                 [collectionViewData reloadData];
@@ -279,27 +270,21 @@
                     [collectionViewData setHidden:YES];
                     [self hideOrShowAmenties:YES];
                     [lblNotFound setHidden:NO];
-                    //  [btnNext setHidden:YES];
+                   
                 }
                 else {
                     [collectionViewData setHidden:NO];
                     [self hideOrShowAmenties:NO];
                     [lblNotFound setHidden:YES];
                     
-                    if([arrAmenities count]<5) {
-                        //   [btnNext setHidden:YES];
-                    }
-                    else {
-                        //    [btnNext setHidden:NO];
-                    }
+                   
                 }
                 
                 [collectionViewData reloadData];
             }
             else {
-                
                 amentiesLbl.hidden = YES;
-                //   [btnNext setHidden:YES];
+               
             }
             
         }
@@ -316,14 +301,6 @@
         
         NSString *strCurrentUserID = [[AppDelegate sharedinstance] getCurrentUserId];
         
-        if([arr containsObject:strCurrentUserID]) {
-            // [btnFavImage setImage:[UIImage imageNamed:@"favourite-filled"] forState:UIControlStateNormal];
-            
-        }
-        else {
-            //  [btnFavImage setImage:[UIImage imageNamed:@"favourite-unfilled"] forState:UIControlStateNormal];
-            
-        }
         
         if([AppDelegate sharedinstance].delegateShareObject) {
             
@@ -409,11 +386,9 @@
     NSString *userImageUrl = [NSString stringWithFormat:@"%@", [dictUserData objectForKey:@"userPicBase"]];
     [ imgViewUser1 sd_setImageWithURL:[NSURL URLWithString:userImageUrl ] placeholderImage:[UIImage imageNamed:@"user"]];
     
-    /******* Chetu Change ********/
     if (firstTimeViewLoad == 0) {
         [self updateConstarintsProgrammatically];
     }
-    /******* Chetu Change ********/
 }
 
 
@@ -425,11 +400,7 @@
     str1 = [str1 uppercaseString];
     [lblName setText:str1];
     
-    
-    
-    
-    //  lblName.text = @"njklh sdghkjkbn ijhd ksh djabh ajd jkbas j jk j bk abdgs dhadgs ash hbv ckh";
-    
+   
     str1 = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"Address"]];
     
     NSString *strCity= [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"City"]];
@@ -439,11 +410,7 @@
     str1 = [NSString stringWithFormat:@"%@, %@, %@ %@",str1,strCity,strState,strZipCode];
     [lblAddress setText:str1];
     
-    
-    //   lblAddress.text = @"njklh sdghkjkbn ijhd ksh djabh ajd jkbas j jk j bk abdgs dhadgs ash hbv ckh";
-    
-    
-    
+  
     str1 = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"ContactNumber"]];
     [lblContactNum setTitle:str1 forState:UIControlStateNormal];
     
@@ -492,26 +459,18 @@
         }
     }
     
-    //   lblHole.text = strHoles;
+  
     if([arrAmenities count]==0) {
         [collectionViewData setHidden:YES];
         [self hideOrShowAmenties:YES];
         [lblNotFound setHidden:NO];
-        //    [btnNext setHidden:YES];
+      
     }
     else {
         [collectionViewData setHidden:NO];
         [self hideOrShowAmenties:NO];
         [lblNotFound setHidden:YES];
         
-        if([arrAmenities count]<5) {
-            //   [btnNext setHidden:YES];
-            
-        }
-        else {
-            //  [btnNext setHidden:NO];
-            
-        }
     }
     
     [collectionViewData reloadData];
@@ -526,13 +485,9 @@
     
     if([arr containsObject:strCurrentUserID]) {
         isFavCourse = YES;
-        //   [btnFavImage setImage:[UIImage imageNamed:@"favourite-filled"] forState:UIControlStateNormal];
-        
     }
     else {
         isFavCourse = NO;
-        
-        //   [btnFavImage setImage:[UIImage imageNamed:@"favourite-unfilled"] forState:UIControlStateNormal];
         
     }
     
@@ -540,17 +495,12 @@
     imgViewUser2.layer.borderWidth=2.0f;
     [imgViewUser2.layer setMasksToBounds:YES];
     [imgViewUser2.layer setBorderColor:[UIColor whiteColor].CGColor];
-    
     [imageUrl setShowActivityIndicatorView:YES];
     [imageUrl setIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     [imageUrl sd_setImageWithURL:[NSURL URLWithString:[obj.fields objectForKey:@"ImageUrl"]] placeholderImage:[UIImage imageNamed:@"imgplaceholder.jpg"]];
-    
-    
     NSString *strEmail = [userObject.fields objectForKey:@"courseSenderID"];
-    
     NSString *strCurrentUserEmail = [[AppDelegate sharedinstance] getCurrentUserEmail];
     NSString *strOtherUserEmail;
-    
     if([strCurrentUserEmail isEqualToString:strEmail]) {
         strOtherUserEmail = [userObject.fields objectForKey:@"courseReceiverID"];
     }
@@ -591,13 +541,9 @@
     str1 = [str1 uppercaseString];
     [lblName setText:str1];
     
-    //  lblName.text = @"njklh sdghkjkbn ijhd ksh djabh ajd jkbas j jk j bk abdgs dhadgs ash hbv ckh";
-    
+   
     str1 = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"Address"]];
     [lblAddress setText:str1];
-    
-    
-    //    lblAddress.text = @"njklh sdghkjkbn ijhd ksh djabh ajd jkbas j jk j bk abdgs dhadgs ash hbv ckh";
     
     str1 = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"ContactNumber"]];
     [lblContactNum setTitle:str1 forState:UIControlStateNormal];
@@ -625,7 +571,6 @@
     }
     
     lblHoel.text = numberOfHolesTemp;
-    //    str1 = [[AppDelegate sharedinstance] nullcheck:[obj.fields objectForKey:@"Amenities"]];
     
     NSArray *items = [str1 componentsSeparatedByString:@","];
     
@@ -651,12 +596,10 @@
     
     if([arr containsObject:strCurrentUserID]) {
         isFavCourse = YES;
-        //   [btnFavImage setImage:[UIImage imageNamed:@"favourite-filled"] forState:UIControlStateNormal];
-        
+     
     }
     else {
         isFavCourse = NO;
-        //[btnFavImage setImage:[UIImage imageNamed:@"favourite-unfilled"] forState:UIControlStateNormal];
         
     }
     
@@ -670,31 +613,17 @@
             strHoles = [NSString stringWithFormat:@"%@\n%@", strHoles, strHole];
         }
     }
-    
-    if ([strHoles isEqualToString:@""]) {
-        //  lblHole.hidden = YES;
-    }
-    
-    //  lblHole.text = strHoles;
+   
     if([arrAmenities count]==0) {
         [collectionViewData setHidden:YES];
         [self hideOrShowAmenties:YES];
         [lblNotFound setHidden:NO];
-        //    [btnNext setHidden:YES];
     }
     else {
         [collectionViewData setHidden:NO];
         [self hideOrShowAmenties:NO];
         [lblNotFound setHidden:YES];
-        
-        if([arrAmenities count]<5) {
-            //     [btnNext setHidden:YES];
-            
-        }
-        else {
-            //    [btnNext setHidden:NO];
-            
-        }
+    
     }
     
     [collectionViewData reloadData];
@@ -748,8 +677,6 @@
     lblAddress.frame = CGRectMake(5, 160, width - 10, 30);
     btnFav.frame = CGRectMake(width - 62, 0, 51, 62);
     btnFavImage.frame = CGRectMake(width - 8 - 16, 27, 8, 27);
-    //  btnFav.backgroundColor = [UIColor redColor];
-    //  btnFavImage.backgroundColor = [UIColor grayColor];
     narrowlineView2.frame = CGRectMake(0, imageUrl.frame.origin.y + imageUrl.frame.size.height, width, narrowlineView2.frame.size.height);
     
     phoneLbl.frame = CGRectMake(phoneLbl.frame.origin.x,imageUrl.frame.origin.y + imageUrl.frame.size.height+ 4 , phoneLbl.frame.size.width, phoneLbl.frame.size.height);
@@ -776,9 +703,7 @@
         [self hideOrShowAmenties:YES];
         collectionViewData.hidden = YES;
     }else{
-        //        [self hideOrShowAmenties:YES];
-        //        collectionViewData.hidden = YES;
-        //
+      
         [self hideOrShowAmenties:NO];
         collectionViewData.hidden = NO;
     }
@@ -909,46 +834,13 @@
         
         [self.navigationController pushViewController:viewController animated:YES];
         
-        //        [[AppDelegate sharedinstance] showLoader];
-        //
-        //        ViewProfileViewController *viewController;
-        //        viewController    = [[ViewProfileViewController alloc] initWithNibName:@"ViewProfileViewController" bundle:nil];
-        //
-        //        NSString *strSenderId = [shareObject.fields objectForKey:@"specialSenderID"];
-        //
-        //        NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
-        //        [getRequest setObject:strSenderId forKey:@"userEmail"];
-        //
-        //        [QBRequest objectsWithClassName:@"UserInfo" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
-        //            [[AppDelegate sharedinstance] hideLoader];
-        //
-        //            viewController.customShareObj=[objects objectAtIndex:0];
-        //            viewController.isMyMatch=NO;
-        //            [self.navigationController pushViewController:viewController animated:YES];
-        //
-        //        } errorBlock:^(QBResponse *response) {
-        //            // error handling
-        //            [[AppDelegate sharedinstance] hideLoader];
-        //
-        //            NSLog(@"Response error: %@", [response.error description]);
-        //        }];
+        
     }
     else {
         
         ViewSpecialInvite *vc = [[ViewSpecialInvite alloc] initWithNibName:@"ViewSpecialInvite" bundle:nil];
         [self.navigationController pushViewController:vc animated:YES];
-        //
-        //        UINavigationController *navigationController =
-        //        [[UINavigationController alloc] initWithRootViewController:vc];
-        //        navigationController.navigationBar.barStyle = self.navigationController.navigationBar.barStyle;
-        //
-        //        //now present this navigation controller modally
-        //        [self presentViewController:navigationController
-        //                           animated:YES
-        //                         completion:^{
-        //                             [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-        //
-        //                         }];
+        
     }
     
 }
@@ -973,7 +865,6 @@
     [object.fields setObject:[[AppDelegate sharedinstance] getCurrentUserEmail] forKey:@"courseSenderID"];
     /********** ChetuChange *************/
     
-    // [object.fields setObject:[obj.fields objectForKey:@"userEmail"] forKey:@"courseReceiverID"];
     [object.fields setObject:@"TEStValue" forKey:@"courseReceiverID"];
     
     /********** ChetuChange *************/
@@ -1073,12 +964,6 @@
     [self.collectionViewData reloadData];
 }
 
-//- (void) viewWillLayoutSubviews
-//{
-//    [super viewWillLayoutSubviews];
-//    [self.collectionViewData.collectionViewLayout invalidateLayout];
-//}
-
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     return arrAmenities.count;
 }
@@ -1149,31 +1034,24 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section {
     NSInteger numberOfOptions = 5;
     NSArray *items;
     
-    //   NSString *favoriteTitle = isFavCourse==YES ? @"Mark Unfavorite" : @"Mark Favorite";
-    
-    
-    
+   
     NSString *favoriteTitle = isFavCourse==YES ? @"Unfavorite" : @"Mark Favorite";
     
     NSString *favImgStr = @"";
-    //    if ([favoriteTitle isEqualToString: @"Mark Unfavorite"]) {
-    
+ 
     if ([favoriteTitle isEqualToString: @"Unfavorite"]) {
         favImgStr = @"fav.png";
     }else {
         favImgStr = @"unfav";
     }
     items= @[
-             //   [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:@"unfav"] title:favoriteTitle],
+            
              [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:favImgStr] title:favoriteTitle],
              [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:@"info-filled"] title:@"Information"],
              [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:@"viewmap"] title:@"On Map"],
              [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:@"direction"] title:@"Directions"],
-             //  [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:@"image-placeholder"] title:@"Photos"],
              [[RNGridMenuItem alloc] initWithImage:[UIImage imageNamed:kShareImg] title:kShareTitle]
              ];
-    
-    
     
     RNGridMenu *av = [[RNGridMenu alloc] initWithItems:[items subarrayWithRange:NSMakeRange(0, numberOfOptions)]];
     av.delegate = self;
@@ -1297,8 +1175,6 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section {
         desplaceCoord = placeCoord;
         
     }
-    
-    //    NSString *googleMapUrlString = [NSString stringWithFormat:@"http://maps.google.com/?saddr=%f,%f&daddr=%f,%f", scrplaceCoord.latitude, scrplaceCoord.longitude, desplaceCoord.latitude, desplaceCoord.longitude];
     
     NSString *googleMapUrlString = [NSString stringWithFormat:@"http://maps.apple.com/?saddr=%f,%f&daddr=%f,%f", scrplaceCoord.latitude, scrplaceCoord.longitude, desplaceCoord.latitude, desplaceCoord.longitude];
     

@@ -38,11 +38,6 @@
 
 -(void) viewWillAppear:(BOOL)animated {
     
-    //[self.view addSubview:viewLocation];
-    
-//    CGRect frame =  viewLocation.frame;
-//    frame.origin.y=67;
-//    viewLocation.frame = frame;
     
     NSMutableDictionary *dictUserData = [[[NSUserDefaults standardUserDefaults] objectForKey:kuserData] mutableCopy];
     
@@ -68,29 +63,13 @@
     
     [btnLblName setAttributedTitle:yourAttributedString forState:UIControlStateNormal];
 
-//    NSString *strName = [NSString stringWithFormat:@"%@ , %ld",[dictUserData objectForKey:@"userDisplayName"],age];
-//    [btnLblName setTitle:strName forState:UIControlStateNormal];
 
-//    [imgViewBg setShowActivityIndicatorView:YES];
-//    [imgViewBg setIndicatorStyle:UIActivityIndicatorViewStyleGray];
-//    [imgViewBg sd_setImageWithURL:[NSURL URLWithString:imageUrl] ];
-//
-//    [imgView2 setShowActivityIndicatorView:YES];
-//    [imgView2 setIndicatorStyle:UIActivityIndicatorViewStyleGray];
-//    imageUrl = [NSString stringWithFormat:@"%@", [dictUserData objectForKey:@"userPicLeft"]];
-//    [imgView2 sd_setImageWithURL:[NSURL URLWithString:imageUrl] ];
-//
-//    [imgView3 setShowActivityIndicatorView:YES];
-//    [imgView3 setIndicatorStyle:UIActivityIndicatorViewStyleGray];
-//    imageUrl = [NSString stringWithFormat:@"%@", [dictUserData objectForKey:@"userPicRight"]];
-//    [imgView3 sd_setImageWithURL:[NSURL URLWithString:imageUrl] ];
 
     [[AppDelegate sharedinstance] showLoader];
     
     [imgViewBg setShowActivityIndicatorView:YES];
     [imgViewBg setIndicatorStyle:UIActivityIndicatorViewStyleGray];
     NSString *imageUrl = [NSString stringWithFormat:@"%@", [dictUserData objectForKey:@"userPicBase"]];
-  //  [imgViewBg sd_setImageWithURL:[NSURL URLWithString:imageUrl] ];
     
     [imgView1 setShowActivityIndicatorView:YES];
     [imgView1 setIndicatorStyle:UIActivityIndicatorViewStyleGray];
@@ -112,23 +91,14 @@
     }
     [lblPoints setText:Points];
 
-  //  imageUrl = [NSString stringWithFormat:@"%@", @"http://www.desicomments.com/wp-content/uploads/Nimrat-Kaur-And-Akshay-Kumar-Image-DC021.jpg"];
     [imgView3 sd_setImageWithURL:[NSURL URLWithString:imageUrl] ];
     
     k=-1;
     NSMutableArray *arrTemp=[[NSMutableArray alloc] init];
     
-//    for(int j=0;j<3;j++) {
-//        UIImage *img = [UIImage imageNamed:[NSString stringWithFormat:@"akki%d.png",j+1]];
-//        
-//        if(img)
-//            [arrTemp addObject:img];
-//    }
-    
     arrBgImages=[arrTemp copy];
     
     [self performSelector:@selector(manage) withObject:nil afterDelay:1.5f];
-    //[self animateImages];
     
 }
 
@@ -163,7 +133,6 @@
         toImage=imgView1.image;
     }
     
-//        UIImage * toImage =[arrBgImages objectAtIndex:k];
     
         int dur=3.f;
     

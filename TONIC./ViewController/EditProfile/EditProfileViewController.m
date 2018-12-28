@@ -43,9 +43,7 @@ NSDateFormatter *dateFormat;
     imageChosen=kImageCancel;
     currentPageCity = 0;
     viewSave.layer.cornerRadius = 20;
-  //  viewSave.layer.borderWidth=1.0f;
     [viewSave.layer setMasksToBounds:YES];
-   // [viewSave.layer setBorderColor:[UIColor clearColor].CGColor];
     txtHandicap.inputView = pickerView;
 
     self.HUD = [[MBProgressHUD alloc] initWithView:self.view];
@@ -97,9 +95,6 @@ NSDateFormatter *dateFormat;
     arrCityList    = [[NSMutableArray alloc] init];
     arrHomeCourses = [[NSMutableArray alloc] init];
     
-//    arrStateList = [NSArray arrayWithObjects:@"Montana",nil];
-//    arrCityList = [NSArray arrayWithObjects:@"Bozeman",@"Billings",@"Butte",@"Big Sky",@"Kalispell",@"Livingston",@"All",nil];
-    
     if(isiPhone4) {
         
         [scrollViewContainer setContentSize:CGSizeMake(320, 1000)];
@@ -109,12 +104,8 @@ NSDateFormatter *dateFormat;
         [scrollViewContainer setContentSize:CGSizeMake(self.view.frame.size.width, viewSave.frame.origin.y + viewSave.frame.size.height + 850)];
         
     }
-    
     [self bindData];
-    
     [self setupHandicapArray];
-    
-    //[self loginSampleUser];
 }
 -(void) setupHandicapArray {
     arrHandicapList = [[NSMutableArray alloc] init];
@@ -155,7 +146,6 @@ NSDateFormatter *dateFormat;
                 [arrStateList addObject:strState];
             }
         }
-      //  txtState.text = [arrStateList objectAtIndex:0];
         selectedState  = [arrStateList objectAtIndex:0];
         [arrStateList sortUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
         [arrStateList insertObject:@"Select State" atIndex:0];
@@ -178,7 +168,6 @@ NSDateFormatter *dateFormat;
  */
 -(void)getcityList
 {
-    //   [[AppDelegate sharedinstance] showLoader];
     
     NSMutableDictionary *getRequestObjectCount = [NSMutableDictionary dictionary];
     [getRequestObjectCount setObject: selectedState forKey:@"State"];
@@ -285,7 +274,6 @@ NSDateFormatter *dateFormat;
 
         [self localSave];
         [self getStateList];
-   //     [self getLocationDataFromServer];
         
         
     } errorBlock:^(QBResponse *response) {
@@ -422,8 +410,6 @@ NSDateFormatter *dateFormat;
             NSData *imageData = UIImageJPEGRepresentation(imgViewProfilePic.image, .7);
             
             [QBRequest TUploadFile:imageData fileName:@"Profile.jpg" contentType:@"image/jpg" isPublic:YES successBlock:^(QBResponse *response, QBCBlob *blob) {
-                // File uploaded, do something
-                // if blob.isPublic == YES
                 
                 NSString *url = [blob publicUrl];
                 
@@ -507,8 +493,6 @@ NSDateFormatter *dateFormat;
     stringCity = [stringCity stringByReplacingOccurrencesOfString:@" " withString:@""];
     
     stringCity = [NSString stringWithFormat:@"City-%@",stringCity];
-    
-//    [OneSignal sendTags:@{@"agerange" : @"1",@"handicap" : stringHandicap, @"city" : stringCity}];
      [OneSignal sendTags:@{ @"handicap" : stringHandicap, @"city" : stringCity}];
 
 }
@@ -697,8 +681,6 @@ NSDateFormatter *dateFormat;
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
-    NSLog(@"Selected Row %d", row);
-    
     if(pickerOption==kPickerState) {
        
             if ([[arrStateList objectAtIndex:row] isEqualToString:@"Select State"]) {
@@ -796,8 +778,6 @@ NSDateFormatter *dateFormat;
         [UIView beginAnimations:nil context:NULL];
         [UIView setAnimationBeginsFromCurrentState:YES];
         [UIView setAnimationDuration:.5];
-        
-        NSLog(@"%ld",(43*([textFieldview tag]%10)));
         
         [scrollViewContainer setContentOffset:CGPointMake(0, 60 + (43*(([textFieldview tag]-1)%10))) animated:NO];
         [UIView commitAnimations];
@@ -921,7 +901,6 @@ NSDateFormatter *dateFormat;
         pickerOption=kPickerCourses;
         
         if([txtHomeCourse.text length]==0)
-            // txtHomeCourse.text = @"N/A";
             txtHomeCourse.text = @"";
         
     }
@@ -954,8 +933,6 @@ NSDateFormatter *dateFormat;
         [UIView beginAnimations:nil context:NULL];
         [UIView setAnimationBeginsFromCurrentState:YES];
         [UIView setAnimationDuration:.5];
-        
-        NSLog(@"%ld",(43*([textField tag]%10)));
         
         [scrollViewContainer setContentOffset:CGPointMake(0, 60 + (43*(([textField tag]-1)%10))) animated:NO];
         [UIView commitAnimations];
@@ -1040,7 +1017,6 @@ NSDateFormatter *dateFormat;
                 UIImagePickerController * picker = [[UIImagePickerController alloc] init];
                 picker.delegate = self;
                 self.imagePickerController = picker;
-                //                picker.modalPresentationStyle = UIModalPresentationCurrentContext;
                 picker.sourceType = UIImagePickerControllerSourceTypeCamera;
                 picker.allowsEditing = YES;
                 

@@ -74,12 +74,6 @@
     
     self.navigationController.navigationBarHidden=YES;
     
-    //[self.view addSubview:viewLocation];
-    
-    //    CGRect frame =  viewLocation.frame;
-    //    frame.origin.y=67;
-    //    viewLocation.frame = frame;
-    
     QBCOCustomObject *dictUserData = self.customShareObj;
     
     NSString *struserOccupation= [[AppDelegate sharedinstance] nullcheck:[dictUserData.fields objectForKey:@"userOccupation"]];
@@ -104,17 +98,10 @@
     
     [btnLblName setAttributedTitle:yourAttributedString forState:UIControlStateNormal];
     
-//    [btnLblName setTitle:strName forState:UIControlStateNormal];
-    
-    
-  ///  [btnLblName setTitle:btnLblName.titleLabel.text.capitalizedString forState:UIControlStateNormal];
-
-    //   [[AppDelegate sharedinstance] showLoader];
-    
     [imgViewBg setShowActivityIndicatorView:YES];
     [imgViewBg setIndicatorStyle:UIActivityIndicatorViewStyleGray];
     NSString *imageUrl = [NSString stringWithFormat:@"%@", [dictUserData.fields objectForKey:@"userPicBase"]];
-    //  [imgViewBg sd_setImageWithURL:[NSURL URLWithString:imageUrl] ];
+
     
     [imgView1 setShowActivityIndicatorView:YES];
     [imgView1 setIndicatorStyle:UIActivityIndicatorViewStyleGray];
@@ -135,7 +122,6 @@
     [imgView3 setIndicatorStyle:UIActivityIndicatorViewStyleGray];
     imageUrl = [NSString stringWithFormat:@"%@", [dictUserData.fields objectForKey:@"userPicLeft"]];
     
-    //  imageUrl = [NSString stringWithFormat:@"%@", @"http://www.desicomments.com/wp-content/uploads/Nimrat-Kaur-And-Akshay-Kumar-Image-DC021.jpg"];
     [imgView3 sd_setImageWithURL:[NSURL URLWithString:imageUrl] ];
     
     k=-1;
@@ -225,8 +211,6 @@
         toImage=imgView1.image;
     }
     
-    //        UIImage * toImage =[arrBgImages objectAtIndex:k];
-    
     int dur=3.f;
     
     [UIView transitionWithView:imgViewBg
@@ -306,21 +290,6 @@
                          
                      }];
     
-  //  [self startChatProcess];
-    
-//    DemoMessagesViewController *vc = [DemoMessagesViewController messagesViewController];
-//    
-//    UINavigationController *navigationController =
-//    [[UINavigationController alloc] initWithRootViewController:vc];
-//    navigationController.navigationBar.barStyle = self.navigationController.navigationBar.barStyle;
-//    
-//    //now present this navigation controller modally
-//    [self presentViewController:navigationController
-//                       animated:YES
-//                     completion:^{
-//                         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-//
-//                     }];
 }
 
 -(void) startChatProcess {
@@ -556,7 +525,7 @@
 }
 
 -(void) removeUser {
-    QBCOCustomObject *obj = customShareObj;//[arrData objectAtIndex:indexPath.row];
+    QBCOCustomObject *obj = customShareObj;
     obj.className = @"UserInfo";
 
     QBCOCustomObject *objToUpdate;

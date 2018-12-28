@@ -59,6 +59,122 @@
     
    [self bindData];
 }
+
+-(void) viewWillAppear:(BOOL)animated {
+    
+    self.navigationController.navigationBarHidden = YES;
+    
+    
+    if([cameFromScreen isEqualToString:kScreenViewUsers]) {
+        [btnBack setBackgroundImage:[UIImage imageNamed:@"ico-back"] forState:UIControlStateNormal];
+        [btnBack setFrame:CGRectMake(15, 30, 11, 20)];
+        
+    }
+    else {
+        [btnBack setBackgroundImage:[UIImage imageNamed:@"Menu.png"] forState:UIControlStateNormal];
+        [btnBack setFrame:CGRectMake(15, 34, 20, 16)];
+        
+    }
+    
+    [btnBack setBackgroundImage:[UIImage imageNamed:@"Menu.png"] forState:UIControlStateNormal];
+    [btnBack setFrame:CGRectMake(15, 34, 20, 16)];
+}
+
+-(void) savesettings {
+    
+    [object.fields setObject:strPush  forKey:@"userPush"];
+    
+    [object.fields setObject:isDev forKey:@"isDevelopment"];
+    
+    [[AppDelegate sharedinstance] showLoader];
+    
+    [QBRequest updateObject:object successBlock:^(QBResponse *response, QBCOCustomObject *object) {
+        
+        // object updated
+        NSMutableDictionary *dictUserData = [[[NSUserDefaults standardUserDefaults] objectForKey:kuserData] mutableCopy];
+        
+        [dictUserData setObject:isDev forKey:@"isDevelopment"];
+        [dictUserData setObject:strPush forKey:@"userPush"];
+        
+        [[NSUserDefaults standardUserDefaults] setObject:dictUserData forKey:kuserData];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        [[AppDelegate sharedinstance] hideLoader];
+
+    } errorBlock:^(QBResponse *response) {
+        // error handling
+        [[AppDelegate sharedinstance] hideLoader];
+        
+        NSLog(@"Response error: %@", [response.error description]);
+    }];
+}
+
+-(void) bindData {
+    
+    [[AppDelegate sharedinstance] showLoader];
+    NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
+    [getRequest setObject:[[AppDelegate sharedinstance] getCurrentUserEmail] forKey:@"userEmail"];
+    
+    [QBRequest objectsWithClassName:@"UserInfo" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
+        // response processing
+        
+        // checking user there in custom user table or not.
+        arrData=objects;
+        
+        if([objects count]>0) {
+            
+            [AppDelegate sharedinstance].isUpdate=YES;
+            
+            // If user exists, get info from server
+            object =  [arrData objectAtIndex:0];
+            
+            
+            strPush = [[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"userPush"]];
+            
+            if([strPush length]>0) {
+                
+            }
+            else {
+                strPush=@"1";
+            }
+            
+            if([strPush isEqualToString:@"1"]) {
+                
+                [btnPush  setBackgroundImage:[UIImage imageNamed:@"toggleOn"] forState:UIControlStateNormal];
+            }
+            else {
+                [btnPush  setBackgroundImage:[UIImage imageNamed:@"toggleOff"] forState:UIControlStateNormal];
+
+            }
+      
+        }
+        else {
+            
+            strPush=@"1";
+            
+            [btnPush  setImage:[UIImage imageNamed:@"toggleOn"] forState:UIControlStateNormal];
+
+        }
+        
+        NSString *strDevMode = [[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"isDevelopment"]];
+        isDev = strDevMode;
+        
+        if([strDevMode isEqualToString:@"1"]) {
+            [btnDevOn setTitle:@"Dev-OFF" forState:UIControlStateNormal];
+        }
+        else {
+            [btnDevOn setTitle:@"Dev-ON" forState:UIControlStateNormal];
+        }
+        
+        [self getCityForSelectedState];
+    }
+    errorBlock:^(QBResponse *response) {
+            // error handling
+            [[AppDelegate sharedinstance] hideLoader];
+            
+            NSLog(@"Response error: %@", [response.error description]);
+        }];
+}
 #pragma mark updateConstarints
 
 // Update view frame according to device
@@ -132,126 +248,6 @@
     LogoutLbl.frame = CGRectMake(0, LogoutLbl.frame.origin.y, width, LogoutLbl.frame.size.height);
     
 }
--(void) viewWillAppear:(BOOL)animated {
-    
-    self.navigationController.navigationBarHidden = YES;
-    
-    
-    if([cameFromScreen isEqualToString:kScreenViewUsers]) {
-        [btnBack setBackgroundImage:[UIImage imageNamed:@"ico-back"] forState:UIControlStateNormal];
-        [btnBack setFrame:CGRectMake(15, 30, 11, 20)];
-        
-    }
-    else {
-        [btnBack setBackgroundImage:[UIImage imageNamed:@"Menu.png"] forState:UIControlStateNormal];
-        [btnBack setFrame:CGRectMake(15, 34, 20, 16)];
-        
-    }
-    
-    [btnBack setBackgroundImage:[UIImage imageNamed:@"Menu.png"] forState:UIControlStateNormal];
-    [btnBack setFrame:CGRectMake(15, 34, 20, 16)];
-}
-
--(void) savesettings {
-    
-    [object.fields setObject:strPush  forKey:@"userPush"];
-    
-    [object.fields setObject:isDev forKey:@"isDevelopment"];
-    
-    [[AppDelegate sharedinstance] showLoader];
-    
-    [QBRequest updateObject:object successBlock:^(QBResponse *response, QBCOCustomObject *object) {
-        
-        // object updated
-        NSMutableDictionary *dictUserData = [[[NSUserDefaults standardUserDefaults] objectForKey:kuserData] mutableCopy];
-        
-        [dictUserData setObject:isDev forKey:@"isDevelopment"];
-        [dictUserData setObject:strPush forKey:@"userPush"];
-        
-        [[NSUserDefaults standardUserDefaults] setObject:dictUserData forKey:kuserData];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        
-        [[AppDelegate sharedinstance] hideLoader];
-//        [[AppDelegate sharedinstance] displayMessage:@"Details successfully saved"];
-        
-    } errorBlock:^(QBResponse *response) {
-        // error handling
-        [[AppDelegate sharedinstance] hideLoader];
-        
-        NSLog(@"Response error: %@", [response.error description]);
-    }];
-}
-
--(void) bindData {
-    
-    [[AppDelegate sharedinstance] showLoader];
-    NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
-    [getRequest setObject:[[AppDelegate sharedinstance] getCurrentUserEmail] forKey:@"userEmail"];
-    
-    [QBRequest objectsWithClassName:@"UserInfo" extendedRequest:getRequest successBlock:^(QBResponse *response, NSArray *objects, QBResponsePage *page) {
-        // response processing
-        
-        // checking user there in custom user table or not.
-        arrData=objects;
-        
-        if([objects count]>0) {
-            
-            [AppDelegate sharedinstance].isUpdate=YES;
-            
-            // If user exists, get info from server
-            object =  [arrData objectAtIndex:0];
-            
-            
-            strPush = [[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"userPush"]];
-            
-            if([strPush length]>0) {
-                
-            }
-            else {
-                strPush=@"1";
-            }
-            
-            if([strPush isEqualToString:@"1"]) {
-                
-                [btnPush  setBackgroundImage:[UIImage imageNamed:@"toggleOn"] forState:UIControlStateNormal];
-            }
-            else {
-                [btnPush  setBackgroundImage:[UIImage imageNamed:@"toggleOff"] forState:UIControlStateNormal];
-
-            }
-            
-           
-
-            
-        }
-        else {
-            
-            strPush=@"1";
-            
-            [btnPush  setImage:[UIImage imageNamed:@"toggleOn"] forState:UIControlStateNormal];
-
-        }
-        
-        NSString *strDevMode = [[AppDelegate sharedinstance] nullcheck:[object.fields objectForKey:@"isDevelopment"]];
-        isDev = strDevMode;
-        
-        if([strDevMode isEqualToString:@"1"]) {
-            [btnDevOn setTitle:@"Dev-OFF" forState:UIControlStateNormal];
-        }
-        else {
-            [btnDevOn setTitle:@"Dev-ON" forState:UIControlStateNormal];
-        }
-        
-        [self getCityForSelectedState];
-    }
-    errorBlock:^(QBResponse *response) {
-            // error handling
-            [[AppDelegate sharedinstance] hideLoader];
-            
-            NSLog(@"Response error: %@", [response.error description]);
-        }];
-}
-
 -(void) getCityForSelectedState {
     
     NSDictionary *dictUserDetails = [[NSUserDefaults standardUserDefaults] objectForKey:kuserData];
@@ -519,7 +515,6 @@
 
     mailer.mailComposeDelegate = self;
     [mailer setSubject:strMailSubject];
-//    [mailer setMessageBody:strMailSubject isHTML:NO];
     
     mailer.navigationBar.barStyle = UIBarStyleBlack;
     mailer.navigationBar.tintColor = [UIColor blackColor];
@@ -549,7 +544,7 @@
 -(IBAction)Ratetapped:(id)sender {
     NSString *strWebsite = @"https://itunes.apple.com/us/app/partee-golf-connect-with-other-golfers/id1244801350?ls=1&mt=8";
     
-    NSString *URL =strWebsite;// lblWebsite.titleLabel.text;
+    NSString *URL =strWebsite;
     
     
     if([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:URL]])
@@ -561,7 +556,7 @@
 -(IBAction)FAQtapped:(id)sender {
     NSString *strWebsite = @"https://www.partee.golf/faq";
     
-    NSString *URL =strWebsite;// lblWebsite.titleLabel.text;
+    NSString *URL =strWebsite;
     
     
     if([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:URL]])
@@ -573,8 +568,7 @@
 -(IBAction)Termstapped:(id)sender {
     NSString *strWebsite = @"https://www.partee.golf/terms-and-conditions";
     
-    NSString *URL =strWebsite;// lblWebsite.titleLabel.text;
-    
+    NSString *URL =strWebsite;
     
     if([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:URL]])
     {
@@ -585,7 +579,7 @@
 -(IBAction)Privacytapped:(id)sender {
     NSString *strWebsite = @"https://www.partee.golf/privacy";
     
-    NSString *URL =strWebsite;// lblWebsite.titleLabel.text;
+    NSString *URL =strWebsite;
     
     if([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:URL]])
     {
@@ -672,32 +666,10 @@
     }
     else if(buttonTapped == kButtonType) {
         str = [arrTypeList objectAtIndex:indexPath.row];
-//
-//        if(![[selectedType objectAtIndex:indexPath.row] isEqualToString:str])    {
-//            [SendMessageCell.selectbtnimg setImage:[UIImage imageNamed:@"blue_chk.png"] forState:UIControlStateNormal];
-//            [SendMessageCell.selectbtnimg setHidden:NO];
-//            
-//        }
-//        else
-//        {
-//            [SendMessageCell.selectbtnimg setImage:[UIImage imageNamed:@"unchecked_circle.png"] forState:UIControlStateNormal];
-//            [SendMessageCell.selectbtnimg setHidden:YES];
-//        }
-        
     }
     else if(buttonTapped == kButtonAge) {
        str = [arrAgeList objectAtIndex:indexPath.row];
-//
-//        if(![[selectedAge objectAtIndex:indexPath.row] isEqualToString:str])    {
-//            [SendMessageCell.selectbtnimg setImage:[UIImage imageNamed:@"blue_chk.png"] forState:UIControlStateNormal];
-//            [SendMessageCell.selectbtnimg setHidden:NO];
-//            
-//        }
-//        else
-//        {
-//            [SendMessageCell.selectbtnimg setImage:[UIImage imageNamed:@"unchecked_circle.png"] forState:UIControlStateNormal];
-//            [SendMessageCell.selectbtnimg setHidden:YES];
-//        }
+
     }
 
     if([tempArraySelcted containsObject:str])    {
@@ -711,17 +683,8 @@
         [SendMessageCell.selectbtnimg setHidden:YES];
     }
     
-    //        [SendMessageCell setBackgroundColor:[UIColor colorWithRed:0/255 green:0/255 blue:0/55 alpha:0.5]];
-    
     [SendMessageCell.selectbtnimg setTag:indexPath.row];
-    
-//    [SendMessageCell.selectbtnimg addTarget:self
-//                                     action:@selector(checkBtnClicked:)
-//                           forControlEvents:UIControlEventTouchUpInside];
-    
-   // SendMessageCell.lblName.textColor=PlaceholderRGB;
-    
-    SendMessageCell.lblName.text = str;//[[arrMembers objectAtIndex:indexPath.row] objectForKey:@"Name"];
+    SendMessageCell.lblName.text = str;
     
     return SendMessageCell;
 
@@ -800,7 +763,6 @@
                     
                 }];
             }
-        //    [CommonMethods resetDefaults];
             [[AppDelegate sharedinstance] setStringObj:@"" forKey:kuserEmail];
             
             LoginViewController *loginView;

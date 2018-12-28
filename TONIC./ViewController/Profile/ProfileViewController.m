@@ -485,7 +485,6 @@
             // object updated
             [[AppDelegate sharedinstance] hideLoader];
             
-            //[[AppDelegate sharedinstance] hideLoader];
             [[AppDelegate sharedinstance] displayMessage:@"Details successfully saved"];
             
             NSString *strID = [NSString stringWithFormat:@"%@",object.ID];
@@ -866,9 +865,6 @@
     
         user.password = [QBSession currentSession].sessionDetails.token;  //[[FBSDKAccessToken currentAccessToken] tokenString];
         user.ID = [[[AppDelegate sharedinstance] getStringObjfromKey:@"userQuickbloxID"] integerValue];
-    
-//        user.password = @"12345678";  //[[FBSDKAccessToken currentAccessToken] tokenString];
-//        user.ID =16347628;  // [[[AppDelegate sharedinstance] getStringObjfromKey:@"userQuickbloxID"] integerValue];
     
         int nameForChatRoom = [[[AppDelegate sharedinstance] getStringObjfromKey:@"userQuickbloxID"] integerValue];
         nameForChatRoom = nameForChatRoom + 16766971;//17301512;// customShareObj.userID;

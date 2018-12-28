@@ -14,8 +14,6 @@
 
     IBOutlet UITableView *tblList1;
     NSMutableArray *arrData1;
-
-
 }
 
 @property(nonatomic,strong) NSString *courseID;
